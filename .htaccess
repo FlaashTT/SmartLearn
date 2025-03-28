@@ -1,21 +1,21 @@
-# Ativa a reesceita de URLS amigáveis
+# Ativar a reescrita de URLs amigáveis
 RewriteEngine On
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^(.+)$ index.php?url=1 [QSA,L]
+RewriteRule ^(.+)$ index.php?url=$1 [QSA,L]
 
-# Redirecionamento de HTTP e HTPS
+# Redirecionamento de HTTP para HTTPS
 RewriteCond %{HTTPS} off
 RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
 
-# Proteção contra aceso a ficheiros sensíveis
+# Proteção contra acesso a ficheiros sensíveis
 <FilesMatch "(^\.|config\.php|database\.sql)">
     Order Deny,Allow
-    Deny from Allo
+    Deny from all
 </FilesMatch>
 
 # Definir páginas de erro personalizadas
 ErrorDocument 404 /erro404.html
 
-# Impedir listagem de dirétórios
+# Impedir listagem de diretórios
 Options -Indexes
