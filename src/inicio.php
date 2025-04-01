@@ -123,12 +123,12 @@ include("../database/basedados.sql");
         <section class="category-card">
             <div class="categories">
 
-            <?php
-                   $stmt = $conn->prepare("SELECT * FROM categoria ORDER BY Quantidade_cursos DESC LIMIT 4 ");
-                   $stmt->execute();
-                   $result = $stmt->get_result();
-   
-                   if ($result->num_rows > 0) {
+                <?php
+                $stmt = $conn->prepare("SELECT * FROM categoria ORDER BY Quantidade_cursos DESC LIMIT 4 ");
+                $stmt->execute();
+                $result = $stmt->get_result();
+
+                if ($result->num_rows > 0) {
                     while ($row = $result->fetch_assoc()) {
                         echo '
                         <div class="category">
@@ -140,56 +140,78 @@ include("../database/basedados.sql");
                         </div>
                         ';
                     }
-                   } else {
-                       echo '
+                } else {
+                    echo '
                        
                         <div class="category">
                             <p>Categorias indisponiveis</p>
                         </div>
                        
                        ';
-                   }     
+                }
 
                 ?>
 
 
-                
-                
+
+
             </div>
         </section>
 
+
+
         <section class="section-title">
-            <h1>Principais Cursos</h1>
+            <h1>10 Últimos cursos</h1>
             <hr>
         </section>
 
-        <section class="section-title">
-            <h1>Principal 10 Últimos cursos</h1>
-        </section>
 
-        <!-- Card de Curso -->
+        <?php
+
+        $stmt = $conn->prepare("SELECT * FROM curso ORDER BY Data_criacao DESC LIMIT 10 ");
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+               // Card de Curso
+                echo '
+                
         <section class="course-card">
             <div class="card">
                 <div class="card-image">
                     <p>Imagem</p>
                 </div>
                 <div class="card-content">
-                    <span class="badge">Principiante</span>
-                    <h3>Curso de Tecnologia</h3>
+                    <span class="badge">'.$row["Dificuldade"].'</span>
+                    <h3>'.$row["Nome_curso"].'</h3>
                     <p class="reviews">(0 Avaliações)</p>
                     <div class="progress">
                         <div class="stars">
                             <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
                         </div>
-                        <button class="btn-buy">Comprar</button>
+                        <button class="btn-buy" name="comprarCurso" value='.$row['Id_curso'].'>Comprar</button>
                     </div>
                     <div class="details">
-                        <span>00:04:30 Horas</span>
-                        <span>1 Palestra</span>
+                        <span>'.$row["Tempo_estimado"].'</span>
                     </div>
                 </div>
             </div>
         </section>
+        ';
+            }
+        } else {
+            echo '
+       
+        <div class="category">
+            <p>Cursos indisponiveis</p>
+        </div>
+       
+       ';
+        }
+
+        ?>
+        
 
         <section class="section-title">
             <h1>Instrutor em destaque</h1>
