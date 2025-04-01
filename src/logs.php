@@ -1,6 +1,6 @@
 <?php
 include('../database/basedados.sql');
-function criarLogs($tipoLog, $idUser, $saldo, $idCurso)
+function criarLogs($tipoLog, $idUser, $saldo = null, $idCurso = null, $idCategoria = null)
 { //devemos por mais campos,ter de ver depois oq vai ser necesario
     global $conn;
 
@@ -45,6 +45,14 @@ function criarLogs($tipoLog, $idUser, $saldo, $idCurso)
 
         case "Alteração de curso":
             $descricaoLog = "Foram alteradas informações do curso com id" . $idCurso;
+            break;
+
+        case "Nova categoria":
+            $descricaoLog = "Foi criada uma nova categoria" . $idCategoria;
+            break;
+
+        case "Categoria alterada":
+            $descricaoLog = "A categoria " . $idCategoria . " foi alterada";
             break;
     }
     $stmt = $conn->prepare("INSERT INTO logs_sistema (Id_user, Descricao_log, Tipo_log, Data_log) VALUES  (?, ?, ?, ?)");

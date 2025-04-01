@@ -50,7 +50,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
         //para inserir logs no sistema
         $userID = $conn->insert_id;
         include("../src/logs.php");
-        criarLogs("Novo Registo",$userID,"","");
+        criarLogs("Novo Registo",$userID);
         echo "<script>alert('Conta criada com sucesso. Bem-vindo, " . addslashes($primeiroNome) . "!');</script>";
     }else{
         echo "<script>alert('Erro ao criar utilizador.Tente mais tarde') </script>";
