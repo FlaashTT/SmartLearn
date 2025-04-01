@@ -10,7 +10,7 @@ function criarLogs($tipoLog , $idUser){//devemos por mais campos,ter de ver depo
     switch ($tipoLog){
         
     case "Novo Registo":
-        $descricaoLog = "Foi criado um novo utilizador no sistema"; 
+        $descricaoLog = "Foi criado um novo utilizador no sistema, id". $idUser; 
         echo$descricaoLog;
     break;
 
