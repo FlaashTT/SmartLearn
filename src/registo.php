@@ -1,10 +1,8 @@
 <?php
+echo "registo<br>";
 session_start();
 define("ACCESS_ALLOWED", true);
 require_once '../config.php';
-
-
-
 include ('../database/basedados.sql');
 
 
@@ -18,8 +16,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
     $primeiroNome = htmlspecialchars(trim($_POST['primeiroNome']));
     $sobreNome = htmlspecialchars(trim($_POST['sobreNome']));
     $email = htmlspecialchars(trim($_POST['email']));
-    $password = ($_POST['password']);
-
+    $passwordHash = htmlspecialchars(hash('sha256',$_POST['password']));
 
     
 
@@ -29,10 +26,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
     }
     
 
-    
-    
-    $passwordHash = hash('sha256', $password);
-
+    //para verificar se o email ja esta em uso
     $stmt = $conn->prepare("SELECT * FROM user WHERE Email = ?");
     $stmt -> bind_param("s", $email);
     $stmt -> execute();
@@ -43,14 +37,14 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
         exit;
     }
 
-    $stmt ->close();
+    
 
     date_default_timezone_set("Europe/Lisbon");
     $DataAtual = date("Y-m-d ");
 
     //comando para inserir o novo utilizador na base de dados 
     $stmt = $conn -> prepare ("INSERT INTO user (PNome_user, SNome_user, Password, Email, Data_criacao) VALUES  (?, ?, ?, ?, ?)");
-    $stmt -> bind_param("ssssd", $primeiroNome, $sobreNome, $passwordHash, $email, $DataAtual);
+    $stmt -> bind_param("sssss", $primeiroNome, $sobreNome, $passwordHash, $email, $DataAtual);
     
     if($stmt -> execute()){
         //para inserir logs no sistema
@@ -61,13 +55,13 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
     }else{
         echo "<script>alert('Erro ao criar utilizador.Tente mais tarde') </script>";
     }
-    
+
     $stmt -> close();
     $conn -> close();
 
 
 }else{
-    echo"Erro de ligação ";
+    echo"Erro de ligação! ";
 }
 
 ?>
