@@ -209,6 +209,13 @@
     font-size: 18px;
     color: rgba(0, 0, 0, 0.25);
   }
+
+  .card-image img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: cover;
+    border-radius: 5px;
+  }
   
   .card-content {
     margin-top: 15px;
@@ -216,7 +223,7 @@
   
   .badge {
     display: inline-block;
-    background: #c3c3c3;
+    background: #a7e77f;
     padding: 5px 10px;
     border-radius: 6px;
     font-size: 12px;
@@ -247,7 +254,7 @@
   }
   
   .btn-buy {
-    background: #c3c3c3;
+    background: #2e4bed;
     border: none;
     padding: 5px 10px;
     border-radius: 6px;
@@ -256,11 +263,17 @@
   }
   
   .details {
-    font-size: 10px;
-    color: rgba(0, 0, 0, 0.5);
     display: flex;
-    justify-content: space-between;
-  }
+    align-items: center; /* Alinha verticalmente o ícone e o texto */
+    gap: 5px; /* Espaçamento entre o ícone e o texto */
+    font-size: 10px; /* Ajusta o tamanho do texto */
+    color: #333; /* Cor do texto */
+}
+
+  .details i {
+    font-size: 10px; /* Ajusta o tamanho do ícone */
+    color: #555; /* Cor do ícone */
+}
 
 /* ---------- Secção de hightlights ---------- */
 
@@ -273,7 +286,6 @@
 
   .highlight{
     width: 1800px;
-    background: #d9d9d9;
     border-radius: 5px;
     padding: 15px;
     text-align: left;
