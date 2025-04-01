@@ -6,10 +6,10 @@
     <title>SmartLearn</title>
     <link
       rel="stylesheet"
-      href="../assets/fontawesome/fontawesome/css/all.min.css"
+      href="/assets/fontawesome/fontawesome/css/all.min.css"
     />
-    <link rel="stylesheet" href="../assets/css/style.css" />
-    <link rel="stylesheet" href="../assets/css/style_registro.css" />
+    <link rel="stylesheet" href="/assets/css/style.css" />
+    <link rel="stylesheet" href="/assets/css/style_registro.css" />
   </head>
   <body>
     <!-- Cabeçalho -->
@@ -18,7 +18,7 @@
         <nav>
           <div class="nav-left">
             <div class="logo">
-              <a href="layout_base.html"><img src="../assets/image/Logo.png" alt="Logo" /></a>
+              <a href="layout_base.html"><img src="/assets/image/Logo.png" alt="Logo" /></a>
               <span class="brand-name">SmartLearn</span>
             </div>
             <ul class="nav-links">
@@ -48,17 +48,31 @@
     
     <!-- Secção Principal (Hero) -->
     <main class="container">
+
+      <section class="section-title">
+        <h1>Inscrever-se</h1>
+        <p>Inscrever-se e começa a aprender!</p>
+      </section>
+
       <section class="hero container">
+        
+
         <div class="image-box">
-            <img src="../assets/image/registro.png" alt="Imagem de Registro" />
+          <video width="100%" height="100%" autoplay preload="auto">
+            <source src="/assets/video/registro.mp4" type="video/mp4">
+          </video>
         </div>
 
-        <form  class="register-form" action="../src/registo.php">
-            <h1>Inscrever-se</h1>
-            <p>Inscrever-se e comece a aprender</p>
+        
+
+        <form  class="register-form" action="/src/registo.php">
+            <label for="">Primeiro nome:</label>
             <input type="text" name="" id="" placeholder="Primeiro nome">
+            <label for="">Sobrenome:</label>
             <input type="text" name="" id="" placeholder="Sobrenome">
+            <label for="">Email:</label>
             <input type="text" name="" id="" placeholder="Email">
+            <label for="">Senha:</label>
             <input type="text" name="" id="" placeholder="Senha">
             <button type="submit">Registrar</button>
             <p>Já tem uma conta? <a href="layout_login.html">Conecte-se</a></p>
