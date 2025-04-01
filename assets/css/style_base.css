@@ -263,11 +263,17 @@
   }
   
   .details {
-    font-size: 10px;
-    color: rgba(0, 0, 0, 0.5);
     display: flex;
-    justify-content: space-between;
-  }
+    align-items: center; /* Alinha verticalmente o ícone e o texto */
+    gap: 5px; /* Espaçamento entre o ícone e o texto */
+    font-size: 10px; /* Ajusta o tamanho do texto */
+    color: #333; /* Cor do texto */
+}
+
+  .details i {
+    font-size: 10px; /* Ajusta o tamanho do ícone */
+    color: #555; /* Cor do ícone */
+}
 
 /* ---------- Secção de hightlights ---------- */
 
