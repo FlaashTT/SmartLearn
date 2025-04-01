@@ -180,7 +180,7 @@ include("../database/basedados.sql");
         <section class="course-card">
             <div class="card">
                 <div class="card-image">
-                    <p>Imagem</p>
+                    <img src='.$row['URL_foto_perfil_curso'].' alt=" erro">
                 </div>
                 <div class="card-content">
                     <span class="badge">'.$row["Dificuldade"].'</span>
