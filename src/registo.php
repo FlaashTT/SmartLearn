@@ -18,14 +18,14 @@
         <nav>
           <div class="nav-left">
             <div class="logo">
-              <a href="../layout/layout_base.html"><img src="../assets/image/Logo.png" alt="Logo" /></a>
+              <a href="../src/inicio.php"><img src="../assets/image/Logo.png" alt="Logo" /></a>
               <span class="brand-name">SmartLearn</span>
             </div>
             
           </div>
           <div class="nav-right">
             <ul class="nav-links">
-              <li><a href="#" class="nav-item">Conecte-se</a></li>
+              <li><a href="../src/login.php" class="nav-item">Conecte-se</a></li>
               <li><a href="#" class="btn">Inscrever-se</a></li>
             </ul>
           </div>
@@ -62,7 +62,7 @@
             <label for="">Senha:</label>
             <input type="password" name="senha"  placeholder="Senha" >
             <button type="submit">Registrar</button>
-            <p>Já tem uma conta? <a href="layout_login.html">Conecte-se</a></p>
+            <p>Já tem uma conta? <a href="../src/login.php">Conecte-se</a></p>
         </form>
       </section>
 

@@ -27,7 +27,7 @@ include("../database/basedados.sql");
             <nav>
                 <div class="nav-left">
                     <div class="logo">
-                        <a href="layout_base.html"><img src="../assets/image/Logo.png" alt="Logo" /></a>
+                        <a href="../src/inicio.php"><img src="../assets/image/Logo.png" alt="Logo" /></a>
                         <span class="brand-name">SmartLearn</span>
                     </div>
                     <ul class="nav-links">
@@ -46,7 +46,7 @@ include("../database/basedados.sql");
                 </div>
                 <div class="nav-right">
                     <ul class="nav-links">
-                        <li><a href="#" class="nav-item">Conecte-se</a></li>
+                        <li><a href="../src/login.php" class="nav-item">Conecte-se</a></li>
                         <li><a href="../src/registo.php" class="btn">Inscrever-se</a></li>
                     </ul>
                 </div>
@@ -70,7 +70,7 @@ include("../database/basedados.sql");
             </div>
             <div class="hero-image">
                 <div class="image-placeholder">
-                    <a href="/"><img src="../assets/image/Logo.png" alt="Logo" /></a>
+                    <a ><img src="../assets/image/Logo.png" alt="Logo" /></a>
                 </div>
             </div>
         </section>
@@ -90,7 +90,8 @@ include("../database/basedados.sql");
                 $result = $stmt->get_result();
 
                 if ($result->num_rows > 0) {
-                    echo "<h3>" . $result->num_rows . " Cursos online</h3>";
+                    echo "<h3>" . $result->num_rows . " Curso" . ($result->num_rows > 1 ? "s" : "") . " online</h3>";
+
                 } else {
                     echo "<h3>Nenhum curso disponivel atualmente</h3>";
                 }
