@@ -1,48 +1,399 @@
-body{
-    font-family: Lexend, sans-serif;
-    margin: 0%;
-    padding: 0%;
-    background-color: #fbf7f3;
+/* Reset básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-header{
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    color: #333;
+}
+
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* ---------- Cabeçalho ---------- */
+header {
+    background-color: #f8f8f8;
+    border-bottom: 1px solid #ddd;
+    padding: 1rem 0;
+}
+
+nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 20px;
-    background-color: #fbf7f3;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-.logo{
-    width: 10%;
-    text-align: center;
-}
-.logo img{
-    max-width: 100%;
-
 }
 
-nav ul{
+.nav-left {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background-color: transparent;
+}
+
+.logo img {
+    height: 50px;
+}
+  
+.brand-name {
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.nav-links {
     list-style: none;
     display: flex;
-    gap: 20px;
+    align-items: center;
+    gap: 1rem;
+}
+  
+.nav-links li {
+    display: flex;
     align-items: center;
 }
 
-nav ul li{
-    display: inline;
+.nav-item {
+    text-decoration: none;
+    color: #333;
+    font-size: 0.95rem;
+}
+  
+.search-input {
+    padding: 0.5rem;
+    font-size: 0.95rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
 }
 
-nav ul li input[type="text"]{
-    background-color: #000000;
-    color: white;
+.nav-right .nav-links {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+  
+.btn {
+    background-color: #333;
+    color: #fff;
+    padding: 0.5rem 1rem;
     text-decoration: none;
+    border-radius: 4px;
+    font-size: 0.95rem;
+}
+
+/* ---------- Secção Principal (Hero) ---------- */
+.hero {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2rem 0;
+}
+  
+.hero-text {
+    flex: 1;
+    margin-right: 2rem;
+}
+  
+.hero-text h1 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    max-width: 500px;
+    line-height: 1.2;
+}
+  
+.hero-text p {
+    font-size: 1rem;
+    color: #555;
+    margin-bottom: 1.5rem;
+    max-width: 500px;
+    line-height: 1.4;
+}
+  
+.search-box {
+    display: flex;
+    gap: 0.5rem;
+    max-width: 400px;
+}
+
+.btn-box:disabled {
+    background-color: #d3d3d3; /* Cor de fundo cinza claro */
+    color: #a1a1a1; /* Cor do texto cinza escuro */
+    cursor: not-allowed; /* Cursor de "não permitido" */
+    border: 1px solid #ccc; /* Borda mais clara */
+}
+  
+.search-box input {
+    flex: 1;
+    padding: 0.5rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+  
+.search-box button {
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+  
+/* Imagem de destaque */
+.hero-image {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* ---------- Secção de Destaques (Features) ---------- */
+.features {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    margin: 2rem 0;
+  }
+  
+.feature-card {
+    flex: 1;
+    background-color: #2e4bed;
+    border-radius: 8px;
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    padding: 1.5rem;
+    
+}
+  
+.icon-placeholder {
+    width: 50px;
+    height: 50px;
+    margin: 0 auto 1rem;
+    background-color: #ffffff;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+  
+.feature-card h3 {
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+    color: #000000;
+}
+  
+.feature-card p {
+    font-size: 0.85rem;
+    color: #000000;
+}
+
+/* ---------- Secção de Titulos ---------- */
+
+.section-title {
+    text-align: center; /* Centraliza o texto */
+  }
+  
+  .section-title h1 {
+    font-size: 24px;
+    font-weight: 500;
+    margin-bottom: 40px;
+    margin-top: 40px;
+  }
+
+/* ---------- Secção de Categorias ---------- */
+
+.category-card {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    margin: 2rem 0;
+}
+
+.categories {
+    display: flex;
+    flex-wrap: wrap;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px; 
+    justify-content: center; 
+    align-items: center; 
+    margin: 0px auto; 
+}
+
+.category {
+    background-color: #2e4bed;
+    border-radius: 8px;
+    padding: 10px; 
+    width: 200px; 
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+    margin: 10px;
+}
+
+.category:hover {
+    transform: translateY(1.05);
+}
+
+.icon-category{
+    width: 50px;
+    height: 50px;
+    margin: 0 auto 1rem;
+    background-color: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    margin: 0 auto 10px;
+}
+
+.title-category{
+    font-size: 18px;
+    margin: 10px 0 5px;
+}
+
+.p-category{
+    font-size: 14px;
+    color: #ffffff;
+}
+
+/* ---------- Secção de ultimos cursos ---------- */
+
+  .course-card {
+    display: flex;
+    justify-content: center;
+    margin-top: 40px;
+    margin-bottom: 40px;
+  }
+  
+  .card {
+    width: 300px;
+    background: #d9d9d9;
     border-radius: 5px;
+    padding: 15px;
+    text-align: left;
+  }
+  
+  .card-image {
+    width: 100%;
+    height: 150px;
+    background: #c3c2c2;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px;
+    color: rgba(0, 0, 0, 0.25);
+  }
+  
+  .card-content {
+    margin-top: 15px;
+  }
+  
+  .badge {
+    display: inline-block;
+    background: #c3c3c3;
+    padding: 5px 10px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 700;
+  }
+  
+  .card-content h3 {
+    font-size: 16px;
+    font-weight: 600;
+    margin: 10px 0;
+  }
+  
+  .reviews {
+    font-size: 10px;
+    color: rgba(0, 0, 0, 0.5);
+  }
+  
+  .progress {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 10px 0;
+  }
+  
+  .stars span {
+    font-size: 12px;
+    color: rgba(0, 0, 0, 0.5);
+  }
+  
+  .btn-buy {
+    background: #c3c3c3;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 6px;
+    font-size: 10px;
+    cursor: pointer;
+  }
+  
+  .details {
+    font-size: 10px;
+    color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: space-between;
+  }
+
+/* ---------- Secção de hightlights ---------- */
+
+.high {
+    display: flex;
+    justify-content: center;
+    margin-top: 40px;
+    margin-bottom: 40px;
+  }
+
+  .highlight{
+    width: 1800px;
+    background: #d9d9d9;
+    border-radius: 5px;
+    padding: 15px;
+    text-align: left;
+  }
+
+  .image-container-highlights {
+    width: 100%; 
+    height: 200px; 
+    margin: 0 auto; 
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
 }
 
-.btn{
-    padding: 8px 12px;
-    background-color: #A4dcb9;
-    color: white;
-    text-decoration: none;
-}
+  .image-container-highlights img{
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: cover;
+  }
+
+
+/* ---------- Rodapé ---------- */
+.footer {
+    background-color: #f0f0f0;
+    padding: 1rem 0;
+    margin-top: 2rem;
+    border-top: 1px solid #ccc;
+    text-align: center;
+  }
+  
+  .footer-content p {
+    font-size: 0.9rem;
+    color: #000000;
+    line-height: 1.4;
+    margin-bottom: 0.5rem;
+  }
