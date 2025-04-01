@@ -3,18 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Plataforma de Cursos</title>
+    <title>SmartLearn</title>
     <link rel="stylesheet" href="/assets/fontawesome/fontawesome/css/all.min.css">
     <link rel="stylesheet" href="/assets/css/style.css">
 </head>
 <body>
     <header>
-        <nav>
+        <nav class="navbar">
+
+            <div class="logo">
+                <a href="/"><img src="/assets/image/SmartLearn.png" alt="Logo da Plataforma de Cursos"></a>
+            </div>
+            
+            <ul class="nav-links">
+                <li><a href="#"><i class="fa-solid fa-bars"></i>Categorias</a></li>
+                <input type="text" placeholder="Pesquisar cursos...">
+                <li><a href="#">Conecte-se</a></li>
+                <li><a href="#" class="btn">Inscrever-se</a></li>
             <ul>
-                <li><a href="/">Início</a></li>
-                <li><a href="/contacto">Contacto</a></li>
-                <li><a href="/sobre">Sobre</a></li>
-            </ul>
         </nav>
     </header>
 
@@ -23,8 +29,6 @@
         <!--<?php echo $content; ?>-->
     </div>
 
-    <footer>
-        <p>&copy; 2025 Plataforma de Cursos. Todos os direitos reservados.</p>
-    </footer>
+    
 </body>
 </html>

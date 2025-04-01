@@ -1,0 +1,48 @@
+body{
+    font-family: Lexend, sans-serif;
+    margin: 0%;
+    padding: 0%;
+    background-color: #fbf7f3;
+}
+
+header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: #fbf7f3;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.logo{
+    width: 10%;
+    text-align: center;
+}
+.logo img{
+    max-width: 100%;
+
+}
+
+nav ul{
+    list-style: none;
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+nav ul li{
+    display: inline;
+}
+
+nav ul li input[type="text"]{
+    background-color: #000000;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+.btn{
+    padding: 8px 12px;
+    background-color: #A4dcb9;
+    color: white;
+    text-decoration: none;
+}
