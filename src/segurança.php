@@ -2,8 +2,8 @@
 session_start();
 
 
-if($_SESSION['user'] == null) {
-    header('Location: http://localhost/');
+if($_SESSION['utilizadorOn'] == null) {
+    header('Location:../public/index.php');
 }
 
 ?>

@@ -1,4 +1,5 @@
 <?php
+echo"login<br>";
 session_start();
 define("ACCESS_ALLOWED", true);
 require_once '../config.php';
@@ -16,6 +17,8 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 
     $emailInput = (htmlspecialchars(trim($_POST['email'])));
     $password = htmlspecialchars(hash('sha256', $_POST['password']));
+
+
 
     $stmt = $conn->prepare("SELECT * FROM user WHERE Email = ? AND Password = ?");
     $stmt -> bind_param("ss", $emailInput, $password);
@@ -38,5 +41,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
     }
 
 
+}else{
+    echo"Erro de ligação!";
 }
 ?>
