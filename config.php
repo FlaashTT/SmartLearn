@@ -12,7 +12,7 @@ if (!defined('ACCESS_ALLOWED')) {
 
 // ⚙️ Configurações da Base de Dados
 define('DB_HOST', 'localhost');
-define('DB_NAME', 'smartlearn');
+define('DB_NAME', 'smartlearndb');
 define('DB_USER', 'root');
 define('DB_PASS', '');
 
