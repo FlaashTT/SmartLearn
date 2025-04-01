@@ -1,5 +1,3 @@
-
-
 <?php
 session_start();
 define("ACCESS_ALLOWED", true);
@@ -45,25 +43,27 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
         exit;
     }
 
+    $stmt ->close();
+
     date_default_timezone_set("Europe/Lisbon");
     $DataAtual = date("Y-m-d ");
-    
+
     //comando para inserir o novo utilizador na base de dados 
     $stmt = $conn -> prepare ("INSERT INTO user (PNome_user, SNome_user, Password, Email, Data_criacao) VALUES  (?, ?, ?, ?, ?)");
     $stmt -> bind_param("ssssd", $primeiroNome, $sobreNome, $passwordHash, $email, $DataAtual);
     
     if($stmt -> execute()){
-
         //para inserir logs no sistema
-        $userID = $conn ->insert_id;
-        echo"$userID";
-
+        $userID = $conn->insert_id;
         include("../src/logs.php");
         criarLogs("Novo Registo",$userID);
         echo "<script>alert('Conta criada com sucesso. Bem-vindo, " . addslashes($primeiroNome) . "!');</script>";
     }else{
         echo "<script>alert('Erro ao criar utilizador.Tente mais tarde') </script>";
     }
+    
+    $stmt -> close();
+    $conn -> close();
 
 
 }else{
