@@ -1,4 +1,6 @@
 <?php
+
+include "../src/views/layout/layout_registro.html";
 echo "registo<br>";
 session_start();
 define("ACCESS_ALLOWED", true);
