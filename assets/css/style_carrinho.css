@@ -1,0 +1,116 @@
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* ---------- Secção de Titulos ---------- */
+
+.section-title {
+    text-align: center; /* Centraliza o texto */
+}
+  
+.section-title h1 {
+    font-size: 24px;
+    font-weight: 500;
+    margin-bottom: 40px;
+    margin-top: 40px;
+}
+
+/* ---------- Secção de Carrinho ---------- */
+
+.hero {
+    flex: 2; 
+    padding: 20px;
+    border-radius: 8px;
+    margin-top: 40px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.hero h2 {
+    font-size: 20px;
+    font-weight: 500;
+    margin-bottom: 20px;
+}
+
+.hero p {
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+.item {
+    display: flex;
+    justify-content: space-between; 
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.item span {
+    flex: 1; 
+    font-size: 14px;
+}
+
+.item strong {
+    width: 80px; 
+    text-align: right; 
+    margin-right: 20px;
+    font-size: 14px;
+}
+
+.quantidade{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.quantidade button{
+    background-color: azure;
+    border: 1px solid azure;
+    border-radius: 5px;
+    padding: 5px;
+    cursor: pointer;
+}
+
+.continuar{
+    text-align: right;
+    margin-top: 20px;
+}
+
+.continuar a{
+    text-decoration: none;
+    color: black;
+    font-size: 14px;
+}
+
+
+.carrinho .item{
+    margin-bottom: 15px;
+}
+
+.carrinho .item .remover{
+    color: black;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.carrinho .total{
+    margin-top: 20px;
+    font-size: 14px;
+}
+
+.carrinho .finalizar{
+    margin-top: 20px;
+    text-align: center;
+}
+
+.carrinho .finalizar button{
+    background-color: aliceblue;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+
+
