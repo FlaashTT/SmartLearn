@@ -112,8 +112,10 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
     if($result->num_rows>0){
         $user = $result->fetch_assoc();
         if($user['Estado_conta'] === 'Ativo'){
-            echo"<script>alert('Bem vindo de volta,".addslashes($user['PNome_user'])."!')</script>";
             $_SESSION['utilizadorOn'] = $user;
+            echo"<script>alert('Bem vindo de volta,".addslashes($user['PNome_user'])."!')</script>";
+            header("Location: inicio.php");
+            
             
         }else{
             echo"<script>alert('Conta inativa/eliminada')</script>";

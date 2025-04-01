@@ -2,8 +2,6 @@
 session_start();
 include("../database/basedados.sql");
 
-
-
 ?>
 
 <!DOCTYPE html>
@@ -16,8 +14,22 @@ include("../database/basedados.sql");
     <link
         rel="stylesheet"
         href="../assets/fontawesome/fontawesome/css/all.min.css" />
-    <link rel="stylesheet" href="../assets/css/style.css" />
-    <link rel="stylesheet" href="../assets/css/style_base.css" />
+
+    <?php
+    if (!isset($_SESSION['utilizadorOn']) || !$_SESSION['utilizadorOn']) {
+        echo'
+        <link rel="stylesheet" href="../assets/css/style.css" />
+        <link rel="stylesheet" href="../assets/css/style_base.css" />
+        ';
+    }else{
+        echo'
+        <link rel="stylesheet" href="../assets/css/style_user.css" />
+        <link rel="stylesheet" href="../assets/css/style_logado.css" />
+        ';
+    }
+
+    ?>
+    
 </head>
 
 <body>
@@ -45,10 +57,58 @@ include("../database/basedados.sql");
                     </ul>
                 </div>
                 <div class="nav-right">
-                    <ul class="nav-links">
-                        <li><a href="../src/login.php" class="nav-item">Conecte-se</a></li>
-                        <li><a href="../src/registo.php" class="btn">Inscrever-se</a></li>
-                    </ul>
+
+                    <?php
+                    if (!isset($_SESSION['utilizadorOn']) || !$_SESSION['utilizadorOn']) {
+                        echo '
+                        <ul class="nav-links">
+                            <li><a href="../src/login.php" class="nav-item">Conecte-se</a></li>
+                            <li><a href="../src/registo.php" class="btn">Inscrever-se</a></li>
+                        </ul>
+                    ';
+                    } else {
+
+
+                        echo '
+                        <ul class="nav-links">
+
+                            <li>
+                                <a href="../src/logout.php" class="nav-item">
+                                    LOGOUT
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="#" class="nav-item">
+                                    Tutorial
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" class="nav-item">
+                                    Meus Cursos
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" class="nav-item">
+                                    <i class="fa-regular fa-heart"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" class="nav-item">
+                                    <i class="fa-solid fa-cart-shopping"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" class="nav-item">
+                                    <i class="fa-regular fa-circle-user"></i>
+                                </a>
+                            </li>
+                        </ul>
+
+                        ';
+                    }
+                    ?>
+
                 </div>
             </nav>
         </div>
@@ -70,7 +130,7 @@ include("../database/basedados.sql");
             </div>
             <div class="hero-image">
                 <div class="image-placeholder">
-                    <a ><img src="../assets/image/Logo.png" alt="Logo" /></a>
+                    <a><img src="../assets/image/Logo.png" alt="Logo" /></a>
                 </div>
             </div>
         </section>
@@ -91,7 +151,6 @@ include("../database/basedados.sql");
 
                 if ($result->num_rows > 0) {
                     echo "<h3>" . $result->num_rows . " Curso" . ($result->num_rows > 1 ? "s" : "") . " online</h3>";
-
                 } else {
                     echo "<h3>Nenhum curso disponivel atualmente</h3>";
                 }
@@ -175,26 +234,26 @@ include("../database/basedados.sql");
 
         if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
-               // Card de Curso
+                // Card de Curso
                 echo '
                 
         <section class="course-card">
             <div class="card">
                 <div class="card-image">
-                    <img src='.$row['URL_foto_perfil_curso'].' alt=" erro">
+                    <img src=' . $row['URL_foto_perfil_curso'] . ' alt=" erro">
                 </div>
                 <div class="card-content">
-                    <span class="badge">'.$row["Dificuldade"].'</span>
-                    <h3>'.$row["Nome_curso"].'</h3>
+                    <span class="badge">' . $row["Dificuldade"] . '</span>
+                    <h3>' . $row["Nome_curso"] . '</h3>
                     <p class="reviews">(0 Avaliações)</p>
                     <div class="progress">
                         <div class="stars">
                             <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
                         </div>
-                        <button class="btn-buy" name="comprarCurso" value='.$row['Id_curso'].'>Comprar</button>
+                        <button class="btn-buy" name="comprarCurso" value=' . $row['Id_curso'] . '>Comprar</button>
                     </div>
                     <div class="details">
-                        <span>'.$row["Tempo_estimado"].'</span>
+                        <span>' . $row["Tempo_estimado"] . '</span>
                     </div>
                 </div>
             </div>
@@ -212,16 +271,17 @@ include("../database/basedados.sql");
         }
 
         ?>
-        
+
 
         <section class="section-title">
             <h1>Instrutor em destaque</h1>
+            <hr>
         </section>
 
         <section class="high">
             <div class="highlight">
                 <div class="image-container-highlights">
-                    <img src="../assets/image/Logo.png" alt="Imagem do instrutor" class="image-highlights">
+                    <img src="../assets/image/SmarLearn_base_destaque.png" alt="Imagem do instrutor" class="image-highlights">
                 </div>
             </div>
 
