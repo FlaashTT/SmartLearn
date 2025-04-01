@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="pt">
   <head>
@@ -19,27 +18,14 @@
         <nav>
           <div class="nav-left">
             <div class="logo">
-              <a href="../layout/layout_base.html"><img src="../assets/image/Logo.png" alt="Logo" /></a>
+              <a href="../src/inicio.php"><img src="../assets/image/Logo.png" alt="Logo" /></a>
               <span class="brand-name">SmartLearn</span>
             </div>
-            <ul class="nav-links">
-              <li>
-                <a href="#" class="nav-item">
-                  <i class="fas fa-bars"></i> Categorias
-                </a>
-              </li>
-              <li>
-                <input
-                  type="text"
-                  placeholder="Pesquisar cursos..."
-                  class="search-input"
-                />
-              </li>
-            </ul>
+            
           </div>
           <div class="nav-right">
             <ul class="nav-links">
-              <li><a href="#" class="nav-item">Conecte-se</a></li>
+              <li><a href="../src/login.php" class="nav-item">Conecte-se</a></li>
               <li><a href="#" class="btn">Inscrever-se</a></li>
             </ul>
           </div>
@@ -59,24 +45,24 @@
         
 
         <div class="image-box">
-          <video width="100%" height="100%" autoplay preload="auto">
-            <source src="/assets/video/registro.mp4" type="video/mp4">
+          <video width="100%" height="100%" autoplay loop muted>
+            <source src="../assets/video/registro.mp4" type="video/mp4">
           </video>
         </div>
 
         
 
-        <form  class="register-form" action="/src/registo.php">
+        <form  class="register-form" action="registo.php" method="POST">
             <label for="">Primeiro nome:</label>
-            <input type="text" name="" id="" placeholder="Primeiro nome">
+            <input type="text" name="primeiroNome"  placeholder="Primeiro nome" >
             <label for="">Sobrenome:</label>
-            <input type="text" name="" id="" placeholder="Sobrenome">
+            <input type="text" name="sobreNome"  placeholder="Sobrenome">
             <label for="">Email:</label>
-            <input type="text" name="" id="" placeholder="Email">
+            <input type="text" name="email"  placeholder="Email" >
             <label for="">Senha:</label>
-            <input type="text" name="" id="" placeholder="Senha">
+            <input type="password" name="senha"  placeholder="Senha" >
             <button type="submit">Registrar</button>
-            <p>Já tem uma conta? <a href="layout_login.html">Conecte-se</a></p>
+            <p>Já tem uma conta? <a href="../src/login.php">Conecte-se</a></p>
         </form>
       </section>
 
@@ -85,9 +71,10 @@
     <!-- Rodapé -->
   <footer class="footer">
     <div class="footer-map">
-        <!-- Aqui podes adicionar um iframe com o Google Maps -->
+        <!-- Aqui podes adicionar um iframe com o Google Maps 
         <iframe src="https://g.co/kgs/bK5fDXa"
                 width="100%" height="300" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
+                -->
       </div>
       <div class="container footer-content">
         <p>2025 Copyright by Leando Pinto e Ruben Pinheiro</p>
@@ -103,11 +90,8 @@
 
 
 
-
 <?php
 
-include "../src/views/layout/layout_registro.html";
-echo "registo<br>";
 session_start();
 define("ACCESS_ALLOWED", true);
 require_once '../config.php';
@@ -124,7 +108,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
     $primeiroNome = htmlspecialchars(trim($_POST['primeiroNome']));
     $sobreNome = htmlspecialchars(trim($_POST['sobreNome']));
     $email = htmlspecialchars(trim($_POST['email']));
-    $passwordHash = htmlspecialchars(hash('sha256',$_POST['password']));
+    $passwordHash = htmlspecialchars(hash('sha256',$_POST['senha']));
 
     
 
