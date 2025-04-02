@@ -39,7 +39,7 @@ include("../database/basedados.sql");
             <nav>
                 <div class="nav-left">
                     <div class="logo">
-                        <a href="../src/inicio.php"><img src="../assets/image/Logo.png" alt="Logo" /></a>
+                        <a href="../public/inicio.php"><img src="../assets/image/Logo.png" alt="Logo" /></a>
                         <span class="brand-name">SmartLearn</span>
                     </div>
                     <ul class="nav-links">
@@ -62,8 +62,8 @@ include("../database/basedados.sql");
                     if (!isset($_SESSION['utilizadorOn']) || !$_SESSION['utilizadorOn']) {
                         echo '
                         <ul class="nav-links">
-                            <li><a href="../src/login.php" class="nav-item">Conecte-se</a></li>
-                            <li><a href="../src/registo.php" class="btn">Inscrever-se</a></li>
+                            <li><a href="../public/login.php" class="nav-item">Conecte-se</a></li>
+                            <li><a href="../public/registo.php" class="btn">Inscrever-se</a></li>
                         </ul>
                     ';
                     } else {
@@ -73,7 +73,7 @@ include("../database/basedados.sql");
                         <ul class="nav-links">
 
                             <li>
-                                <a href="../src/logout.php" class="nav-item">
+                                <a href="../public/logout.php" class="nav-item">
                                     LOGOUT
                                 </a>
                             </li>
