@@ -103,12 +103,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   }
 
   $email = filter_var(trim($_POST['email']), FILTER_SANITIZE_EMAIL);
-  $password = hash('sha256', htmlspecialchars(trim($_POST['senha']), ENT_QUOTES, 'UTF-8'));
+  $password = hash('sha256', $_POST['senha']);
 
 
 
   $stmt = $conn->prepare("SELECT * FROM user WHERE Email = ? AND Password = ?");
-  $stmt->bind_param("ss", $emailInput, $password);
+  $stmt->bind_param("ss", $email, $password);
   $stmt->execute();
   $result = $stmt->get_result();
 

@@ -94,7 +94,7 @@ include("../database/basedados.sql");
                                 </a>
                             </li>
                             <li>
-                                <a href="#" class="nav-item">
+                                <a href="../public/carrinho.php" class="nav-item">
                                     <i class="fa-solid fa-cart-shopping"></i>
                                 </a>
                             </li>
@@ -250,7 +250,18 @@ include("../database/basedados.sql");
                         <div class="stars">
                             <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
                         </div>
-                        <button class="btn-buy" name="comprarCurso" value=' . $row['Id_curso'] . '>Comprar</button>
+
+                        ';
+                         if (!isset($_SESSION['utilizadorOn']) || !$_SESSION['utilizadorOn']) {
+                            echo"";
+
+                         }else{
+                            echo '
+                                <form action="../public/compraCurso.php" method="POST">
+                                    <button class="btn-buy" type="submit" name="IdCurso" value="' . $row['Id_curso'] . '">Comprar</button>
+                                </form>';
+                         }
+                        echo'
                     </div>
                     <div class="details">
                         <span>' . $row["Tempo_estimado"] . '</span>
@@ -293,7 +304,7 @@ include("../database/basedados.sql");
     <footer class="footer">
         <div class="footer-map">
             <!-- Aqui podes adicionar um iframe com o Google Maps -->
-            <iframe src="https://g.co/kgs/bK5fDXa"
+            <iframe src=""
                 width="100%" height="300" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
         </div>
         <div class="container footer-content">

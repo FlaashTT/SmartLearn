@@ -10,6 +10,8 @@
     href="../assets/fontawesome/fontawesome/css/all.min.css" />
   <link rel="stylesheet" href="../assets/css/style.css" />
   <link rel="stylesheet" href="../assets/css/style_registro.css" />
+
+  <script src="../assets/js/registo.js"></script>
 </head>
 
 <body>
@@ -91,35 +93,7 @@
 </html>
 
 
-<script>
-  window.onload = function() {
-    let passwordInput = document.getElementById("passwordInput");
-    let buttonSubmit = document.getElementById("buttonSubmit");
 
-    if (passwordInput && buttonSubmit) {
-      passwordInput.addEventListener("input", function() {
-        let passwordValue = passwordInput.value;
-        let hasSpecialChar = /[^a-zA-Z0-9]/.test(passwordValue); // Testa caracteres especiais
-
-        if (passwordValue.length < 8) {
-          buttonSubmit.disabled = true;
-          buttonSubmit.style.opacity = "0.5";
-          buttonSubmit.textContent = "Password muito curta";
-        } else if (!hasSpecialChar) {
-          buttonSubmit.disabled = true;
-          buttonSubmit.style.opacity = "0.5";
-          buttonSubmit.textContent = "Precisa de um caractere especial";
-        } else {
-          buttonSubmit.textContent = "Registar";
-          buttonSubmit.disabled = false;
-          buttonSubmit.style.opacity = "1";
-        }
-      });
-    } else {
-      console.error("Erro: Elemento não encontrado!");
-    }
-  };
-</script>
 
 
 
@@ -144,7 +118,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $passwordHash = hash('sha256', htmlspecialchars(trim($_POST['senha']), ENT_QUOTES, 'UTF-8'));
 
 
-
+  
 
   if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
     echo "<script>alert('O email inserido é invalido!');  </script>";
@@ -183,7 +157,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     criarLogs("Novo Registo", $userID);
 
     echo"
-    <script>
+    <script>  
     window.location.href = '../public/login.php'; 
     </script
     ";
