@@ -257,7 +257,7 @@ include("../database/basedados.sql");
 
                          }else{
                             echo '
-                                <form action="../public/compraCurso.php" method="POST">
+                                <form action="../public/adicionarAocarrinho.php" method="POST">
                                     <button class="btn-buy" type="submit" name="IdCurso" value="' . $row['Id_curso'] . '">Comprar</button>
                                 </form>';
                          }

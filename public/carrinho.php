@@ -92,9 +92,9 @@ include('../database/basedados.sql');
             <h2>Compra:</h2>
             <br>
 
-            
+
             <?php
-            
+
             $stmt = $conn->prepare("
                 SELECT * 
                 FROM carrinho_compras cc
@@ -104,19 +104,20 @@ include('../database/basedados.sql');
             $stmt->bind_param("i", $_SESSION['utilizadorOn']['Id_user']);
             $stmt->execute();
             $result = $stmt->get_result();
-
+            $preçoTotal = 0;
             if ($result->num_rows > 0) {
                 while ($row = $result->fetch_assoc()) {
                     echo '
                         <div class="item">
-                            <span>'.$row["Nome_curso"].'</span>
-                            <span class="item-price">'.$row["Preco"].'€</span> 
+                            <span>' . $row["Nome_curso"] . '</span>
+                            <span class="item-price">' . $row["Preco"] . '€</span> 
                         </div>          
 
                     ';
+                    $preçoTotal = $preçoTotal + $row["Preco"];
                 }
-            }else{
-                echo'
+            } else {
+                echo '
                 <div class="item">
                     <span>Não tem itens no carrinho</span>
                     
@@ -126,23 +127,62 @@ include('../database/basedados.sql');
 
             ?>
 
-            
+
             <a href="inicio.php" class="continue">Continuar a comprar</a>
         </section>
 
         <aside class="carrinho">
             <h2>Carrinho</h2>
             <br>
-            <div class="cart-item">
-                <span>Curso de JavaScript</span>
-                <span>1</span>
-                <button class="remove">Remover</button>
-            </div>
+            <?php
+            $stmt = $conn->prepare("
+                    SELECT * 
+                    FROM carrinho_compras cc
+                    INNER JOIN curso c ON cc.Id_curso = c.Id_curso
+                    WHERE cc.Id_user = ?;
+                ");
+            $stmt->bind_param("i", $_SESSION['utilizadorOn']['Id_user']);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            if ($result->num_rows > 0) {
+                while ($row = $result->fetch_assoc()) {
+                    echo '
+                        <div class="cart-item">
+                            <span>' . $row["Nome_curso"] . '</span>
+                            <span>' . $row["Preco"] . '€</span>
+                            <form action="../public/removerItem.php" method="POST">
+                                <button type="submit" class="remove" name="id_carrinho" value="' . $row['Id_carrinho'] . '">Remover</button>
+                            </form>
+                        </div>        
+
+                    ';
+                }
+            } else {
+                echo '
+                <div class="cart-item">
+                    <span>Não tem itens no carrinho</span>
+                    
+                </div>  
+                ';
+            }
+
+            $totaliva = $preçoTotal * 0.23;
+            $ivaFormatado = number_format($totaliva, 2, ',', '.');
+            $preçoTotalComIva = $preçoTotal + $totaliva;
+            $preçoTotalComIvaFormatado = number_format($preçoTotalComIva, 2, ',', '.');
+
+            echo '
             <div class="totals">
-                <span>Total IVA: 2.30€</span>
-                <span>Valor Final: 12.30€</span>
+                <span>Total IVA: ' . $ivaFormatado . '€</span>
+                <span>Valor Final: ' . $preçoTotalComIvaFormatado . '€</span>
             </div>
-            <button class="finalizar">Finalizar compra</button>
+            
+            <form action="finalizaCompra.php" method="POST">
+                <button type="submit" class="finalizar" name="valorTotal" value="' . $preçoTotalComIvaFormatado . '">Finalizar compra</button>
+                
+            </form>
+            ';
+            ?>
         </aside>
     </main>
 
