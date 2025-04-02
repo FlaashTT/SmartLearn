@@ -3,7 +3,7 @@ session_start();
 
 
 if($_SESSION['utilizadorOn'] == null) {
-    header('Location:../public/index.php');
+    header('Location:../public/inicio.php');
 }
 
 ?>
