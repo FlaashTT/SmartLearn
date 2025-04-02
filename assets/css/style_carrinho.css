@@ -1,0 +1,175 @@
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* ---------- Secção de Titulos ---------- */
+
+.section-title {
+    text-align: center; /* Centraliza o texto */
+}
+  
+.section-title h1 {
+    font-size: 24px;
+    font-weight: 500;
+    margin-bottom: 40px;
+    margin-top: 40px;
+}
+
+/* ---------- Secção de Carrinho de Compras ---------- */
+
+.hero {
+    flex: 2; 
+    padding: 20px;
+    border-radius: 8px;
+    margin-top: 40px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    
+}
+
+.hero h2 {
+    font-size: 20px;
+    font-weight: 500;
+    margin-bottom: 20px;
+}
+
+.hero p {
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+/* ---------- Secção Principal Carrinho ---------- */
+
+.main-container {
+    display: flex; 
+    gap: 20px; 
+    margin-top: 20px;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.compra {
+    background-color: aliceblue;
+    padding: 20px;
+    margin-top: 30px;
+    border-radius: 8px;
+    width: 10%; 
+    max-height: auto; 
+    overflow-y: auto; 
+    box-sizing: border-box; 
+}
+
+aside {
+    flex: none; /* Remove o comportamento de flex-grow */
+    background-color: #f4f4f4;
+    margin-top: 30px;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    height: auto; /* Ajusta a altura automaticamente */
+}
+
+.compra {
+    flex: 2; 
+}
+
+aside {
+    flex: 1; 
+}
+
+.compra, .carrinho{
+    background-color: aliceblue;
+    padding: 20px;
+    border-radius: 8px;
+    width: 100%;
+}
+
+.compra h2, .carrinho h2 {
+    margin-top: 0;
+}
+
+.item, .cart-item{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+
+.quantidade{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #ddd;
+}
+  
+.item-name {
+    flex: 2; /* Nome do curso ocupa mais espaço */
+    text-align: left;
+}
+  
+.item-price {
+    flex: 1; /* Preço ocupa espaço fixo */
+    text-align: right;
+    margin-right: 150px ;
+}
+  
+
+.quantidade button{
+    padding: 5px 10px;
+    border: none;
+    background-color: #007bff;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.continue{
+    display: inline-block;
+    margin-top: 10px;
+    text-decoration: none;
+    color: rgb(115, 115, 241);
+}
+
+.carrinho .cart-item .remove{
+    margin-left: 10px;
+    color: red;
+    text-decoration: none;
+    cursor: pointer;
+    border: none;
+}
+
+.totals {
+    margin-top: 40px; /* Aumenta o espaçamento acima */
+    padding-top: 20px; /* Adiciona um espaçamento interno no topo */
+    border-top: 1px solid #ddd; /* Adiciona uma linha para separação */
+    font-weight: bold;
+    text-align: right; /* Alinha o texto à direita */
+    display: flex;
+    flex-direction: column; /* Empilha os elementos verticalmente */
+    gap: 10px; /* Adiciona espaçamento entre os elementos */
+}
+
+.finalizar{
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: blue;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-align: center;
+}
+
+
+
+
