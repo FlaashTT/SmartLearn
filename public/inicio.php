@@ -71,9 +71,7 @@ include("../database/basedados.sql");
 
 
                         echo '
-                        <script>
-                            console.log('.$_SESSION['utilizadorOn']['Carteira'].');
-                        </script>
+                        
                         <ul class="nav-links">
 
                             <li>
