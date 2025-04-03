@@ -1,5 +1,5 @@
 <?php
-session_start();
+
 include('../public/segurança.php');
 include('../database/basedados.sql');
 ?>
@@ -109,6 +109,7 @@ include('../database/basedados.sql');
                 while ($row = $result->fetch_assoc()) {
                     echo '
                         <div class="item">
+                         <input type="checkbox" name="cursos[]" value="">
                             <span>' . $row["Nome_curso"] . '</span>
                             <span class="item-price">' . $row["Preco"] . '€</span> 
                         </div>          
@@ -170,15 +171,29 @@ include('../database/basedados.sql');
             $ivaFormatado = number_format($totaliva, 2, ',', '.');
             $preçoTotalComIva = $preçoTotal + $totaliva;
             $preçoTotalComIvaFormatado = number_format($preçoTotalComIva, 2, ',', '.');
-
+            $_SESSION['valorFinal'] = $preçoTotalComIva;
             echo '
+            <script>
+                window.onload = function() {
+                    let btnFinalizarCompra = document.getElementById("btnFinalizarCompra");
+                    if('.$preçoTotalComIvaFormatado.' == 0){
+                        btnFinalizarCompra.disabled = true;
+                        btnFinalizarCompra.style.opacity = "0.5";
+                        btnFinalizarCompra.textContent = "Não tem itens no carrinho";
+                    }else{
+                        btnFinalizarCompra.disabled = false;
+                        btnFinalizarCompra.style.opacity = "1";
+                        btnFinalizarCompra.textContent = "Finalizar compra";
+                    }
+                }
+            </script>
             <div class="totals">
                 <span>Total IVA: ' . $ivaFormatado . '€</span>
                 <span>Valor Final: ' . $preçoTotalComIvaFormatado . '€</span>
             </div>
             
             <form action="finalizaCompra.php" method="POST">
-                <button type="submit" class="finalizar" name="valorTotal" value="' . $preçoTotalComIvaFormatado . '">Finalizar compra</button>
+                <button type="submit" id="btnFinalizarCompra" class="finalizar" name="valorTotal" ">Finalizar compra</button>
                 
             </form>
             ';

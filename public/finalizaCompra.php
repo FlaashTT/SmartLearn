@@ -1,5 +1,4 @@
 <?php
-session_start();
 include('../public/segurança.php');
 include('../database/basedados.sql');
 
@@ -7,11 +6,12 @@ $erro = false;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-    $preco = $_POST['valorTotal']; //valor final de compra
+    $preco =  $_SESSION['valorFinal']; //valor final de compra
     $saldoConta = $_SESSION['utilizadorOn']['Carteira'];
 
 
-   
+    echo $_SESSION['utilizadorOn']['Carteira'];
+
     if (empty($preco)) {
         $erro = true;
     } else {
@@ -25,11 +25,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 }
             </script>
             ';
+            
         } else {
-            echo $preco . "<br>" . $saldoConta+0;//da erro ao realizar a conta
+            $preco = (float) $preco;  
+            $saldoFinal = $saldoConta - $preco; 
+
+            $saldoFinal = (float) $saldoFinal;  
+            
+
+            
+            $stmt = $conn->prepare("
+                    UPDATE user 
+                    SET Carteira = ? 
+                    WHERE Id_user = ?
+                ");
+            $stmt->bind_param("di", $saldoFinal, $_SESSION['utilizadorOn']['Id_user']);
+            if($stmt->execute()){
+                $_SESSION['utilizadorOn']['Carteira'] = $saldoFinal; 
+                echo'
+                    <script>
+                        alert("Pagamento realizado com sucesso!");
+                        window.location.href = "carrinho.php";
+                    </script>
+                ';
+            }
         }
     }
-} 
+}
 
 if ($erro) {
     echo "

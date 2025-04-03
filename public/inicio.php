@@ -61,6 +61,7 @@ include("../database/basedados.sql");
                     <?php
                     if (!isset($_SESSION['utilizadorOn']) || !$_SESSION['utilizadorOn']) {
                         echo '
+                        
                         <ul class="nav-links">
                             <li><a href="../public/login.php" class="nav-item">Conecte-se</a></li>
                             <li><a href="../public/registo.php" class="btn">Inscrever-se</a></li>
@@ -70,6 +71,9 @@ include("../database/basedados.sql");
 
 
                         echo '
+                        <script>
+                            console.log('.$_SESSION['utilizadorOn']['Carteira'].');
+                        </script>
                         <ul class="nav-links">
 
                             <li>
