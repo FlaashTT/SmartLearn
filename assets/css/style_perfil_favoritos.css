@@ -116,6 +116,42 @@
     box-sizing: border-box;
 }
 
+.category-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px; /* Espaçamento entre o texto e o ícone */
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: antiquewhite;
+    font-size: 14px;
+    transition: background-color 0.3s;
+}
+
+.category-btn i {
+    font-size: 12px; /* Ajusta o tamanho do ícone */
+    color: #555; /* Cor do ícone */
+}
+
+.category-btn:hover {
+    background-color: #bbb;
+}
+
+.category-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px; /* Aumenta o espaçamento entre o texto e o ícone */
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: antiquewhite;
+    font-size: 14px;
+    transition: background-color 0.3s;
+}
 
 .category-btn, .reset-btn{
     padding: 10px 20px;
@@ -138,20 +174,6 @@
     background-color: #ddd;
     border-radius: 5px;
     overflow: hidden;
-}
-
-.category-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 15px; /* Aumenta o espaçamento entre o texto e o ícone */
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    background-color: antiquewhite;
-    font-size: 14px;
-    transition: background-color 0.3s;
 }
 
 .search-my-courses{
@@ -181,6 +203,7 @@
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 20px;
     padding: 20px;
+
 }
 
 .course-card{
@@ -194,6 +217,12 @@
     margin-left: 10px;
 }
 
+.course-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
 
 .course-image{
     width: 100%;
@@ -203,55 +232,19 @@
     margin-bottom: 10px;
 }
 
-.course-info h3{
-    margin: 10px 0;
-    font-size: 18px;
-    text-align: left;
-}
-
-.progress-bar{
-    width: 100%;
-    height: 5px;
-    background-color: #EEE;
-    border-radius: 5px;
-    margin: 10px 0;
-    position: relative;
-}
-
-.progress{  /* Progresso da barra de progresso */
-    width: 20%;
-    height: 100%;
-    background-color: #4CAF50;
-    border-radius: 5px;
-
-}
-
-.course-info p{
-    font-size: 14px;
-    color: #AAA;
-    margin: 5px 0;
-    text-align: left;
-}
-
-.stars{
-    font-size: 16px;
-    color: #AAA;
-    text-align: left;
-    margin: 10px 0;
-}
-
-.start-button{
-    padding: 10px 20px;
+.start-button {
+    margin-top: 20px;
+    padding: 5px 10px; /* Reduz o preenchimento interno */
+    font-size: 12px; /* Reduz o tamanho da fonte */
+    border-radius: 3px; /* Ajusta as bordas arredondadas */
     background-color: #ddd;
     border: none;
-    border-radius: 5px;
     cursor: pointer;
-    font-size: 14px;
-    transition: bakcground-color 0.3s;
+    transition: background-color 0.3s;
 }
 
-.start-button:hover{
-    background-color: #bbb;
+.start-button:hover {
+    background-color: #bbb; /* Cor ao passar o mouse */
 }
 
 .modal {
@@ -328,3 +321,4 @@
         transform: scale(1);
     }
 }
+
