@@ -1,0 +1,241 @@
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    
+}
+
+.container-perfil{
+    display: flex;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+
+
+.banner{
+    width: 100%;
+    height: 150px;
+    background-color: aliceblue;
+    margin-bottom: 20px;
+}
+
+.sidebar{
+    margin-top: 50px;
+    height: 550px;
+    width: 280px;
+    background-color: aliceblue;
+    padding: 20px;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+}
+
+.user-info{
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    flex-direction: column;
+}
+
+.user-details {
+    text-align: center; /* Centraliza o texto */
+}
+
+.avatar{
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+}
+
+.avatar img{
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}
+
+.user-details p{
+    margin: 0;
+}
+
+.menu{
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex; 
+    flex-direction: column; 
+    gap: 10px; 
+
+}
+
+.menu li {
+    display: flex; 
+    align-items: center; 
+    gap: 10px; 
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 5px; 
+    transition: background-color 0.3s;
+}
+
+.menu li i {
+    font-size: 16px;
+    color: #555; 
+}
+
+.logout{
+    margin-top: 20px;
+    padding: 10px;
+    width: 100%;
+    background-color: red;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.logout:hover{
+    background-color: darkred;
+}
+
+.content{
+    flex: 1;
+    padding: 20px;
+}
+
+.filters{
+    margin-top: 30px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background-color: #ddd;
+    margin-bottom: 20px;
+    padding: 20px;
+    border-radius: 10px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+
+.category-btn, .reset-btn{
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: antiquewhite;
+    font-size: 14px;
+    transition: background-color 0.3s;
+}
+
+.category-btn:hover, .reset-btn:hover{
+    background-color: #bbb;
+}
+
+.search-container{
+    display: flex;
+    align-items: center;
+    flex: 1;
+    background-color: #ddd;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.search-my-courses{
+    flex: 1;
+    padding: 10px;
+    border: none;
+    background-color: #aaa;
+    font-size: 14px;
+    outline: none;
+}
+
+.search-button{
+    padding: 10px;
+    background-color: #aaa;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s;
+}
+
+.search-button:hover{
+    background-color: #bbb;
+}
+
+.content-card{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    padding: 20px;
+}
+
+.course-card{
+    display: flex;
+    flex-direction: column;
+    background-color: #CCC;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    width: 250px;
+    margin-left: 10px;
+}
+
+
+.course-image{
+    width: 100%;
+    height: 150px;
+    background-color: #AAA;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+.course-info h3{
+    margin: 10px 0;
+    font-size: 18px;
+    text-align: left;
+}
+
+.progress-bar{
+    width: 100%;
+    height: 5px;
+    background-color: #EEE;
+    border-radius: 5px;
+    margin: 10px 0;
+    position: relative;
+}
+
+.progress{  /* Progresso da barra de progresso */
+    width: 20%;
+    height: 100%;
+    background-color: #4CAF50;
+    border-radius: 5px;
+
+}
+
+.course-info p{
+    font-size: 14px;
+    color: #AAA;
+    margin: 5px 0;
+    text-align: left;
+}
+
+.stars{
+    font-size: 16px;
+    color: #AAA;
+    text-align: left;
+    margin: 10px 0;
+}
+
+.start-button{
+    padding: 10px 20px;
+    background-color: #ddd;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: bakcground-color 0.3s;
+}
+
+.start-button:hover{
+    background-color: #bbb;
+}
