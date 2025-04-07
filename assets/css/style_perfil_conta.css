@@ -149,24 +149,7 @@
     color: #666;
 }
 
-.from-group.file-input {
-    display: flex;
-    flex-direction: column; 
-    gap: 5px; 
-    align-items: flex-start;
-    justify-content: flex-start;
-}
-
-.from-group.file-input input[type="file"] {
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 14px;
-    cursor: pointer;
-}
-
-.from-group input,
-.from-group textarea{
+.from-group input {
     width: 100%;
     padding: 10px;
     border: 1px solid #ddd;
@@ -190,27 +173,30 @@
     height: 100px;
 }
 
-.from-group label{
-    display: block;
-    align-items: center;
-    gap: 10px;
+.from-group label,
+.from-group-conta label {
+    display: block; 
+    margin-bottom: 10px; 
     font-size: 14px;
     color: #666;
 }
 
-.from-group-social .input-wrapper {
+.from-group input,
+.from-group-conta input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    width: 100%;
+}
+
+.from-group-conta .input-wrapper {
     display: flex;
     align-items: center; 
     margin-bottom: 10px;
 }
 
-.from-group-social label {
-    margin-bottom: 5px; 
-    font-size: 14px;
-    color: #666;
-}
-
-.from-group-social .icon-square {
+.from-group-conta .icon-square {
     width: 40px; 
     height: 40px; 
     background-color: #ddd; 
@@ -223,7 +209,7 @@
     color: #666; 
 }
 
-.from-group-social input[type="text"] {
+.from-group-conta input[type="password"] {
     flex: 1; 
     padding: 10px;
     border: 1px solid #ccc;
@@ -234,23 +220,13 @@
     transition: border-color 0.3s;
 }
 
-.from-group-social input[type="text1"]:focus {
+.from-group-conta input[type="text1"]:focus {
     border-color: #888; 
 }
 
 .divider{
     border-top: 1px solid #ddd;
     margin: 20px 0;
-}
-
-.file-input{
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.file-input input[type="file"]{
-    background-color: transparent;
 }
 
 .submit-button{
