@@ -87,45 +87,22 @@ include('../database/basedados.sql');
                     <img src="../assets/image/User.png" alt="Erro">
                 </div>
                 <div class="user-details">
-                    <p>Teste de Silva</p>
-                    <p>Teste@gmail.com</p>
+                    <?php
+                    echo '
+                        <p>' . $_SESSION['utilizadorOn']['PNome_user'] . ' ' . $_SESSION['utilizadorOn']['SNome_user'] . '</p>
+                        <p>T' . $_SESSION['utilizadorOn']['Email'] . '</p>
+                    ';
+                    ?>
                 </div>
             </div>
 
             <ul class="menu">
-                <ul>
-                    <li>
-                        <a href="cursos.php">
-                            <i class="fa-solid fa-book"></i> Meus Cursos
-                        </a>
-                    </li>
-                    <li>
-                        <a href="lista_desejos.php">
-                            <i class="fa-solid fa-heart"></i> Minha Lista de Desejos
-                        </a>
-                    </li>
-                    <li>
-                        <a href="historico_compras.php">
-                            <i class="fa-solid fa-clock"></i> Histórico de Compras
-                        </a>
-                    </li>
-                    <li>
-                        <a href="perfil.php">
-                            <i class="fa-solid fa-user"></i> Perfil de Utilizador
-                        </a>
-                    </li>
-                    <li>
-                        <a href="conta.php">
-                            <i class="fa-solid fa-gear"></i> Conta
-                        </a>
-                    </li>
-                    <li>
-                        <a href="carteira.php">
-                            <i class="fa-solid fa-wallet"></i> Carteira
-                        </a>
-                    </li>
-                </ul>
-
+                <li onclick="window.location.href='#'"><i class="fa-solid fa-book"></i> Meus Cursos</li>
+                <li onclick="window.location.href='#'"><i class="fa-solid fa-heart"></i> Minha Lista de Desejos</li>
+                <li onclick="window.location.href='#'"><i class="fa-solid fa-clock"></i> Histórico de Compras</li>
+                <li onclick="window.location.href='#'"><i class="fa-solid fa-user"></i> Perfil de utilizador</li>
+                <li onclick="window.location.href='#'"><i class="fa-solid fa-gear"></i> Conta</li>
+                <li onclick="window.location.href='#'"><i class="fa-solid fa-wallet"></i> Carteira</li>
             </ul>
 
             <button onclick="window.location.href='logout.php'" class="logout">Sair</button>
@@ -144,84 +121,73 @@ include('../database/basedados.sql');
 
             </div>
             <div class="content-card">
-                <div class="course-card">
-                    <div class="course-image">
-                        <img src="" alt="Erro">
-                    </div>
-                    <div class="course-info">
-                        <h3>Curso de Tecnologia</h3>
-                        <hr>
-                        <div class="progress-bar">
-                            <div class="progress"></div>
-                        </div>
-                        <p>0% Concluído</p>
-                        <div class="stars">
-                            <i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i>
-                        </div>
-                        <button class="start-button">Iniciar aula</button>
-                    </div>
-                </div>
 
-                <div class="course-card">
-                    <div class="course-image"> </div>
-                    <div class="course-info">
-                        <h3>Curso de Tecnologia</h3>
-                        <hr>
-                        <div class="progress-bar">
-                            <div class="progress"></div>
-                        </div>
-                        <p>0% Concluído</p>
-                        <div class="stars">
-                            <i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i>
-                        </div>
-                        <button class="start-button">Iniciar aula</button>
-                    </div>
-                </div>
-                <div class="course-card">
-                    <div class="course-image"> </div>
-                    <div class="course-info">
-                        <h3>Curso de Tecnologia</h3>
-                        <hr>
-                        <div class="progress-bar">
-                            <div class="progress"></div>
-                        </div>
-                        <p>0% Concluído</p>
-                        <div class="stars">
-                            <i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i>
-                        </div>
-                        <button class="start-button">Iniciar aula</button>
-                    </div>
-                </div>
-                <div class="course-card">
-                    <div class="course-image"> </div>
-                    <div class="course-info">
-                        <h3>Curso de Tecnologia</h3>
-                        <hr>
-                        <div class="progress-bar">
-                            <div class="progress"></div>
-                        </div>
-                        <p>0% Concluído</p>
-                        <div class="stars">
-                            <i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i>
-                        </div>
-                        <button class="start-button">Iniciar aula</button>
-                    </div>
-                </div>
-                <div class="course-card">
-                    <div class="course-image"> </div>
-                    <div class="course-info">
-                        <h3>Curso de Tecnologia</h3>
-                        <hr>
-                        <div class="progress-bar">
-                            <div class="progress"></div>
-                        </div>
-                        <p>0% Concluído</p>
-                        <div class="stars">
-                            <i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i>
-                        </div>
-                        <button class="start-button">Iniciar aula</button>
-                    </div>
-                </div>
+                <?php
+
+                $stmt = $conn->prepare(" SELECT * 
+                    FROM cursos_adquiridos ca
+                    INNER JOIN curso c ON ca.Id_curso = c.Id_curso
+                    WHERE ca.Id_user = ?; ");
+                $stmt->bind_param("i", $_SESSION['utilizadorOn']['Id_user']);
+                $stmt->execute();
+                $result = $stmt->get_result();
+
+                if ($result->num_rows > 0) {
+                    while ($row = $result->fetch_assoc()) {
+                        echo '
+                       <div class="course-card">
+                            <div class="course-image">
+                                <img src=' . $row['URL_foto_perfil_curso'] . ' alt=" erro">
+                            </div>
+                            <div class="course-info">
+                                <h3>' . $row['Nome_curso'] . '</h3>
+                                <hr>
+                                <div class="progress-bar">
+                                    <div class="progress"></div>
+                                </div>
+                                <p>' . $row['Percentagem_progresso'] . '% Concluído</p>
+                                <div class="stars">
+                                ';
+
+                                if ($row['Classificacao'] == 0) {
+                                    echo "Sem clasificação";
+                                } else {
+                                    for ($i = 0; $i < $row['Classificacao']; $i++) {
+                                        echo ' <i class="fa-regular fa-star"></i>';
+                                    }
+                                }
+                                echo '
+                                    
+                                </div>
+                                <form action="../public/curso.php" method="POST">
+                                ';
+                                if($row['Percentagem_progresso'] == 0){
+                                    echo'
+                                    <button class="start-button" type="submit" name = "idCurso" value=' . $row['Id_curso'] . '>Iniciar aula</button>
+                                    ';
+                                }else if($row['Percentagem_progresso'] > 0 && $row['Percentagem_progresso'] < 100 ){
+                                    echo'
+                                    <button class="start-button" type="submit" name = "idCurso" value=' . $row['Id_curso'] . '>Continuar aula</button>
+                                    ';
+                                }else if($row['Percentagem_progresso'] == 100 ){
+                                    echo'
+                                    <button class="start-button" type="submit" name = "idCurso" value=' . $row['Id_curso'] . '>Rever aula</button>
+                                    ';
+                                }
+                                echo'
+                                </form>
+
+                            </div>
+                        </div> 
+                    ';
+                    }
+                }
+
+
+                ?>
+
+
+
             </div>
         </section>
     </main>
