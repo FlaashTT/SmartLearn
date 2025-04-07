@@ -1,0 +1,26 @@
+<aside class="sidebar">
+    <div class="user-info">
+        <div class="avatar">
+            <img src="../assets/image/User.png" alt="Erro">
+        </div>
+        <div class="user-details">
+            <?php
+            echo '
+                <p>' . $_SESSION['utilizadorOn']['PNome_user'] . ' ' . $_SESSION['utilizadorOn']['SNome_user'] . '</p>
+                <p>' . $_SESSION['utilizadorOn']['Email'] . '</p>
+            ';
+            ?>
+        </div>
+    </div>
+
+    <ul class="menu">
+        <li onclick="window.location.href='#'"><i class="fa-solid fa-book"></i> Meus Cursos</li>
+        <li onclick="window.location.href='#'"><i class="fa-solid fa-heart"></i> Minha Lista de Desejos</li>
+        <li onclick="window.location.href='#'"><i class="fa-solid fa-clock"></i> Histórico de Compras</li>
+        <li onclick="window.location.href='#'"><i class="fa-solid fa-user"></i> Perfil de utilizador</li>
+        <li onclick="window.location.href='#'"><i class="fa-solid fa-gear"></i> Conta</li>
+        <li onclick="window.location.href='#'"><i class="fa-solid fa-wallet"></i> Carteira</li>
+    </ul>
+
+    <button onclick="window.location.href='logout.php'" class="logout">Sair</button>
+</aside>
