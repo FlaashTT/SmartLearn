@@ -28,7 +28,7 @@ include('../database/basedados.sql');
             <nav>
                 <div class="nav-left">
                     <div class="logo">
-                        <a href="..layout_base.html"><img src="../assets/image/Logo.png" alt="Logo" /></a>
+                        <a href="inicio.php"><img src="../assets/image/Logo.png" alt="Logo" /></a>
                         <span class="brand-name">SmartLearn</span>
                     </div>
                     <ul class="nav-links">
