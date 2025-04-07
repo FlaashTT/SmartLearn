@@ -74,11 +74,7 @@ include("../database/basedados.sql");
                         
                         <ul class="nav-links">
 
-                            <li>
-                                <a href="../public/logout.php" class="nav-item">
-                                    LOGOUT
-                                </a>
-                            </li>
+                        
 
                             <li>
                                 <a href="#" class="nav-item">
@@ -86,7 +82,7 @@ include("../database/basedados.sql");
                                 </a>
                             </li>
                             <li>
-                                <a href="#" class="nav-item">
+                                <a href="../public/perfil_cursos.php" class="nav-item">
                                     Meus Cursos
                                 </a>
                             </li>
