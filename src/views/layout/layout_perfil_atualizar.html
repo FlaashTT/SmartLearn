@@ -9,7 +9,7 @@
       href="/assets/fontawesome/fontawesome/css/all.min.css"
     />
     <link rel="stylesheet" href="/assets/css/style_user.css" />
-    <link rel="stylesheet" href="/assets/css/style_perfil_historico.css" />
+    <link rel="stylesheet" href="/assets/css/style_perfil_atualizar.css" />
   </head>
   <body>
     <!-- Cabeçalho -->
@@ -96,34 +96,47 @@
       </aside>
 
       <section class="content">
-        <div class="table-container">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Compras de Curso</th>
-                        <th>Data</th>
-                        <th>Preço</th>
-                        <th>Tipo de Pagamento</th>
-                        <th>Ações</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Aqui estão os dados de exemplo. Podes adicionar mais linhas conforme necessário. 
-                    <tr>
-                        <td>Curso de Programação</td>
-                        <td>2025-01-01</td>
-                        <td>€100.00</td>
-                        <td>Cartão de Crédito</td>
-                        <td><button class="category-btn">Ver Categoria</button></td>
-                    </tr>
-                    -->
-                    <tr>
-                        <td colspan="5" class="no-records">No records found</td>
-                    </tr> 
-                </tbody>
-            </table>
-            <div class="pagination">
-                
+        <div class="form-container">
+            <h2>Editar Perfil</h2>
+            <p>Adicionar informação sobre teu perfil</p>
+            <div class="divider"></div>
+            <div class="from-group">
+                <label for="primeiro-nome">Primeiro Nome</label>
+                <input type="text" id="primeiro-nome" placeholder="Teste da" required />
+            </div>
+            <div class="from-group">
+                <label for="sobrenome">Sobrenome</label>
+                <input type="text" id="sobrenome" placeholder="Silva" required />
+            </div>
+            <div class="from-group">
+                <label for="biografia">Biografia</label>
+                <textarea placeholder="Escreva algo sobre ti..." id="biografia"></textarea>
+            </div>
+            <div class="divider"></div>
+            <div class="from-group">
+                <label for="facebook-link">Adicionar teu Facebook Link</label>
+                <span class="icon"><i class="fa-brands fa-facebook"></i></span>
+                <input type="text1" placeholder="Link do Facebook" id="facebook-link">
+            </div>
+            <div class="from-group">
+                <label for="youtube-link">Adicionar teu Youtube Link</label>
+                <span class="icon"><i class="fa-brands fa-youtube"></i></span>
+                <input type="text1" placeholder="Link do Youtube" id="youtube-link">
+            </div>
+            <div class="from-group">
+                <label for="linkedin-link">Adicionar teu Linkedin Link</label>
+                <span class="icon"><i class="fa-brands fa-linkedin"></i></span>
+                <input type="text1" placeholder="Link do Linkedin" id="linkedin-link">
+            </div>
+            <div class="divider"></div>
+            <div class="from-group file-input">
+                <label for="profile-image">Alterar imagem de perfil</label>
+                <input type="file" id="profile-image">
+            </div>
+            <div class="submit-button">
+                <button>
+                    <span><i class="fa-solid fa-save"></i></span> Guardar
+                </button>
             </div>
         </div>
         
