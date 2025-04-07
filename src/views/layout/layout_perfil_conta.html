@@ -9,7 +9,7 @@
       href="/assets/fontawesome/fontawesome/css/all.min.css"
     />
     <link rel="stylesheet" href="/assets/css/style_user.css" />
-    <link rel="stylesheet" href="/assets/css/style_perfil_atualizar.css" />
+    <link rel="stylesheet" href="/assets/css/style_perfil_conta.css" />
   </head>
   <body>
     <!-- Cabeçalho -->
@@ -97,47 +97,34 @@
 
       <section class="content">
         <div class="form-container">
-            <h2>Editar Perfil</h2>
-            <p>Adicionar informação sobre teu perfil</p>
+            <h2>Informação da Conta</h2>
+            <p>Edição da tua conta</p>
             <div class="divider"></div>
             <div class="from-group">
-                <label for="primeiro-nome">Primeiro Nome</label>
-                <input type="text" id="primeiro-nome" placeholder="Teste da" required />
-            </div>
-            <div class="from-group">
-                <label for="sobrenome">Sobrenome</label>
-                <input type="text" id="sobrenome" placeholder="Silva" required />
-            </div>
-            <div class="from-group">
-                <label for="biografia">Biografia</label>
-                <textarea placeholder="Escreva algo sobre ti..." id="biografia"></textarea>
+                <label for="email">Email</label>
+                <input type="text" id="email" placeholder="Teste@gmail.com" required />
             </div>
             <div class="divider"></div>
-            <div class="from-group-social">
-                <label for="facebook-link">Adicionar teu Linkedin Link</label>
+            <div class="from-group-conta">
+                <label for="old-password">Password antiga</label>
                 <div class="input-wrapper">
-                    <span class="icon-square"><i class="fa-brands fa-facebook"></i></span>
-                    <input type="text" placeholder="Link do Facebook" id="facebook-link">
+                    <span class="icon-square"><i class="fa-solid fa-lock"></i></span>
+                    <input type="password" placeholder="Digite sua senha antiga" id="old-password">
                 </div>
             </div>
-            <div class="from-group-social">
-                <label for="youtube-link">Adicionar teu Linkedin Link</label>
+            <div class="from-group-conta">
+                <label for="new-password">Nova password</label>
                 <div class="input-wrapper">
-                    <span class="icon-square"><i class="fa-brands fa-youtube"></i></span>
-                    <input type="text" placeholder="Link do Youtube" id="youtube-link">
+                    <span class="icon-square"><i class="fa-solid fa-key"></i></span>
+                    <input type="password" placeholder="Digite sua nova senha" id="new-password">
                 </div>
             </div>
-            <div class="from-group-social">
-                <label for="linkedin-link">Adicionar teu Linkedin Link</label>
+            <div class="from-group-conta">
+                <label for="confirm-password">Confirmação password</label>
                 <div class="input-wrapper">
-                    <span class="icon-square"><i class="fa-brands fa-linkedin"></i></span>
-                    <input type="text" placeholder="Link do Linkedin" id="linkedin-link">
+                    <span class="icon-square"><i class="fa-solid fa-check"></i></span>
+                    <input type="password" placeholder="Confirme sua nova senha" id="confirm-password">
                 </div>
-            </div>
-            <div class="divider"></div>
-            <div class="from-group file-input">
-                <label>Alterar imagem de perfil</label>
-                <input type="file" id="profile-image">
             </div>
             <div class="submit-button">
                 <button>
