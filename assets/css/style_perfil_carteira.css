@@ -197,9 +197,22 @@
     margin-bottom: 20px;
 }
 
+.wallet-history .filter{
+    margin-bottom: 15px;
+}
+
+.wallet-history .filter input{
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #fff;
+}
+
 .wallet-history table{
     width: 100%;
     border-collapse: collapse;
+    margin-bottom: 20px;
 }
 
 .wallet-history th, .wallet-history td{
@@ -232,13 +245,13 @@
 }
 
 .positive {
-    color: green; /* Cor para valores positivos */
-    font-weight: bold; /* Deixa o texto em negrito */
+    color: green; 
+    font-weight: semi-bold; 
 }
 
 .negative {
-    color: red; /* Cor para valores negativos */
-    font-weight: bold; /* Deixa o texto em negrito */
+    color: red; 
+    font-weight: semi-bold; 
 }
 
 .pagination{

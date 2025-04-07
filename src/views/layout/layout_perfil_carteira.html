@@ -117,7 +117,11 @@
           <!-- Historico -->
            <div class="wallet-history">
             <h3>Histórico de Transações</h3>
-            <table>
+            <!-- Filtro -->
+             <div class="filter">
+                <input type="text" id="filter-input" placeholder="Filtrar por data, descrição..."/>
+             </div>
+            <table id="transactions-table">
               <thead>
                 <tr>
                   <th>Data</th>
