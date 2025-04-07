@@ -1,0 +1,256 @@
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    
+}
+
+.container-perfil{
+    display: flex;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+
+
+
+.banner{
+    width: 100%;
+    height: 150px;
+    background-color: aliceblue;
+    margin-bottom: 20px;
+}
+
+.sidebar{
+    margin-top: 50px;
+    height: 550px;
+    width: 280px;
+    background-color: aliceblue;
+    padding: 20px;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+}
+
+.user-info{
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    flex-direction: column;
+}
+
+.user-details {
+    text-align: center; /* Centraliza o texto */
+}
+
+.avatar{
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+}
+
+.avatar img{
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}
+
+.user-details p{
+    margin: 0;
+}
+
+.menu{
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex; 
+    flex-direction: column; 
+    gap: 10px; 
+
+}
+
+.menu li {
+    display: flex; 
+    align-items: center; 
+    gap: 10px; 
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 5px; 
+    transition: background-color 0.3s;
+}
+
+.menu li i {
+    font-size: 16px;
+    color: #555; 
+}
+
+.logout{
+    margin-top: 20px;
+    padding: 10px;
+    width: 100%;
+    background-color: red;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.logout:hover{
+    background-color: darkred;
+}
+
+.content{
+    flex: 1;
+    padding: 20px;
+}
+
+.filters{
+    margin-top: 30px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background-color: #ddd;
+    margin-bottom: 20px;
+    padding: 20px;
+    border-radius: 10px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.wallet-container{
+    margin-top: 30px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    padding: 20px;
+}
+
+.wallet-header{
+    font-size: 20px;
+    color: #555;
+    margin-bottom: 20px;
+}
+
+.wallet-balance{
+    font-size: 18px;
+    color: #333;
+    margin-bottom: 30px;
+    padding: 10px;
+    background-color: #f9f9f9;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    text-align: center;
+}
+
+.wallet-actions{
+    display: flex;
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.wallet-actions .action{
+    flex: 1;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 20px;
+    text-align: center;
+}
+
+.wallet-actions .action h3{
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.wallet-actions .action input{
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    background-color: #fff;
+}
+
+.wallet-actions .action button{
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.wallet-actions .action button:hover{
+    background-color: #0056b3;
+}
+
+.wallet-history{
+    margin-top: 20px;
+}
+
+.wallet-history h3{
+    font-size: 18px;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.wallet-history table{
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.wallet-history th, .wallet-history td{
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+.wallet-history th{
+    background-color: #f9f9f9;
+    font-weight: bold;
+}
+
+.wallet-history td{
+    background-color: #fff;
+}
+
+.wallet-history tr:nth-child(even){
+    background-color: #f2f2f2;
+}
+.wallet-history tr:hover{
+    background-color: #f1f1f1;
+}
+
+.wallet-history .no-records{
+    text-align: center;
+    font-size: 16px;
+    color: #999;
+    margin-top: 20px;
+}
+
+.positive {
+    color: green; /* Cor para valores positivos */
+    font-weight: bold; /* Deixa o texto em negrito */
+}
+
+.negative {
+    color: red; /* Cor para valores negativos */
+    font-weight: bold; /* Deixa o texto em negrito */
+}
+
+.pagination{
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+
+
+
+
+
+
+
