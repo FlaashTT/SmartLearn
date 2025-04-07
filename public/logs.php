@@ -1,5 +1,6 @@
 <?php
-include('../database/basedados.sql');
+include('../../database/basedados.sql');
+
 function criarLogs($tipoLog, $idUser, $saldo = null, $idCurso = null, $idCategoria = null)
 { //devemos por mais campos,ter de ver depois oq vai ser necesario
     global $conn;

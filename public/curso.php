@@ -1,6 +1,6 @@
 <?php
-include('../public/segurança.php');
-include('../database/basedados.sql');
+include('segurança.php');
+include('../../database/basedados.sql');
 
 $erro = false;
 
@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
 
-} else {
+} /*else {
     echo "
     <script>
         alert('Erro de ligação, pedimos desculpa!');
@@ -24,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     ";
     exit();
 }
-
+*/
 
 if($erro){
     echo "

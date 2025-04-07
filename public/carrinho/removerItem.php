@@ -1,7 +1,7 @@
 <?php
 session_start();
-include("../public/segurança.php");
-include("../database/basedados.sql");
+include("../segurança.php");
+include("../../database/basedados.sql");
 
 $erro = false;
 

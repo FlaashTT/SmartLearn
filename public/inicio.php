@@ -63,8 +63,8 @@ include("../database/basedados.sql");
                         echo '
                         
                         <ul class="nav-links">
-                            <li><a href="../public/login.php" class="nav-item">Conecte-se</a></li>
-                            <li><a href="../public/registo.php" class="btn">Inscrever-se</a></li>
+                            <li><a href="../public/autenticacao/login.php" class="nav-item">Conecte-se</a></li>
+                            <li><a href="../public/autenticacao/registo.php" class="btn">Inscrever-se</a></li>
                         </ul>
                     ';
                     } else {
@@ -82,22 +82,22 @@ include("../database/basedados.sql");
                                 </a>
                             </li>
                             <li>
-                                <a href="../public/perfil_cursos.php" class="nav-item">
+                                <a href="../public/perfil/perfil_cursos.php" class="nav-item">
                                     Meus Cursos
                                 </a>
                             </li>
                             <li>
-                                <a href="#" class="nav-item">
+                                <a href="../public/perfil/perfil_favoritos.php" class="nav-item">
                                     <i class="fa-regular fa-heart"></i>
                                 </a>
                             </li>
                             <li>
-                                <a href="../public/carrinho.php" class="nav-item">
+                                <a href="../public/carrinho/carrinho.php" class="nav-item">
                                     <i class="fa-solid fa-cart-shopping"></i>
                                 </a>
                             </li>
                             <li>
-                                <a href="#" class="nav-item">
+                                <a href="../public/perfil/perfil_cursos.php" class="nav-item">
                                     <i class="fa-regular fa-circle-user"></i>
                                 </a>
                             </li>
@@ -255,7 +255,7 @@ include("../database/basedados.sql");
 
                          }else{
                             echo '
-                                <form action="../public/adicionarAocarrinho.php" method="POST">
+                                <form action="../public/carrinho/adicionarAocarrinho.php" method="POST">
                                     <button class="btn-buy" type="submit" name="IdCurso" value="' . $row['Id_curso'] . '">Comprar</button>
                                 </form>';
                          }

@@ -1,7 +1,7 @@
 <?php
 
-include('../public/segurança.php');
-include('../database/basedados.sql');
+include('../segurança.php');
+include('../../database/basedados.sql');
 ?>
 
 
@@ -14,15 +14,15 @@ include('../database/basedados.sql');
     <title>SmartLearn</title>
     <link
         rel="stylesheet"
-        href="../assets/fontawesome/fontawesome/css/all.min.css" />
-    <link rel="stylesheet" href="../assets/css/style_user.css" />
-    <link rel="stylesheet" href="../assets/css/style_carrinho.css" />
+        href="../../assets/fontawesome/fontawesome/css/all.min.css" />
+    <link rel="stylesheet" href="../../assets/css/style_user.css" />
+    <link rel="stylesheet" href="../../assets/css/style_carrinho.css" />
 </head>
 
 <body>
     <!-- Cabeçalho -->
     <?php
-    include("../src/views/utilitarios/cabecalho.html");
+    include("../../src/views/utils/cabecalho.html");
     ?>
 
     <!-- Secção Principal (Hero) -->
@@ -104,7 +104,7 @@ include('../database/basedados.sql');
                         <div class="cart-item">
                             <span>' . $row["Nome_curso"] . '</span>
                             <span>' . $row["Preco"] . '€</span>
-                            <form action="../public/removerItem.php" method="POST">
+                            <form action="removerItem.php" method="POST">
                                 <button type="submit" class="remove" name="id_carrinho" value="' . $row['Id_carrinho'] . '">Remover</button>
                             </form>
                         </div>        

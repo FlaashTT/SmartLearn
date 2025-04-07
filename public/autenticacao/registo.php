@@ -7,11 +7,11 @@
   <title>SmartLearn</title>
   <link
     rel="stylesheet"
-    href="../assets/fontawesome/fontawesome/css/all.min.css" />
-  <link rel="stylesheet" href="../assets/css/style.css" />
-  <link rel="stylesheet" href="../assets/css/style_registro.css" />
+    href="../../assets/fontawesome/fontawesome/css/all.min.css" />
+  <link rel="stylesheet" href="../../assets/css/style.css" />
+  <link rel="stylesheet" href="../../assets/css/style_registro.css" />
 
-  <script src="../assets/js/registo.js"></script>
+  <script src="../../assets/js/registo.js"></script>
 </head>
 
 <body>
@@ -21,14 +21,14 @@
       <nav>
         <div class="nav-left">
           <div class="logo">
-            <a href="../public/inicio.php"><img src="../assets/image/Logo.png" alt="Logo" /></a>
+            <a href="../public/inicio.php"><img src="../../assets/image/Logo.png" alt="Logo" /></a>
             <span class="brand-name">SmartLearn</span>
           </div>
 
         </div>
         <div class="nav-right">
           <ul class="nav-links">
-            <li><a href="../public/login.php" class="nav-item">Conecte-se</a></li>
+            <li><a href="login.php" class="nav-item">Conecte-se</a></li>
             <li><a href="#" class="btn">Inscrever-se</a></li>
           </ul>
         </div>
@@ -49,7 +49,7 @@
 
       <div class="image-box">
         <video width="100%" height="100%" autoplay loop muted>
-          <source src="../assets/video/registro.mp4" type="video/mp4">
+          <source src="../../assets/video/registro.mp4" type="video/mp4">
         </video>
       </div>
 
@@ -65,7 +65,7 @@
         <label for="">Senha:</label>
         <input type="password" name="senha" id="passwordInput" placeholder="Senha" required>
         <button type="submit" id="buttonSubmit">Registrar</button>
-        <p>Já tem uma conta? <a href="../public/login.php">Conecte-se</a></p>
+        <p>Já tem uma conta? <a href="login.php">Conecte-se</a></p>
       </form>
     </section>
 
@@ -74,10 +74,10 @@
   <!-- Rodapé -->
   <footer class="footer">
     <div class="footer-map">
-      <!-- Aqui podes adicionar um iframe com o Google Maps 
-        <iframe src="https://g.co/kgs/bK5fDXa"
+       Aqui podes adicionar um iframe com o Google Maps 
+        <iframe src=""
                 width="100%" height="300" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
-                -->
+                
     </div>
     <div class="container footer-content">
       <p>2025 Copyright by Leando Pinto e Ruben Pinheiro</p>
@@ -99,10 +99,8 @@
 
 <?php
 session_start();
-define("ACCESS_ALLOWED", true);
-require_once '../config.php';
-include('../database/basedados.sql');
-include("../public/logs.php");
+include("../../database/basedados.sql");
+include("../gestao/logs.php");
 
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -148,27 +146,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
   if ($stmt->execute()) {
     echo "
-          <script>
+        <script>
             alert('Conta criada com sucesso. Bem-vindo, " . addslashes($primeiroNome) . "!');
-            
-          </script>";
-    //para inserir logs no sistema
+            window.location.href = 'login.php';
+        </script>
+    ";
+    
     $userID = $conn->insert_id;
     criarLogs("Novo Registo", $userID);
-
-    echo"
-    <script>  
-    window.location.href = '../public/login.php'; 
-    </script
-    ";
-  } else {
+} else {
     echo "<script>alert('Erro ao criar utilizador.Tente mais tarde') </script>";
   }
 
   $stmt->close();
   $conn->close();
-} else {
-  echo "Erro de ligação! ";
-}
+} 
 
 ?>

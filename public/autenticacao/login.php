@@ -7,9 +7,9 @@
   <title>SmartLearn</title>
   <link
     rel="stylesheet"
-    href="../assets/fontawesome/fontawesome/css/all.min.css" />
-  <link rel="stylesheet" href="../assets/css/style.css" />
-  <link rel="stylesheet" href="../assets/css/style_login.css" />
+    href="../../assets/fontawesome/fontawesome/css/all.min.css" />
+  <link rel="stylesheet" href="../../assets/css/style.css" />
+  <link rel="stylesheet" href="../../assets/css/style_login.css" />
 </head>
 
 <body>
@@ -19,14 +19,14 @@
       <nav>
         <div class="nav-left">
           <div class="logo">
-            <a href="inicio.php"><img src="../assets/image/Logo.png" alt="Logo" /></a>
+            <a href="inicio.php"><img src="../../assets/image/Logo.png" alt="Logo" /></a>
             <span class="brand-name">SmartLearn</span>
           </div>
         </div>
         <div class="nav-right">
           <ul class="nav-links">
             <li><a href="#" class="nav-item">Conecte-se</a></li>
-            <li><a href="../public/registo.php" class="btn">Inscrever-se</a></li>
+            <li><a href="../autenticacao/registo.php" class="btn">Inscrever-se</a></li>
           </ul>
         </div>
       </nav>
@@ -46,7 +46,7 @@
 
       <div class="image-box">
         <video width="100%" height="100%" autoplay loop muted>
-          <source src="../assets/video/Login.mp4" type="video/mp4">
+          <source src="../../assets/video/Login.mp4" type="video/mp4">
         </video>
       </div>
 
@@ -58,7 +58,7 @@
         <label for="">Senha:</label>
         <input type="password" name="senha" placeholder="Senha" required>
         <button type="submit">Entrar</button>
-        <p>Não tem conta? <a href="../public/registo.php">Registe-se agora!</a></p>
+        <p>Não tem conta? <a href="../autenticacao/registo.php ">Registe-se agora!</a></p>
       </form>
     </section>
 
@@ -88,12 +88,7 @@
 
 <?php
 session_start();
-define("ACCESS_ALLOWED", true);
-require_once '../config.php';
-
-
-
-include('../database/basedados.sql');
+include('../../database/basedados.sql');
 
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -119,7 +114,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       $_SESSION['utilizadorOn'] = $user;
       echo "<script>
               alert('Bem-vindo de volta, " . addslashes($user['PNome_user']) . "!');
-              window.location.href = '../public/inicio.php';
+              window.location.href = '../inicio.php';
           </script>";
       exit;
     } else {
@@ -128,7 +123,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   } else {
     echo "<script>alert('Credenciais invalidas!')</script>";
   }
-} else {
-  echo "Erro de ligação!";
 }
 ?>

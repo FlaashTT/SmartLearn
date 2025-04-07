@@ -1,6 +1,6 @@
 <?php
-include('../public/segurança.php');
-include('../database/basedados.sql');
+include('../segurança.php');
+include('../../database/basedados.sql');
 
 // Verifica se o parâmetro category_id está na URL
 $category_id = isset($_GET['category_id']) ? (int)$_GET['category_id'] : null;
@@ -13,74 +13,23 @@ $category_id = isset($_GET['category_id']) ? (int)$_GET['category_id'] : null;
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>SmartLearn</title>
-    <link rel="stylesheet" href="../assets/fontawesome/fontawesome/css/all.min.css" />
-    <link rel="stylesheet" href="../assets/css/style_user.css" />
-    <link rel="stylesheet" href="../assets/css/style_perfil_curso.css" />
+    <link rel="stylesheet" href="../../assets/fontawesome/fontawesome/css/all.min.css" />
+    <link rel="stylesheet" href="../../assets/css/style_user.css" />
+    <link rel="stylesheet" href="../../assets/css/style_perfil_curso.css" />
 </head>
 
 <body>
     <!-- Cabeçalho -->
-    <header>
-        <div class="container">
-            <nav>
-                <div class="nav-left">
-                    <div class="logo">
-                        <a href="inicio.php"><img src="../assets/image/Logo.png" alt="Logo" /></a>
-                        <span class="brand-name">SmartLearn</span>
-                    </div>
-                    <ul class="nav-links">
-                        <li>
-                            <a href="#" class="nav-item">
-                                <i class="fas fa-bars"></i> Categorias
-                            </a>
-                        </li>
-                        <li>
-                            <input type="text" placeholder="Pesquisar cursos..." class="search-input" />
-                        </li>
-                    </ul>
-                </div>
-                <div class="nav-right">
-                    <ul class="nav-links">
-                        <li><a href="#" class="nav-item">Tutorial</a></li>
-                        <li><a href="#" class="nav-item">Meus Cursos</a></li>
-                        <li><a href="#" class="nav-item"><i class="fa-regular fa-heart"></i></a></li>
-                        <li><a href="#" class="nav-item"><i class="fa-solid fa-cart-shopping"></i></a></li>
-                        <li><a href="/src/registo.php" class="nav-item"><i class="fa-regular fa-circle-user"></i></a></li>
-                    </ul>
-                </div>
-            </nav>
-        </div>
-    </header>
+    <?php
+        include("../../src/views/utils/cabecalho.html");
+    ?>
 
     <!-- Secção Principal (Hero) -->
     <div class="banner"></div>
     <main class="container-perfil">
-        <aside class="sidebar">
-            <div class="user-info">
-                <div class="avatar">
-                    <img src="../assets/image/User.png" alt="Erro">
-                </div>
-                <div class="user-details">
-                    <?php
-                    echo '
-                        <p>' . $_SESSION['utilizadorOn']['PNome_user'] . ' ' . $_SESSION['utilizadorOn']['SNome_user'] . '</p>
-                        <p>' . $_SESSION['utilizadorOn']['Email'] . '</p>
-                    ';
-                    ?>
-                </div>
-            </div>
-
-            <ul class="menu">
-                <li onclick="window.location.href='#'"><i class="fa-solid fa-book"></i> Meus Cursos</li>
-                <li onclick="window.location.href='#'"><i class="fa-solid fa-heart"></i> Minha Lista de Desejos</li>
-                <li onclick="window.location.href='#'"><i class="fa-solid fa-clock"></i> Histórico de Compras</li>
-                <li onclick="window.location.href='#'"><i class="fa-solid fa-user"></i> Perfil de utilizador</li>
-                <li onclick="window.location.href='#'"><i class="fa-solid fa-gear"></i> Conta</li>
-                <li onclick="window.location.href='#'"><i class="fa-solid fa-wallet"></i> Carteira</li>
-            </ul>
-
-            <button onclick="window.location.href='logout.php'" class="logout">Sair</button>
-        </aside>
+        <?php
+            include("../../src/views/utils/sidebar.html");
+        ?>
 
         <section class="content">
             <div class="filters">
@@ -126,7 +75,7 @@ $category_id = isset($_GET['category_id']) ? (int)$_GET['category_id'] : null;
                         echo '
                         <div class="course-card">
                             <div class="course-image">
-                                <img src="' . $row['URL_foto_perfil_curso'] . '" alt="erro" style="width: 210px; height: 150px;">
+                                <img src="../' . $row['URL_foto_perfil_curso'] . '" alt="erro" style="width: 210px; height: 150px;">
                             </div>
                             <div class="course-info">
                                 <h3>' . $row['Nome_curso'] . '</h3>
@@ -146,7 +95,7 @@ $category_id = isset($_GET['category_id']) ? (int)$_GET['category_id'] : null;
                         }
                         echo '
                                 </div>
-                                <form action="../public/curso.php" method="POST">
+                                <form action="../curso.php" method="POST">
                         ';
                         if($row['Percentagem_progresso'] == 0){
                             echo'

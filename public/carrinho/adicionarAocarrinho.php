@@ -1,7 +1,8 @@
 <?php
 session_start();
-include('../public/segurança.php');
-include('../database/basedados.sql');
+include('../segurança.php');
+include('../../database/basedados.sql');
+
 $erro = false;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -47,7 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     echo "
                 <script>
                 if(confirm('Adicionado ao carrinho, deseja ir para o carrinho?')){
-                window.location.href ='../public/carrinho.php';
+                window.location.href ='carrinho.php';
         }else{
 
                 window.history.back();
