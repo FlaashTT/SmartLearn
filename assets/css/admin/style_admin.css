@@ -1,0 +1,153 @@
+/* Reset básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    color: #333;
+}
+
+
+/* ---------- Cabeçalho ---------- */
+header {
+    background-color: #f8f8f8;
+    border-bottom: 1px solid #ddd;
+    padding: 1rem 0;
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-left {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background-color: transparent;
+}
+
+.logo img {
+    height: 50px;
+}
+  
+.brand-name {
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+  
+.nav-links li {
+    display: flex;
+    align-items: center;
+}
+
+
+.nav-item {
+    display: inline-block; /* Torna o link um bloco clicável */
+    text-decoration: none;
+    color: #333;
+    font-size: 0.95rem;
+    padding: 5px 10px; /* Aumenta a área clicável */
+    border-radius: 4px; /* Adiciona bordas arredondadas */
+    transition: all 0.3s ease; /* Transição suave para o hover */
+}
+
+.nav-item:hover {
+    background-color: #007BFF; /* Fundo azul ao passar o mouse */
+    color: #fff; /* Cor do texto ao passar o mouse */
+}
+
+
+.avatar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    overflow: hidden;
+}
+
+.avatar-image {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-left: 1rem;
+    margin-right: 10px;
+}   
+ 
+.profile-info{
+    align-items: center;
+    text-align: center;
+}
+
+.profile-info p {
+    margin: 0;
+    margin-top: 5px;
+    font-size: 0.9rem;
+    color: #333;
+    font-weight: semibold;
+}
+
+.profile-info .Name {
+    font-size: 0.9rem;
+    color: #4b9cff;
+}
+
+.back-button{
+    background-color: #4b9cff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    cursor: pointer;
+}
+
+.nav-right {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 10px 15px; /* Espaçamento interno */
+    background-color: #fff; /* Fundo branco */
+    border-radius: 8px; /* Bordas arredondadas */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra leve */
+}
+
+.nav-right .nav-item {
+    margin-left: 0; /* Remove a margem esquerda do último item */
+}
+
+
+/* ---------- Rodapé ---------- 
+.footer {
+    background-color: #f0f0f0;
+    padding: 1rem 0;
+    margin-top: 2rem;
+    border-top: 1px solid #ccc;
+    text-align: center;
+  }
+  
+  .footer-content p {
+    font-size: 0.9rem;
+    color: #000000;
+    line-height: 1.4;
+    margin-bottom: 0.5rem;
+  }
+
+*/
