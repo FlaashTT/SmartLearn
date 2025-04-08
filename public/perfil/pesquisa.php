@@ -1,5 +1,5 @@
 <?php
-include("../../database/basedados.sql");
+
 
 function pesquisaFiltro($tabela, $Id_user, $categoria = null, $textoPesquisa = null)
 {

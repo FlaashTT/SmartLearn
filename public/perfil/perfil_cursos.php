@@ -1,10 +1,47 @@
 <?php
 include('../segurança.php');
+include("../../database/basedados.sql");
 include('pesquisa.php');
 
-// Verifica se o parâmetro category_id e search estão na URL
-$category_id = isset($_GET['category_id']) ? (int)$_GET['category_id'] : null;
-$textoPesquisa = isset($_GET['search']) ? '%' . $_GET['search'] . '%' : null;
+// Verifica se existe algum filtro
+$category_id = isset($_POST['category_id']) ? (int)$_POST['category_id'] : null;
+$textoPesquisa = isset($_POST['search']) ? '%' . $_POST['search'] . '%' : null;
+
+// Número de cursos por página
+$por_pagina = 9;
+
+// Calcular a página atual
+$pagina_atual = isset($_GET['pagina']) ? (int)$_GET['pagina'] : 1;
+$offset = ($pagina_atual - 1) * $por_pagina;
+
+// Consultar o número total de cursos
+$sql_total = "SELECT COUNT(*) as total FROM cursos_adquiridos WHERE Id_user = ?";
+$stmt_total = $conn->prepare($sql_total);
+$stmt_total->bind_param("i", $_SESSION['utilizadorOn']['Id_user']);
+$stmt_total->execute();
+$result_total = $stmt_total->get_result();
+$total_cursos = $result_total->fetch_assoc()['total'];
+
+// Calcular o número total de páginas
+$total_paginas = ceil($total_cursos / $por_pagina);
+
+
+$sql = pesquisaFiltro("cursos_adquiridos", $_SESSION['utilizadorOn']['Id_user'], $category_id, $textoPesquisa);
+$sql .= " LIMIT ? OFFSET ?";
+$stmt = $conn->prepare($sql);
+
+// para usar o bind correto conforme os filtros
+if ($category_id && $textoPesquisa) {
+    $stmt->bind_param("iisii", $_SESSION['utilizadorOn']['Id_user'], $category_id, $textoPesquisa, $por_pagina, $offset);
+} else if ($category_id) {
+    $stmt->bind_param("iiii", $_SESSION['utilizadorOn']['Id_user'], $category_id, $por_pagina, $offset);
+} else if ($textoPesquisa) {
+    $stmt->bind_param("isii", $_SESSION['utilizadorOn']['Id_user'], $textoPesquisa, $por_pagina, $offset);
+} else {
+    $stmt->bind_param("iii", $_SESSION['utilizadorOn']['Id_user'], $por_pagina, $offset);
+}
+$stmt->execute();
+$result = $stmt->get_result();
 ?>
 
 <!DOCTYPE html>
@@ -20,24 +57,29 @@ $textoPesquisa = isset($_GET['search']) ? '%' . $_GET['search'] . '%' : null;
 </head>
 
 <body>
-    <!-- Cabeçalho -->
-    <?php include("../../src/views/utils/cabecalho.html"); ?>
+    <?php
+    include("../../src/views/utils/cabecalho.html");
+    ?>
 
-    <!-- Secção Principal (Hero) -->
     <div class="banner"></div>
     <main class="container-perfil">
-        <?php include("../../src/views/utils/sidebar.html"); ?>
+        <?php
+        include("../../src/views/utils/sidebar.html");
+        ?>
 
         <section class="content">
             <div class="filters">
                 <button class="category-btn">
                     Categorias <i class="fa-solid fa-chevron-down"></i>
                 </button>
-                <button class="reset-btn" onclick="window.location.href='perfil_cursos.php'">Reiniciar</button>
+                <form method="POST">
+                    <input type="hidden" name="reset" value="1" />
+                    <button class="reset-btn" type="submit">Reiniciar</button>
+                </form>
                 <div class="search-container">
-                    <form method="GET">
-                        <?php if ($category_id) echo '<input type="hidden" name="category_id" value="' . $category_id . '">'; ?>
-                        <input type="text" name="search" placeholder="Pesquisar meus cursos" class="search-my-courses" value="<?php echo isset($_GET['search']) ? htmlspecialchars($_GET['search']) : ''; ?>" />
+                    <form method="POST" id="filterForm">
+                        <?php if ($category_id !== null) echo '<input type="hidden" name="category_id" value="' . $category_id . '">'; ?>
+                        <input type="text" name="search" placeholder="Pesquisar meus cursos" class="search-my-courses" value="<?php echo isset($_POST['search']) ? htmlspecialchars($_POST['search']) : ''; ?>" />
                         <button class="search-button" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
                     </form>
                 </div>
@@ -45,24 +87,6 @@ $textoPesquisa = isset($_GET['search']) ? '%' . $_GET['search'] . '%' : null;
 
             <div class="content-card">
                 <?php
-                include("../../database/basedados.sql");
-
-                $sql = pesquisaFiltro("cursos_adquiridos", $_SESSION['utilizadorOn']['Id_user'], $category_id, $textoPesquisa);
-                $stmt = $conn->prepare($sql);
-
-                if ($category_id && $textoPesquisa) {
-                    $stmt->bind_param("iis", $_SESSION['utilizadorOn']['Id_user'], $category_id, $textoPesquisa);
-                } else if ($category_id) {
-                    $stmt->bind_param("ii", $_SESSION['utilizadorOn']['Id_user'], $category_id);
-                } else if ($textoPesquisa) {
-                    $stmt->bind_param("is", $_SESSION['utilizadorOn']['Id_user'], $textoPesquisa);
-                } else {
-                    $stmt->bind_param("i", $_SESSION['utilizadorOn']['Id_user']);
-                }
-
-                $stmt->execute();
-                $result = $stmt->get_result();
-
                 if ($result->num_rows > 0) {
                     while ($row = $result->fetch_assoc()) {
                         echo '
@@ -78,24 +102,24 @@ $textoPesquisa = isset($_GET['search']) ? '%' . $_GET['search'] . '%' : null;
                                 </div>
                                 <p>' . $row['Percentagem_progresso'] . '% Concluído</p>
                                 <div class="stars">';
-                                    if ($row['Classificacao'] == 0) {
-                                        echo "Sem classificação";
-                                    } else {
-                                        for ($i = 0; $i < $row['Classificacao']; $i++) {
-                                            echo ' <i class="fa-regular fa-star"></i>';
-                                        }
-                                    }
-                                    echo '
+                        if ($row['Classificacao'] == 0) {
+                            echo "Sem classificação";
+                        } else {
+                            for ($i = 0; $i < $row['Classificacao']; $i++) {
+                                echo ' <i class="fa-regular fa-star"></i>';
+                            }
+                        }
+                        echo '
                                 </div>
                                 <form action="../curso.php" method="POST">';
-                                    if ($row['Percentagem_progresso'] == 0) {
-                                        echo '<button class="start-button" type="submit" name="idCurso" value="' . $row['Id_curso'] . '">Iniciar aula</button>';
-                                    } else if ($row['Percentagem_progresso'] < 100) {
-                                        echo '<button class="start-button" type="submit" name="idCurso" value="' . $row['Id_curso'] . '">Continuar aula</button>';
-                                    } else {
-                                        echo '<button class="start-button" type="submit" name="idCurso" value="' . $row['Id_curso'] . '">Rever aula</button>';
-                                    }
-                                    echo '
+                        if ($row['Percentagem_progresso'] == 0) {
+                            echo '<button class="start-button" type="submit" name="idCurso" value="' . $row['Id_curso'] . '">Iniciar aula</button>';
+                        } else if ($row['Percentagem_progresso'] < 100) {
+                            echo '<button class="start-button" type="submit" name="idCurso" value="' . $row['Id_curso'] . '">Continuar aula</button>';
+                        } else {
+                            echo '<button class="start-button" type="submit" name="idCurso" value="' . $row['Id_curso'] . '">Rever aula</button>';
+                        }
+                        echo '
                                 </form>
                             </div>
                         </div>';
@@ -105,6 +129,20 @@ $textoPesquisa = isset($_GET['search']) ? '%' . $_GET['search'] . '%' : null;
                 }
                 ?>
             </div>
+
+            <!-- Paginação -->
+            <div class="paginacao">
+                <?php if ($pagina_atual > 1) : ?>
+                    <a href="?pagina=<?= $pagina_atual - 1 ?>&origem=<?= urlencode($origemFiltro) ?>&destino=<?= urlencode($destinoFiltro) ?>&data=<?= urlencode($dataFiltro) ?>">Anterior</a>
+                <?php endif; ?>
+
+                <span>Página <?= $pagina_atual ?> de <?= $total_paginas ?></span>
+
+                <?php if ($pagina_atual < $total_paginas) : ?>
+                    <a href="?pagina=<?= $pagina_atual + 1 ?>&origem=<?= urlencode($origemFiltro) ?>&destino=<?= urlencode($destinoFiltro) ?>&data=<?= urlencode($dataFiltro) ?>">Próxima</a>
+                <?php endif; ?>
+            </div>
+
         </section>
     </main>
 
@@ -145,6 +183,7 @@ $textoPesquisa = isset($_GET['search']) ? '%' . $_GET['search'] . '%' : null;
         const categoryBtn = document.querySelector('.category-btn');
         const modal = document.getElementById('category-modal');
         const closeBtn = document.querySelector('.close-btn');
+        const filterForm = document.getElementById('filterForm');
 
         categoryBtn.addEventListener('click', () => {
             modal.style.display = 'flex';
@@ -163,10 +202,17 @@ $textoPesquisa = isset($_GET['search']) ? '%' . $_GET['search'] . '%' : null;
         categoryItems.forEach(item => {
             item.addEventListener('click', () => {
                 const categoryId = item.getAttribute('data-category-id');
-                const searchValue = new URLSearchParams(window.location.search).get("search") || "";
-                window.location.href = `?category_id=${categoryId}&search=${encodeURIComponent(searchValue)}`;
+
+                let input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = 'category_id';
+                input.value = categoryId;
+
+                filterForm.appendChild(input);
+                filterForm.submit();
             });
         });
     </script>
 </body>
+
 </html>
