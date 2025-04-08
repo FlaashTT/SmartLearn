@@ -186,7 +186,7 @@
 
 .course-card {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+  grid-template-columns: repeat(3, 1fr); /* Sempre cria 3 colunas */
   gap: 20px; 
   max-width: 1200px; 
   margin: 0 auto; 
