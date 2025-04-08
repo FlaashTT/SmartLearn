@@ -23,14 +23,13 @@ $result_total = $stmt_total->get_result();
 $total_cursos = $result_total->fetch_assoc()['total'];
 
 // Calcular o número total de páginas
-$total_paginas = ceil($total_cursos / $por_pagina);
+$total_paginas = $total_cursos > 0 ? ceil($total_cursos / $por_pagina) : 1;
 
-
-$sql = pesquisaFiltro("cursos_adquiridos", $_SESSION['utilizadorOn']['Id_user'], $category_id, $textoPesquisa);
+$sql = pesquisaFiltro("cursos_favoritos", $_SESSION['utilizadorOn']['Id_user'], $category_id, $textoPesquisa);
 $sql .= " LIMIT ? OFFSET ?";
 $stmt = $conn->prepare($sql);
 
-// para usar o bind correto conforme os filtros
+// Para usar o bind correto conforme os filtros
 if ($category_id && $textoPesquisa) {
     $stmt->bind_param("iisii", $_SESSION['utilizadorOn']['Id_user'], $category_id, $textoPesquisa, $por_pagina, $offset);
 } else if ($category_id) {
@@ -53,21 +52,24 @@ $result = $stmt->get_result();
     <title>SmartLearn</title>
     <link rel="stylesheet" href="../../assets/fontawesome/fontawesome/css/all.min.css" />
     <link rel="stylesheet" href="../../assets/css/style_user.css" />
-    <link rel="stylesheet" href="../../assets/css/style_perfil_curso.css" />
+    <link rel="stylesheet" href="../../assets/css/style_perfil_favoritos.css" />
 </head>
 
 <body>
+    <!-- Cabeçalho -->
     <?php
     include("../../src/views/utils/cabecalho.html");
     ?>
 
+    <!-- Secção Principal (Hero) -->
     <div class="banner"></div>
     <main class="container-perfil">
+
         <?php
         include("../../src/views/utils/sidebar.html");
         ?>
-
         <section class="content">
+
             <div class="filters">
                 <button class="category-btn">
                     Categorias <i class="fa-solid fa-chevron-down"></i>
@@ -90,39 +92,21 @@ $result = $stmt->get_result();
                 if ($result->num_rows > 0) {
                     while ($row = $result->fetch_assoc()) {
                         echo '
-                        <div class="course-card">
-                            <div class="course-image">
-                                <img src="../' . $row['URL_foto_perfil_curso'] . '" alt="erro" style="width: 210px; height: 150px;">
-                            </div>
-                            <div class="course-info">
-                                <h3>' . $row['Nome_curso'] . '</h3>
-                                <hr>
-                                <div class="progress-bar">
-                                    <div class="progress" style="width: ' . $row['Percentagem_progresso'] . '%;"></div>
+                            <div class="course-card">
+                                <div class="course-image">
+                                    <img src="../'.$row['URL_foto_perfil_curso'].'" alt="Erro" style="width: 210px; height: 150px;">
                                 </div>
-                                <p>' . $row['Percentagem_progresso'] . '% Concluído</p>
-                                <div class="stars">';
-                        if ($row['Classificacao'] == 0) {
-                            echo "Sem classificação";
-                        } else {
-                            for ($i = 0; $i < $row['Classificacao']; $i++) {
-                                echo ' <i class="fa-regular fa-star"></i>';
-                            }
-                        }
-                        echo '
+                                <div class="course-info">
+                                    <h3>'.$row['Nome_curso'].'</h3>
+                                    <div class="stars">
+                                        <i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i>
+                                    </div>
+                                    <form method="POST" action="removerFav.php">
+                                        <button class="start-button" name="idFav" value="' . $row['Id_curso'] . '">Remover dos favoritos</button>
+                                    </form>
                                 </div>
-                                <form action="../curso.php" method="POST">';
-                        if ($row['Percentagem_progresso'] == 0) {
-                            echo '<button class="start-button" type="submit" name="idCurso" value="' . $row['Id_curso'] . '">Iniciar aula</button>';
-                        } else if ($row['Percentagem_progresso'] < 100) {
-                            echo '<button class="start-button" type="submit" name="idCurso" value="' . $row['Id_curso'] . '">Continuar aula</button>';
-                        } else {
-                            echo '<button class="start-button" type="submit" name="idCurso" value="' . $row['Id_curso'] . '">Rever aula</button>';
-                        }
-                        echo '
-                                </form>
                             </div>
-                        </div>';
+                        ';
                     }
                 } else {
                     echo "<p>Sem cursos disponíveis nesta categoria ou com esse termo.</p>";
@@ -133,16 +117,15 @@ $result = $stmt->get_result();
             <!-- Paginação -->
             <div class="paginacao">
                 <?php if ($pagina_atual > 1) : ?>
-                    <a href="?pagina=<?= $pagina_atual - 1 ?>&origem=<?= urlencode($origemFiltro) ?>&destino=<?= urlencode($destinoFiltro) ?>&data=<?= urlencode($dataFiltro) ?>">Anterior</a>
+                    <a href="?pagina=<?= $pagina_atual - 1 ?>&category_id=<?= $category_id ?>&search=<?= urlencode($textoPesquisa) ?>">Anterior</a>
                 <?php endif; ?>
 
                 <span>Página <?= $pagina_atual ?> de <?= $total_paginas ?></span>
 
                 <?php if ($pagina_atual < $total_paginas) : ?>
-                    <a href="?pagina=<?= $pagina_atual + 1 ?>&origem=<?= urlencode($origemFiltro) ?>&destino=<?= urlencode($destinoFiltro) ?>&data=<?= urlencode($dataFiltro) ?>">Próxima</a>
+                    <a href="?pagina=<?= $pagina_atual + 1 ?>&category_id=<?= $category_id ?>&search=<?= urlencode($textoPesquisa) ?>">Próxima</a>
                 <?php endif; ?>
             </div>
-
         </section>
     </main>
 
@@ -166,9 +149,12 @@ $result = $stmt->get_result();
         </div>
     </div>
 
+    <!-- Rodapé -->
     <footer class="footer">
         <div class="footer-map">
-            <iframe src="" width="100%" height="300" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
+            <!-- Aqui podes adicionar um iframe com o Google Maps -->
+            <iframe src="#"
+                width="100%" height="300" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
         </div>
         <div class="container footer-content">
             <p>2025 Copyright by Leando Pinto e Ruben Pinheiro</p>
@@ -179,38 +165,26 @@ $result = $stmt->get_result();
     </footer>
 
     <script>
-        const categoryItems = document.querySelectorAll('.category-item');
+        // Seleciona o botão e o modal
         const categoryBtn = document.querySelector('.category-btn');
         const modal = document.getElementById('category-modal');
         const closeBtn = document.querySelector('.close-btn');
-        const filterForm = document.getElementById('filterForm');
 
+        // Abre o modal ao clicar no botão
         categoryBtn.addEventListener('click', () => {
-            modal.style.display = 'flex';
+            modal.style.display = 'flex'; // Mostra o modal
         });
 
+        // Fecha o modal ao clicar no botão de fechar
         closeBtn.addEventListener('click', () => {
-            modal.style.display = 'none';
+            modal.style.display = 'none'; // Oculta o modal
         });
 
+        // Fecha o modal ao clicar fora do conteúdo
         window.addEventListener('click', (event) => {
             if (event.target === modal) {
                 modal.style.display = 'none';
             }
-        });
-
-        categoryItems.forEach(item => {
-            item.addEventListener('click', () => {
-                const categoryId = item.getAttribute('data-category-id');
-
-                let input = document.createElement('input');
-                input.type = 'hidden';
-                input.name = 'category_id';
-                input.value = categoryId;
-
-                filterForm.appendChild(input);
-                filterForm.submit();
-            });
         });
     </script>
 </body>
