@@ -85,32 +85,32 @@ $category_id = isset($_GET['category_id']) ? (int)$_GET['category_id'] : null;
                                 </div>
                                 <p>' . $row['Percentagem_progresso'] . '% Concluído</p>
                                 <div class="stars">
-                        ';
-                        if ($row['Classificacao'] == 0) {
-                            echo "Sem classificação";
-                        } else {
-                            for ($i = 0; $i < $row['Classificacao']; $i++) {
-                                echo ' <i class="fa-regular fa-star"></i>';
-                            }
-                        }
-                        echo '
+                                    ';
+                                    if ($row['Classificacao'] == 0) {
+                                        echo "Sem classificação";
+                                    } else {
+                                        for ($i = 0; $i < $row['Classificacao']; $i++) {
+                                            echo ' <i class="fa-regular fa-star"></i>';
+                                        }
+                                    }
+                                    echo '
                                 </div>
                                 <form action="../curso.php" method="POST">
-                        ';
-                        if ($row['Percentagem_progresso'] == 0) {
-                            echo '
-                            <button class="start-button" type="submit" name = "idCurso" value=' . $row['Id_curso'] . '>Iniciar aula</button>
-                            ';
-                        } else if ($row['Percentagem_progresso'] > 0 && $row['Percentagem_progresso'] < 100) {
-                            echo '
-                            <button class="start-button" type="submit" name = "idCurso" value=' . $row['Id_curso'] . '>Continuar aula</button>
-                            ';
-                        } else if ($row['Percentagem_progresso'] == 100) {
-                            echo '
-                            <button class="start-button" type="submit" name = "idCurso" value=' . $row['Id_curso'] . '>Rever aula</button>
-                            ';
-                        }
-                        echo '
+                                    ';
+                                    if ($row['Percentagem_progresso'] == 0) {
+                                        echo '
+                                        <button class="start-button" type="submit" name = "idCurso" value=' . $row['Id_curso'] . '>Iniciar aula</button>
+                                        ';
+                                    } else if ($row['Percentagem_progresso'] > 0 && $row['Percentagem_progresso'] < 100) {
+                                        echo '
+                                        <button class="start-button" type="submit" name = "idCurso" value=' . $row['Id_curso'] . '>Continuar aula</button>
+                                        ';
+                                    } else if ($row['Percentagem_progresso'] == 100) {
+                                        echo '
+                                        <button class="start-button" type="submit" name = "idCurso" value=' . $row['Id_curso'] . '>Rever aula</button>
+                                        ';
+                                        }
+                                        echo '
                                 </form>
                             </div>
                         </div> 
