@@ -1,9 +1,10 @@
 <?php
 include('../segurança.php');
-include('../../database/basedados.sql');
+include('pesquisa.php');
 
-// Verifica se o parâmetro category_id está na URL
+// Verifica se o parâmetro category_id e search estão na URL
 $category_id = isset($_GET['category_id']) ? (int)$_GET['category_id'] : null;
+$textoPesquisa = isset($_GET['search']) ? '%' . $_GET['search'] . '%' : null;
 ?>
 
 <!DOCTYPE html>
@@ -20,53 +21,45 @@ $category_id = isset($_GET['category_id']) ? (int)$_GET['category_id'] : null;
 
 <body>
     <!-- Cabeçalho -->
-    <?php
-    include("../../src/views/utils/cabecalho.html");
-    ?>
+    <?php include("../../src/views/utils/cabecalho.html"); ?>
 
     <!-- Secção Principal (Hero) -->
     <div class="banner"></div>
     <main class="container-perfil">
-        <?php
-        include("../../src/views/utils/sidebar.html");
-        ?>
+        <?php include("../../src/views/utils/sidebar.html"); ?>
 
         <section class="content">
             <div class="filters">
                 <button class="category-btn">
                     Categorias <i class="fa-solid fa-chevron-down"></i>
                 </button>
-                <button class="reset-btn">Reiniciar</button>
+                <button class="reset-btn" onclick="window.location.href='perfil_cursos.php'">Reiniciar</button>
                 <div class="search-container">
-                    <input type="text" placeholder="Pesquisar meus cursos" class="search-my-courses" />
-                    <button class="search-button"><i class="fa-solid fa-magnifying-glass"></i></button>
+                    <form method="GET">
+                        <?php if ($category_id) echo '<input type="hidden" name="category_id" value="' . $category_id . '">'; ?>
+                        <input type="text" name="search" placeholder="Pesquisar meus cursos" class="search-my-courses" value="<?php echo isset($_GET['search']) ? htmlspecialchars($_GET['search']) : ''; ?>" />
+                        <button class="search-button" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+                    </form>
                 </div>
             </div>
 
             <div class="content-card">
                 <?php
-                // Prepara a consulta com base na categoria selecionada
-                $sql = "SELECT * 
-                        FROM cursos_adquiridos ca
-                        INNER JOIN curso c ON ca.Id_curso = c.Id_curso
-                        WHERE ca.Id_user = ?";
+                include("../../database/basedados.sql");
 
-                if ($category_id) {
-                    // Se uma categoria for selecionada, filtra pelos cursos dessa categoria
-                    $sql .= " AND c.Id_categoria = ?";
-                }
-
-                // Prepara a consulta
+                $sql = pesquisaFiltro("cursos_adquiridos", $_SESSION['utilizadorOn']['Id_user'], $category_id, $textoPesquisa);
                 $stmt = $conn->prepare($sql);
 
-                // Faz a ligação dos parâmetros
-                if ($category_id) {
+                if ($category_id && $textoPesquisa) {
+                    $stmt->bind_param("iis", $_SESSION['utilizadorOn']['Id_user'], $category_id, $textoPesquisa);
+                } else if ($category_id) {
                     $stmt->bind_param("ii", $_SESSION['utilizadorOn']['Id_user'], $category_id);
+                } else if ($textoPesquisa) {
+                    $stmt->bind_param("is", $_SESSION['utilizadorOn']['Id_user'], $textoPesquisa);
                 } else {
                     $stmt->bind_param("i", $_SESSION['utilizadorOn']['Id_user']);
                 }
 
-                // Executa a consulta
                 $stmt->execute();
                 $result = $stmt->get_result();
 
@@ -84,8 +77,7 @@ $category_id = isset($_GET['category_id']) ? (int)$_GET['category_id'] : null;
                                     <div class="progress" style="width: ' . $row['Percentagem_progresso'] . '%;"></div>
                                 </div>
                                 <p>' . $row['Percentagem_progresso'] . '% Concluído</p>
-                                <div class="stars">
-                                    ';
+                                <div class="stars">';
                                     if ($row['Classificacao'] == 0) {
                                         echo "Sem classificação";
                                     } else {
@@ -95,29 +87,21 @@ $category_id = isset($_GET['category_id']) ? (int)$_GET['category_id'] : null;
                                     }
                                     echo '
                                 </div>
-                                <form action="../curso.php" method="POST">
-                                    ';
+                                <form action="../curso.php" method="POST">';
                                     if ($row['Percentagem_progresso'] == 0) {
-                                        echo '
-                                        <button class="start-button" type="submit" name = "idCurso" value=' . $row['Id_curso'] . '>Iniciar aula</button>
-                                        ';
-                                    } else if ($row['Percentagem_progresso'] > 0 && $row['Percentagem_progresso'] < 100) {
-                                        echo '
-                                        <button class="start-button" type="submit" name = "idCurso" value=' . $row['Id_curso'] . '>Continuar aula</button>
-                                        ';
-                                    } else if ($row['Percentagem_progresso'] == 100) {
-                                        echo '
-                                        <button class="start-button" type="submit" name = "idCurso" value=' . $row['Id_curso'] . '>Rever aula</button>
-                                        ';
-                                        }
-                                        echo '
+                                        echo '<button class="start-button" type="submit" name="idCurso" value="' . $row['Id_curso'] . '">Iniciar aula</button>';
+                                    } else if ($row['Percentagem_progresso'] < 100) {
+                                        echo '<button class="start-button" type="submit" name="idCurso" value="' . $row['Id_curso'] . '">Continuar aula</button>';
+                                    } else {
+                                        echo '<button class="start-button" type="submit" name="idCurso" value="' . $row['Id_curso'] . '">Rever aula</button>';
+                                    }
+                                    echo '
                                 </form>
                             </div>
-                        </div> 
-                        ';
+                        </div>';
                     }
                 } else {
-                    echo "<p>Sem cursos disponíveis nesta categoria.</p>";
+                    echo "<p>Sem cursos disponíveis nesta categoria ou com esse termo.</p>";
                 }
                 ?>
             </div>
@@ -146,7 +130,6 @@ $category_id = isset($_GET['category_id']) ? (int)$_GET['category_id'] : null;
 
     <footer class="footer">
         <div class="footer-map">
-            <!-- Aqui podes adicionar um iframe com o Google Maps -->
             <iframe src="" width="100%" height="300" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
         </div>
         <div class="container footer-content">
@@ -163,31 +146,27 @@ $category_id = isset($_GET['category_id']) ? (int)$_GET['category_id'] : null;
         const modal = document.getElementById('category-modal');
         const closeBtn = document.querySelector('.close-btn');
 
-        // Abre o modal
         categoryBtn.addEventListener('click', () => {
             modal.style.display = 'flex';
         });
 
-        // Fecha o modal
         closeBtn.addEventListener('click', () => {
             modal.style.display = 'none';
         });
 
-        // Fecha o modal se clicar fora
         window.addEventListener('click', (event) => {
             if (event.target === modal) {
                 modal.style.display = 'none';
             }
         });
 
-        // Lida com a seleção da categoria
         categoryItems.forEach(item => {
             item.addEventListener('click', () => {
                 const categoryId = item.getAttribute('data-category-id');
-                window.location.href = `?category_id=${categoryId}`; // Redireciona com a categoria selecionada
+                const searchValue = new URLSearchParams(window.location.search).get("search") || "";
+                window.location.href = `?category_id=${categoryId}&search=${encodeURIComponent(searchValue)}`;
             });
         });
     </script>
 </body>
-
 </html>
