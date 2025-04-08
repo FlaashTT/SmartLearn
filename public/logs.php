@@ -29,7 +29,7 @@ function criarLogs($tipoLog, $idUser, $saldo = null, $idCurso = null, $idCategor
             break;
 
         case "Compra curso":
-            $descricaoLog = "O utilizador comprou o curso com id" . $idCurso;
+            $descricaoLog = "O utilizador realizou uma compra no valor de ".$saldo." €";
             break;
 
         case "Alteração de dados":

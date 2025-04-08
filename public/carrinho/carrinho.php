@@ -23,6 +23,8 @@ include('../../database/basedados.sql');
     <!-- Cabeçalho -->
     <?php
     include("../../src/views/utils/cabecalho.html");
+    $listaCursos = "";
+    $listaCursosarray =[];
     ?>
 
     <!-- Secção Principal (Hero) -->
@@ -62,12 +64,14 @@ include('../../database/basedados.sql');
                 while ($row = $result->fetch_assoc()) {
                     echo '
                         <div class="item">
-                         <input type="checkbox" name="cursos[]" value="">
                             <span>' . $row["Nome_curso"] . '</span>
                             <span class="item-price">' . $row["Preco"] . '€</span> 
                         </div>          
 
                     ';
+                    $listaCursosarray[] = $row['Id_curso']; 
+
+                    
                     $preçoTotal = $preçoTotal + $row["Preco"];
                 }
             } else {
@@ -125,6 +129,7 @@ include('../../database/basedados.sql');
             $preçoTotalComIva = $preçoTotal + $totaliva;
             $preçoTotalComIvaFormatado = number_format($preçoTotalComIva, 2, ',', '.');
             $_SESSION['valorFinal'] = $preçoTotalComIva;
+            $_SESSION['listaCursos'] = $listaCursosarray;
             echo '
             <script>
                 window.onload = function() {
