@@ -1,0 +1,147 @@
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+body{
+    margin: 0;
+    padding: 0;
+}
+
+/* ---------- Secção Curso ---------- */
+
+
+.container-c{
+    display: flex;
+    flex-wrap: wrap;
+    padding: 20px;
+    gap: 20px;
+}
+.curso-info{
+    flex: 1 1 100%;
+}
+
+.curso-info h1{
+    font-size: 24px;
+    margin: 0;
+    margin-top: 30px;
+}
+
+.curso-info p{
+    margin: 5px 0;
+}
+
+.content{
+    display: flex;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.imagem{
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 200px;
+    border-radius: 8px;
+}
+
+.imagem img{
+    max-width: 100%;
+    max-height: 100%;
+    border-radius: 8px;
+}
+
+.imagem video{
+    max-width: 100%;
+    max-height: 100%;
+    border-radius: 8px;
+}
+
+.descricao{
+    flex: 2;
+}
+
+.descricao .title-descricao{
+    font-size: 20px;
+}
+
+.fases-dicas{
+    display: flex;
+    gap: 20px;
+    width: 100%;
+}
+
+.fases{
+    flex: 2;
+    display: grid;
+    flex-direction: column;
+    gap: 10px;
+    grid-template-columns: repeat(3, 1fr);
+
+}
+
+.fase{
+    background-color: aliceblue;
+    padding: 15px;
+    border-radius: 8px;
+    text-align: left;
+}
+
+.fase-4{
+    background-color: rgba(233, 233, 233, 0.425);
+    grid-column: span 3;
+}
+
+.fase-7{
+    background-color: rgb(233, 233, 233, 0.425);
+    grid-column: 1 / -1;
+    width: 100%;
+}
+
+.dicas{
+    grid-column: 3;
+    grid-row: 1 / span 3;
+    flex: 1;
+    background-color: aliceblue;
+    padding: 20px;
+    border-radius: 8px;
+    margin-top: 20px;
+    height: fit-content;
+}
+
+.dicas h2{
+    margin-top: 0;
+}
+
+.dicas ul{
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.dicas li{
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+
+.dicas li strong{
+    font-weight: bold;
+}
+
+.footer-c{
+    text-align: center;
+    margin-top: 20px;
+    width: 100%;
+}
+
+.avançar{
+    padding: 10px 20px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
