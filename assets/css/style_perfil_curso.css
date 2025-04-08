@@ -177,24 +177,29 @@
     background-color: #bbb;
 }
 
-.content-card{
+
+.content-card {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 20px;
+    grid-template-columns: repeat(3, 1fr); /* Sempre cria 3 colunas */
+    gap: 20px; /* Espaçamento entre os cards */
     padding: 20px;
+    justify-content: center; /* Centraliza os cards no contêiner */
+    align-items: start; /* Alinha os cards no topo */
+    max-width: 1000px; /* Limita a largura máxima do contêiner */
+    margin: 0 auto; /* Centraliza o contêiner horizontalmente */
 }
 
-.course-card{
+.course-card {
     display: flex;
     flex-direction: column;
     background-color: #CCC;
     padding: 20px;
     border-radius: 10px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    width: 250px;
-    margin-left: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    width: 100%; /* Permite que o card ocupe 100% da coluna no grid */
+    max-width: 250px; /* Limita a largura máxima do card */
+    margin: 0 auto; /* Centraliza o card dentro da coluna */
 }
-
 
 .course-image{
     width: 100%;
