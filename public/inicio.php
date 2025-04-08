@@ -17,19 +17,19 @@ include("../database/basedados.sql");
 
     <?php
     if (!isset($_SESSION['utilizadorOn']) || !$_SESSION['utilizadorOn']) {
-        echo'
+        echo '
         <link rel="stylesheet" href="../assets/css/style.css" />
         <link rel="stylesheet" href="../assets/css/style_base.css" />
         ';
-    }else{
-        echo'
+    } else {
+        echo '
         <link rel="stylesheet" href="../assets/css/style_user.css" />
         <link rel="stylesheet" href="../assets/css/style_logado.css" />
         ';
     }
 
     ?>
-    
+
 </head>
 
 <body>
@@ -223,19 +223,19 @@ include("../database/basedados.sql");
             <hr>
         </section>
 
-
-        <?php
-
-        $stmt = $conn->prepare("SELECT * FROM curso ORDER BY Data_criacao DESC LIMIT 10 ");
-        $stmt->execute();
-        $result = $stmt->get_result();
-
-        if ($result->num_rows > 0) {
-            while ($row = $result->fetch_assoc()) {
-                // Card de Curso
-                echo '
-                
         <section class="course-card">
+            <?php
+
+            $stmt = $conn->prepare("SELECT * FROM curso ORDER BY Data_criacao DESC LIMIT 10 ");
+            $stmt->execute();
+            $result = $stmt->get_result();
+
+            if ($result->num_rows > 0) {
+                while ($row = $result->fetch_assoc()) {
+                    // Card de Curso
+                    echo '
+                
+        
             <div class="card">
                 <div class="card-image">
                     <img src=' . $row['URL_foto_perfil_curso'] . ' alt=" erro">
@@ -250,38 +250,37 @@ include("../database/basedados.sql");
                         </div>
 
                         ';
-                         if (!isset($_SESSION['utilizadorOn']) || !$_SESSION['utilizadorOn']) {
-                            echo"";
-
-                         }else{
-                            echo '
+                    if (!isset($_SESSION['utilizadorOn']) || !$_SESSION['utilizadorOn']) {
+                        echo "";
+                    } else {
+                        echo '
                                 <form action="../public/carrinho/adicionarAocarrinho.php" method="POST">
                                     <button class="btn-buy" type="submit" name="IdCurso" value="' . $row['Id_curso'] . '">Comprar</button>
                                 </form>';
-                         }
-                        echo'
+                    }
+                    echo '
                     </div>
                     <div class="details">
                         <span>' . $row["Tempo_estimado"] . '</span>
                     </div>
                 </div>
             </div>
-        </section>
+        
         ';
-            }
-        } else {
-            echo '
+                }
+            } else {
+                echo '
        
         <div class="category">
             <p>Cursos indisponiveis</p>
         </div>
        
        ';
-        }
+            }
 
-        ?>
+            ?>
 
-
+        </section>
         <section class="section-title">
             <h1>Instrutor em destaque</h1>
             <hr>
