@@ -21,14 +21,14 @@ $category_id = isset($_GET['category_id']) ? (int)$_GET['category_id'] : null;
 <body>
     <!-- Cabeçalho -->
     <?php
-        include("../../src/views/utils/cabecalho.html");
+    include("../../src/views/utils/cabecalho.html");
     ?>
 
     <!-- Secção Principal (Hero) -->
     <div class="banner"></div>
     <main class="container-perfil">
         <?php
-            include("../../src/views/utils/sidebar.html");
+        include("../../src/views/utils/sidebar.html");
         ?>
 
         <section class="content">
@@ -81,7 +81,7 @@ $category_id = isset($_GET['category_id']) ? (int)$_GET['category_id'] : null;
                                 <h3>' . $row['Nome_curso'] . '</h3>
                                 <hr>
                                 <div class="progress-bar">
-                                    <div class="progress" style="width: '. $row['Percentagem_progresso'] .'%;"></div>
+                                    <div class="progress" style="width: ' . $row['Percentagem_progresso'] . '%;"></div>
                                 </div>
                                 <p>' . $row['Percentagem_progresso'] . '% Concluído</p>
                                 <div class="stars">
@@ -97,24 +97,24 @@ $category_id = isset($_GET['category_id']) ? (int)$_GET['category_id'] : null;
                                 </div>
                                 <form action="../curso.php" method="POST">
                         ';
-                        if($row['Percentagem_progresso'] == 0){
-                            echo'
+                        if ($row['Percentagem_progresso'] == 0) {
+                            echo '
                             <button class="start-button" type="submit" name = "idCurso" value=' . $row['Id_curso'] . '>Iniciar aula</button>
                             ';
-                        }else if($row['Percentagem_progresso'] > 0 && $row['Percentagem_progresso'] < 100 ){
-                            echo'
+                        } else if ($row['Percentagem_progresso'] > 0 && $row['Percentagem_progresso'] < 100) {
+                            echo '
                             <button class="start-button" type="submit" name = "idCurso" value=' . $row['Id_curso'] . '>Continuar aula</button>
                             ';
-                        }else if($row['Percentagem_progresso'] == 100 ){
-                            echo'
+                        } else if ($row['Percentagem_progresso'] == 100) {
+                            echo '
                             <button class="start-button" type="submit" name = "idCurso" value=' . $row['Id_curso'] . '>Rever aula</button>
                             ';
                         }
-                        echo'
-                        </form>
-                    </div>
-                </div> 
-                ';
+                        echo '
+                                </form>
+                            </div>
+                        </div> 
+                        ';
                     }
                 } else {
                     echo "<p>Sem cursos disponíveis nesta categoria.</p>";
@@ -130,15 +130,15 @@ $category_id = isset($_GET['category_id']) ? (int)$_GET['category_id'] : null;
             <h3>Selecione uma Categoria</h3>
             <ul>
                 <?php
-                    $stmt = $conn->prepare("SELECT * FROM categoria ORDER BY Nome_cat");
-                    $stmt->execute();
-                    $result = $stmt->get_result();
+                $stmt = $conn->prepare("SELECT * FROM categoria ORDER BY Nome_cat");
+                $stmt->execute();
+                $result = $stmt->get_result();
 
-                    if ($result->num_rows > 0) {
-                        while ($row = $result->fetch_assoc()) {
-                            echo '<li class="category-item" data-category-id="'.$row['Id_categoria'].'">'.$row['Nome_cat'].'</li>';
-                        }
+                if ($result->num_rows > 0) {
+                    while ($row = $result->fetch_assoc()) {
+                        echo '<li class="category-item" data-category-id="' . $row['Id_categoria'] . '">' . $row['Nome_cat'] . '</li>';
                     }
+                }
                 ?>
             </ul>
         </div>
