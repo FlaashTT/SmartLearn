@@ -41,6 +41,7 @@ if ($category_id && $textoPesquisa) {
 }
 $stmt->execute();
 $result = $stmt->get_result();
+
 ?>
 
 <!DOCTYPE html>
@@ -88,16 +89,18 @@ $result = $stmt->get_result();
             </div>
 
             <div class="content-card">
+
                 <?php
+
                 if ($result->num_rows > 0) {
                     while ($row = $result->fetch_assoc()) {
                         echo '
                             <div class="course-card">
                                 <div class="course-image">
-                                    <img src="../'.$row['URL_foto_perfil_curso'].'" alt="Erro" style="width: 210px; height: 150px;">
+                                    <img src="../' . $row['URL_foto_perfil_curso'] . '" alt="Erro" style="width: 210px; height: 150px;">
                                 </div>
                                 <div class="course-info">
-                                    <h3>'.$row['Nome_curso'].'</h3>
+                                    <h3>' . $row['Nome_curso'] . '</h3>
                                     <div class="stars">
                                         <i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i>
                                     </div>
@@ -111,10 +114,11 @@ $result = $stmt->get_result();
                 } else {
                     echo "<p>Sem cursos disponíveis nesta categoria ou com esse termo.</p>";
                 }
+
                 ?>
             </div>
 
-            <!-- Paginação -->
+            <!-- Paginação 
             <div class="paginacao">
                 <?php if ($pagina_atual > 1) : ?>
                     <a href="?pagina=<?= $pagina_atual - 1 ?>&category_id=<?= $category_id ?>&search=<?= urlencode($textoPesquisa) ?>">Anterior</a>
@@ -125,7 +129,7 @@ $result = $stmt->get_result();
                 <?php if ($pagina_atual < $total_paginas) : ?>
                     <a href="?pagina=<?= $pagina_atual + 1 ?>&category_id=<?= $category_id ?>&search=<?= urlencode($textoPesquisa) ?>">Próxima</a>
                 <?php endif; ?>
-            </div>
+            </div>-->
         </section>
     </main>
 
@@ -152,9 +156,7 @@ $result = $stmt->get_result();
     <!-- Rodapé -->
     <footer class="footer">
         <div class="footer-map">
-            <!-- Aqui podes adicionar um iframe com o Google Maps -->
-            <iframe src="#"
-                width="100%" height="300" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
+            <iframe src="" width="100%" height="300" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
         </div>
         <div class="container footer-content">
             <p>2025 Copyright by Leando Pinto e Ruben Pinheiro</p>
@@ -163,6 +165,7 @@ $result = $stmt->get_result();
             <p>Privacy Policy | Terms & Conditions</p>
         </div>
     </footer>
+
 
     <script>
         // Seleciona o botão e o modal

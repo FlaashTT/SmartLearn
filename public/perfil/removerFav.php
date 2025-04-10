@@ -16,6 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             echo'
             <script>
                 alert("Curso removido com sucesso!");
+                window.location.href = document.referrer;
             </script>
             ';
         }else{

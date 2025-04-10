@@ -31,8 +31,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             // Corrigir formato de listaCursos (string para array, se necessário)
             $listaCursos = $_SESSION['listaCursos'] ?? [];
-            echo "--" . implode(",", $listaCursos);
-
             
             // Inserir no cursos_adquiridos
             $stmt = $conn->prepare("
@@ -40,6 +38,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 VALUES (?, ?, ?)
             ");
             $stmt->bind_param("iis", $_SESSION['utilizadorOn']['Id_user'], $id_curso, $DataAtual);
+
+            foreach ($listaCursos as $id_curso) {
+                $id_curso = (int) trim($id_curso); // garantir que é inteiro
+                if (!$stmt->execute()) {
+                    $erro = true;
+                    break;
+                }
+            }
+
+            //para inserir na tabela historico compras
+            $stmt = $conn->prepare("
+                INSERT INTO historico_compras(Id_user, Id_curso, Data_compra,Preco)  
+                VALUES (?, ?, ?,?)
+            ");
+            $stmt->bind_param("iisd", $_SESSION['utilizadorOn']['Id_user'], $id_curso, $DataAtual,$preco);
 
             foreach ($listaCursos as $id_curso) {
                 $id_curso = (int) trim($id_curso); // garantir que é inteiro
