@@ -20,11 +20,13 @@
 
 .sidebar{
   margin-top: 50px;
-  height: auto;
+  height: calc(100vh - 50px);
   width: 380px;
   margin-right: 40px;
   background-color: aliceblue;
   padding: 20px;
+  overflow-y: auto;
+  position: sticky;
   box-shadow: 2px 0 5px rgba(0,0,0,0.1);
 }
 
@@ -140,13 +142,65 @@
 }
 
 .main-content, .page {
-  width: 100%; /* Faz com que os elementos ocupem toda a largura do contêiner */
+  width: 100%; 
   padding: 20px;
-  background-color: #fff; /* Cor de fundo para destacar */
-  border-radius: 5px; /* Bordas arredondadas */
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra para destaque */
-  height: auto; /* Ajusta a altura automaticamente */
+  background-color: #fff; 
+  border-radius: 5px; 
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
+  height: auto; 
 }
+
+.page-grafic{
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.page-grafic .grafic{
+  width: 100%;
+  height: 300px;
+  background-color :aliceblue;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  margin-bottom: 50px;
+  margin-top: 30px;
+}
+
+.stats{
+  display: flex;
+  justify-content: space-between;
+}
+
+.stat{
+  background-color: aliceblue;
+  padding: 20px;
+  text-align: center;
+  flex: 1;
+  border-radius: 8px;
+  margin: 0 10px;
+}
+
+.stat i{
+  font-size: 20px;
+  color: #333;
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+
+.stat span{
+  display: block;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.stat p{
+  margin: 0;
+  font-size: 14px;
+  color: #666;
+}
+
+
+
   
 
 
