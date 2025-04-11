@@ -24,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     //para verificar se nao existe erro com o Id_user
     if (!$idUser) {
         echo '
-            <script>
+            <script> 
             alert("Erro ao verificar o seu ID");
             </script>
             ';
