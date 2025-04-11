@@ -9,7 +9,7 @@
       href="/assets/fontawesome/fontawesome/css/all.min.css"
     />
     <link rel="stylesheet" href="/assets/css/admin/style_admin.css" />
-    <link rel="stylesheet" href="/assets/css/admin/style_base_admin.css" />
+    <link rel="stylesheet" href="/assets/css/admin/style_curso_gerenciar.css" />
   </head>
   <body>
     <!-- Cabeçalho -->
@@ -109,47 +109,89 @@
         </aside>
 
         <main class="container-page">
-            <section class="main-content">
-                <h1 style="display: flex; align-items: center; justify-content: left;">
-                    <i style="font-size: 18px; margin-right: 10px;" class="fas fa-tachometer-alt"></i> Painel
-                  </h1>
+            <section class="main-content" style="display: flex; align-items: center; justify-content: space-between;">
+                <h1 style="display: flex; align-items: center;">
+                    <i style="font-size: 18px; margin-right: 10px;" class="fas fa-tachometer-alt"></i> Gerenciar Cursos
+                </h1>
+                <button style="padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">
+                    Adicionar Novo Curso
+                </button>
             </section>
 
             <section class="page">
-              <h1>Histórico Administrativo Este Ano</h1>
-              <div class="page-grafic">
-                  <canvas class="grafic" id="monthlyChart"></canvas>
-              </div>
+              <h1>Lista de Cursos</h1>
               <div class="stats">
                   <div class="stat">
                       <i class="fas fa-book"></i>
-                      <span id="numCursos">0</span>
-                      <p>Número de cursos</p>
+                      <span>0</span>
+                      <p>Cursos Ativos</p>
                   </div>
                   <div class="stat">
                       <i class="fas fa-file-alt"></i>
-                      <span id="numCapitulos">0</span>
-                      <p>Número de capítulos</p>
+                      <span>0</span>
+                      <p>Cursos pendentes</p>
                   </div>
                   <div class="stat">
                       <i class="fas fa-user-check"></i>
-                      <span id="numInscricoes">0</span>
-                      <p>Número de inscrições</p>
+                      <span>0</span>
+                      <p>Cursos gratuitos</p>
                   </div>
                   <div class="stat">
                       <i class="fas fa-users"></i>
-                      <span id="numUtilizadores">0</span>
-                      <p>Número de utilizadores</p>
+                      <span>0</span>
+                      <p>Cursos Pagos</p>
                   </div>
               </div>
+          </section>
+
+          <section class="course-list">
+            <h2>Lista de cursos</h2>
+            <div class="filters">
+                <label for="categories">Categorias</label>
+                <div>
+                    <select id="categories">
+                        <option>Todos</option>
+                    </select>
+                </div>
+                <div>
+                    <select id="categories">
+                        <option>Todos</option>
+                    </select>
+                </div>
+                <div>
+                    <select id="categories">
+                        <option>Todos</option>
+                    </select>
+                </div>
+                <button>Filtrar</button>
+            </div>
+            <table>
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Título</th>
+                    <th>Categoria</th>
+                    <th>Utilizador inscrito</th>
+                    <th>Status</th>
+                    <th>Preço</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td colspan="7">Nenhum dado inserido</td>
+                </tr>
+            </tbody>
+            </table>
+            <div class="pagination">
+                <button>Anterior</button>
+                <button>Próximo</button>
+            </div>
           </section>
         </main>
     </main>
     </div>
 
-    <script 
-      src="https://cdn.jsdelivr.net/npm/chart.js">
-    </script>
     <script>
     document.querySelectorAll('.has-submenu').forEach(item => {
         item.addEventListener('click', () => {
@@ -157,39 +199,6 @@
             item.classList.toggle('open');
         });
     });
-
-    // Dados do gráfico
-    const data = {
-        labels: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
-        datasets: [{
-            label: 'Atividades Mensais',
-            data: [12, 19, 3, 5, 2, 3, 7, 10, 15, 8, 6, 9], // Dados do gráfico
-            backgroundColor: 'rgba(75, 192, 192, 0.2)',
-            borderColor: 'rgba(75, 192, 192, 1)',
-            borderWidth: 1
-        }]
-    };
-
-    // Renderizar o gráfico
-    const ctx = document.getElementById('monthlyChart').getContext('2d');
-    const monthlyChart = new Chart(ctx, {
-        type: 'line',
-        data: data,
-        options: {
-            responsive: true,
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
-            }
-        }
-    });
-
-    // Atualizar os números nos spans
-    document.getElementById('numCursos').textContent = data.datasets[0].data.reduce((a, b) => a + b, 0); // Soma total dos dados
-    document.getElementById('numCapitulos').textContent = 50; // Exemplo de valor fixo
-    document.getElementById('numInscricoes').textContent = 120; // Exemplo de valor fixo
-    document.getElementById('numUtilizadores').textContent = 300; // Exemplo de valor fixo
 </script>
 </script>
   </script>
