@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="pt">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SmartLearn</title>
+    <link
+      rel="stylesheet"
+      href="/assets/fontawesome/fontawesome/css/all.min.css"
+    />
+    <link rel="stylesheet" href="/assets/css/admin/style_admin.css" />
+    <link rel="stylesheet" href="/assets/css/admin/style_curso_adicionar.css" />
+  </head>
+  <body>
+    <!-- Cabeçalho -->
+    <header>
+      <div class="container-admin">
+        <nav>
+          <div class="nav-left">
+            <div class="logo">
+              <a href="layout_base.html"><img src="/assets/image/Logo.png" alt="Logo" /></a>
+              <span class="brand-name">SmartLearn</span>
+            </div>
+            <ul class="nav-links">
+              <li>
+                <button class="back-button">Voltar ao site</button>
+              </li>
+            </ul>
+          </div>
+          <div class="nav-right">
+            <ul class="nav-links">
+                <div class="avatar">
+                    <img src="/assets/image/Admin.png" alt="Avatar" class="avatar-image" />
+                </div>
+                <div class="profile-info">
+                    <p>Administrador de Sistema</p>
+                    <p class="Name">Administrador LePinh</p>
+                </div>
+            </ul>
+          </div>
+        </nav>
+      </div>
+    </header>
+
+    
+
+    <!-- Secção Principal (Hero) -->
+    <div class="container-admin">
+    <main class="container">
+        <aside class="sidebar">
+
+            <div class="user-info">
+                <div class="avatar-sidebar">
+                    <img src="/assets/image/User.png" alt="Erro">
+                </div>
+                <div class="user-details">
+                    <p>Administrador de Sistema</p>
+                </div>
+            </div>
+
+            <nav class="navigation">
+                <ul>
+                    <h4>Navegação</h4>
+                    <li>
+                        <i class="fas fa-tachometer-alt"></i> Painel
+                    </li>
+                    <li class="has-submenu">
+                        <i class="fas fa-book"></i> Cursos <i class="fas fa-chevron-right toggle-icon"></i>
+                        <ul class="submenu">
+                            <li>Dashboard Cursos</li>
+                            <li>Gerenciar cursos</li>
+                            <li>Adicionar novo curso</li>
+                            <li>Categoria do curso</li>
+                        </ul>
+                    </li>
+                    <li class="has-submenu">
+                        <i class="fas fa-user-check"></i> Inscrição <i class="fas fa-chevron-right toggle-icon"></i>
+                        <ul class="submenu">
+                            <li>Matricular no curso</li>
+                            <li>Registrar histórico</li>
+                        </ul>
+                    </li>
+                    <li class="has-submenu">
+                        <i class="fas fa-chart-bar"></i> Relatórios <i class="fas fa-chevron-right toggle-icon"></i>
+                        <ul class="submenu">
+                            <li>Relatório de cursos</li>
+                            <li>Relatório de utilizadores</li>
+                        </ul>
+                    </li>
+                    <li class="has-submenu">
+                        <i class="fas fa-users"></i> Utilizadores <i class="fas fa-chevron-right toggle-icon"></i>
+                        <ul class="submenu">
+                            <li>Gerenciar utilizadores</li>
+                            <li>Adicionar novo utilizador</li>
+                        </ul>
+                    </li>
+                    <li class="has-submenu">
+                        <i class="fas fa-cogs"></i> Configurações <i class="fas fa-chevron-right toggle-icon"></i>
+                        <ul class="submenu">
+                            <li>Configurações do sistema</li>
+                            <li>Preferências de notificação</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <i class="fas fa-user-cog"></i> Gerenciamento perfil
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="container-page">
+            <section class="main-content" style="display: flex; align-items: center; justify-content: space-between;">
+                <h1 style="display: flex; align-items: center;">
+                    <i style="font-size: 18px; margin-right: 10px;" class="fas fa-book"></i> Dashboard Cursos
+                </h1>
+                <button style="padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; display: flex; align-items: center; gap: 8px;">
+                    <i class="fas fa-arrow-left"></i> Voltar
+                </button>
+            </section>
+
+            <section class="page">
+                <h2>Formulário de Adição de um Curso</h2>
+                <div class="form-tabs">
+                    <button class="tab active">Básico</button>
+                    <button class="tab">Informações</button>
+                    <button class="tab">Preços</button>
+                    <button class="tab">Mídia</button>
+                    <button class="tab">Hashtag</button>
+                    <button class="tab">Finalizar</button>
+                </div>
+                <form class="form-content">
+                    <div class="form-group">
+                        <label for="titulo">Título do Curso</label>
+                        <input type="text" id="titulo" placeholder="Digite o título do curso" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="descricao-curta">Pequena-descrição</label>
+                        <input type="text" id="descricao-curta" placeholder="Digite uma pequena descrição" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="descricao">Descrição</label>
+                        <input type="text" id="descricao" placeholder="Digite a descrição" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="categorias">Categorias</label>
+                        <select id="categorias">
+                            <option>Selecione</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="nivel">Nível</label>
+                        <select id="nivel">
+                            <option>Selecione</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="linguagem">Linguagem feita em</label>
+                        <select id="linguagem">
+                            <option>Selecione</option>
+                        </select>
+                    </div>
+                    <div class="form-navigation">
+                        <button type="button" class="btn-button">
+                            <i class="fas fa-arrow-left"></i>
+                        </button>
+                        <button type="button" class="btn-button">
+                            <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                    
+                </form>
+            </section>
+
+        </main>
+    </main>
+    </div>
+
+    <script>
+    document.querySelectorAll('.has-submenu').forEach(item => {
+        item.addEventListener('click', () => {
+            // Alterna a classe "open" no item clicado
+            item.classList.toggle('open');
+        });
+    });
+    </script>
+
+  </body>
+</html>

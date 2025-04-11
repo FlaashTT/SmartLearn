@@ -142,8 +142,8 @@
                         <hr>
                     </div>
                     <div class="card-footer">
-                        <button class="btn">Editar</button>
-                        <button class="btn">Apagar</button>
+                        <button class="btn edit-btn">Editar</button>
+                        <button class="btn delete-btn">Apagar</button>
                     </div>
                 </div>
                 <div class="card">
@@ -169,8 +169,8 @@
                         <hr>
                     </div>
                     <div class="card-footer">
-                        <button class="btn">Editar</button>
-                        <button class="btn">Apagar</button>
+                        <button class="btn edit-btn">Editar</button>
+                        <button class="btn delete-btn">Apagar</button>
                     </div>
                 </div>
                 <div class="card">
@@ -196,8 +196,8 @@
                         <hr>
                     </div>
                     <div class="card-footer">
-                        <button class="btn">Editar</button>
-                        <button class="btn">Apagar</button>
+                        <button class="btn edit-btn">Editar</button>
+                        <button class="btn delete-btn">Apagar</button>
                     </div>
                 </div>
                 <div class="card">
@@ -223,8 +223,8 @@
                         <hr>
                     </div>
                     <div class="card-footer">
-                        <button class="btn">Editar</button>
-                        <button class="btn">Apagar</button>
+                        <button class="btn edit-btn">Editar</button>
+                        <button class="btn delete-btn">Apagar</button>
                     </div>
                 </div>
                 <div class="card">
@@ -275,11 +275,36 @@
                         <hr>
                     </div>
                     <div class="card-footer">
-                        <button class="btn">Editar</button>
-                        <button class="btn">Apagar</button>
+                        <button class="btn edit-btn">Editar</button>
+                        <button class="btn delete-btn">Apagar</button>
                     </div>
                 </div>
             </section>
+
+            <!-- Modal para Editar -->
+            <div id="editModal" class="modal" style="display: none;">
+                <div class="modal-content">
+                    <h2>Editar Curso</h2>
+                    <form id="editForm">
+                        <label for="editTitle">Título do Curso:</label>
+                        <input type="text" id="editTitle" name="editTitle" required>
+                        <label for="editSubcategories">Subcategorias:</label>
+                        <input type="text" id="editSubcategories" name="editSubcategories" required>
+                        <button type="submit" class="btn">Salvar</button>
+                        <button type="button" class="btn cancel-btn" onclick="closeModal('editModal')">Cancelar</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Modal para Confirmar Exclusão -->
+            <div id="deleteModal" class="modal" style="display: none;">
+                <div class="modal-content">
+                    <h2>Confirmar Exclusão</h2>
+                    <p>Tem certeza de que deseja apagar este curso?</p>
+                    <button id="confirmDelete" class="btn delete-btn">Sim, Apagar</button>
+                    <button type="button" class="btn cancel-btn" onclick="closeModal('deleteModal')">Cancelar</button>
+                </div>
+            </div>
         </main>
     </main>
     </div>
@@ -291,8 +316,64 @@
             item.classList.toggle('open');
         });
     });
-</script>
-</script>
-  </script>
+    </script>
+    <script>
+        let currentCard = null; // Variável para armazenar o card atual
+    
+        // Função para abrir um modal
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = 'flex';
+        }
+    
+        // Função para fechar um modal
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+    
+        // Função para editar o card
+        document.querySelectorAll('.edit-btn').forEach((button) => {
+            button.addEventListener('click', (event) => {
+                currentCard = event.target.closest('.card'); // Encontra o card correspondente
+                const title = currentCard.querySelector('.card-header h3').textContent;
+                const subcategories = currentCard.querySelector('.card-header p').textContent;
+    
+                // Preenche os campos do modal com os valores atuais
+                document.getElementById('editTitle').value = title;
+                document.getElementById('editSubcategories').value = subcategories;
+    
+                openModal('editModal'); // Abre o modal de edição
+            });
+        });
+    
+        // Salvar alterações no modal de edição
+        document.getElementById('editForm').addEventListener('submit', (event) => {
+            event.preventDefault(); // Evita o envio do formulário
+            const newTitle = document.getElementById('editTitle').value;
+            const newSubcategories = document.getElementById('editSubcategories').value;
+    
+            // Atualiza os valores no card
+            currentCard.querySelector('.card-header h3').textContent = newTitle;
+            currentCard.querySelector('.card-header p').textContent = newSubcategories;
+    
+            closeModal('editModal'); // Fecha o modal
+        });
+    
+        // Função para apagar o card
+        document.querySelectorAll('.delete-btn').forEach((button) => {
+            button.addEventListener('click', (event) => {
+                currentCard = event.target.closest('.card'); // Encontra o card correspondente
+                openModal('deleteModal'); // Abre o modal de confirmação de exclusão
+            });
+        });
+    
+        // Confirmar exclusão
+        document.getElementById('confirmDelete').addEventListener('click', () => {
+            if (currentCard) {
+                currentCard.remove(); // Remove o card
+                closeModal('deleteModal'); // Fecha o modal
+            }
+        });
+    </script>
+
   </body>
 </html>
