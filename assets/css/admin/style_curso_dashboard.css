@@ -1,0 +1,496 @@
+
+.container-admin {
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.container {
+  display: flex; /* Define o layout como flexbox */
+  flex-direction: row; /* Garante que os elementos fiquem lado a lado */
+  gap: 20px; /* Espaçamento entre o aside e a seção principal */
+}
+
+  /* ---------- Secção Principal (Hero) ---------- */
+  
+.content{
+  display: flex;
+  flex: 1;
+}
+
+.sidebar{
+  margin-top: 50px;
+  height: calc(140vh - 50px);
+  width: 400px;
+  margin-right: 40px;
+  background-color: aliceblue;
+  padding: 20px;
+  overflow-y: auto;
+  position: sticky;
+  box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+}
+
+
+.user-info{
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  flex-direction: column;
+}
+
+.user-details {
+  text-align: center; /* Centraliza o texto */
+}
+
+.avatar-sidebar{
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  margin-bottom: 10px;
+}
+
+.avatar-sidebar img{
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+}
+
+.user-details p{
+  margin: 0;
+}
+
+.navigation {
+  padding: 15px;
+  border-radius: 5px;
+}
+
+.navigation ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.navigation li{
+  gap: 10px;
+  display: flex;
+  align-items: center;
+  padding: 10px 15px;
+  font-size: 16px;
+  border-bottom: #33333325 1px solid;
+}
+
+.navigation h4{
+  font-size: 14px;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.navigation ul li {
+  display: block;
+  align-items: center;
+  padding: 10px 15px;
+  font-size: 16px;
+  color: #333;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.navigation ul li i.fa-chevron-right {
+  margin-left: auto; /* Move apenas as setas para o final */
+}
+
+
+.submenu {
+  display: none; /* Esconde o submenu por padrão */
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  padding-left: 0; /* Remove o recuo */
+}
+
+.submenu li {
+  padding: 10px 15px; /* Espaçamento interno dos itens do submenu */
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-left: 20px;
+}
+
+
+
+.has-submenu.open .submenu {
+  display: block; /* Mostra o submenu quando o item está aberto */
+}
+
+.has-submenu .toggle-icon {
+  margin-left: auto;
+  transition: transform 0.3s ease;
+}
+
+.has-submenu.open .toggle-icon {
+  transform: rotate(90deg); /* Roda a seta para baixo */
+}
+
+
+.container-page {
+  display: flex; /* Define o layout como flexbox */
+  flex-direction: column; /* Alinha os elementos verticalmente */
+  gap: 20px; 
+  width: 100%; 
+  margin-top: 50px;
+}
+
+.main-content{
+  width: 100%; 
+  padding: 20px;
+  background-color: #fff; 
+  border-radius: 5px; 
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
+  height: auto; 
+}
+
+.course-list{
+  width: 100%; 
+  padding: 20px;
+  background-color: #fff; 
+  border-radius: 5px; 
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
+  height: auto; 
+}
+
+.stats{
+  display: flex;
+  justify-content: space-between;
+}
+
+.stat{
+  background-color: aliceblue;
+  padding: 20px;
+  text-align: center;
+  flex: 1;
+  border-radius: 8px;
+  margin: 0 10px;
+  margin-top: 20px;
+}
+
+.stat i{
+  font-size: 20px;
+  color: #333;
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+
+.stat span{
+  display: block;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.stat p{
+  margin: 0;
+  font-size: 14px;
+  color: #666;
+}
+
+
+.course-list h2{
+  margin-top: 0;
+}
+
+.filters{
+    margin-top: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.filters select{
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  width: 280px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.filters button{
+    padding: 10px 20px;
+    border-radius: 5px;
+    border: none;
+    background-color: #007bff;
+    color: #fff;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+.filters button:hover{
+    background-color: #0056b3;
+}
+
+
+table{
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+table th{
+  padding: 10px;
+  text-align: left;
+  border-bottom: 1px solid #ccc;
+}
+
+table td{
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+  text-align: center;
+}
+
+table th{
+  background-color: #f2f2f2;
+  font-weight: bold;
+}
+
+
+
+.pagination{
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.pagination button{
+    padding: 5px 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    background-color: #f2f2f2;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: background-color 0.3s ease;
+}
+
+.card-container {
+    display: grid;
+    grid-template-columns: auto auto auto; /* Três colunas */
+    width: 100%;
+    gap: 20px; /* Espaçamento entre os cards */
+    margin-top: 20px;
+}
+
+.card {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.card-image{
+    width: 100%;
+    height: 200px;
+    flex: 1;
+}
+
+.card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.card-content{
+    display: grid;
+    padding: 15px;
+    gap: 10px;
+    grid-template-rows: auto auto;
+}
+
+.card-header h3 {
+    display: flex; 
+    align-items: center; 
+    gap: 8px;
+    font-size: 18px; 
+    margin: 0; 
+    color: #333; 
+}
+
+.card-header h3 i {
+    font-size: 14px; 
+    color: #000000; 
+}
+
+.card-header p{
+    margin: 0;
+    font-size: 14px;
+    color: #666;
+}
+
+.card-sections{
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: 10px;
+}
+
+.card-sections p{
+    margin: 0;
+    font-size: 14px;
+}
+
+.card-sections hr {
+    border: none;
+    border-top: 1px solid #ccc; /* Linha cinza clara */
+    margin: 10px 0; /* Espaçamento acima e abaixo da linha */
+}
+
+.card-actions{
+    display: flex;
+    gap: 5px;
+}
+
+.edit-icon, .delete-icon{
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 10px;
+}
+
+.card-footer{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 100px;
+    padding: 10px;
+    background-color: #fff;
+}
+
+.btn{
+    border-radius: 5px;
+    border: none;
+    background-color: #007bff;
+    cursor: pointer;
+    font-size: 10px;
+    padding: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6); /* Fundo mais escuro */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    animation: fadeIn 0.3s ease; /* Animação de entrada */
+}
+
+.modal-content {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 12px; /* Bordas mais arredondadas */
+    width: 450px;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Sombra mais suave */
+    animation: slideIn 0.3s ease; /* Animação de entrada */
+}
+
+.modal-content h2 {
+    margin-bottom: 20px;
+    font-size: 22px; /* Tamanho maior para o título */
+    color: #333; /* Cor mais escura */
+    font-weight: bold;
+}
+
+.modal-content p {
+    margin-bottom: 20px;
+    font-size: 16px;
+    color: #666; /* Texto mais suave */
+}
+
+.modal-content button {
+    margin: 10px;
+    padding: 10px 20px;
+    border-radius: 8px;
+    border: none;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.modal-content input[type="text"] {
+    width: 100%;
+    padding: 10px 15px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 14px;
+    color: #333;
+    background-color: #f9f9f9;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.modal-content input[type="text"]:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    outline: none;
+    background-color: #fff;
+}
+
+.modal-content button:hover {
+    transform: scale(1.05); /* Efeito de zoom ao passar o mouse */
+}
+
+.modal-content .btn {
+    background-color: #007bff;
+    color: #fff;
+}
+
+.modal-content .btn:hover {
+    background-color: #0056b3; /* Cor mais escura ao passar o mouse */
+}
+
+.modal-content .cancel-btn {
+    background-color: #f2f2f2;
+    color: #333;
+}
+
+.modal-content .cancel-btn:hover {
+    background-color: #e0e0e0; /* Cor mais escura ao passar o mouse */
+}
+
+/* Animações */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateY(-20px);
+    }
+    to {
+        transform: translateY(0);
+    }
+}
+
+
+  
+
+
+  
+
+  
+
+  
+  

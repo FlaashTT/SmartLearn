@@ -9,7 +9,7 @@
       href="/assets/fontawesome/fontawesome/css/all.min.css"
     />
     <link rel="stylesheet" href="/assets/css/admin/style_admin.css" />
-    <link rel="stylesheet" href="/assets/css/admin/style_base_admin.css" />
+    <link rel="stylesheet" href="/assets/css/admin/style_curso_adicionar.css" />
   </head>
   <body>
     <!-- Cabeçalho -->
@@ -109,47 +109,72 @@
         </aside>
 
         <main class="container-page">
-            <section class="main-content">
-                <h1 style="display: flex; align-items: center; justify-content: left;">
-                    <i style="font-size: 18px; margin-right: 10px;" class="fas fa-tachometer-alt"></i> Painel
-                  </h1>
+            <section class="main-content" style="display: flex; align-items: center; justify-content: space-between;">
+                <h1 style="display: flex; align-items: center;">
+                    <i style="font-size: 18px; margin-right: 10px;" class="fas fa-book"></i> Dashboard Cursos
+                </h1>
+                <button style="padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; display: flex; align-items: center; gap: 8px;">
+                    <i class="fas fa-arrow-left"></i> Voltar
+                </button>
             </section>
 
             <section class="page">
-              <h1>Histórico Administrativo Este Ano</h1>
-              <div class="page-grafic">
-                  <canvas class="grafic" id="monthlyChart"></canvas>
-              </div>
-              <div class="stats">
-                  <div class="stat">
-                      <i class="fas fa-book"></i>
-                      <span id="numCursos">0</span>
-                      <p>Número de cursos</p>
-                  </div>
-                  <div class="stat">
-                      <i class="fas fa-file-alt"></i>
-                      <span id="numCapitulos">0</span>
-                      <p>Número de capítulos</p>
-                  </div>
-                  <div class="stat">
-                      <i class="fas fa-user-check"></i>
-                      <span id="numInscricoes">0</span>
-                      <p>Número de inscrições</p>
-                  </div>
-                  <div class="stat">
-                      <i class="fas fa-users"></i>
-                      <span id="numUtilizadores">0</span>
-                      <p>Número de utilizadores</p>
-                  </div>
-              </div>
-          </section>
+                <h2>Formulário de Adição de um Curso</h2>
+                <div class="form-tabs">
+                    <button class="tab active">Básico</button>
+                    <button class="tab">Informações</button>
+                    <button class="tab">Preços</button>
+                    <button class="tab">Mídia</button>
+                    <button class="tab">Hashtag</button>
+                    <button class="tab">Finalizar</button>
+                </div>
+                <form class="form-content">
+                    <div class="form-group">
+                        <label for="titulo">Título do Curso</label>
+                        <input type="text" id="titulo" placeholder="Digite o título do curso" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="descricao-curta">Pequena-descrição</label>
+                        <input type="text" id="descricao-curta" placeholder="Digite uma pequena descrição" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="descricao">Descrição</label>
+                        <input type="text" id="descricao" placeholder="Digite a descrição" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="categorias">Categorias</label>
+                        <select id="categorias">
+                            <option>Selecione</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="nivel">Nível</label>
+                        <select id="nivel">
+                            <option>Selecione</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="linguagem">Linguagem feita em</label>
+                        <select id="linguagem">
+                            <option>Selecione</option>
+                        </select>
+                    </div>
+                    <div class="form-navigation">
+                        <button type="button" class="btn-button">
+                            <i class="fas fa-arrow-left"></i>
+                        </button>
+                        <button type="button" class="btn-button">
+                            <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                    
+                </form>
+            </section>
+
         </main>
     </main>
     </div>
 
-    <script 
-      src="https://cdn.jsdelivr.net/npm/chart.js">
-    </script>
     <script>
     document.querySelectorAll('.has-submenu').forEach(item => {
         item.addEventListener('click', () => {
@@ -157,41 +182,7 @@
             item.classList.toggle('open');
         });
     });
+    </script>
 
-    // Dados do gráfico
-    const data = {
-        labels: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
-        datasets: [{
-            label: 'Atividades Mensais',
-            data: [12, 19, 3, 5, 2, 3, 7, 10, 15, 8, 6, 9], // Dados do gráfico
-            backgroundColor: 'rgba(75, 192, 192, 0.2)',
-            borderColor: 'rgba(75, 192, 192, 1)',
-            borderWidth: 1
-        }]
-    };
-
-    // Renderizar o gráfico
-    const ctx = document.getElementById('monthlyChart').getContext('2d');
-    const monthlyChart = new Chart(ctx, {
-        type: 'line',
-        data: data,
-        options: {
-            responsive: true,
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
-            }
-        }
-    });
-
-    // Atualizar os números nos spans
-    document.getElementById('numCursos').textContent = data.datasets[0].data.reduce((a, b) => a + b, 0); // Soma total dos dados
-    document.getElementById('numCapitulos').textContent = 50; // Exemplo de valor fixo
-    document.getElementById('numInscricoes').textContent = 120; // Exemplo de valor fixo
-    document.getElementById('numUtilizadores').textContent = 300; // Exemplo de valor fixo
-</script>
-</script>
-  </script>
   </body>
 </html>
