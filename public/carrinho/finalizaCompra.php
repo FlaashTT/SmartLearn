@@ -49,10 +49,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             //para inserir na tabela historico compras
             $stmt = $conn->prepare("
-                INSERT INTO historico_compras(Id_user, Id_curso, Data_compra,Preco)  
-                VALUES (?, ?, ?,?)
+                INSERT INTO historico_compras(Id_user, Id_curso, Data_compra)  
+                VALUES (?, ?, ?)
             ");
-            $stmt->bind_param("iisd", $_SESSION['utilizadorOn']['Id_user'], $id_curso, $DataAtual,$preco);
+            $stmt->bind_param("iis", $_SESSION['utilizadorOn']['Id_user'], $id_curso, $DataAtual);
 
             foreach ($listaCursos as $id_curso) {
                 $id_curso = (int) trim($id_curso); // garantir que é inteiro
