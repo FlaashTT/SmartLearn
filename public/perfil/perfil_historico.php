@@ -1,8 +1,21 @@
 <?php
-
 include('../segurança.php');
 include("../../database/basedados.sql");
-echo"Saldo disponivel ".$_SESSION['utilizadorOn']['Carteira'];
+
+
+// Definir número de resultados por página
+$quantidadePorPagina = 10;
+
+$pagina_atual = isset($_GET['pagina']) ? (int)$_GET['pagina'] : 1;
+$offset = ($pagina_atual - 1) * $quantidadePorPagina;
+
+// Total de registos para o utilizador
+$stmtTotal = $conn->prepare("SELECT COUNT(*) as total FROM historico_compras WHERE Id_user = ?");
+$stmtTotal->bind_param("i", $_SESSION['utilizadorOn']['Id_user']);
+$stmtTotal->execute();
+$resultTotal = $stmtTotal->get_result();
+$total_registos = $resultTotal->fetch_assoc()['total'];
+$total_paginas = ceil($total_registos / $quantidadePorPagina);
 ?>
 
 <!DOCTYPE html>
@@ -19,17 +32,13 @@ echo"Saldo disponivel ".$_SESSION['utilizadorOn']['Carteira'];
 
 <body>
     <!-- Cabeçalho -->
-    <?php
-    include("../../src/views/utils/cabecalho.html");
-    ?>
+    <?php include("../../src/views/utils/cabecalho.html"); ?>
 
-    <!-- Secção Principal (Hero) -->
+    <!-- Secção Principal -->
     <div class="banner"></div>
     <main class="container-perfil">
 
-        <?php
-        include("../../src/views/utils/sidebar.html");
-        ?>
+        <?php include("../../src/views/utils/sidebar.html"); ?>
 
         <section class="content">
             <div class="table-container">
@@ -45,50 +54,54 @@ echo"Saldo disponivel ".$_SESSION['utilizadorOn']['Carteira'];
                     </thead>
                     <tbody>
                         <?php
-
-
+                        // Consulta com LIMIT para paginação
                         $stmt = $conn->prepare("
                             SELECT * 
                             FROM historico_compras hc
                             INNER JOIN curso c ON hc.Id_curso = c.Id_curso
                             WHERE hc.Id_user = ?
-                            ORDER BY hc.Data_compra DESC;
-                            ");
-                        $stmt->bind_param("i", $_SESSION['utilizadorOn']['Id_user']);
+                            ORDER BY hc.Data_compra DESC
+                            LIMIT ? OFFSET ?
+                        ");
+                        $stmt->bind_param("iii", $_SESSION['utilizadorOn']['Id_user'], $quantidadePorPagina, $offset);
                         $stmt->execute();
                         $result = $stmt->get_result();
-                        $preçoTotal = 0;
+
                         if ($result->num_rows > 0) {
                             while ($row = $result->fetch_assoc()) {
-                                echo'
+                                echo '
                                 <tr>
-                                    <td>'.$row['Nome_curso'].'</td>
-                                    <td>'.$row['Data_compra'].'</td>
-                                    <td>'.$row['Preco'].'</td>
-                                    <td>'.$row['Tipo_pagamento'].'</td>
-                                    <form action="Processo_reembolso.php" method="POST">
-                                        <td>
+                                    <td>' . $row['Nome_curso'] . '</td>
+                                    <td>' . $row['Data_compra'] . '</td>
+                                    <td>' . $row['Preco'] . '€</td>
+                                    <td>' . $row['Tipo_pagamento'] . '</td>
+                                    <td>
+                                        <form action="Processo_reembolso.php" method="POST">
                                             <button class="category-btn" type="submit" name="idCurso" value="' . $row['Id_curso'] . '">Reembolso</button>
-                                        </td>
-                                    </form>
-                                </tr>
-                                ';
+                                        </form>
+                                    </td>
+                                </tr>';
                             }
+                        } else {
+                            echo '<tr><td colspan="5" class="no-records">Sem registos encontrados.</td></tr>';
                         }
-
                         ?>
-                        
-
-                        <tr>
-                            <td colspan="5" class="no-records">No records found</td>
-                        </tr>
                     </tbody>
                 </table>
-                <div class="pagination">
 
+                <!-- Paginação -->
+                <div class="pagination">
+                    <?php if ($pagina_atual > 1) : ?>
+                        <a href="?pagina=<?= $pagina_atual - 1 ?>">Anterior</a>
+                    <?php endif; ?>
+
+                    <span>Página <?= $pagina_atual ?> de <?= $total_paginas ?></span>
+
+                    <?php if ($pagina_atual < $total_paginas) : ?>
+                        <a href="?pagina=<?= $pagina_atual + 1 ?>">Próxima</a>
+                    <?php endif; ?>
                 </div>
             </div>
-
         </section>
     </main>
 
@@ -104,7 +117,6 @@ echo"Saldo disponivel ".$_SESSION['utilizadorOn']['Carteira'];
             <p>Privacy Policy | Terms & Conditions</p>
         </div>
     </footer>
-
 </body>
 
 </html>

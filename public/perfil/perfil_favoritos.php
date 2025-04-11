@@ -118,8 +118,7 @@ $result = $stmt->get_result();
                 ?>
             </div>
 
-            <!-- Paginação 
-            <div class="paginacao">
+            <div class="pagination">
                 <?php if ($pagina_atual > 1) : ?>
                     <a href="?pagina=<?= $pagina_atual - 1 ?>&category_id=<?= $category_id ?>&search=<?= urlencode($textoPesquisa) ?>">Anterior</a>
                 <?php endif; ?>
@@ -129,7 +128,7 @@ $result = $stmt->get_result();
                 <?php if ($pagina_atual < $total_paginas) : ?>
                     <a href="?pagina=<?= $pagina_atual + 1 ?>&category_id=<?= $category_id ?>&search=<?= urlencode($textoPesquisa) ?>">Próxima</a>
                 <?php endif; ?>
-            </div>-->
+            </div>
         </section>
     </main>
 
