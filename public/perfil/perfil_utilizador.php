@@ -109,7 +109,7 @@ include("../segurança.php");
                             <div class="input-wrapper">
                                 <span class="icon-square"><i class="fa-brands fa-linkedin"></i></span>';
                     $linkedin = !empty($row['URL_linkedin']) ? htmlspecialchars($row['URL_linkedin']) : 'Link do Linkedin';
-                    echo '<input type="text" id="linkedin-link" name="URL_linkedin" placeholder="'.$linkedin.'" value="">';
+                    echo '<input type="text" id="linkedin-link" name="URL_linkedin" placeholder="Link do Linkedin" value="'.$linkedin.'">';
 
                     echo '
                                 
@@ -119,12 +119,8 @@ include("../segurança.php");
                         <div class="divider"></div>
                         <div class="from-group file-input">
                             <label>Alterar imagem de perfil</label>
-                            ';
-                    if (empty($row['URL_foto_perfilUser'])) {
-                        echo '<input type="file" id="profile-image" name="url_imagem">';
-                    } else {
-                        echo '<input type="file" id="profile-image" name="url_imagem">';
-                    }
+                            <input type="file" id="profile-image" name="url_imagem" accept=".jpg, .jpeg, .png">';
+                    
                     echo '
                         </div>
 
