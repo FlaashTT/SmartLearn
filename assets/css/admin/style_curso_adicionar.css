@@ -350,8 +350,299 @@ textarea{
     transition: background-color 0.3s ease;
 }
 
+.tab-content {
+  display: none;
+}
+
+.tab-content.active {
+  display: block;
+}
+.form-content.tab-content[data-content="info"] .modulo-input-container {
+  display: flex;
+  margin-bottom: 10px;
+}
+
+.form-content.tab-content[data-content="info"] .modulo-input {
+  flex: 1;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px 0 0 4px;
+  font-size: 14px;
+}
+
+.form-content.tab-content[data-content="info"] .modulo-btn-adicionar {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  font-size: 18px;
+  border-radius: 0 4px 4px 0;
+  cursor: pointer;
+}
+
+.form-content.tab-content[data-content="info"] .modulo-btn-adicionar:hover {
+  background-color: #0056b3;
+}
+
+.form-content.tab-content[data-content="info"] .modulos-lista {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.form-content.tab-content[data-content="info"] .modulos-lista li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #e0f7fa;
+  padding: 6px 10px;
+  border-radius: 4px;
+  margin-bottom: 5px;
+  font-size: 14px;
+}
+
+.form-content.tab-content[data-content="info"] .modulo-btn-remover {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  padding: 4px 8px;
+  font-size: 16px;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.form-content.tab-content[data-content="info"] .modulo-btn-remover:hover {
+  background-color: #b02a37;
+}
+
+/* ---------- Estilo para o botão de adicionar módulo ---------- */
 
 
+.checkbox-curso {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+  margin-top: 2px;
+}
+
+.checkbox-curso input[type="checkbox"] {
+  margin: 0;
+  width: 12px;
+  height: 12px;
+  margin-top: 1px;
+}
+
+.checkbox-curso .label-btn {
+  font-size: 14px;
+  line-height: 1;
+  margin-top: 5px;
+}
+
+/* ---------- Estilo para o form de midia ---------- */
+
+/* Estilos para o card de pré-visualização */
+/* Estilos para o formulário */
+.form-group {
+  margin-bottom: 15px;
+}
+
+#ficheiro {
+  padding: 8px;
+  width: 100%;
+}
+
+/* Estilos para o card de pré-visualização */
+.card-preview {
+  width: 100%;
+  max-width: 400px;
+  margin-top: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding: 15px;
+  background-color: #fff;
+  display: block; /* O card agora estará sempre visível */
+  opacity: 1;
+  transition: opacity 1s ease-out; /* Animação para o desaparecimento do card */
+}
+
+.card-content {
+  text-align: center;
+}
+
+.card-content img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+.card-content p {
+  font-size: 14px;
+  color: #555;
+  margin-top: 10px;
+}
+
+/* Placeholder no card para quando não houver imagem */
+.card-preview .card-content p {
+  color: #888;
+  font-style: italic;
+}
+
+/* Estilo para a mensagem de erro */
+.card-preview .card-content p.error {
+  color: red;
+  font-weight: bold;
+  animation: fadeOut 1s forwards; /* Animação de desaparecimento */
+}
+
+/* Animação para a mensagem de erro desaparecer */
+@keyframes fadeOut {
+  0% {
+      opacity: 1;
+  }
+  100% {
+      opacity: 0;
+  }
+}
+
+/* Estilos para o conteúdo da aba Hashtag */
+.tab-content[data-content="hashtag"] {
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.tab-content[data-content="hashtag"] .form-content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.tab-content[data-content="hashtag"] .form-group {
+    margin-bottom: 15px;
+    width: 100%;
+}
+
+.tab-content[data-content="hashtag"] .form-group label {
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.tab-content[data-content="hashtag"] .hashtag-input-container {
+  display: flex;
+  margin-bottom: 10px;
+}
+
+.tab-content[data-content="hashtag"] .hashtag-input {
+  flex: 1;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px 0 0 4px;
+  font-size: 14px;
+}
+
+.tab-content[data-content="hashtag"] .hashtag-btn-adicionar {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  font-size: 18px;
+  border-radius: 0 4px 4px 0;
+  cursor: pointer;
+}
+
+.tab-content[data-content="hashtag"] .hashtag-btn-adicionar:hover {
+    background-color: #007bff;
+}
+
+/* Estilos para a lista de módulos */
+.tab-content[data-content="hashtag"] .hashtags-lista {
+    list-style-type: none;
+    padding-left: 0;
+    margin-top: 10px;
+}
+
+.tab-content[data-content="hashtag"] .hashtags-lista li {
+    padding: 8px;
+    background-color: #e0f7fa;
+    border-radius: 4px;
+    margin-bottom: 5px;
+    font-size: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.tab-content[data-content="hashtag"] .hashtags-lista li .hashtag-btn-remover {
+    padding: 5px 10px;
+    background-color: #ff5733;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.tab-content[data-content="hashtag"] .hashtags-lista li .hashtag-btn-remover:hover {
+    background-color: #d9534f;
+}
+
+
+
+/* Estilo para o ícone */
+.icone-container {
+  font-size: 24px;
+  color: #4CAF50; /* Cor verde para o ícone */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px; /* Espaço entre o ícone e o título */
+  justify-content: center;
+  text-align: center;
+}
+
+/* Estilo para o título */
+.titulo {
+  margin-top: 20px; /* Espaço entre o ícone e o título */
+  font-size: 24px;
+  color: #333;
+}
+
+/* Estilo para o parágrafo */
+.paragrafo {
+  font-size: 16px;
+  line-height: 0.2;
+  color: #555; /* Cor do texto */
+  margin: 15px 0; /* Espaço acima e abaixo do parágrafo */
+  text-align: center; /* Centraliza o texto */
+  font-family: 'Arial', sans-serif; /* Fonte */
+}
+
+/* Estilo para o parágrafo em destaque */
+.paragrafo.destaque {
+  font-weight: bold;
+  color: #007bff; /* Cor de destaque */
+  font-size: 18px;
+}
+
+
+/* Estilo para o botão */
+.btn-enviar {
+  padding: 12px 20px;
+  font-size: 18px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.btn-enviar:hover {
+  background-color: #0056b3;
+}
 
   
 
