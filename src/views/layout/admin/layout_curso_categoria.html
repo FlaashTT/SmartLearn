@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="pt">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SmartLearn</title>
+    <link
+      rel="stylesheet"
+      href="/assets/fontawesome/fontawesome/css/all.min.css"
+    />
+    <link rel="stylesheet" href="/assets/css/admin/style_admin.css" />
+    <link rel="stylesheet" href="/assets/css/admin/style_curso_categoria.css" />
+  </head>
+  <body>
+    <!-- Cabeçalho -->
+    <header>
+      <div class="container-admin">
+        <nav>
+          <div class="nav-left">
+            <div class="logo">
+              <a href="layout_base.html"><img src="/assets/image/Logo.png" alt="Logo" /></a>
+              <span class="brand-name">SmartLearn</span>
+            </div>
+            <ul class="nav-links">
+              <li>
+                <button class="back-button">Voltar ao site</button>
+              </li>
+            </ul>
+          </div>
+          <div class="nav-right">
+            <ul class="nav-links">
+                <div class="avatar">
+                    <img src="/assets/image/Admin.png" alt="Avatar" class="avatar-image" />
+                </div>
+                <div class="profile-info">
+                    <p>Administrador de Sistema</p>
+                    <p class="Name">Administrador LePinh</p>
+                </div>
+            </ul>
+          </div>
+        </nav>
+      </div>
+    </header>
+
+    
+
+    <!-- Secção Principal (Hero) -->
+    <div class="container-admin">
+    <main class="container">
+        <aside class="sidebar">
+
+            <div class="user-info">
+                <div class="avatar-sidebar">
+                    <img src="/assets/image/User.png" alt="Erro">
+                </div>
+                <div class="user-details">
+                    <p>Administrador de Sistema</p>
+                </div>
+            </div>
+
+            <nav class="navigation">
+                <ul>
+                    <h4>Navegação</h4>
+                    <li>
+                        <i class="fas fa-tachometer-alt"></i> Painel
+                    </li>
+                    <li class="has-submenu">
+                        <i class="fas fa-book"></i> Cursos <i class="fas fa-chevron-right toggle-icon"></i>
+                        <ul class="submenu">
+                            <li>Dashboard Cursos</li>
+                            <li>Gerenciar cursos</li>
+                            <li>Adicionar novo curso</li>
+                            <li>Categoria do curso</li>
+                        </ul>
+                    </li>
+                    <li class="has-submenu">
+                        <i class="fas fa-user-check"></i> Inscrição <i class="fas fa-chevron-right toggle-icon"></i>
+                        <ul class="submenu">
+                            <li>Matricular no curso</li>
+                            <li>Registrar histórico</li>
+                        </ul>
+                    </li>
+                    <li class="has-submenu">
+                        <i class="fas fa-chart-bar"></i> Relatórios <i class="fas fa-chevron-right toggle-icon"></i>
+                        <ul class="submenu">
+                            <li>Relatório de cursos</li>
+                            <li>Relatório de utilizadores</li>
+                        </ul>
+                    </li>
+                    <li class="has-submenu">
+                        <i class="fas fa-users"></i> Utilizadores <i class="fas fa-chevron-right toggle-icon"></i>
+                        <ul class="submenu">
+                            <li>Gerenciar utilizadores</li>
+                            <li>Adicionar novo utilizador</li>
+                        </ul>
+                    </li>
+                    <li class="has-submenu">
+                        <i class="fas fa-cogs"></i> Configurações <i class="fas fa-chevron-right toggle-icon"></i>
+                        <ul class="submenu">
+                            <li>Configurações do sistema</li>
+                            <li>Preferências de notificação</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <i class="fas fa-user-cog"></i> Gerenciamento perfil
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="container-page">
+            <section class="main-content" style="display: flex; align-items: center; justify-content: space-between;">
+                <h1 style="display: flex; align-items: center;">
+                    <i style="font-size: 18px; margin-right: 10px;" class="fas fa-book"></i>   Categorias
+                </h1>
+                <button id="btnAdicionarCategoria" style="padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; display: flex; align-items: center; gap: 8px;">
+                    <i class="fa-solid fa-plus"></i> Adicionar nova categoria
+                </button>
+            </section>
+
+                <section class="page">
+                    <div id="formCategoria" style="display: none;">
+                        <h2>Formulário de Adição de uma categorias</h2>
+                        <form class="form-content">
+                            <div class="form-group">
+                                <label for="titulo">Título da Categoria</label>
+                                <input type="text" id="titulo" placeholder="Digite o título do curso" required />
+                            </div>
+                            <div class="form-group">
+                                <label for="categorias">Tipo de categoria</label>
+                                <select id="categorias">
+                                    <option>Selecione</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="descricao-curta">Selector de ícones</label>
+                                <input type="text" id="descricao-curta" placeholder="Digite uma pequena descrição" required />
+                            </div>
+                            <div class="form-group">
+                                <label for="miniatura">Miniatura da categoria <span>(O tamanho da imagem deve ser 400 x 255)</span></label>
+                                <input type="file" id="miniatura" required />
+                            </div>
+                            <div class="form-buttons">
+                                <button type="submit" class="btn-enviar">Enviar</button>
+                                <button type="button" class="btn-voltar">Voltar</button>
+                            </div>
+                        </form>
+                        
+                    </div>
+
+                    <section class="card-container">
+                        <div class="card">
+                            <div class="card-image">
+                                <img src="/assets/image/Curso.png" alt="Curso" />
+                            </div>
+                            <div class="card-content">
+                                <div class="card-header">
+                                    <h3><i class="fas fa-book"></i> Tecnologia</h3>
+                                    <p>2 Subcategorias</p>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <button class="btn edit-btn">Editar</button>
+                                <button class="btn delete-btn">Apagar</button>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-image">
+                                <img src="/assets/image/Curso.png" alt="Curso" />
+                            </div>
+                            <div class="card-content">
+                                <div class="card-header">
+                                    <h3><i class="fas fa-book"></i> Tecnologia</h3>
+                                    <p>2 Subcategorias</p>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <button class="btn edit-btn">Editar</button>
+                                <button class="btn delete-btn">Apagar</button>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-image">
+                                <img src="/assets/image/Curso.png" alt="Curso" />
+                            </div>
+                            <div class="card-content">
+                                <div class="card-header">
+                                    <h3><i class="fas fa-book"></i> Tecnologia</h3>
+                                    <p>2 Subcategorias</p>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <button class="btn edit-btn">Editar</button>
+                                <button class="btn delete-btn">Apagar</button>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-image">
+                                <img src="/assets/image/Curso.png" alt="Curso" />
+                            </div>
+                            <div class="card-content">
+                                <div class="card-header">
+                                    <h3><i class="fas fa-book"></i> Tecnologia</h3>
+                                    <p>2 Subcategorias</p>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <button class="btn edit-btn">Editar</button>
+                                <button class="btn delete-btn">Apagar</button>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-image">
+                                <img src="/assets/image/Curso.png" alt="Curso" />
+                            </div>
+                            <div class="card-content">
+                                <div class="card-header">
+                                    <h3><i class="fas fa-book"></i> Tecnologia</h3>
+                                    <p>2 Subcategorias</p>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <button class="btn edit-btn">Editar</button>
+                                <button class="btn delete-btn">Apagar</button>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-image">
+                                <img src="/assets/image/Curso.png" alt="Curso" />
+                            </div>
+                            <div class="card-content">
+                                <div class="card-header">
+                                    <h3><i class="fas fa-book"></i> Tecnologia</h3>
+                                    <p>2 Subcategorias</p>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <button class="btn edit-btn">Editar</button>
+                                <button class="btn delete-btn">Apagar</button>
+                            </div>
+                        </div>
+                    </section>
+                </section>
+
+                <!-- Modal para Editar -->
+            <div id="editModal" class="modal" style="display: none;">
+                    <div class="modal-content">
+                        <h2>Editar Curso</h2>
+                        <form id="editForm">
+                            <label for="editTitle">Título do Curso:</label>
+                            <input type="text" id="editTitle" name="editTitle" required>
+                    
+                            <label for="editSubcategories">Subcategorias: </label>
+                            <div id="subcategoriesContainer">
+                                <input type="text" id="editSubcategory1" name="editSubcategories[]" required>
+                            </div>
+                            <button type="button" id="addSubcategoryBtn" class="btn">Adicionar Subcategoria</button>
+                    
+                            <button type="submit" class="btn">Salvar</button>
+                            <button type="button" class="btn cancel-btn" onclick="closeModal('editModal')">Cancelar</button>
+                        </form>
+                    </div>
+            </div>
+
+            <!-- Modal para Confirmar Exclusão -->
+            <div id="deleteModal" class="modal" style="display: none;">
+                <div class="modal-content">
+                    <h2>Confirmar Exclusão</h2>
+                    <p>Tem certeza de que deseja apagar este curso?</p>
+                    <button id="confirmDelete" class="btn delete-btn">Sim, Apagar</button>
+                    <button type="button" class="btn cancel-btn" onclick="closeModal('deleteModal')">Cancelar</button>
+                </div>
+            </div>
+            
+        </main>
+    </main>
+    </div>
+
+    <script>
+    document.querySelectorAll('.has-submenu').forEach(item => {
+        item.addEventListener('click', () => {
+            // Alterna a classe "open" no item clicado
+            item.classList.toggle('open');
+        });
+    });
+    </script>
+
+    <script>
+        // Mostrar o formulário ao clicar no botão de adicionar
+        document.getElementById('btnAdicionarCategoria').addEventListener('click', () => {
+        document.getElementById('formCategoria').style.display = 'block';
+        document.querySelector('.card-container').style.display = 'none';
+        });
+    
+        // Esconder o formulário e mostrar os cartões ao clicar em "Voltar"
+        document.querySelector('.btn-voltar').addEventListener('click', () => {
+        document.getElementById('formCategoria').style.display = 'none';
+        document.querySelector('.card-container').style.display = 'grid'; // ou 'block', dependendo do teu layout
+        });
+    </script>
+    
+    <script>
+        let currentCard = null; // Já está no teu script
+        let currentCourseId = null; // Adiciona esta variável para guardar o ID real do curso
+
+        // Lidar com botão de apagar
+        document.querySelectorAll('.delete-btn').forEach((button) => {
+            button.addEventListener('click', (event) => {
+                currentCard = event.target.closest('.card'); // Guarda o card atual
+                currentCourseId = currentCard.dataset.id; // Assumindo que colocas data-id no card com o ID do curso
+                openModal('deleteModal'); // Abre o modal de confirmação
+            });
+        });
+        
+        // Lidar com confirmação de apagar
+        document.getElementById('confirmDelete').addEventListener('click', () => {
+            if (currentCard) {
+                // Remover o card da página (podes também fazer um pedido ao servidor para remover da base de dados)
+                currentCard.remove();
+
+                // Exemplo: redirecionar para script PHP para apagar
+                // window.location.href = `apagar_curso.php?id=${currentCourseId}`;
+
+                closeModal('deleteModal');
+                currentCard = null;
+                currentCourseId = null;
+            }
+        });
+
+        // Função para abrir um modal
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = 'flex';
+        }
+    
+        // Função para fechar um modal
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+    
+        // Função para editar o card
+
+        document.querySelectorAll('.edit-btn').forEach((button) => {
+            button.addEventListener('click', (event) => {
+                currentCard = event.target.closest('.card'); // Encontra o card correspondente
+                const title = currentCard.querySelector('.card-header h3').textContent;
+                const subcategories = currentCard.querySelector('.card-header p').textContent;
+
+                // Preenche os campos do modal com os valores atuais
+                document.getElementById('editTitle').value = title;
+
+                // Preenche as subcategorias no modal de forma não editável
+                const subcategoryContainer = document.getElementById('subcategoriesContainer');
+                subcategoryContainer.innerHTML = ''; // Limpa as subcategorias existentes
+
+                if (subcategories.trim() === '') {
+                    // Se não houver subcategorias, cria um input vazio
+                    const subcategoryInput = document.createElement('input');
+                    subcategoryInput.type = 'text';
+                    subcategoryInput.name = 'editSubcategories[]';
+                    subcategoryInput.required = true;
+                    subcategoryInput.placeholder = 'Nova Subcategoria';
+                    subcategoryContainer.appendChild(subcategoryInput);
+                } else {
+                    subcategories.split(',').forEach((subcategory) => {
+                        const subcategoryElement = document.createElement('div');
+                        subcategoryElement.classList.add('subcategory');
+                        subcategoryElement.textContent = subcategory.trim();
+
+                        // Cria um botão de remoção para cada subcategoria
+                        const removeBtn = document.createElement('button');
+                        removeBtn.textContent = 'Remover';
+                        removeBtn.type = 'button';
+                        removeBtn.classList.add('remove-btn');
+                        removeBtn.addEventListener('click', () => {
+                            subcategoryElement.remove(); // Remove a subcategoria ao clicar no botão
+                            updateSubcategoriesInCard(); // Atualiza o card após a remoção
+                        });
+
+                        // Adiciona o botão de remoção ao lado da subcategoria
+                        subcategoryElement.appendChild(removeBtn);
+                        subcategoryContainer.appendChild(subcategoryElement);
+                    });
+                }
+
+                openModal('editModal'); // Abre o modal de edição
+            });
+        });
+
+        // Função para atualizar o card após a remoção de subcategorias
+        function updateSubcategoriesInCard() {
+            const subcategoryContainer = document.getElementById('subcategoriesContainer');
+            const subcategories = Array.from(subcategoryContainer.querySelectorAll('input')).map(input => input.value).join(', ');
+
+            // Atualiza o card com as subcategorias restantes
+            currentCard.querySelector('.card-header p').textContent = subcategories;
+
+            // Se não houver subcategorias, adiciona o campo de input para nova subcategoria
+            if (subcategories.trim() === '') {
+                const subcategoryInput = document.createElement('input');
+                subcategoryInput.type = 'text';
+                subcategoryInput.name = 'editSubcategories[]';
+                subcategoryInput.required = true;
+                subcategoryInput.placeholder = 'Nova Subcategoria';
+                subcategoryContainer.appendChild(subcategoryInput);
+            }
+        }
+
+        // Adicionar subcategoria dinamicamente
+        document.getElementById('addSubcategoryBtn').addEventListener('click', () => {
+            // Cria um novo campo de input para subcategoria
+            const subcategoryInput = document.createElement('input');
+            subcategoryInput.type = 'text';
+            subcategoryInput.name = 'editSubcategories[]';
+            subcategoryInput.required = true;
+            subcategoryInput.placeholder = 'Nova Subcategoria';
+
+            // Adiciona o novo campo de input ao contêiner de subcategorias
+            const subcategoryContainer = document.getElementById('subcategoriesContainer');
+            subcategoryContainer.appendChild(subcategoryInput); // Em vez de limpar, apenas adiciona o novo input
+        });
+
+        // Salvar alterações no modal de edição
+        document.getElementById('editForm').addEventListener('submit', (event) => {
+            event.preventDefault(); // Evita o envio do formulário
+            const newTitle = document.getElementById('editTitle').value;
+
+            // Recolher as subcategorias após a adição
+            const subcategories = Array.from(document.querySelectorAll('#subcategoriesContainer input')).map(input => input.value).join(', ');
+
+            // Atualiza os valores no card
+            currentCard.querySelector('.card-header h3').textContent = newTitle;
+            currentCard.querySelector('.card-header p').textContent = subcategories;
+
+            closeModal('editModal'); // Fecha o modal
+        });
+
+        
+    </script>
+    
+
+  </body>
+</html>
