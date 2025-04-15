@@ -127,11 +127,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             } else {
                 // Se já existe imagem, elimina a antiga e depois insere a nova
                 $file = "../../assets/image/fotosPerfil/" . $_SESSION['utilizadorOn']['URL_foto_perfilUser'];
-            
+
                 if (file_exists($file)) {
                     if (unlink($file)) {
                         echo "Imagem antiga removida com sucesso!";
-            
+
                         // Agora insere a nova imagem e atualiza a base de dados
                         inserirImagem($conn, $idUser);
                         $alteracaoFeita = true;
@@ -143,7 +143,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $erro = true;
                 }
             }
-            
         }
 
 
@@ -160,6 +159,41 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $alteracaoFeita = true;
             }
         }
+
+        //trocar palavra pass
+        if (!empty($_POST['OldPass']) && !empty($_POST['novaPass'])) {
+            // Verifica se a senha nova é igual à senha antiga
+            if ($_POST['OldPass'] == $_POST['novaPass']) {
+                echo "<script>
+                alert('A palavra passe nova não pode ser igual à antiga!');
+                </script>";
+                $erro = true;
+            } else {
+                $passantigaBD = $row['Password']; 
+
+                if (hash('sha256', $_POST['OldPass']) == $passantigaBD) {
+                   
+                    $password = hash('sha256', $_POST['novaPass']);
+
+                    // Atualizar na BD
+                    $sql = "UPDATE user SET Password = ? WHERE Id_user = ?";
+                    $stmt = $conn->prepare($sql);
+                    $stmt->bind_param("si", $password, $idUser);
+
+                    if ($stmt->execute()) {
+                        $stmt->close();
+                        $alteracaoFeita = true;
+                    } else {
+                        echo "<script>alert('Erro ao atualizar a senha.');</script>";
+                    }
+                } else {
+                    echo "<script>
+                    alert('Palavra passe atual incorreta!');
+                    </script>";
+                    $erro = true;
+                }
+            }
+        }
     }
 
     if (!$erro && $alteracaoFeita) {
@@ -169,7 +203,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             window.location.href = document.referrer;
             </script>
             ';
-    }elseif(!$alteracaoFeita){
+    } elseif (!$alteracaoFeita) {
         echo '
         <script>
             alert("Nenhuma mudança registada!");
@@ -177,7 +211,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </script>
         ';
     }
-
 } else {
     $erro = true;
 }
@@ -236,4 +269,3 @@ function inserirImagem($conn, $idUser)
         echo "<br>Formato de imagem inválido. Apenas JPG, JPEG e PNG são permitidos.";
     }
 }
-

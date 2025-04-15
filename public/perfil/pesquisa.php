@@ -19,7 +19,11 @@ function pesquisaFiltro($tabela, $Id_user, $categoria = null, $textoPesquisa = n
                      INNER JOIN curso c ON cf.Id_curso = c.Id_curso
                      WHERE cf.Id_user = ?";
             break;
-
+        case "logs_sistema":
+            $sql =  "SELECT * 
+                FROM logs_sistema 
+                WHERE Id_user = ?";
+            break;
         default:
             return false;
     }
@@ -34,4 +38,3 @@ function pesquisaFiltro($tabela, $Id_user, $categoria = null, $textoPesquisa = n
 
     return $sql;
 }
-?>

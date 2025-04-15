@@ -15,7 +15,9 @@ include("../segurança.php");
         href="../../assets/fontawesome/fontawesome/css/all.min.css" />
     <link rel="stylesheet" href="../../assets/css/style_user.css" />
     <link rel="stylesheet" href="../../assets/css/style_perfil_conta.css" />
+    <!--
     <script src="../../assets/js/perfil_conta.js"></script>
+-->
 </head>
 
 <body>
@@ -71,21 +73,21 @@ include("../segurança.php");
                     <label for="old-password">Password antiga</label>
                     <div class="input-wrapper">
                         <span class="icon-square"><i class="fa-solid fa-lock"></i></span>
-                        <input type="password"  placeholder="Digite sua senha antiga" id="old-password">
+                        <input type="password" name="OldPass" placeholder="Digite sua senha antiga" id="old-password">
                     </div>
                 </div>
                 <div class="from-group-conta">
                     <label for="new-password">Nova password</label>
                     <div class="input-wrapper">
                         <span class="icon-square"><i class="fa-solid fa-key"></i></span>
-                        <input type="password"  placeholder="Digite sua nova senha" id="new-password">
+                        <input type="password" name="novaPass" placeholder="Digite sua nova senha" id="new-password">
                     </div>
                 </div>
                 <div class="from-group-conta">
                     <label for="confirm-password">Confirmação password</label>
                     <div class="input-wrapper">
                         <span class="icon-square"><i class="fa-solid fa-check"></i></span>
-                        <input type="password"  placeholder="Confirme sua nova senha" id="confirm-password">
+                        <input type="password" placeholder="Confirme sua nova senha" id="confirm-password">
                     </div>
                 </div>
                 <div class="submit-button">
@@ -101,7 +103,7 @@ include("../segurança.php");
 
     <!-- Rodapé -->
     <?php
-        include("../../src/views/utils/rodape.html");
+    include("../../src/views/utils/rodape.html");
     ?>
 </body>
 

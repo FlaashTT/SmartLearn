@@ -10,8 +10,9 @@
     href="../../assets/fontawesome/fontawesome/css/all.min.css" />
   <link rel="stylesheet" href="../../assets/css/style.css" />
   <link rel="stylesheet" href="../../assets/css/style_registro.css" />
-
+<!--
   <script src="../../assets/js/registo.js"></script>
+-->
 </head>
 
 <body>
@@ -100,7 +101,7 @@
 <?php
 session_start();
 include("../../database/basedados.sql");
-include("../gestao/logs.php");
+include("../logs.php");
 
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
