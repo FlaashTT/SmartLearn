@@ -1,0 +1,335 @@
+
+.container-admin {
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.container {
+  display: flex; /* Define o layout como flexbox */
+  flex-direction: row; /* Garante que os elementos fiquem lado a lado */
+  gap: 20px; /* Espaçamento entre o aside e a seção principal */
+}
+
+  /* ---------- Secção Principal (Hero) ---------- */
+  
+.content{
+  display: flex;
+  flex: 1;
+}
+
+.sidebar{
+  margin-top: 50px;
+  height: calc(140vh - 50px);
+  width: 400px;
+  margin-right: 40px;
+  background-color: aliceblue;
+  padding: 20px;
+  overflow-y: auto;
+  position: sticky;
+  box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+}
+
+
+.user-info{
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  flex-direction: column;
+}
+
+.user-details {
+  text-align: center; /* Centraliza o texto */
+}
+
+.avatar-sidebar{
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  margin-bottom: 10px;
+}
+
+.avatar-sidebar img{
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+}
+
+.user-details p{
+  margin: 0;
+}
+
+.navigation {
+  padding: 15px;
+  border-radius: 5px;
+}
+
+.navigation ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.navigation li{
+  gap: 10px;
+  display: flex;
+  align-items: center;
+  padding: 10px 15px;
+  font-size: 16px;
+  border-bottom: #33333325 1px solid;
+}
+
+.navigation h4{
+  font-size: 14px;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.navigation ul li {
+  display: block;
+  align-items: center;
+  padding: 10px 15px;
+  font-size: 16px;
+  color: #333;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.navigation ul li i.fa-chevron-right {
+  margin-left: auto; /* Move apenas as setas para o final */
+}
+
+
+.submenu {
+  display: none; /* Esconde o submenu por padrão */
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  padding-left: 0; /* Remove o recuo */
+}
+
+.submenu li {
+  padding: 10px 15px; /* Espaçamento interno dos itens do submenu */
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-left: 20px;
+}
+
+
+
+.has-submenu.open .submenu {
+  display: block; /* Mostra o submenu quando o item está aberto */
+}
+
+.has-submenu .toggle-icon {
+  margin-left: auto;
+  transition: transform 0.3s ease;
+}
+
+.has-submenu.open .toggle-icon {
+  transform: rotate(90deg); /* Roda a seta para baixo */
+}
+
+
+.container-page {
+  display: flex; /* Define o layout como flexbox */
+  flex-direction: column; /* Alinha os elementos verticalmente */
+  gap: 20px; /* Espaçamento entre os elementos */
+  width: 100%; /* Largura total */
+  margin-top: 50px;
+}
+
+.main-content{
+  width: 100%; 
+  padding: 20px;
+  background-color: #fff; 
+  border-radius: 5px; 
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
+  height: auto; 
+}
+
+.course-list{
+  width: 100%; 
+  padding: 20px;
+  background-color: #fff; 
+  border-radius: 5px; 
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
+  height: auto; 
+}
+
+.search-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+  
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: Arial, sans-serif;
+}
+
+thead th {
+    background-color: #f2f2f2;
+    text-align: left;
+    padding: 12px;
+    font-weight: bold;
+}
+
+tbody td {
+    padding: 12px;
+    vertical-align: middle; /* Alinha verticalmente ao centro */
+    border-top: 1px solid #ddd;
+}
+
+.avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid #ccc;
+}
+
+/* Estilo do botão */
+button.ver {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.2s ease;
+}
+
+button.ver:hover {
+    background-color: #0056b3;
+}
+
+td i.fa-trash {
+  cursor: pointer;
+  font-size: 20px;
+  margin-left: 10px;
+}
+
+td i.fa-trash:hover {
+  color: #c04f43;
+}
+
+
+
+
+.course-list h2{
+  margin-top: 0;
+}
+
+.filters {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap;
+    margin-bottom: 1px;
+    padding: 15px;
+    border-radius: 8px;
+  }
+  
+  .filters label {
+    font-weight: bold;
+    font-size: 14px;
+  }
+  
+  .search-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  #searchInput {
+    margin-left: 200px;
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+    width: 600px;
+  }
+  
+  #searchButton,
+  .filters button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.2s ease;
+  }
+  
+  #searchButton:hover,
+  .filters button:hover {
+    background-color: #0056b3;
+  }
+  
+/* Estilo do seletor de entradas */
+div select {
+  padding: 6px 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #fff;
+  font-size: 14px;
+}
+
+/* Texto "Mostrar X entradas" */
+div select:focus {
+  outline: none;
+  border-color: #007bff;
+}
+
+/* Rodapé "A mostrar X a Y de Z entradas" */
+div[style*="margin-top: 10px"] {
+  font-size: 14px;
+  color: #555;
+}
+
+
+.pagination{
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.pagination button{
+  padding: 8px 14px;
+  margin: 5px 4px 0 0;
+  border: 1px solid #ccc;
+  background-color: #f9f9f9;
+  color: #333;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.pagination button:hover{
+  background-color: #007bff;
+  color: white;
+  border: 1px solid #007bff;
+}
+
+
+
+
+
+  
+
+
+  
+
+  
+
+  
+  
