@@ -127,9 +127,15 @@ $result = $stmt->get_result();
 
                                 echo '
                                     <tr>
-                                        <td>01/01/2025</td>
-                                        <td>Adição de saldo</td>
-                                        <td class="positive">+50.00€</td>
+                                        <td>' . $row['Data_log'] . '</td>
+                                        <td>' . $row['Tipo_log'] . '</td>
+                                        ';
+                                if ($row['Tipo_log'] == "Levantamento de saldo" || $row['Tipo_log'] == "Compra curso") {
+                                    echo '<td class="negative">-' . number_format($row['saldo'], 2, ',', '') . '€</td>';
+                                } else {
+                                    echo '<td class="positive">+' . number_format($row['saldo'], 2, ',', '') . '€</td>';
+                                }
+                                echo '  
                                     </tr>
                                     ';
                             }
