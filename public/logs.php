@@ -3,6 +3,7 @@ include('../../database/basedados.sql');
 
 function criarLogs($tipoLog, $idUser, $saldo = null, $idCurso = null, $idCategoria = null)
 { //devemos por mais campos,ter de ver depois oq vai ser necesario
+    
     global $conn;
 
     date_default_timezone_set("Europe/Lisbon");
@@ -16,11 +17,12 @@ function criarLogs($tipoLog, $idUser, $saldo = null, $idCurso = null, $idCategor
             break;
 
         case "Levantamento de saldo":
-            $descricaoLog = "Foi levantado saldo no valor de " . $saldo . " €(euros)";
+            $descricaoLog = "Foi levantado saldo no valor de " . $saldo . " € euros";
             break;
 
         case "Deposito de saldo":
-            $descricaoLog = "Foi depositado na conta o valor de " . $saldo . "€euros";
+            $descricaoLog = "Foi depositado na conta o valor de " . $saldo . "€ euros";
+            
             break;
 
 
@@ -56,8 +58,8 @@ function criarLogs($tipoLog, $idUser, $saldo = null, $idCurso = null, $idCategor
             $descricaoLog = "A categoria " . $idCategoria . " foi alterada";
             break;
     }
-    $stmt = $conn->prepare("INSERT INTO logs_sistema (Id_user, Descricao_log, Tipo_log, Data_log) VALUES  (?, ?, ?, ?)");
-    $stmt->bind_param("ssss", $idUser, $descricaoLog, $tipoLog, $DataAtual);
+    $stmt = $conn->prepare("INSERT INTO logs_sistema (Id_user, Descricao_log, Tipo_log, Data_log, saldo) VALUES (?, ?, ?, ?, ?)");
+    $stmt->bind_param("isssd", $idUser, $descricaoLog, $tipoLog, $DataAtual, $saldo);
 
 
     if (!$stmt->execute()) {

@@ -1,22 +1,25 @@
 window.onload = function () {
-    let levantarSaldo = document.getElementById("levantarSaldo");
-    let btnLevantarSaldo = document.getElementById("btnLevantarSaldo");
+    const levantarSaldo = document.getElementById("levantarSaldo");
+    const btnLevantarSaldo = document.getElementById("btnLevantarSaldo");
 
-    let adicionarSaldo = document.getElementById("adicionarSaldo");
-    let btnAdicionarSaldo = document.getElementById("btnAdicionarSaldo");
+    const adicionarSaldo = document.getElementById("adicionarSaldo");
+    const btnAdicionarSaldo = document.getElementById("btnAdicionarSaldo");
+
+    const form = document.querySelector("form"); // se houver um form
 
     function atualizarCampos() {
-        if (adicionarSaldo.value !== "") {
+        // Se estiver a adicionar saldo, bloqueia levantamento
+        if (adicionarSaldo.value.trim() !== "") {
             levantarSaldo.disabled = true;
             btnLevantarSaldo.disabled = true;
             btnLevantarSaldo.style.opacity = "0.5";
         } else {
             levantarSaldo.disabled = false;
-            btnLevantarSaldo.disabled = false;
-            btnLevantarSaldo.style.opacity = "1";
+            verificarSaldo(); // força verificação antes de reabilitar botão
         }
 
-        if (levantarSaldo.value !== "") {
+        // Se estiver a levantar saldo, bloqueia adicionar
+        if (levantarSaldo.value.trim() !== "") {
             adicionarSaldo.disabled = true;
             btnAdicionarSaldo.disabled = true;
             btnAdicionarSaldo.style.opacity = "0.5";
@@ -27,11 +30,47 @@ window.onload = function () {
         }
     }
 
-    if (levantarSaldo && adicionarSaldo && btnAdicionarSaldo && btnLevantarSaldo) {
-        levantarSaldo.addEventListener("input", atualizarCampos);
+    function verificarSaldo() {
+        const saldoElemento = document.getElementById("saldo");
+        const valorTexto = saldoElemento.querySelector("strong").innerText;
+
+        const saldoAtual = parseFloat(valorTexto.replace(',', '.'));
+        const valorInput = parseFloat(levantarSaldo.value.replace(',', '.'));
+
+        // Verificações robustas
+        if (
+            isNaN(valorInput) ||
+            valorInput <= 0 ||
+            valorInput > saldoAtual
+        ) {
+            btnLevantarSaldo.disabled = true;
+            btnLevantarSaldo.textContent = "Quantia insuficiente";
+            btnLevantarSaldo.style.opacity = "0.5";
+        } else {
+            btnLevantarSaldo.disabled = false;
+            btnLevantarSaldo.textContent = "Levantar";
+            btnLevantarSaldo.style.opacity = "1";
+        }
+    }
+
+    if (levantarSaldo && adicionarSaldo && btnLevantarSaldo && btnAdicionarSaldo) {
+        levantarSaldo.addEventListener("input", function () {
+            verificarSaldo();
+            atualizarCampos();
+        });
+
         adicionarSaldo.addEventListener("input", atualizarCampos);
-        atualizarCampos(); 
+        atualizarCampos();
+
+        // Impede envio se o botão estiver desabilitado
+        if (form) {
+            form.addEventListener("submit", function (e) {
+                if (btnLevantarSaldo.disabled) {
+                    e.preventDefault();
+                }
+            });
+        }
     } else {
-        alert("Dados não alcançados");
+        alert("Erro: campos não foram encontrados.");
     }
 };

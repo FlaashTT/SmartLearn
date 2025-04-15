@@ -70,57 +70,81 @@ $result = $stmt->get_result();
             <div class="wallet-container">
                 <div class="wallet-header">Carteira</div>
                 <!-- Saldo Atual -->
-                <div class="wallet-balance">
+                <div id="saldo" class="wallet-balance">
                     Saldo disponível: <strong><?php echo number_format($_SESSION['utilizadorOn']['Carteira'], 2, ',', ''); ?></strong>
                 </div>
                 <div class="wallet-actions">
+
+
                     <div class="action">
-                        <h3>Adicionar Saldo</h3>
-                        <input type="number" id="adicionarSaldo" min="0" placeholder="Valor a adicionar (€)" />
-                        <button id="btnAdicionarSaldo">Adicionar</button>
+                        <form action="adicionarSaldo.php" method="post">
+                            <h3>Adicionar Saldo</h3>
+                            <input name="adicionarSaldo" type="number" id="adicionarSaldo" min="5" placeholder="Valor a adicionar (€)" />
+                            <button id="btnAdicionarSaldo">Adicionar</button>
+                        </form>
                     </div>
+
+
+
                     <div class="action">
-                        <h3>Levantar Saldo</h3>
-                        <input type="number" id="levantarSaldo" min="0" placeholder="Valor a levantar (€)" />
-                        <button id="btnLevantarSaldo">Levantar</button>
+                        <form action="levantarSaldo.php" method="post">
+                            <h3>Levantar Saldo</h3>
+                            <input type="number" name="levantarSaldo" id="levantarSaldo" min="1" placeholder="Valor a levantar (€)" />
+                            <button id="btnLevantarSaldo">Levantar</button>
+                        </form>
                     </div>
+
                 </div>
                 <!-- Historico -->
                 <div class="wallet-history">
                     <h3>Histórico de Transações</h3>
                     <!-- Filtro -->
+
+
                     <div class="filter">
                         <input type="text" id="filter-input" placeholder="Filtrar por data, descrição..." />
+                        <button id="filter-button" style="padding: 10px 16px; background-color: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer;">Filtrar</button>
                     </div>
+
+
                     <table id="transactions-table">
-                        <thead>
-                            <tr>
-                                <th>Data</th>
-                                <th>Descrição</th>
-                                <th>Valor (€)</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php
-                            if ($result->num_rows > 0) {
-                                while ($row = $result->fetch_assoc()) {
-                                    echo'
+                        <?php
+                        if ($result->num_rows > 0) {
+                            $comResultado = true;
+                            echo '
+                                <thead>
+                                    <tr>
+                                        <th>Data</th>
+                                        <th>Descrição</th>
+                                        <th>Valor (€)</th>
+                                    </tr>
+                                </thead>
+                                  <tbody>
+                                ';
+                            while ($row = $result->fetch_assoc()) {
+
+
+
+                                echo '
                                     <tr>
                                         <td>01/01/2025</td>
                                         <td>Adição de saldo</td>
                                         <td class="positive">+50.00€</td>
                                     </tr>
                                     ';
-                                }
-                            } else {
-                                echo'
-                                <tr>
-                                    Sem registo de movimentos anteriores
-                                </tr>
-                                ';
                             }
-                            ?>
-<!--
+                        } else {
+                            $comResultado = false;
+                            echo '
+                                <tr>
+                                <td>
+                                    Sem registo de movimentos anteriores
+                                </td>
+                                    </tr>
+                                ';
+                        }
+                        ?>
+                        <!--
                             <tr>
                                 <td>01/01/2025</td>
                                 <td>Adição de saldo</td>
@@ -139,11 +163,22 @@ $result = $stmt->get_result();
                         -->
                         </tbody>
                     </table>
-                    <div class="pagination">
-                        <!-- Paginação (Exemplo)-->
-                        <button class="prev">Anterior</button>
-                        <button class="next">Próximo</button>
-                    </div>
+                    <?php
+
+                    if ($comResultado) {
+                        echo '
+
+                        <div class="pagination">
+                            <!-- Paginação (Exemplo)-->
+                            <button class="prev">Anterior</button>
+                            <button class="next">Próximo</button>
+                        </div>
+';
+                    } else {
+                        echo '';
+                    }
+                    ?>
+
 
                 </div>
         </section>
