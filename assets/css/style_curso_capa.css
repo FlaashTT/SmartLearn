@@ -89,12 +89,12 @@ body{
     text-align: left;
 }
 
-.fase-4{
+.fase-T{
     background-color: rgba(233, 233, 233, 0.425);
     grid-column: span 3;
 }
 
-.fase-7{
+.fase-T{
     background-color: rgb(233, 233, 233, 0.425);
     grid-column: 1 / -1;
     width: 100%;
