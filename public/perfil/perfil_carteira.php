@@ -3,10 +3,11 @@ include("../segurança.php");
 include("../../database/basedados.sql");
 include("pesquisa.php");
 
-$textoPesquisa = isset($_POST['search']) ? '%' . $_POST['search'] . '%' : null;
+$textoPesquisa = isset($_GET['search']) ? $_GET['search'] : null;
+
 
 // Número de cursos por página
-$por_pagina = 9;
+$por_pagina = 10;
 
 // Calcular a página atual
 $pagina_atual = isset($_GET['pagina']) ? (int)$_GET['pagina'] : 1;
@@ -24,17 +25,21 @@ $total_cursos = $result_total->fetch_assoc()['total'];
 $total_paginas = ceil($total_cursos / $por_pagina);
 
 
+
+$textoPesquisa = isset($_POST['search']) && trim($_POST['search']) !== '' ? '%' . $_POST['search'] . '%' : null;
+
 $sql = pesquisaFiltro("logs_sistema", $_SESSION['utilizadorOn']['Id_user'], null, $textoPesquisa);
-$sql .= " LIMIT ? OFFSET ?";
+$sql .= " LIMIT ? OFFSET ?";  // Limitar os resultados com base na página atual
 $stmt = $conn->prepare($sql);
 
-if ($textoPesquisa) {
-    $stmt->bind_param("isii", $_SESSION['utilizadorOn']['Id_user'], $textoPesquisa, $por_pagina, $offset);
+if ($textoPesquisa !== null) {
+    $stmt->bind_param("issii", $_SESSION['utilizadorOn']['Id_user'], $textoPesquisa, $textoPesquisa, $textoPesquisa, $por_pagina, $offset);
 } else {
     $stmt->bind_param("iii", $_SESSION['utilizadorOn']['Id_user'], $por_pagina, $offset);
 }
 $stmt->execute();
 $result = $stmt->get_result();
+
 ?>
 
 <!DOCTYPE html>
@@ -98,12 +103,14 @@ $result = $stmt->get_result();
                 <!-- Historico -->
                 <div class="wallet-history">
                     <h3>Histórico de Transações</h3>
+
+
                     <!-- Filtro -->
-
-
                     <div class="filter">
-                        <input type="text" id="filter-input" placeholder="Filtrar por data, descrição..." />
-                        <button id="filter-button" style="padding: 10px 16px; background-color: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer;">Filtrar</button>
+                        <form method="post" style="display: flex; gap: 10px; margin-bottom: 20px;">
+                            <input type="text" name="search" placeholder="Filtrar por data, descrição..." value="<?php echo isset($_POST['search']) ? htmlspecialchars($_POST['search']) : ''; ?>" />
+                            <button type="submit" style="padding: 10px 16px; background-color: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer;">Filtrar</button>
+                        </form>
                     </div>
 
 
@@ -169,21 +176,21 @@ $result = $stmt->get_result();
                         -->
                         </tbody>
                     </table>
-                    <?php
+                    <div class="pagination">
+                        <?php if ($pagina_atual > 1) : ?>
+                            <a href="?pagina=<?= $pagina_atual - 1 ?>&search=<?= urlencode($textoPesquisa) ?> ">Anterior </a>
+                        <?php endif; ?>
 
-                    if ($comResultado) {
-                        echo '
+                        <span>Página <?= $pagina_atual ?> de <?= $total_paginas ?></span>
 
-                        <div class="pagination">
-                            <!-- Paginação (Exemplo)-->
-                            <button class="prev">Anterior</button>
-                            <button class="next">Próximo</button>
-                        </div>
-';
-                    } else {
-                        echo '';
-                    }
-                    ?>
+                        <?php if ($pagina_atual < $total_paginas) : ?>
+                            <a href="?pagina=<?= $pagina_atual + 1 ?>&search=<?= urlencode($textoPesquisa) ?> "> Próxima</a>
+                        <?php endif; ?>
+                    </div>
+
+
+
+
 
 
                 </div>

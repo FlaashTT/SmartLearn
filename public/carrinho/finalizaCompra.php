@@ -16,7 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             echo '
             <script>
                 if(confirm("O seu saldo é insuficiente, deseja depositar?")){
-                    window.location.href = "adicionarSaldo.php";
+                    window.location.href = "../perfil/perfil_carteira.php";
                 } else {
                     window.history.back();
                 }
