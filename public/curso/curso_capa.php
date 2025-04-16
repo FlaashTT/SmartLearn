@@ -49,16 +49,16 @@ if (empty($idCurso)) {
   $result = $stmt->get_result();
   if ($result->num_rows > 0) {
     $row = $result->fetch_assoc();
-    $stmt -> close();
+    $stmt->close();
 
   ?>
 
-      <!-- Secção Principal (Hero) -->
-      <main class="container">
-        <main class="container-c">
-          <section class="curso-info">
-            <?php
-            echo '
+    <!-- Secção Principal (Hero) -->
+    <main class="container">
+      <main class="container-c">
+        <section class="curso-info">
+          <?php
+          echo '
         <h1>' . $row['Nome_curso'] . '</h1>
         <p>' . $row['Percentagem_progresso'] . '% Concluído</p>
         <div class="content">
@@ -67,44 +67,42 @@ if (empty($idCurso)) {
           </div>
         ';
 
-            ?>
+          ?>
 
-            <div class="descricao">
-              <p class="title-descricao">Descrição</p>
-              <p class="descricao-texto"><?php echo $row['Descricao']; ?></p>
-            </div>
-            </div>
-          </section>
+          <div class="descricao">
+            <p class="title-descricao">Descrição</p>
+            <p><?php echo $row['Descricao']; ?></p>
+          </div>
+          </div>
+        </section>
 
-          <div class="fases-dicas">
-            <section class="fases">
-              <?php
-              $stmt = $conn->prepare("
+        <div class="fases-dicas">
+          <section class="fases">
+            <?php
+            $stmt = $conn->prepare("
               SELECT * 
               FROM fase f
               INNER JOIN curso c ON f.Id_curso = c.Id_curso
               WHERE f.Id_curso = ?;
           ");
-              $stmt->bind_param("i", $idCurso);
-              $stmt->execute();
-              $result = $stmt->get_result();
-              if ($result->num_rows > 0) {
-                $quantidadeFases = 0;
-                while ($fase = $result->fetch_assoc()) {
-                    $quantidadeFases++;
-                    if($quantidadeFases % 4 == 0){
-                      echo'<div class="fase fase-'.$quantidadeFases.'">Fase '.$quantidadeFases.'</div>';
-                    
-                    
-                    }else{
-                      
-                      echo '<div class="fase">Fase '.$quantidadeFases.'</div>';
-                    }
+            $stmt->bind_param("i", $idCurso);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            if ($result->num_rows > 0) {
+              $quantidadeFases = 0;
+              while ($fase = $result->fetch_assoc()) {
+                $quantidadeFases++;
+                if ($quantidadeFases % 4 == 0) {
+                  echo '<div class="fase fase-T">Fase ' . $quantidadeFases . '</div>';
+                } else {
+
+                  echo '<div class="fase">Fase ' . $quantidadeFases . '</div>';
                 }
+              }
             }
 
-              ?>
-              <!--
+            ?>
+            <!--
               <div class="fase">Fase 1</div>
               <div class="fase">Fase 2</div>
               <div class="fase">Fase 3</div>
@@ -123,41 +121,41 @@ if (empty($idCurso)) {
               <div class="fase">Fase 6</div>
             -->
 
-            </section>
+          </section>
 
-            <aside class="dicas">
-              <h2>Dicas do curso:</h2>
-              <ul>
-                <?php
-                echo '
+          <aside class="dicas">
+            <h2>Dicas do curso:</h2>
+            <ul>
+              <?php
+              echo '
             <li><strong>Tempo estimado:</strong> ' . $row['Tempo_estimado'] . '</li>
             <li><strong>Idioma:</strong> ' . $row['Idioma_principal'] . '</li>
             <li><strong>Fases do Curso:</strong> ' . $row['Quantidade_fases'] . '</li>
             <li><strong>Classificação:
 
             ';
-                if ($row['Classificacao'] == 0) {
-                  echo "Sem classificação";
-                } else {
-                  for ($i = 0; $i < $row['Classificacao']; $i++) {
-                    echo ' <i class="fa-regular fa-star"></i>';
-                  }
+              if ($row['Classificacao'] == 0) {
+                echo "Sem classificação";
+              } else {
+                for ($i = 0; $i < $row['Classificacao']; $i++) {
+                  echo ' <i class="fa-regular fa-star"></i>';
                 }
+              }
 
-                ?>
+              ?>
 
-            </aside>
-          </div>
+          </aside>
+        </div>
 
-          <footer class="footer-c">
-            <button class="avançar">Avançar conteúdo</button>
-          </footer>
-        </main>
+        <footer class="footer-c">
+          <button class="avançar">Avançar conteúdo</button>
+        </footer>
       </main>
+    </main>
 
-      <!-- Rodapé -->
+    <!-- Rodapé -->
   <?php
-    }
+  }
 
   include("../../src/views/utils/rodape.html");
 
