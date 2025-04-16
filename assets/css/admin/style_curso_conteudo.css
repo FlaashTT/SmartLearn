@@ -101,6 +101,7 @@
   margin-left: auto; /* Move apenas as setas para o final */
 }
 
+
 .submenu {
   display: none; /* Esconde o submenu por padrão */
   list-style: none;
@@ -159,6 +160,8 @@
 .has-submenu-a.open .toggle-icon-a {
   transform: rotate(90deg);
 }
+
+
 
 
 .container-page {
@@ -282,8 +285,6 @@ table th{
   font-weight: bold;
 }
 
-
-
 .pagination{
     display: flex;
     justify-content: flex-end;
@@ -300,254 +301,227 @@ table th{
     transition: background-color 0.3s ease;
 }
 
-.card-container {
-    display: grid;
-    grid-template-columns: auto auto auto; /* Três colunas */
-    width: 100%;
-    gap: 20px; /* Espaçamento entre os cards */
-    margin-top: 20px;
+.page{
+    width: 100%; 
+    padding: 20px;
+    background-color: #fff; 
+    border-radius: 5px; 
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
+    height: auto; 
 }
 
-.card {
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
+.form-content{
+    padding: 20px;
+    display: grid;
+    grid-template-columns: 1fr; /* Duas colunas de tamanho igual */
+    gap: 20px; /* Espaçamento entre as colunas */
+}
+
+.form-group{
     display: flex;
     flex-direction: column;
-    height: 100%;
 }
 
-.card-image{
-    width: 100%;
-    height: 200px;
-    flex: 1;
-}
-
-.card-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.card-content{
-    display: grid;
-    padding: 15px;
-    gap: 10px;
-    grid-template-rows: auto auto;
-}
-
-.card-header h3 {
-    display: flex; 
-    align-items: center; 
-    gap: 8px;
-    font-size: 18px; 
-    margin: 0; 
-    color: #333; 
-}
-
-.card-header h3 i {
-    font-size: 14px; 
-    color: #000000; 
-}
-
-.card-header p{
-    margin: 0;
+.form-group label{
+    margin-bottom: 5px;
     font-size: 14px;
-    color: #666;
+    color: #333;
 }
 
-.card-sections{
-    display: grid;
-    grid-template-columns: 1fr auto;
-    align-items: center;
-    gap: 10px;
-}
-
-.card-sections p{
-    margin: 0;
-    font-size: 14px;
-}
-
-.card-sections hr {
-    border: none;
-    border-top: 1px solid #ccc; /* Linha cinza clara */
-    margin: 10px 0; /* Espaçamento acima e abaixo da linha */
-}
-
-.card-actions{
-    display: flex;
-    gap: 5px;
-}
-
-.edit-icon, .delete-icon{
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 10px;
-}
-
-.card-footer{
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 100px;
+.form-group input,
+.form-group textarea,
+.form-group select{
     padding: 10px;
-    background-color: #fff;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    margin-bottom: 20px;
 }
 
-.btn{
+form textarea {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    width: 100%;
+    height: 150px; /* Altura inicial */
+    resize: vertical; /* Permite o utilizador redimensionar a altura */
+  }
+  
+  /* Ajuste para a área de texto para expandir dinamicamente */
+  form textarea.auto-expand {
+    overflow: hidden; /* Esconde a barra de rolagem */
+    min-height: 150px; /* Altura mínima */
+    max-height: 500px; /* Limite máximo */
+  }
+  
+  form textarea:focus {
+    border-color: #007bff; /* Destacar a borda ao focar */
+  }
+
+.form-navigation{
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.btn-button{
+    padding: 10px 20px;
     border-radius: 5px;
     border: none;
-    background-color: #dc3545;
+    background-color: #007bff;
+    color: #fff;
     cursor: pointer;
-    font-size: 10px;
-    padding: 10px;
+    font-size: 14px;
     transition: background-color 0.3s ease;
 }
 
+/* ---------- Estilo para o botão de adicionar módulo ---------- */
 
-.modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5);
+
+.checkbox-curso {
   display: flex;
-  justify-content: center;
   align-items: center;
-  z-index: 9999;
-  backdrop-filter: blur(4px);
-  animation: fadeIn 0.3s ease-in-out;
+  gap: 8px;
+  margin-bottom: 12px;
+  margin-top: 2px;
 }
 
-.modal-content {
-  background: #ffffff;
-  border-radius: 16px;
-  padding: 40px 30px;
-  width: 100%;
-  max-width: 500px;
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
-  animation: slideIn 0.4s ease-in-out;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
+.checkbox-curso input[type="checkbox"] {
+  margin: 0;
+  width: 12px;
+  height: 12px;
+  margin-top: 1px;
 }
 
-
-
-.modal-content h2 {
-  margin-bottom: 20px;
-  font-size: 24px;
-  color: #333;
-  font-weight: bold;
+.checkbox-curso .label-btn {
+  font-size: 14px;
+  line-height: 1;
+  margin-top: 5px;
 }
 
-.modal-content label {
-  font-size: 16px;
-  color: #444;
-  margin-bottom: 8px;
-  text-align: left;
-  display: block;
-}
+/* ---------- Estilo para o form de midia ---------- */
 
-.modal-content input[type="text"] {
-  width: 100%;
-  padding: 10px 15px;
+/* Estilos para o card de pré-visualização */
+/* Estilos para o formulário */
+.form-group {
   margin-bottom: 15px;
+}
+
+#ficheiro {
+  padding: 8px;
+  width: 100%;
+}
+
+/* Estilos para o card de pré-visualização */
+.card-preview {
+  width: 100%;
+  max-width: 400px;
+  margin-top: 20px;
   border: 1px solid #ccc;
   border-radius: 8px;
-  font-size: 14px;
-  color: #333;
-  background-color: #f9f9f9;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
-}
-
-.modal-content input[type="text"]:focus {
-  border-color: #007bff;
-  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-  outline: none;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding: 15px;
   background-color: #fff;
+  display: block; /* O card agora estará sempre visível */
+  opacity: 1;
+  transition: opacity 1s ease-out; /* Animação para o desaparecimento do card */
 }
 
-#subcategoriesContainer {
-  margin-bottom: 15px;
+.card-content {
+  text-align: center;
 }
 
-#addSubcategoryBtn {
-  margin-top: 15px;
-  background-color: #28a745;
-  color: white;
-  padding: 10px 15px;
+.card-content img {
+  width: 100%;
+  height: auto;
   border-radius: 8px;
+}
+
+.card-content p {
   font-size: 14px;
-  border: none;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
+  color: #555;
+  margin-top: 10px;
 }
 
-#addSubcategoryBtn:hover {
-  background-color: #218838;
+/* Placeholder no card para quando não houver imagem */
+.card-preview .card-content p {
+  color: #888;
+  font-style: italic;
 }
 
-.modal-content button {
-  margin: 10px 0;
-  padding: 12px 20px;
-  border-radius: 8px;
-  border: none;
-  font-size: 16px;
-  cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
+/* Estilo para a mensagem de erro */
+.card-preview .card-content p.error {
+  color: red;
+  font-weight: bold;
+  animation: fadeOut 1s forwards; /* Animação de desaparecimento */
 }
 
-.modal-content .btn {
-  background-color: #007bff;
-  color: white;
+/* Animação para a mensagem de erro desaparecer */
+@keyframes fadeOut {
+  0% {
+      opacity: 1;
+  }
+  100% {
+      opacity: 0;
+  }
 }
 
-.modal-content .btn:hover {
-  background-color: #0056b3;
-  transform: scale(1.05); /* Efeito de zoom */
+/* Estilo para o ícone */
+.icone-container {
+  font-size: 24px;
+  color: #4CAF50; /* Cor verde para o ícone */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px; /* Espaço entre o ícone e o título */
+  justify-content: center;
+  text-align: center;
 }
 
-.modal-content .cancel-btn {
-  background-color: #f2f2f2;
+/* Estilo para o título */
+.titulo {
+  margin-top: 20px; /* Espaço entre o ícone e o título */
+  font-size: 24px;
   color: #333;
 }
 
-.modal-content .cancel-btn:hover {
-  background-color: #e0e0e0;
+/* Estilo para o parágrafo */
+.paragrafo {
+  font-size: 16px;
+  line-height: 0.2;
+  color: #555; /* Cor do texto */
+  margin: 15px 0; /* Espaço acima e abaixo do parágrafo */
+  text-align: center; /* Centraliza o texto */
+  font-family: 'Arial', sans-serif; /* Fonte */
 }
 
-.action-buttons {
-  display: flex;
-  justify-content: space-between;
-  gap: 15px;
-  margin-top: 20px; /* Espaçamento entre os campos e os botões */
-}
-
-/* Animações */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes slideIn {
-  from {
-    transform: translateY(-20px);
-  }
-  to {
-    transform: translateY(0);
-  }
+/* Estilo para o parágrafo em destaque */
+.paragrafo.destaque {
+  font-weight: bold;
+  color: #007bff; /* Cor de destaque */
+  font-size: 18px;
 }
 
 
-  
+/* Estilo para o botão */
+.btn-enviar {
+  padding: 12px 20px;
+  font-size: 18px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.btn-enviar:hover {
+  background-color: #0056b3;
+}
+
+
+
 
 
   

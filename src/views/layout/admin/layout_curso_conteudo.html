@@ -9,7 +9,7 @@
       href="/assets/fontawesome/fontawesome/css/all.min.css"
     />
     <link rel="stylesheet" href="/assets/css/admin/style_admin.css" />
-    <link rel="stylesheet" href="/assets/css/admin/style_curso_adicionar.css" />
+    <link rel="stylesheet" href="/assets/css/admin/style_curso_conteudo.css" />
   </head>
   <body>
     <!-- Cabeçalho -->
@@ -69,7 +69,8 @@
                         <ul class="submenu">
                             <li>Dashboard Cursos</li>
                             <li>Gerenciar cursos</li>
-                            <li>Adicionar novo curso</li>
+                            <li>Adicionar novo curso capa</li>
+                            <li>Adicionar Conteudo do curso</li>
                             <li>Categoria do curso</li>
                         </ul>
                     </li>
@@ -123,7 +124,7 @@
         <main class="container-page">
             <section class="main-content" style="display: flex; align-items: center; justify-content: space-between;">
                 <h1 style="display: flex; align-items: center;">
-                    <i style="font-size: 18px; margin-right: 10px;" class="fas fa-book"></i> Adicionar Curso
+                    <i style="font-size: 18px; margin-right: 10px;" class="fas fa-book"></i> Adicionar Curso (Conteudo)
                 </h1>
                 <button style="padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; display: flex; align-items: center; gap: 8px;">
                     <i class="fas fa-arrow-left"></i> Voltar
@@ -132,168 +133,30 @@
 
             <section class="page">
                 <h2>Formulário de Adição de um Curso</h2>
-                <div class="form-tabs">
-                    <button class="tab active" data-tab="basico">Básico</button>
-                    <button class="tab" data-tab="info">Informações</button>
-                    <button class="tab" data-tab="precos">Preços</button>
-                    <button class="tab" data-tab="media">Mídia</button>
-                    <button class="tab" data-tab="hashtag">Hashtag</button>
-                    <button class="tab" data-tab="finalizar">Finalizar</button>
-                  </div>
-                
-                  
-
-                <!-- CONTEÚDO DA ABA BÁSICO -->
-                <div class="form-content tab-content active" data-content="basico">
-                    <form class="form-content">
-                        <div class="form-group">
-                            <label for="titulo">Título do Curso</label>
-                            <input type="text" id="titulo" placeholder="Digite o título do curso" required />
-                        </div>
-                        <div class="form-group">
-                            <label for="descricao-curta">Pequena-descrição</label>
-                            <input type="text" id="descricao-curta" placeholder="Digite uma pequena descrição" required />
-                        </div>
-                        <div class="form-group">
-                            <label for="descricao">Descrição</label>
-                            <input type="text" id="descricao" placeholder="Digite a descrição" required />
-                        </div>
-                        <div class="form-group">
-                            <label for="categorias">Categorias</label>
-                            <select id="categorias">
-                            <option>Selecione</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="nivel">Nível</label>
-                            <select id="nivel">
-                            <option>Selecione</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="linguagem">Linguagem feita em</label>
-                            <select id="linguagem">
-                            <option>Selecione</option>
-                            </select>
-                        </div>
+                <!-- Formulário de Administração -->
+                    <form class="form-group" action="adicionar_conteudo.php" method="POST" enctype="multipart/form-data">
+                        <label for="titulo">Título do Curso:</label>
+                        <input type="text" id="titulo" name="titulo" required />
+            
+                        <label for="video">Vídeo do Curso:</label>
+                        <input type="file" id="video" name="video" accept="video/mp4" required />
+            
+                        <label for="imagem">Imagem do Curso:</label>
+                        <input type="file" id="imagem" name="imagem" accept="image/*" />
+            
+                        <label for="conteudo">Conteúdo do Curso (Texto ou Imagem):</label>
+                        <textarea id="conteudo" name="conteudo" required></textarea>
+            
+                        <label for="fase">Fase do Curso:</label>
+                        <select id="fase" name="fase" required>
+                        <option value="1">Fase 1</option>
+                        <option value="2">Fase 2</option>
+                        <option value="3">Fase 3</option>
+                        <!-- Adicionar mais opções conforme necessário -->
+                        </select>
+                        <button class="btn-button" type="submit">Adicionar Conteúdo</button>
                     </form>
                 </div>
-                
-                <!-- CONTEÚDO DA ABA INFORMAÇÕES -->
-                <div class="form-content tab-content" data-content="info">
-                    <form class="form-content">
-                        <div class="form-group">
-                            <label for="modulo">Módulo do Curso</label>
-                            <div class="modulo-input-container">
-                                <input type="text" id="moduloInput" class="modulo-input" placeholder="Digite o nome do módulo" />
-                                <button type="button" id="addModulo" class="modulo-btn-adicionar">+</button>
-                            </div>
-                            <ul id="modulosLista" class="modulos-lista"></ul>
-                        </div>
-                        <div class="form-group">
-                            <label for="modulo">Requisitos</label>
-                            <div class="modulo-input-container">
-                                <input type="text" id="moduloInput" class="modulo-input" placeholder="Digite o nome do requisito" />
-                                <button type="button" id="addModulo" class="modulo-btn-adicionar">+</button>
-                            </div>
-                            <ul id="modulosLista" class="modulos-lista"></ul>
-                        </div>
-                        <div class="form-group">
-                            <label for="modulo">Resultados</label>
-                            <div class="modulo-input-container">
-                                <input type="text" id="moduloInput" class="modulo-input" placeholder="Digite o nome do resultado" />
-                                <button type="button" id="addModulo" class="modulo-btn-adicionar">+</button>
-                            </div>
-                            <ul id="modulosLista" class="modulos-lista"></ul>
-                        </div>
-                    </form>
-                </div>        
-                
-                
-                <!-- CONTEÚDO DA ABA PREÇOS -->
-                <div class="form-content tab-content" data-content="precos">
-                    <form class="form-content">
-                        <div class="form-group">
-                            <label for="titulo">Preço do curso (€)</label>
-                            <input type="text" id="titulo" placeholder="Digite o título do curso" required />
-                            <div class="checkbox-curso">
-                                <input type="checkbox" id="verificarCurso" />
-                                <label class="label-btn" for="verificarCurso">Verifique que este é um curso gratuito</label>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="descricao-curta">Preço com desconto (€)</label>
-                            <input type="text" id="descricao-curta" placeholder="Digite uma pequena descrição" required />
-                            <div class="checkbox-curso">
-                                <input type="checkbox" id="verificarCurso" />
-                                <label class="label-btn" for="verificarCurso">Verifique que este curso têm desconto</label>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-
-                <!-- CONTEÚDO DA ABA Mídia -->
-                <div class="form-content tab-content" data-content="media">
-                    <form class="form-content">
-                        <div class="form-group">
-                            <label for="linguagem">Provedor de visão geral do curso</label>
-                            <select id="linguagem">
-                            <option>Selecione</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="ficheiro">Carregar imagem do curso</label>
-                            <input type="file" id="ficheiro" accept="image/*" required />
-                            <div id="cardPreview" class="card-preview">
-                                <div class="card-content">
-                                    <img id="cardImage" src="" alt="Imagem de pré-visualização"/>
-                                    <p id="cardText">Aqui será mostrado o conteúdo da URL.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-
-                <!-- CONTEÚDO DA ABA Hastag -->
-                <div class="form-content tab-content" data-content="hashtag">
-                    <form class="form-content">
-                        <div class="form-group">
-                            <label for="hashtag">Hashtag do Curso</label>
-                            <div class="hashtag-input-container">
-                                <input type="text" id="hashtagInput" class="hashtag-input" placeholder="Digite o nome da hashtag" />
-                                <button type="button" id="addHashtag" class="hashtag-btn-adicionar">+</button>
-                            </div>
-                            <ul id="hashtagsLista" class="hashtags-lista"></ul>
-                        </div>
-                        <div class="form-group">
-                            <label for="descricao">Descrição</label>
-                            <input type="text" id="descricao" placeholder="Digite a descrição" required />
-                        </div>
-                    </form>
-                </div>
-
-                <!-- CONTEÚDO DA ABA Finalizar -->
-                <div class="form-content tab-content" data-content="finalizar">
-                    <form class="form-content">
-                        <div class="icone-container">
-                            <i class="fa-solid fa-check-double"></i> 
-                            <h2 class="titulo">Obrigado !</h2>
-                            <p class="paragrafo">Tu estás a apenas um clique de distância</p>
-                        <button type="submit" class="btn-enviar">Enviar</button>
-                        </div>
-                    </form>
-                </div>
-
-
-                <div class="form-navigation">
-                    <button type="button" class="btn-button" id="prev-tab">
-                        <i class="fas fa-arrow-left"></i>
-                    </button>
-                    <button type="button" class="btn-button" id="next-tab">
-                        <i class="fas fa-arrow-right"></i>
-                    </button>
-                </div>
-                </form>
             </section>
 
         </main>
@@ -314,6 +177,8 @@
         });
     });
     </script>
+
+    
     <script>
         document.querySelectorAll('.tab').forEach(tab => {
           tab.addEventListener('click', () => {
