@@ -93,34 +93,15 @@ if (empty($idCurso)) {
               while ($fase = $result->fetch_assoc()) {
                 $quantidadeFases++;
                 if ($quantidadeFases % 4 == 0) {
-                  echo '<div class="fase fase-T">Fase ' . $quantidadeFases . '</div>';
+                  echo '<div class="fase fase-T">Fase ' . $fase['Titulo_fase'] . '</div>';
                 } else {
 
-                  echo '<div class="fase">Fase ' . $quantidadeFases . '</div>';
+                  echo '<div class="fase">Fase ' . $fase['Titulo_fase'] . '</div>';
                 }
               }
             }
 
             ?>
-            <!--
-              <div class="fase">Fase 1</div>
-              <div class="fase">Fase 2</div>
-              <div class="fase">Fase 3</div>
-              <div class="fase fase-4">Fase 4</div>
-              <div class="fase">Fase 5</div>
-              <div class="fase">Fase 6</div>
-              <div class="fase fase-7">Fase 7</div>
-              <div class="fase">Fase 6</div>
-              <div class="fase">Fase 6</div>
-              <div class="fase">Fase 6</div>
-              <div class="fase fase-7">Fase 6</div>
-              <div class="fase">Fase 6</div>
-              <div class="fase">Fase 6</div>
-              <div class="fase fase-7">Fase 6</div>
-              <div class="fase">Fase 6</div>
-              <div class="fase">Fase 6</div>
-            -->
-
           </section>
 
           <aside class="dicas">
@@ -148,7 +129,7 @@ if (empty($idCurso)) {
         </div>
 
         <footer class="footer-c">
-          <button class="avançar">Avançar conteúdo</button>
+          <button class="avançar"><!--Avançar conteúdo-->Ainda nao disponivel</button>
         </footer>
       </main>
     </main>
