@@ -395,54 +395,54 @@ botaoAdicionarHashtag.addEventListener("click", () => {
 
     </script>
     <script>
-        document.getElementById('ficheiro').addEventListener('change', function(event) {
+    document.getElementById('ficheiro').addEventListener('change', function(event) {
     var file = event.target.files[0];
     var cardPreview = document.getElementById('cardPreview');
     var cardImage = document.getElementById('cardImage');
     var cardText = document.getElementById('cardText');
 
-    // Exibe o card sempre que algo for carregado
-    cardPreview.style.display = 'block';
+    // Reset do conteúdo anterior
+    cardImage.src = '';
+    cardImage.style.display = 'none';
+    cardText.textContent = '';
+    cardText.style.display = 'none';
+    cardText.classList.remove('error');
 
-    // Verifica se um ficheiro foi selecionado e se é uma imagem
+    // Exibe o card
+    cardPreview.style.display = 'block';
+    cardPreview.style.opacity = 1;
+
     if (file && file.type.startsWith('image/')) {
         var reader = new FileReader();
 
         reader.onload = function(e) {
-            // Atualiza a imagem do card com o conteúdo carregado
             cardImage.src = e.target.result;
-            cardImage.style.display = 'block';  // Exibe a imagem
-            cardText.style.display = 'none';    // Esconde o texto
+            cardImage.style.display = 'block';
+            cardText.style.display = 'none';
         };
 
         reader.onerror = function() {
-            // Se o ficheiro não puder ser lido, exibe a mensagem de erro
-            cardText.style.display = 'block';
             cardText.textContent = "Erro: Não foi possível carregar o ficheiro.";
-            cardImage.style.display = 'none';  // Esconde a imagem
+            cardText.style.display = 'block';
+            cardImage.style.display = 'none';
         };
 
-        // Lê o ficheiro selecionado
         reader.readAsDataURL(file);
     } else {
-        // Se o ficheiro não for uma imagem
-        cardImage.style.display = 'none';  // Esconde a imagem
-        cardText.style.display = 'block'; // Exibe o texto
-        cardText.textContent = "Inválido: Por favor, selecione uma imagem válida."; // Mensagem de erro
-        cardText.classList.add('error'); // Aplica a classe de erro
+        cardImage.style.display = 'none';
+        cardText.textContent = "Inválido: Por favor, selecione uma imagem válida.";
+        cardText.style.display = 'block';
+        cardText.classList.add('error');
 
-        // Espera 3 segundos e remove o card
+        // Esconde o card após erro
         setTimeout(function() {
-            cardPreview.style.opacity = 0; // Faz o card desaparecer
+            cardPreview.style.opacity = 0;
             setTimeout(function() {
-                cardPreview.style.display = 'none'; // Remove o card completamente após a animação
-            }, 1000); // Espera o tempo da animação antes de esconder o card
-        }, 1000); // 1000 milissegundos = 1 segundos
+                cardPreview.style.display = 'none';
+            }, 1000);
+        }, 1000);
     }
 });
-
-
-
 
     </script>
  
