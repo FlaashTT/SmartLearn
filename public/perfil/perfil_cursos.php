@@ -111,7 +111,7 @@ $result = $stmt->get_result();
                         }
                         echo '
                                 </div>
-                                <form action="../curso.php" method="POST">';
+                                <form action="../curso/curso_capa.php" method="POST">';
                         if ($row['Percentagem_progresso'] == 0) {
                             echo '<button class="start-button" type="submit" name="idCurso" value="' . $row['Id_curso'] . '">Iniciar aula</button>';
                         } else if ($row['Percentagem_progresso'] < 100) {

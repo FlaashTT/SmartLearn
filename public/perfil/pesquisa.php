@@ -34,8 +34,15 @@ function pesquisaFiltro($tabela, $Id_user, $categoria = null, $textoPesquisa = n
 
         case "logs_sistema":
             $sql =  "SELECT * 
-                     FROM logs_sistema 
-                     WHERE Id_user = ?";
+             FROM logs_sistema
+             WHERE Id_user = ?
+             AND Tipo_Log IN ('Depósito de saldo', 'Levantamento de saldo', 'Compra curso', 'Reembolso curso')";
+
+            if ($textoPesquisa !== null) {
+                $sql .= " AND (Data_log LIKE ? OR Tipo_log LIKE ? OR saldo LIKE ?)";
+            }
+
+            $sql .= " ORDER BY Data_log DESC";
             // logs_sistema provavelmente não tem campos relacionados a curso, então não aplica filtros
             break;
 
@@ -45,4 +52,3 @@ function pesquisaFiltro($tabela, $Id_user, $categoria = null, $textoPesquisa = n
 
     return $sql;
 }
-
