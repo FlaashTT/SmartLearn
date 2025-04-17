@@ -439,4 +439,22 @@ body{
     text-decoration: none;
 }
 
-  
+.course-difficulty-language {
+  margin-top: 10px;
+  font-size: 0.7rem;
+  color: #fff; /* Texto branco */
+  background-color: #28a745; /* Fundo verde */
+  padding: 5px 10px;
+  border-radius: 5px;
+  text-align: left; /* Alinhado à esquerda */
+}
+
+.course-difficulty-language span {
+  display: inline-block;
+  margin-right: 15px;
+}
+
+.course-difficulty-language .difficulty,
+.course-difficulty-language .language {
+  font-weight: bold;
+}

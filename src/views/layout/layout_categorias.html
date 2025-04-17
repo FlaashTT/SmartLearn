@@ -84,32 +84,17 @@
         <main class="container-categorias">
 
             <aside class="sidebar-filtros">
-                <div class="filtro-secao">
-                  <button class="filtro-titulo" onclick="toggleFiltro(this)">
-                    Entregas Express <i class="fas fa-chevron-up"></i>
-                  </button>
-                  <div class="filtro-conteudo">
-                    <div class="opcao-express">
-                      <i class="fas fa-store"></i> 15 min grátis em loja <br />
-                      <a href="#">Escolher lojas</a>
-                    </div>
-                    <div class="opcao-express">
-                      <i class="fas fa-truck"></i> 2 horas em casa <br />
-                      <a href="#">Ver disponibilidade</a>
-                    </div>
-                  </div>
-                </div>
-              
-                <hr />
               
                 <div class="filtro-secao">
                   <button class="filtro-titulo" onclick="toggleFiltro(this)">
-                    Melhores Escolhas <i class="fas fa-chevron-up"></i>
+                    Idioma do Curso <i class="fas fa-chevron-up"></i>
                   </button>
                   <div class="filtro-conteudo">
-                    <label><input type="checkbox" /> Melhores Avaliados <span>(122)</span></label>
-                    <label><input type="checkbox" /> Portes Grátis <span>(55)</span></label>
-                    <label><input type="checkbox" /> Em Campanha <span>(52)</span></label>
+                    <label><input type="checkbox" /> Português <span>(122)</span></label>
+                    <label><input type="checkbox" /> Inglês <span>(55)</span></label>
+                    <label><input type="checkbox" /> Espanhol <span>(52)</span></label>
+                    <label><input type="checkbox" /> Francês <span>(52)</span></label>
+                    <label><input type="checkbox" /> Alemão <span>(52)</span></label>
                   </div>
                 </div>
               
@@ -130,12 +115,12 @@
               
                 <div class="filtro-secao">
                   <button class="filtro-titulo" onclick="toggleFiltro(this)">
-                    Entrega Estimada <i class="fas fa-chevron-up"></i>
+                    Nível de Dificuldade <i class="fas fa-chevron-up"></i>
                   </button>
                   <div class="filtro-conteudo">
-                    <label><input type="checkbox" /> Até 24 horas úteis <span>(200)</span></label>
-                    <label><input type="checkbox" /> Até 8 horas úteis <span>(35)</span></label>
-                    <label><input type="checkbox" /> Até 2 horas úteis <span>(1)</span></label>
+                    <label><input type="checkbox" /> Iniciante <span>(200)</span></label>
+                    <label><input type="checkbox" /> Intermédio <span>(35)</span></label>
+                    <label><input type="checkbox" /> Avançado <span>(1)</span></label>
                   </div>
                 </div>
 
@@ -143,12 +128,13 @@
               
                 <div class="filtro-secao">
                   <button class="filtro-titulo" onclick="toggleFiltro(this)">
-                    Desconto Direto <i class="fas fa-chevron-up"></i>
+                    Duração de Curso <i class="fas fa-chevron-up"></i>
                   </button>
                   <div class="filtro-conteudo">
-                    <label><input type="checkbox" /> Até 20% <span>(289)</span></label>
-                    <label><input type="checkbox" /> De 20% a 30% <span>(1)</span></label>
-                    <label><input type="checkbox" /> De 30% a 50% <span>(1)</span></label>
+                    <label><input type="checkbox" /> Menos de 1 hora <span>(289)</span></label>
+                    <label><input type="checkbox" /> De 1 a 3 horas <span>(30)</span></label>
+                    <label><input type="checkbox" /> De 3 a 5 horas <span>(10)</span></label>
+                    <label><input type="checkbox" /> Mais de 5 horas <span>(1)</span></label>
                   </div>
                 </div>
 
@@ -201,24 +187,24 @@
                 <hr />
 
                 <div class="filtro-secao">
-                    <button class="filtro-titulo" onclick="toggleFiltro(this)">
-                      Marca <i class="fas fa-chevron-down"></i>
-                    </button>
-                    <div class="filtro-conteudo">
-                      <div class="filtro-pesquisa">
-                        <input type="text" placeholder="Pesquisa" />
-                        <button><i class="fas fa-search"></i></button>
-                      </div>
-                      <div class="filtro-opcoes scroll-y">
-                        <label><input type="checkbox" /> 2LAN <span>(2)</span></label>
-                        <label><input type="checkbox" /> Aceex <span>(5)</span></label>
-                        <label><input type="checkbox" /> AISENS <span>(8)</span></label>
-                        <label><input type="checkbox" /> AITEN DATA <span>(15)</span></label>
-                        <label><input type="checkbox" /> ALLONSCD <span>(4)</span></label>
-                        <label><input type="checkbox" /> ANSELF <span>(2)</span></label>
-                        </div>
+                  <button class="filtro-titulo" onclick="toggleFiltro(this)">
+                    Categorias <i class="fas fa-chevron-down"></i>
+                  </button>
+                  <div class="filtro-conteudo">
+                    <div class="filtro-pesquisa">
+                      <input type="text" placeholder="Pesquisa" />
+                      <button><i class="fas fa-search"></i></button>
                     </div>
-                </div>
+                    <div class="filtro-opcoes scroll-y">
+                      <label><input type="checkbox" /> TECNOLOGIA <span>(2)</span></label>
+                      <label><input type="checkbox" /> CODIGO <span>(5)</span></label>
+                      <label><input type="checkbox" /> AVIAO <span>(8)</span></label>
+                      <label><input type="checkbox" /> SEGURANÇA <span>(15)</span></label>
+                      <label><input type="checkbox" /> ALLONSCD <span>(4)</span></label>
+                      <label><input type="checkbox" /> ANSELF <span>(2)</span></label>
+                      </div>
+                  </div>
+              </div>
 
                 <hr />
 
@@ -265,6 +251,15 @@
                               </span>
                         </p>
                         <button class="ver-mais-btn" onclick="toggleDescription(this)">Ver mais</button>
+
+                        <!-- Novas secções para Dificuldade e Idioma -->
+                        <div class="course-difficulty-language">
+                          <span class="difficulty">Dificuldade: <strong>Intermediário</strong></span>
+                        </div>
+                        <div class="course-difficulty-language">
+                          <span class="language">Idioma: <strong>Português</strong></span>
+                        </div>
+
                         <div class="course-price">
                             <span class="price">€49.99</span>
                             <span class="original-price">€79.99</span> <!-- Preço original com desconto -->
@@ -295,6 +290,15 @@
                               </span>
                         </p>
                         <button class="ver-mais-btn" onclick="toggleDescription(this)">Ver mais</button>
+
+                        <!-- Novas secções para Dificuldade e Idioma -->
+                        <div class="course-difficulty-language">
+                          <span class="difficulty">Dificuldade: <strong>Intermediário</strong></span>
+                        </div>
+                        <div class="course-difficulty-language">
+                          <span class="language">Idioma: <strong>Português</strong></span>
+                        </div>
+
                         <div class="course-price">
                             <span class="price">€39.99</span>
                             <span class="original-price">€59.99</span> <!-- Preço original com desconto -->
@@ -325,6 +329,15 @@
                               </span>
                         </p>
                         <button class="ver-mais-btn" onclick="toggleDescription(this)">Ver mais</button>
+
+                        <!-- Novas secções para Dificuldade e Idioma -->
+                        <div class="course-difficulty-language">
+                          <span class="difficulty">Dificuldade: <strong>Intermediário</strong></span>
+                        </div>
+                        <div class="course-difficulty-language">
+                          <span class="language">Idioma: <strong>Português</strong></span>
+                        </div>
+
                         <div class="course-price">
                             <span class="price">€39.99</span>
                             <span class="original-price">€59.99</span> <!-- Preço original com desconto -->
@@ -355,6 +368,15 @@
                               </span>
                         </p>
                         <button class="ver-mais-btn" onclick="toggleDescription(this)">Ver mais</button>
+
+                        <!-- Novas secções para Dificuldade e Idioma -->
+                        <div class="course-difficulty-language">
+                          <span class="difficulty">Dificuldade: <strong>Intermediário</strong></span>
+                        </div>
+                        <div class="course-difficulty-language">
+                          <span class="language">Idioma: <strong>Português</strong></span>
+                        </div>
+
                         <div class="course-price">
                             <span class="price">€39.99</span>
                             <span class="original-price">€59.99</span> <!-- Preço original com desconto -->
