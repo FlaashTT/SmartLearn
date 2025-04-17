@@ -83,16 +83,28 @@
                     <li class="has-submenu">
                         <i class="fas fa-chart-bar"></i> Relatórios <i class="fas fa-chevron-right toggle-icon"></i>
                         <ul class="submenu">
-                            <li>Relatório de cursos</li>
-                            <li>Relatório de utilizadores</li>
+                            <li>Relatório de ações</li>
+                            <li>Relatório de satisfação</li>
                         </ul>
                     </li>
                     <li class="has-submenu">
                         <i class="fas fa-users"></i> Utilizadores <i class="fas fa-chevron-right toggle-icon"></i>
                         <ul class="submenu">
-                            <li>Gerenciar utilizadores</li>
-                            <li>Adicionar novo utilizador</li>
-                        </ul>
+                            <li class="has-submenu-a">
+                              Administrador <i class="fas fa-chevron-right toggle-icon-a"></i>
+                              <ul class="sub-submenu">
+                                <li>Gerenciar administrador</li>
+                                <li>Adicionar novo administrador</li>
+                              </ul>
+                            </li>
+                            <li class="has-submenu-a">
+                              Clientes <i class="fas fa-chevron-right toggle-icon-a"></i>
+                              <ul class="sub-submenu">
+                                <li>Gerenciar clientes</li>
+                                <li>Adicionar novo cliente</li>
+                              </ul>
+                            </li>
+                          </ul>
                     </li>
                     <li class="has-submenu">
                         <i class="fas fa-cogs"></i> Configurações <i class="fas fa-chevron-right toggle-icon"></i>
@@ -313,6 +325,12 @@
     document.querySelectorAll('.has-submenu').forEach(item => {
         item.addEventListener('click', () => {
             // Alterna a classe "open" no item clicado
+            item.classList.toggle('open');
+        });
+    });
+    document.querySelectorAll('.has-submenu-a').forEach(item => {
+        item.addEventListener('click', e => {
+            e.stopPropagation(); // Impede que o clique propague para outros menus
             item.classList.toggle('open');
         });
     });

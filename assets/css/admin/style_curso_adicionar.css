@@ -20,7 +20,7 @@
 
 .sidebar{
   margin-top: 50px;
-  height: calc(140vh - 50px);
+  height: auto;
   width: 400px;
   margin-right: 40px;
   background-color: aliceblue;
@@ -117,7 +117,25 @@
   margin-left: 20px;
 }
 
-
+.sub-submenu {
+    display: none;
+    list-style: none;
+    padding-left: 25px;
+    margin-top: 5px;
+  }
+  
+.has-submenu-a.open > .sub-submenu {
+    display: block;
+}
+  
+.has-submenu-a {
+    cursor: pointer;
+    padding: 8px 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background-color 0.2s ease;
+}
 
 .has-submenu.open .submenu {
   display: block; /* Mostra o submenu quando o item está aberto */
@@ -128,8 +146,19 @@
   transition: transform 0.3s ease;
 }
 
-.has-submenu.open .toggle-icon {
-  transform: rotate(90deg); /* Roda a seta para baixo */
+/* Nível 2 - Administrador */
+.has-submenu-a.open .sub-submenu {
+    display: block;
+}
+  
+.has-submenu-a .toggle-icon-a {
+    margin-left: auto;
+    transition: transform 0.3s ease;
+}
+  
+.has-submenu.open .toggle-icon,
+.has-submenu-a.open .toggle-icon-a {
+  transform: rotate(90deg);
 }
 
 
