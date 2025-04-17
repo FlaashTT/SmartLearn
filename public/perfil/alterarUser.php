@@ -130,11 +130,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                 if (file_exists($file)) {
                     if (unlink($file)) {
-                        echo "Imagem antiga removida com sucesso!";
 
                         // Agora insere a nova imagem e atualiza a base de dados
                         inserirImagem($conn, $idUser);
-                        $alteracaoFeita = true;
+                        
                     } else {
                         echo "<script>alert('Erro ao remover a imagem antiga!');</script>";
                     }
@@ -143,6 +142,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $erro = true;
                 }
             }
+            $alteracaoFeita = true;
         }
 
 

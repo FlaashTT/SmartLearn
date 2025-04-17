@@ -1,0 +1,71 @@
+<aside class="sidebar">
+
+    <div class="user-info">
+        <div class="avatar-sidebar">
+
+            <?php
+            $sitioImagem = $_SESSION['utilizadorOn']['URL_foto_perfilUser'];
+            $caminhoImagem = "../../assets/image/fotosPerfil/" . $sitioImagem;
+            
+            if(!empty($sitioImagem) && file_exists($caminhoImagem)){
+                echo '<img src="../../assets/image/fotosPerfil/' . $sitioImagem . '" alt="Erro">';
+            }else{
+            echo '<img src="../../assets/image/User.png" alt="Erro">';                
+            }
+            ?>
+            
+        </div>
+        <div class="user-details">
+            <p>Administrador de Sistema</p>
+        </div>
+    </div>
+
+    <nav class="navigation">
+        <ul>
+            <h4>Navegação</h4>
+            <li>
+                <i class="fas fa-tachometer-alt"></i> Painel
+            </li>
+            <li class="has-submenu">
+                <i class="fas fa-book"></i> Cursos <i class="fas fa-chevron-right toggle-icon"></i>
+                <ul class="submenu">
+                    <li>Dashboard Cursos</li>
+                    <li>Gerenciar cursos</li>
+                    <li>Adicionar novo curso</li>
+                    <li>Categoria do curso</li>
+                </ul>
+            </li>
+            <li class="has-submenu">
+                <i class="fas fa-user-check"></i> Inscrição <i class="fas fa-chevron-right toggle-icon"></i>
+                <ul class="submenu">
+                    <li>Matricular no curso</li>
+                    <li>Registrar histórico</li>
+                </ul>
+            </li>
+            <li class="has-submenu">
+                <i class="fas fa-chart-bar"></i> Relatórios <i class="fas fa-chevron-right toggle-icon"></i>
+                <ul class="submenu">
+                    <li>Relatório de cursos</li>
+                    <li>Relatório de utilizadores</li>
+                </ul>
+            </li>
+            <li class="has-submenu">
+                <i class="fas fa-users"></i> Utilizadores <i class="fas fa-chevron-right toggle-icon"></i>
+                <ul class="submenu">
+                    <li>Gerenciar utilizadores</li>
+                    <li>Adicionar novo utilizador</li>
+                </ul>
+            </li>
+            <li class="has-submenu">
+                <i class="fas fa-cogs"></i> Configurações <i class="fas fa-chevron-right toggle-icon"></i>
+                <ul class="submenu">
+                    <li>Configurações do sistema</li>
+                    <li>Preferências de notificação</li>
+                </ul>
+            </li>
+            <li>
+                <i class="fas fa-user-cog"></i> Gerenciamento perfil
+            </li>
+        </ul>
+    </nav>
+</aside>

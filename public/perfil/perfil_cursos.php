@@ -92,7 +92,7 @@ $result = $stmt->get_result();
                         echo '
                         <div class="course-card">
                             <div class="course-image">
-                                <img src="../' . $row['URL_foto_perfil_curso'] . '" alt="erro" style="width: 210px; height: 150px;">
+                                <img src="../../assets/image/curso/' . $row['URL_foto_perfil_curso'] . '" alt="erro" style="width: 210px; height: 150px;">
                             </div>
                             <div class="course-info">
                                 <h3>' . $row['Nome_curso'] . '</h3>

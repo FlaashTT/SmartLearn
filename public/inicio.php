@@ -67,6 +67,34 @@ include("../database/basedados.sql");
                             <li><a href="../public/autenticacao/registo.php" class="btn">Inscrever-se</a></li>
                         </ul>
                     ';
+                    } else if ($_SESSION['utilizadorOn']['Tipo_user'] === "Admin") {
+
+                        echo '
+                        <div class="nav-right">
+                            <ul class="nav-links">
+                                <li>
+                                    <a href="../public/admin/admin_base.php" class="nav-item">
+                                        Administrador
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="../public/perfil/perfil_favoritos.php" class="nav-item">
+                                        <i class="fa-regular fa-heart"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="../public/carrinho/carrinho.php" class="nav-item">
+                                        <i class="fa-solid fa-cart-shopping"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="../public/perfil/perfil_cursos.php" class="nav-item">
+                                        <i class="fa-regular fa-circle-user"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        ';
                     } else {
 
 
@@ -235,10 +263,12 @@ include("../database/basedados.sql");
                     // Card de Curso
                     echo '
                 
-        
-            <div class="card">
-                <div class="card-image">
-                    <img src=' . $row['URL_foto_perfil_curso'] . ' alt=" erro">
+        <form id="formCurso' . $row['Id_curso'] . '" action="../public/curso/curso_capa.php" method="POST" style="margin: 0;">
+        <input type="hidden" name="idCurso" value="' . $row['Id_curso'] . '">
+
+            <div class="card" >
+                <div class="card-image" onclick="document.getElementById(\'formCurso' . $row['Id_curso'] . '\').submit();" style="cursor: pointer;">
+                    <img src=../assets/image/curso/' . $row['URL_foto_perfil_curso'] . ' alt=" erro ao carregar imagem">
                 </div>
                 <div class="card-content">
                     <span class="badge">' . $row["Dificuldade"] . '</span>
@@ -248,7 +278,7 @@ include("../database/basedados.sql");
                         <div class="stars">
                             <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
                         </div>
-
+        </form>
                         ';
                     if (!isset($_SESSION['utilizadorOn']) || !$_SESSION['utilizadorOn']) {
                         echo "";
@@ -265,6 +295,7 @@ include("../database/basedados.sql");
                     </div>
                 </div>
             </div>
+        
         
         ';
                 }
@@ -299,7 +330,7 @@ include("../database/basedados.sql");
 
     <!-- Rodapé -->
     <?php
-        include("../../src/views/utils/rodape.html");
+    include("../src/views/utils/rodape.html");
     ?>
 
 

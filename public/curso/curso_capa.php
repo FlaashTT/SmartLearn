@@ -15,7 +15,7 @@ if (empty($idCurso)) {
     </script>";
   $erro = true;
 }
-
+$cursoComprado = false;
 
 ?>
 
@@ -38,13 +38,35 @@ if (empty($idCurso)) {
   <?php
   include("../../src/views/utils/cabecalho.html");
 
+
   $stmt = $conn->prepare("
-                SELECT * 
-                FROM cursos_adquiridos ca
-                INNER JOIN curso c ON ca.Id_curso = c.Id_curso
-                WHERE ca.Id_user = ?;
+                SELECT * FROM cursos_adquiridos WHERE Id_user = ? AND Id_curso = ?;
             ");
-  $stmt->bind_param("i", $_SESSION['utilizadorOn']['Id_user']);
+  $stmt->bind_param("ii", $_SESSION['utilizadorOn']['Id_user'], $idCurso);
+  $stmt->execute();
+  $result = $stmt->get_result();
+  if ($result->num_rows > 0) {
+    $cursoComprado = true;
+
+    $stmt->close();
+    //se tiver comprado
+    $stmt = $conn->prepare("
+    SELECT * 
+    FROM cursos_adquiridos ca
+    INNER JOIN curso c ON ca.Id_curso = c.Id_curso
+    WHERE ca.Id_user = ? AND c.Id_curso = ?;
+    ");
+    $stmt->bind_param("ii", $_SESSION['utilizadorOn']['Id_user'], $idCurso);
+  } else {
+    $stmt = $conn->prepare("
+                SELECT * 
+                FROM curso WHERE Id_curso = ?;
+            ");
+    $stmt->bind_param("i", $idCurso);
+  }
+
+
+
   $stmt->execute();
   $result = $stmt->get_result();
   if ($result->num_rows > 0) {
@@ -58,12 +80,14 @@ if (empty($idCurso)) {
       <main class="container-c">
         <section class="curso-info">
           <?php
+          echo '<h1>' . $row['Nome_curso'] . '</h1>';
+          if ($cursoComprado === true) {
+            echo '<p>' . $row['Percentagem_progresso'] . '% Concluído</p>';
+          }
           echo '
-        <h1>' . $row['Nome_curso'] . '</h1>
-        <p>' . $row['Percentagem_progresso'] . '% Concluído</p>
         <div class="content">
           <div class="imagem">
-            <img src="../../assets/image/capa_curso.png" alt="Imagem do Curso" />
+            <img src="../../assets/image/curso/' . $row['URL_foto_perfil_curso'] . '" alt="Imagem nao encontrada" />
           </div>
         ';
 
@@ -89,16 +113,18 @@ if (empty($idCurso)) {
             $stmt->execute();
             $result = $stmt->get_result();
             if ($result->num_rows > 0) {
-              $quantidadeFases = 0;
+              $NumFase = 0;
               while ($fase = $result->fetch_assoc()) {
-                $quantidadeFases++;
-                if ($quantidadeFases % 4 == 0) {
-                  echo '<div class="fase fase-T">Fase ' . $fase['Titulo_fase'] . '</div>';
+                $NumFase++;
+                if ($NumFase % 4 == 0) {
+                  echo '<div class="fase fase-T">Fase ' . $NumFase . ': ' . $fase['Titulo_fase'] . '</div>';
                 } else {
 
-                  echo '<div class="fase">Fase ' . $fase['Titulo_fase'] . '</div>';
+                  echo '<div class="fase">Fase ' . $NumFase . ': ' . $fase['Titulo_fase'] . '</div>';
                 }
               }
+            } else {
+              echo "Não foi possovel encontrar nenhuma fase disponivel!";
             }
 
             ?>
@@ -108,10 +134,17 @@ if (empty($idCurso)) {
             <h2>Dicas do curso:</h2>
             <ul>
               <?php
+              $stmt = $conn->prepare("SELECT COUNT(*) AS total FROM fase WHERE Id_curso = ?");
+              $stmt->bind_param("i", $idCurso);
+              $stmt->execute();
+              $result = $stmt->get_result();
+              $totalFase = $result->fetch_assoc();
+
+              $quantidadeFase = $totalFase['total'];
               echo '
             <li><strong>Tempo estimado:</strong> ' . $row['Tempo_estimado'] . '</li>
             <li><strong>Idioma:</strong> ' . $row['Idioma_principal'] . '</li>
-            <li><strong>Fases do Curso:</strong> ' . $row['Quantidade_fases'] . '</li>
+            <li><strong>Fases do Curso:</strong> ' . $quantidadeFase . '</li>
             <li><strong>Classificação:
 
             ';
@@ -127,10 +160,32 @@ if (empty($idCurso)) {
 
           </aside>
         </div>
+        <?php
+        if ($cursoComprado === true) {
+          echo '
 
-        <footer class="footer-c">
-          <button class="avançar"><!--Avançar conteúdo-->Ainda nao disponivel</button>
-        </footer>
+            <footer class="footer-c">
+            <form action="curso_conteudo.php" method="POST">
+              <button name="idcurso" value=" ' . $idCurso . '" class="avançar">
+                Avançar conteúdo
+              </button>
+            </form>
+          </footer>
+          ';
+        }else{
+          echo'
+          <footer class="footer-c">
+            <form action="../carrinho/adicionarAocarrinho.php" method="POST">
+              <button name="IdCurso" value=" ' . $idCurso . '" class="avançar">
+                Adicionar ao carrinho!
+              </button>
+            </form>
+          </footer>
+          ';
+        }
+
+        ?>
+
       </main>
     </main>
 
