@@ -1,7 +1,9 @@
 # Notas do Projeto FelixBus
 --- 
 ## ✅ Concluído
-- 
+- **Criação de cursos gerais**
+  _Localização do ficheiro:_
+  - `\src\vies\layout\admin\layout_categorias.html`
 
 
 
@@ -26,7 +28,7 @@
 
 
 ## 📌 Para Fazer
-- [ ] Sitio onde tem dados das respostas do forms de satisfação dos clientes
+- [X] Sitio onde tem dados das respostas do forms de satisfação dos clientes
 
 
 
