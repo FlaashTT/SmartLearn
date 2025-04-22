@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="pt">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SmartLearn</title>
+    <link
+      rel="stylesheet"
+      href="/assets/fontawesome/fontawesome/css/all.min.css"
+    />
+    <link rel="stylesheet" href="/assets/css/admin/style_admin.css" />
+    <link rel="stylesheet" href="/assets/css/admin/style_utilizadores_admin_gerenciar.css" />
+  </head>
+  <body>
+    <!-- Cabeçalho -->
+    <header>
+      <div class="container-admin">
+        <nav>
+          <div class="nav-left">
+            <div class="logo">
+              <a href="layout_base.html"><img src="/assets/image/Logo.png" alt="Logo" /></a>
+              <span class="brand-name">SmartLearn</span>
+            </div>
+            <ul class="nav-links">
+              <li>
+                <button class="back-button">Voltar ao site</button>
+              </li>
+            </ul>
+          </div>
+          <div class="nav-right">
+            <ul class="nav-links">
+                <div class="avatar">
+                    <img src="/assets/image/Admin.png" alt="Avatar" class="avatar-image" />
+                </div>
+                <div class="profile-info">
+                    <p>Administrador de Sistema</p>
+                    <p class="Name">Administrador LePinh</p>
+                </div>
+            </ul>
+          </div>
+        </nav>
+      </div>
+    </header>
+
+    
+
+    <!-- Secção Principal (Hero) -->
+    <div class="container-admin">
+    <main class="container">
+        <aside class="sidebar">
+
+            <div class="user-info">
+                <div class="avatar-sidebar">
+                    <img src="/assets/image/User.png" alt="Erro">
+                </div>
+                <div class="user-details">
+                    <p>Administrador de Sistema</p>
+                </div>
+            </div>
+
+            <nav class="navigation">
+                <ul>
+                    <h4>Navegação</h4>
+                    <li>
+                        <i class="fas fa-tachometer-alt"></i> Painel
+                    </li>
+                    <li class="has-submenu">
+                        <i class="fas fa-book"></i> Cursos <i class="fas fa-chevron-right toggle-icon"></i>
+                        <ul class="submenu">
+                            <li>Dashboard Cursos</li>
+                            <li>Gerenciar cursos</li>
+                            <li>Adicionar novo curso</li>
+                            <li>Categoria do curso</li>
+                        </ul>
+                    </li>
+                    <li class="has-submenu">
+                        <i class="fas fa-user-check"></i> Inscrição <i class="fas fa-chevron-right toggle-icon"></i>
+                        <ul class="submenu">
+                            <li>Matricular no curso</li>
+                            <li>Registrar histórico</li>
+                        </ul>
+                    </li>
+                    <li class="has-submenu">
+                        <i class="fas fa-chart-bar"></i> Relatórios <i class="fas fa-chevron-right toggle-icon"></i>
+                        <ul class="submenu">
+                            <li>Relatório de ações</li>
+                            <li>Relatório de satisfação</li>
+                        </ul>
+                    </li>
+                    <li class="has-submenu">
+                        <i class="fas fa-users"></i> Utilizadores <i class="fas fa-chevron-right toggle-icon"></i>
+                        <ul class="submenu">
+                            <li class="has-submenu-a">
+                              Administrador <i class="fas fa-chevron-right toggle-icon-a"></i>
+                              <ul class="sub-submenu">
+                                <li>Gerenciar administrador</li>
+                                <li>Adicionar novo administrador</li>
+                              </ul>
+                            </li>
+                            <li class="has-submenu-a">
+                              Clientes <i class="fas fa-chevron-right toggle-icon-a"></i>
+                              <ul class="sub-submenu">
+                                <li>Gerenciar clientes</li>
+                                <li>Adicionar novo cliente</li>
+                              </ul>
+                            </li>
+                          </ul>
+                    </li>
+                    <li class="has-submenu">
+                        <i class="fas fa-cogs"></i> Configurações <i class="fas fa-chevron-right toggle-icon"></i>
+                        <ul class="submenu">
+                            <li>Configurações do sistema</li>
+                            <li>Preferências de notificação</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <i class="fas fa-user-cog"></i> Gerenciamento perfil
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="container-page">
+            <section class="main-content" style="display: flex; align-items: center; justify-content: space-between;">
+                <h1 style="display: flex; align-items: center;">
+                    <i style="font-size: 18px; margin-right: 10px;" class="fa-solid fa-users-gear"></i> Gerenciar admins
+                </h1>
+            </section>
+
+          <section class="course-list">
+            <h2>Histórico</h2>
+            <div class="filters">
+                <div class="search-container">
+                    <input type="text" id="searchInput" placeholder="Pesquisar...">
+                    <button>Filtrar</button>
+                  </div>                  
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                <div>
+                  Mostrar
+                  <select style="padding: 5px 10px; margin: 0 5px;">
+                    <option value="10">10</option>
+                    <option value="25">25</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                  </select>
+                  entradas
+                </div>
+              </div>
+              
+              <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Avatar</th>
+                        <th>Nome</th>
+                        <th>Email</th>
+                        <th>Cargo</th>
+                        <th>Ações</th>
+                    </tr>                    
+                </thead>                
+                <tbody>
+                    <tr data-id="1">
+                        <td>1</td>
+                        <td><img src="https://via.placeholder.com/40" alt="Avatar" class="avatar"></td>
+                        <td>Joana Silva</td>
+                        <td>joana.silva@email.com</td>
+                        <td><span class="tag-cargo root-admin">Root Admin</span></td>
+                        <td class="actions">
+                            <button class="btn-editar" onclick="abrirModalEditar(this)">
+                                Editar
+                            </button>
+                            <button class="btn-eliminar" onclick="abrirModalEliminar('Joana Silva')">
+                                Eliminar
+                            </button>
+                        </td>
+                    </tr>
+                    <tr data-id="2">
+                        <td>2</td>
+                        <td><img src="https://via.placeholder.com/40" alt="Avatar" class="avatar"></td>
+                        <td>Ricardo Costa</td>
+                        <td>ricardo.costa@email.com</td>
+                        <td><span class="tag-cargo admin">Admin</span></td>
+                        <td class="actions">
+                            <button class="btn-editar" onclick="abrirModalEditar(this)">
+                                Editar
+                            </button>
+                            <button class="btn-eliminar" onclick="abrirModalEliminar('Ricardo Costa')">
+                                Eliminar
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>                
+            </table>
+            
+            <div style="margin-top: 10px; font-size: 14px; color: #666;">
+                A mostrar 0 a 0 de 0 entradas
+              </div>
+            
+            <div class="pagination">
+                <button>Anterior</button>
+                <button>Próximo</button>
+            </div>
+
+            <!-- Modal Editar -->
+            <div id="editarModal" class="modal">
+                <div class="modal-content">
+                    <span class="close" onclick="fecharModal('editarModal')">&times;</span>
+                    <h3>Editar Utilizador</h3>
+                    <form>
+                        <label>Nome:</label>
+                        <input type="text" id="inputNome" style="width: 100%; padding: 8px;">
+                        <label>Email:</label>
+                        <input type="email" id="inputEmail" style="width: 100%; padding: 8px;">
+                        <label>Cargo:</label>
+                        <input type="text" id="inputCargo" style="width: 100%; padding: 8px;">
+                        <div class="modal-buttons">
+                            <button type="button" onclick="fecharModal('editarModal')">Cancelar</button>
+                            <button type="submit">Guardar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Modal Eliminar -->
+            <div id="eliminarModal" class="modal">
+                <div class="modal-content">
+                    <span class="close" onclick="fecharModal('eliminarModal')">&times;</span>
+                    <h3>Confirmar Eliminação</h3>
+                    <p>Tens a certeza que queres eliminar <strong>Joana Silva</strong>?</p>
+                    <div class="modal-buttons">
+                        <button onclick="fecharModal('eliminarModal')">Cancelar</button>
+                        <button style="background-color: #dc3545; color: white;">Eliminar</button>
+                    </div>
+                </div>
+            </div>
+          </section>
+        </main>
+    </main>
+    </div>
+
+    <script>
+    document.querySelectorAll('.has-submenu').forEach(item => {
+        item.addEventListener('click', () => {
+            // Alterna a classe "open" no item clicado
+            item.classList.toggle('open');
+        });
+    });
+    document.querySelectorAll('.has-submenu-a').forEach(item => {
+        item.addEventListener('click', e => {
+            e.stopPropagation(); // Impede que o clique propague para outros menus
+            item.classList.toggle('open');
+        });
+    });
+    </script>
+
+<script>
+    
+
+    function fecharModal(id) {
+        document.getElementById(id).style.display = 'none';
+    }
+
+    function abrirModalEditar(button) {
+    // Obtém a linha da tabela (tr) onde o botão foi clicado
+    var row = button.closest('tr');
+    
+    // Obtém os dados da linha
+    var id = row.getAttribute('data-id');
+    var nome = row.cells[2].innerText; // Coluna do nome
+    var email = row.cells[3].innerText; // Coluna do email
+    var cargo = row.cells[4].innerText; // Coluna do cargo
+
+    // Abre o modal e preenche os campos com os dados da linha
+    document.getElementById('editarModal').style.display = 'block';
+    document.getElementById('inputNome').value = nome;
+    document.getElementById('inputEmail').value = email;
+    document.getElementById('inputCargo').value = cargo;
+}
+
+
+function abrirModalEliminar(nome) {
+    document.getElementById('eliminarModal').style.display = 'block';
+    document.querySelector('#eliminarModal p').innerHTML = `Tens a certeza que queres eliminar <strong>${nome}</strong>?`;
+}
+</script>
+
+
+    
+  </body>
+</html>
