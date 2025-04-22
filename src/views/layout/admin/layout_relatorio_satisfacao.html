@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="pt">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SmartLearn</title>
+    <link
+      rel="stylesheet"
+      href="/assets/fontawesome/fontawesome/css/all.min.css"
+    />
+    <link rel="stylesheet" href="/assets/css/admin/style_admin.css" />
+    <link rel="stylesheet" href="/assets/css/admin/style_relatorio_satisfacao.css" />
+  </head>
+  <body>
+    <!-- Cabeçalho -->
+    <header>
+      <div class="container-admin">
+        <nav>
+          <div class="nav-left">
+            <div class="logo">
+              <a href="layout_base.html"><img src="/assets/image/Logo.png" alt="Logo" /></a>
+              <span class="brand-name">SmartLearn</span>
+            </div>
+            <ul class="nav-links">
+              <li>
+                <button class="back-button">Voltar ao site</button>
+              </li>
+            </ul>
+          </div>
+          <div class="nav-right">
+            <ul class="nav-links">
+                <div class="avatar">
+                    <img src="/assets/image/Admin.png" alt="Avatar" class="avatar-image" />
+                </div>
+                <div class="profile-info">
+                    <p>Administrador de Sistema</p>
+                    <p class="Name">Administrador LePinh</p>
+                </div>
+            </ul>
+          </div>
+        </nav>
+      </div>
+    </header>
+
+    
+
+    <!-- Secção Principal (Hero) -->
+    <div class="container-admin">
+    <main class="container">
+        <aside class="sidebar">
+
+            <div class="user-info">
+                <div class="avatar-sidebar">
+                    <img src="/assets/image/User.png" alt="Erro">
+                </div>
+                <div class="user-details">
+                    <p>Administrador de Sistema</p>
+                </div>
+            </div>
+
+            <nav class="navigation">
+                <ul>
+                    <h4>Navegação</h4>
+                    <li>
+                        <i class="fas fa-tachometer-alt"></i> Painel
+                    </li>
+                    <li class="has-submenu">
+                        <i class="fas fa-book"></i> Cursos <i class="fas fa-chevron-right toggle-icon"></i>
+                        <ul class="submenu">
+                            <li>Dashboard Cursos</li>
+                            <li>Gerenciar cursos</li>
+                            <li>Adicionar novo curso</li>
+                            <li>Categoria do curso</li>
+                        </ul>
+                    </li>
+                    <li class="has-submenu">
+                        <i class="fas fa-user-check"></i> Inscrição <i class="fas fa-chevron-right toggle-icon"></i>
+                        <ul class="submenu">
+                            <li>Matricular no curso</li>
+                            <li>Registrar histórico</li>
+                        </ul>
+                    </li>
+                    <li class="has-submenu">
+                        <i class="fas fa-chart-bar"></i> Relatórios <i class="fas fa-chevron-right toggle-icon"></i>
+                        <ul class="submenu">
+                            <li>Relatório de ações</li>
+                            <li>Relatório de satisfação</li>
+                        </ul>
+                    </li>
+                    <li class="has-submenu">
+                        <i class="fas fa-users"></i> Utilizadores <i class="fas fa-chevron-right toggle-icon"></i>
+                        <ul class="submenu">
+                            <li class="has-submenu-a">
+                              Administrador <i class="fas fa-chevron-right toggle-icon-a"></i>
+                              <ul class="sub-submenu">
+                                <li>Gerenciar administrador</li>
+                                <li>Adicionar novo administrador</li>
+                              </ul>
+                            </li>
+                            <li class="has-submenu-a">
+                              Clientes <i class="fas fa-chevron-right toggle-icon-a"></i>
+                              <ul class="sub-submenu">
+                                <li>Gerenciar clientes</li>
+                                <li>Adicionar novo cliente</li>
+                              </ul>
+                            </li>
+                          </ul>
+                    </li>
+                    <li class="has-submenu">
+                        <i class="fas fa-cogs"></i> Configurações <i class="fas fa-chevron-right toggle-icon"></i>
+                        <ul class="submenu">
+                            <li>Configurações do sistema</li>
+                            <li>Preferências de notificação</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <i class="fas fa-user-cog"></i> Gerenciamento perfil
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="container-page">
+            <section class="main-content" style="display: flex; align-items: center; justify-content: space-between;">
+                <h1 style="display: flex; align-items: center;">
+                    <i style="font-size: 18px; margin-right: 10px;" class="fa-solid fa-font-awesome"></i> Logs de Satisfação
+                </h1>
+            </section>
+
+          <section class="course-list">
+            <h2>Logs</h2>
+            <div class="filters">
+                <div class="search-container">
+                    <input type="text" id="searchInput" placeholder="Pesquisar...">
+                    <button>Filtrar</button>
+                  </div>                  
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                <div>
+                  Mostrar
+                  <select style="padding: 5px 10px; margin: 0 5px;">
+                    <option value="10">10</option>
+                    <option value="25">25</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                  </select>
+                  entradas
+                </div>
+              </div>
+              
+              <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nome | Email</th>
+                        <th>Comentário</th>
+                        <th>Data do Feedback</th>
+                        <th>Satisfação</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>                
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>Joana Silva<br><small>joana@email.com</small></td>
+                        <td>
+                            Texto livre deixado pelo utilizador com a sua opinião
+                            <a href="#" class="ver-mais-link" onclick="abrirDescricaoModal('Joana Silva', 'Responsável pela gestão dos cursos e conteúdos da plataforma, incluindo organização, monitorização de progresso, e suporte a formadores e alunos.')"
+                               style="color: #007bff; text-decoration: none;">Ver mais</a>
+                        </td>
+                        <td>2025-04-14 15:23</td>
+                        <td><span class="tag tag-excelente">Excelente</span></td>
+                        <td style="text-align: center;">
+                            <a href="#" style="color: #80e73c; font-size: 14px; text-decoration: none;"> 
+                                <i class="fa-solid fa-eye-low-vision"></i>
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <div style="margin-top: 10px; font-size: 14px; color: #666;">
+                A mostrar 0 a 0 de 0 entradas
+              </div>
+            
+            <div class="pagination">
+                <button>Anterior</button>
+                <button>Próximo</button>
+            </div>
+
+            <div id="descricaoModal" class="modal">
+                <div class="modal-content">
+                    <span class="close" onclick="fecharModal()">&times;</span>
+                    <h2 id="modalTitle"></h2>
+                    <p id="modalDescricao"></p>
+                </div>
+            </div>
+          </section>
+        </main>
+    </main>
+    </div>
+
+    <script>
+    document.querySelectorAll('.has-submenu').forEach(item => {
+        item.addEventListener('click', () => {
+            // Alterna a classe "open" no item clicado
+            item.classList.toggle('open');
+        });
+    });
+    document.querySelectorAll('.has-submenu-a').forEach(item => {
+        item.addEventListener('click', e => {
+            e.stopPropagation(); // Impede que o clique propague para outros menus
+            item.classList.toggle('open');
+        });
+    });
+    </script>
+
+<script>
+    function abrirDescricaoModal(nome, descricao) {
+    // Define o título e a descrição no modal
+    document.getElementById("modalTitle").innerText = `Descrição de ${nome}`;
+    document.getElementById("modalDescricao").innerText = descricao;
+
+    // Mostra o modal
+    document.getElementById("descricaoModal").style.display = "block";
+}
+
+function fecharModal() {
+    // Fecha o modal
+    document.getElementById("descricaoModal").style.display = "none";
+}
+
+// Fecha o modal quando clica fora da janela do modal
+window.onclick = function(event) {
+    if (event.target == document.getElementById("descricaoModal")) {
+        fecharModal();
+    }
+}
+
+</script>
+
+
+    
+  </body>
+</html>
