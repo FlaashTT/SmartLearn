@@ -104,14 +104,21 @@ include("../database/basedados.sql");
 
                 <hr />
 
+                <?php
+                $comDesconto = isset($_GET['comDesconto']) ? $_GET['comDesconto'] : false;
+                ?>
                 <div class="filtro-secao">
                     <button class="filtro-titulo" onclick="toggleFiltro(this)">
                         Desconto Direto <i class="fas fa-chevron-up"></i>
                     </button>
                     <div class="filtro-conteudo">
-                        <label><input type="checkbox" /> Até 20% <span>(289)</span></label>
-                        <label><input type="checkbox" /> De 20% a 30% <span>(1)</span></label>
-                        <label><input type="checkbox" /> De 30% a 50% <span>(1)</span></label>
+                        <form method="GET" id="filtroForm">
+                            <label>
+                                <input type="checkbox" name="comDesconto" value="true" onchange="document.getElementById('filtroForm').submit()"
+                                <?php echo in_array('pt', $idiomaSelecionado) ? 'checked' : ''; ?> />
+                                /> Com desconto <span></span>
+                            </label>
+                        </form>
                     </div>
                 </div>
 
@@ -323,16 +330,16 @@ include("../database/basedados.sql");
                             $descricao = $row['Descricao'];
                             $limite = 80;
                             $proximoLimite = $limite + 20;  // Considerar os próximos 20 caracteres após o limite inicial
-                            
+
                             // Procurar o primeiro ponto dentro dos próximos 20 caracteres após o limite
                             $descricaoParte = substr($descricao, $limite, 20);
                             $posPontoDepois = strpos($descricaoParte, '.');
-                            
+
                             // Ajustar a posição para o índice real no texto original
                             if ($posPontoDepois !== false) {
                                 $posPontoDepois += $limite;  // Ajusta a posição para o índice real no texto original
                             }
-                            
+
                             // Se houver um ponto nos próximos 20 caracteres o tamanho estende ate ao ponto
                             if ($posPontoDepois !== false) {
                                 $descricao_curta = substr($descricao, 0, $posPontoDepois + 1);  // Inclui o ponto
@@ -340,9 +347,9 @@ include("../database/basedados.sql");
                                 // Caso não haja ponto dentro dos próximos 20 caracteres fica com o limete de 80
                                 $descricao_curta = substr($descricao, 0, $proximoLimite);
                             }
-                            
+
                             $descricao_completa = substr($descricao, strlen($descricao_curta));
-                            
+
 
 
                             echo '
