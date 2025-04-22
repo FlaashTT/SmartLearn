@@ -104,23 +104,30 @@ include("../database/basedados.sql");
 
                 <hr />
 
+
+                
                 <?php
-                $comDesconto = isset($_GET['comDesconto']) ? $_GET['comDesconto'] : false;
+                //com erro
+                $descontoSelecionado = isset($_GET['desconto']) ? $_GET['desconto'] : '';
                 ?>
                 <div class="filtro-secao">
                     <button class="filtro-titulo" onclick="toggleFiltro(this)">
-                        Desconto Direto <i class="fas fa-chevron-up"></i>
+                        Filtro de Desconto <i class="fas fa-chevron-up"></i>
                     </button>
+
                     <div class="filtro-conteudo">
                         <form method="GET" id="filtroForm">
                             <label>
-                                <input type="checkbox" name="comDesconto" value="true" onchange="document.getElementById('filtroForm').submit()"
-                                <?php echo in_array('pt', $idiomaSelecionado) ? 'checked' : ''; ?> />
-                                /> Com desconto <span></span>
+                                <input type="checkbox" name="desconto" value="sim" onchange="document.getElementById('filtroForm').submit()"
+                                    <?php echo $descontoSelecionado == 'sim' ? 'checked' : ''; ?> />
+                                Com desconto <span>(122)</span>
                             </label>
                         </form>
                     </div>
                 </div>
+
+               
+
 
                 <hr />
 
