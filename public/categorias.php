@@ -1,5 +1,7 @@
 <?php
-include("../../database/basedados.sql");
+session_start();
+include("../database/basedados.sql");
+
 ?>
 
 
@@ -12,16 +14,23 @@ include("../../database/basedados.sql");
     <title>SmartLearn</title>
     <link
         rel="stylesheet"
-        href="../../assets/fontawesome/fontawesome/css/all.min.css" />
-    <link rel="stylesheet" href="../../assets/css/style.css" />
-    <link rel="stylesheet" href="../../assets/css/style_categorias.css" />
+        href="../assets/fontawesome/fontawesome/css/all.min.css" />
+
+    <?php
+    if (isset($_SESSION['utilizadorOn'])) {
+        echo '<link rel="stylesheet" href="../assets/css/style_user.css" />';
+    } else {
+        echo '<link rel="stylesheet" href="../assets/css/style.css" />';
+    }
+    ?>
+
+    <link rel="stylesheet" href="../assets/css/style_categorias.css" />
 </head>
 
 <body>
     <!-- Cabeçalho -->
     <?php
-
-    include("../../src/views/utils/cabecalho.html");
+    include("../src/views/utils/cabacalhoNaoLogado.html");
     ?>
 
     <!-- Secção Principal (Hero) -->
@@ -42,16 +51,22 @@ include("../../database/basedados.sql");
                 <div class="filtros-cont">
                     <span>1 filtro aplicado: <a href="#">Limpar tudo</a></span>
                 </div>
-                <div class="ordenar-por">
-                    <label for="ordenar">Ordenar por</label>
-                    <select id="ordenar">
-                        <option>Relevância</option>
-                        <option>Mais Recentes</option>
-                        <option>Melhor Avaliados</option>
-                        <option>Preço Mais Baixo</option>
-                        <option>Preço Mais Alto</option>
+                <?php
+                $ordenar = isset($_GET['ordenar']) ? $_GET['ordenar'] : 'a-z';
+                ?>
+
+                <form method="GET" id="ordenarForm" class="ordenar-por">
+                    <select name="ordenar" onchange="document.getElementById('ordenarForm').submit()">
+                        <option value="a-z" <?php echo ($ordenar == 'a-z') ? 'selected' : ''; ?>>A-Z</option>
+                        <option value="recentes" <?php echo ($ordenar == 'recentes') ? 'selected' : ''; ?>>Mais Recentes</option>
+                        <option value="avaliados" <?php echo ($ordenar == 'avaliados') ? 'selected' : ''; ?>>Mais Avaliados</option>
+                        <option value="preco_baixo" <?php echo ($ordenar == 'preco_baixo') ? 'selected' : ''; ?>>Preço (mais baixo)</option>
+                        <option value="preco_alto" <?php echo ($ordenar == 'preco_alto') ? 'selected' : ''; ?>>Preço (mais alto)</option>
                     </select>
-                </div>
+                </form>
+
+
+
             </div>
 
         </section>
@@ -60,31 +75,59 @@ include("../../database/basedados.sql");
 
             <aside class="sidebar-filtros">
 
+                <?php
+                $idiomaSelecionado = isset($_GET['idioma']) ? $_GET['idioma'] : [];
+                ?>
                 <div class="filtro-secao">
                     <button class="filtro-titulo" onclick="toggleFiltro(this)">
                         Idioma do Curso <i class="fas fa-chevron-up"></i>
                     </button>
+
+
                     <div class="filtro-conteudo">
-                        <label><input type="checkbox" /> Português <span>(122)</span></label>
-                        <label><input type="checkbox" /> Inglês <span>(55)</span></label>
-                        <label><input type="checkbox" /> Espanhol <span>(52)</span></label>
-                        <label><input type="checkbox" /> Francês <span>(52)</span></label>
-                        <label><input type="checkbox" /> Alemão <span>(52)</span></label>
+                        <form method="GET" id="filtroForm">
+                            <label>
+                                <input type="checkbox" name="idioma[]" value="pt" onchange="document.getElementById('filtroForm').submit()"
+                                    <?php echo in_array('pt', $idiomaSelecionado) ? 'checked' : ''; ?> />
+                                Português <span>(122)</span>
+                            </label>
+
+                            <label>
+                                <input type="checkbox" name="idioma[]" value="en" onchange="document.getElementById('filtroForm').submit()"
+                                    <?php echo in_array('en', $idiomaSelecionado) ? 'checked' : ''; ?> />
+                                Inglês <span>(55)</span>
+                            </label>
+                        </form>
                     </div>
+
                 </div>
 
                 <hr />
 
+
+                
+                <?php
+                //com erro
+                $descontoSelecionado = isset($_GET['desconto']) ? $_GET['desconto'] : '';
+                ?>
                 <div class="filtro-secao">
                     <button class="filtro-titulo" onclick="toggleFiltro(this)">
-                        Desconto Direto <i class="fas fa-chevron-up"></i>
+                        Filtro de Desconto <i class="fas fa-chevron-up"></i>
                     </button>
+
                     <div class="filtro-conteudo">
-                        <label><input type="checkbox" /> Até 20% <span>(289)</span></label>
-                        <label><input type="checkbox" /> De 20% a 30% <span>(1)</span></label>
-                        <label><input type="checkbox" /> De 30% a 50% <span>(1)</span></label>
+                        <form method="GET" id="filtroForm">
+                            <label>
+                                <input type="checkbox" name="desconto" value="sim" onchange="document.getElementById('filtroForm').submit()"
+                                    <?php echo $descontoSelecionado == 'sim' ? 'checked' : ''; ?> />
+                                Com desconto <span>(122)</span>
+                            </label>
+                        </form>
                     </div>
                 </div>
+
+               
+
 
                 <hr />
 
@@ -94,6 +137,7 @@ include("../../database/basedados.sql");
                     </button>
                     <div class="filtro-conteudo">
                         <?php
+
                         $stmt = $conn->prepare("
                         SELECT Dificuldade FROM curso 
                         WHERE Dificuldade IS NOT NULL AND Dificuldade <> ''
@@ -186,7 +230,7 @@ include("../../database/basedados.sql");
 
                 <div class="filtro-secao">
                     <button class="filtro-titulo" onclick="toggleFiltro(this)">
-                        Categorias <i class="fas fa-chevron-down"></i>
+                        Categorias <i class="fas fa-chevron-up"></i>
                     </button>
                     <div class="filtro-conteudo">
                         <div class="filtro-pesquisa">
@@ -203,13 +247,10 @@ include("../../database/basedados.sql");
                             $result = $stmt->get_result();
                             if ($result->num_rows > 0) {
                                 while ($row = $result->fetch_assoc()) {
-                                    $countStmt = $conn->prepare("SELECT COUNT(*) AS total FROM categoria where Nome_cat = ?");
-                                    $countStmt->bind_param("s", $row['Nome_cat']);
-                                    $countStmt->execute();
-                                    $countResult = $countStmt->get_result();
-                                    $countData = $countResult->fetch_assoc();
+                                    $total = contarValores($conn, 'curso', 'Id_categoria', $row['Id_categoria']);
+
                                     echo '<label><input type="checkbox" /> ' . htmlspecialchars($row['Nome_cat']) .
-                                        ' <span>(' . $countData['total'] . ')</span></label>';
+                                        ' <span>(' . $total . ')</span></label>';
                                 }
                             } else {
                                 echo " <label> Sem categorias disponiveis <span></span></label>";
@@ -224,7 +265,7 @@ include("../../database/basedados.sql");
 
                 <div class="filtro-secao">
                     <button class="filtro-titulo" onclick="toggleFiltro(this)">
-                        Preço <i class="fas fa-chevron-down"></i>
+                        Preço <i class="fas fa-chevron-up"></i>
                     </button>
                     <div class="filtro-conteudo">
                         <div class="filtro-preco">
@@ -246,9 +287,31 @@ include("../../database/basedados.sql");
                 <section class="lista-cursos">
 
                     <?php
-                    $stmt = $conn->prepare("
-                    Select * from curso ;
-                    ");
+                    $ordenar = $_GET['ordenar'] ?? 'a-z';
+
+                    $orderBy = "nome ASC"; // valor padrão
+
+                    switch ($ordenar) {
+                        case 'recentes':
+                            $orderBy = "Data_criacao DESC";
+                            break;
+                        case 'avaliados':
+                            $orderBy = "Classificacao DESC";
+                            break;
+                        case 'preco_baixo':
+                            $orderBy = "Preco ASC";
+                            break;
+                        case 'preco_alto':
+                            $orderBy = "Preco DESC";
+                            break;
+                        case 'a-z':
+                        default:
+                            $orderBy = "Nome_curso ASC";
+                            break;
+                    }
+
+                    $query = "SELECT * FROM curso ORDER BY $orderBy";
+                    $stmt = $conn->prepare($query);
                     $stmt->execute();
                     $result = $stmt->get_result();
                     if ($result->num_rows > 0) {
@@ -256,46 +319,87 @@ include("../../database/basedados.sql");
                             echo '
                                 <div class="course-card">
                                     <div class="course-image">
-                                        <img src="../../assets/image/'.$row['URL_foto_perfil_curso'].'" alt="Erro" style="width: 270px;">
+                                        <img src="../assets/image/curso/' . $row['URL_foto_perfil_curso'] . '" alt="Erro" >
                                     </div>
                                     <div class="course-info">
-                                        <h3>'.$row['Nome_curso'].'</h3>
+                                        <h3>' . $row['Nome_curso'] . '</h3>
                                         <hr>
                                         <div class="stars">
-                                            <i class="fa-solid fa-star"></i>
-                                            <i class="fa-solid fa-star"></i>
-                                            <i class="fa-solid fa-star"></i>
-                                            <i class="fa-solid fa-star"></i>
-                                            <i class="fa-regular fa-star"></i> <!-- Estrela vazia para uma avaliação de 4.5 -->
+                                        ';
+                            if ($row['Classificacao'] === 0) {
+                                echo ("Sem classificação");
+                            } else {
+                                for ($i = 0; $i < $row['Classificacao']; $i++) {
+                                    echo '<i class="fa-solid fa-star"></i>';
+                                }
+                            }
+
+                            $descricao = $row['Descricao'];
+                            $limite = 80;
+                            $proximoLimite = $limite + 20;  // Considerar os próximos 20 caracteres após o limite inicial
+
+                            // Procurar o primeiro ponto dentro dos próximos 20 caracteres após o limite
+                            $descricaoParte = substr($descricao, $limite, 20);
+                            $posPontoDepois = strpos($descricaoParte, '.');
+
+                            // Ajustar a posição para o índice real no texto original
+                            if ($posPontoDepois !== false) {
+                                $posPontoDepois += $limite;  // Ajusta a posição para o índice real no texto original
+                            }
+
+                            // Se houver um ponto nos próximos 20 caracteres o tamanho estende ate ao ponto
+                            if ($posPontoDepois !== false) {
+                                $descricao_curta = substr($descricao, 0, $posPontoDepois + 1);  // Inclui o ponto
+                            } else {
+                                // Caso não haja ponto dentro dos próximos 20 caracteres fica com o limete de 80
+                                $descricao_curta = substr($descricao, 0, $proximoLimite);
+                            }
+
+                            $descricao_completa = substr($descricao, strlen($descricao_curta));
+
+
+
+                            echo '
                                         </div>
                                         <p class="course-description">
-                                            Este curso oferece uma introdução
+                                            ' . htmlspecialchars($descricao_curta) . '
                                             <span class="more-text" style="display: none;">
-                                                Este curso fornece uma introdução sólida ao desenvolvimento web front-end, explorando as linguagens essenciais para criar páginas modernas e responsivas...
+                                                ' . htmlspecialchars($descricao_completa) . '
                                             </span>
                                         </p>
                                         <button class="ver-mais-btn" onclick="toggleDescription(this)">Ver mais</button>
 
                                         <!-- Novas secções para Dificuldade e Idioma -->
                                         <div class="course-difficulty-language">
-                                            <span class="difficulty">Dificuldade: <strong>Intermediário</strong></span>
+                                            <span class="difficulty">Dificuldade: <strong>' . $row['Dificuldade'] . '</strong></span>
                                         </div>
                                         <div class="course-difficulty-language">
-                                            <span class="language">Idioma: <strong>Português</strong></span>
+                                            <span class="language">Idioma: <strong>' . $row['Idioma_principal'] . '</strong></span>
                                         </div>
-
+                                        
                                         <div class="course-price">
-                                            <span class="price">€49.99</span>
-                                            <span class="original-price">€79.99</span> <!-- Preço original com desconto -->
+                                            <span class="price">' . $row['Preco'] . '€</span>
+                                            ';
+                            if ($row['Preco_antigo'] !== null && $row['Preco_antigo'] != 0.00) {
+                                echo '<span class="original-price">' . $row['Preco_antigo'] . '€</span> <!-- Preço original sem desconto -->';
+                            }
+
+                            echo '
                                         </div>
-                                        <button class="start-button">
-                                            <a href="/compra-curso" style="text-decoration: none; color: #fff;">Comprar</a>
+                                            ';
+
+                            echo '
+                                    <form action="carrinho/adicionarAocarrinho.php" method="POST">
+                                        <button name="IdCurso" value="' . $row['Id_curso'] . '" class="start-button">
+                                            Comprar
                                         </button>
+                                    </form>
                                     </div>
                                 </div>
                             ';
                         }
                     }
+
                     ?>
 
 
@@ -312,8 +416,28 @@ include("../../database/basedados.sql");
 
     <!-- Rodapé -->
     <?php
-    include("../../src/views/utils/rodape.html");
+    include("../src/views/utils/rodape.html");
+
+    function contarValores($conn, $tabela, $Nomecampo, $valor)
+    {
+        $query = "SELECT COUNT(*) AS total FROM $tabela WHERE $Nomecampo = ?";
+        $stmt = $conn->prepare($query);
+
+        if (is_int($valor)) {
+            $stmt->bind_param("i", $valor);
+        } else {
+            $stmt->bind_param("s", $valor);
+        }
+
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $dados = $result->fetch_assoc();
+        return $dados['total'];
+    }
+
     ?>
+
+
 
     <script>
         function toggleFiltro(btn) {
