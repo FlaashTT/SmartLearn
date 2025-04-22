@@ -9,19 +9,21 @@
   _Localização do ficheiro:_  
   - `src\views\layout\admin\layout_relatorio_satisfacao.html`
 
-
-
-
-
-
----
-## 🔧 Em Progresso
 - **Pre realização na parte dos utilizadores com campos adminstradores e clientes**
   _Localização do ficheiro:_  
   - `src\views\layout\admin\layout_utlizadores_admin.html`
 
 
 
+---
+## 🔧 Em Progresso
+- **Criacão da pagina configuracoes de site para o direitos de autor sobre o rodapé**
+  _Localização do ficheiro:_  
+  - `src\views\layout\admin\layout.....`
+
+- **Criacão da pagina gerenciamento perfil**
+  _Localização do ficheiro:_  
+  - `src\views\layout\admin\layout.....`
 
 
 
