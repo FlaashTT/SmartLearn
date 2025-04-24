@@ -1,0 +1,547 @@
+
+.container-admin {
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.container {
+  display: flex; /* Define o layout como flexbox */
+  flex-direction: row; /* Garante que os elementos fiquem lado a lado */
+  gap: 20px; /* Espaçamento entre o aside e a seção principal */
+}
+
+  /* ---------- Secção Principal (Hero) ---------- */
+  
+.content{
+  display: flex;
+  flex: 1;
+}
+
+.sidebar{
+  margin-top: 50px;
+  height: auto;
+  width: 400px;
+  margin-right: 40px;
+  background-color: aliceblue;
+  padding: 20px;
+  overflow-y: auto;
+  position: sticky;
+  box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+}
+
+
+.user-info{
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  flex-direction: column;
+}
+
+.user-details {
+  text-align: center; /* Centraliza o texto */
+}
+
+.avatar-sidebar{
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  margin-bottom: 10px;
+}
+
+.avatar-sidebar img{
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+}
+
+.user-details p{
+  margin: 0;
+}
+
+.navigation {
+  padding: 15px;
+  border-radius: 5px;
+}
+
+.navigation ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.navigation li{
+  gap: 10px;
+  display: flex;
+  align-items: center;
+  padding: 10px 15px;
+  font-size: 16px;
+  border-bottom: #33333325 1px solid;
+}
+
+.navigation h4{
+  font-size: 14px;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.navigation ul li {
+  display: block;
+  align-items: center;
+  padding: 10px 15px;
+  font-size: 16px;
+  color: #333;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.navigation ul li i.fa-chevron-right {
+  margin-left: auto; /* Move apenas as setas para o final */
+}
+
+
+.submenu {
+  display: none; /* Esconde o submenu por padrão */
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  padding-left: 0; /* Remove o recuo */
+}
+
+.submenu li {
+  padding: 10px 15px; /* Espaçamento interno dos itens do submenu */
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-left: 20px;
+}
+
+.sub-submenu {
+    display: none;
+    list-style: none;
+    padding-left: 25px;
+    margin-top: 5px;
+  }
+  
+.has-submenu-a.open > .sub-submenu {
+    display: block;
+}
+  
+.has-submenu-a {
+    cursor: pointer;
+    padding: 8px 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background-color 0.2s ease;
+}
+
+.has-submenu.open .submenu {
+  display: block; /* Mostra o submenu quando o item está aberto */
+}
+
+.has-submenu .toggle-icon {
+  margin-left: auto;
+  transition: transform 0.3s ease;
+}
+
+/* Nível 2 - Administrador */
+.has-submenu-a.open .sub-submenu {
+    display: block;
+}
+  
+.has-submenu-a .toggle-icon-a {
+    margin-left: auto;
+    transition: transform 0.3s ease;
+}
+  
+.has-submenu.open .toggle-icon,
+.has-submenu-a.open .toggle-icon-a {
+  transform: rotate(90deg);
+}
+
+
+
+
+.container-page {
+  display: flex; /* Define o layout como flexbox */
+  flex-direction: column; /* Alinha os elementos verticalmente */
+  gap: 20px; 
+  width: 100%; 
+  margin-top: 50px;
+}
+
+.main-content{
+  width: 100%; 
+  padding: 20px;
+  background-color: #fff; 
+  border-radius: 5px; 
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
+  height: auto; 
+}
+
+.course-list{
+  width: 100%; 
+  padding: 20px;
+  background-color: #fff; 
+  border-radius: 5px; 
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
+  height: auto; 
+}
+
+.stats{
+  display: flex;
+  justify-content: space-between;
+}
+
+.stat{
+  background-color: aliceblue;
+  padding: 20px;
+  text-align: center;
+  flex: 1;
+  border-radius: 8px;
+  margin: 0 10px;
+  margin-top: 20px;
+}
+
+.stat i{
+  font-size: 20px;
+  color: #333;
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+
+.stat span{
+  display: block;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.stat p{
+  margin: 0;
+  font-size: 14px;
+  color: #666;
+}
+
+
+.course-list h2{
+  margin-top: 0;
+}
+
+.filters{
+    margin-top: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.filters select{
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  width: 280px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.filters button{
+    padding: 10px 20px;
+    border-radius: 5px;
+    border: none;
+    background-color: #007bff;
+    color: #fff;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+.filters button:hover{
+    background-color: #0056b3;
+}
+
+
+table{
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+table th{
+  padding: 10px;
+  text-align: left;
+  border-bottom: 1px solid #ccc;
+}
+
+table td{
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+  text-align: center;
+}
+
+table th{
+  background-color: #f2f2f2;
+  font-weight: bold;
+}
+
+.pagination{
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.pagination button{
+    padding: 5px 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    background-color: #f2f2f2;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: background-color 0.3s ease;
+}
+
+.page{
+    width: 100%; 
+    padding: 20px;
+    background-color: #fff; 
+    border-radius: 5px; 
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
+    height: auto; 
+}
+
+.form-content{
+    padding: 20px;
+    display: grid;
+    grid-template-columns: 1fr; /* Duas colunas de tamanho igual */
+    gap: 20px; /* Espaçamento entre as colunas */
+}
+
+.form-group{
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label{
+    margin-bottom: 5px;
+    font-size: 14px;
+    color: #333;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select{
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+
+form textarea {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    width: 100%;
+    height: 150px; /* Altura inicial */
+    resize: vertical; /* Permite o utilizador redimensionar a altura */
+  }
+  
+  /* Ajuste para a área de texto para expandir dinamicamente */
+  form textarea.auto-expand {
+    overflow: hidden; /* Esconde a barra de rolagem */
+    min-height: 150px; /* Altura mínima */
+    max-height: 500px; /* Limite máximo */
+  }
+  
+  form textarea:focus {
+    border-color: #007bff; /* Destacar a borda ao focar */
+  }
+
+.form-navigation{
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.btn-button{
+    padding: 10px 20px;
+    border-radius: 5px;
+    border: none;
+    background-color: #007bff;
+    color: #fff;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+/* ---------- Estilo para o botão de adicionar módulo ---------- */
+
+
+.checkbox-curso {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+  margin-top: 2px;
+}
+
+.checkbox-curso input[type="checkbox"] {
+  margin: 0;
+  width: 12px;
+  height: 12px;
+  margin-top: 1px;
+}
+
+.checkbox-curso .label-btn {
+  font-size: 14px;
+  line-height: 1;
+  margin-top: 5px;
+}
+
+/* ---------- Estilo para o form de midia ---------- */
+
+/* Estilos para o card de pré-visualização */
+/* Estilos para o formulário */
+.form-group {
+  margin-bottom: 15px;
+}
+
+#ficheiro {
+  padding: 8px;
+  width: 100%;
+}
+
+/* Estilos para o card de pré-visualização */
+.card-preview {
+  width: 100%;
+  max-width: 400px;
+  margin-top: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding: 15px;
+  background-color: #fff;
+  display: block; /* O card agora estará sempre visível */
+  opacity: 1;
+  transition: opacity 1s ease-out; /* Animação para o desaparecimento do card */
+}
+
+.card-content {
+  text-align: center;
+}
+
+.card-content img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+.card-content p {
+  font-size: 14px;
+  color: #555;
+  margin-top: 10px;
+}
+
+/* Placeholder no card para quando não houver imagem */
+.card-preview .card-content p {
+  color: #888;
+  font-style: italic;
+}
+
+/* Estilo para a mensagem de erro */
+.card-preview .card-content p.error {
+  color: red;
+  font-weight: bold;
+  animation: fadeOut 1s forwards; /* Animação de desaparecimento */
+}
+
+/* Animação para a mensagem de erro desaparecer */
+@keyframes fadeOut {
+  0% {
+      opacity: 1;
+  }
+  100% {
+      opacity: 0;
+  }
+}
+
+/* Estilo para o ícone */
+.icone-container {
+  font-size: 24px;
+  color: #4CAF50; /* Cor verde para o ícone */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px; /* Espaço entre o ícone e o título */
+  justify-content: center;
+  text-align: center;
+}
+
+/* Estilo para o título */
+.titulo {
+  margin-top: 20px; /* Espaço entre o ícone e o título */
+  font-size: 24px;
+  color: #333;
+}
+
+/* Estilo para o parágrafo */
+.paragrafo {
+  font-size: 16px;
+  line-height: 0.2;
+  color: #555; /* Cor do texto */
+  margin: 15px 0; /* Espaço acima e abaixo do parágrafo */
+  text-align: center; /* Centraliza o texto */
+  font-family: 'Arial', sans-serif; /* Fonte */
+}
+
+/* Estilo para o parágrafo em destaque */
+.paragrafo.destaque {
+  font-weight: bold;
+  color: #007bff; /* Cor de destaque */
+  font-size: 18px;
+}
+
+
+/* Estilo para o botão */
+.btn-enviar {
+  padding: 12px 20px;
+  font-size: 18px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.btn-enviar:hover {
+  background-color: #0056b3;
+}
+
+.textarea-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 1000px; /* Ajusta como quiseres */
+}
+  
+.textarea-wrapper textarea {
+    width: 100%;
+    height: 150px;
+    padding: 10px;
+    box-sizing: border-box;
+    resize: vertical;
+}
+  
+  
+  
+
+
+
+  
+
+  
+
+  
+  
