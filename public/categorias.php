@@ -76,26 +76,42 @@ include("../database/basedados.sql");
             <aside class="sidebar-filtros">
 
                 <?php
+                $ordenar = $_GET['ordenar'] ?? 'a-z';
                 $idiomaSelecionado = isset($_GET['idioma']) ? $_GET['idioma'] : [];
+                $descontoSelecionado = isset($_GET['desconto']) ? $_GET['desconto'] : [];
+                $dificuldadeSelecionada = isset($_GET['dificuldade']) ? $_GET['dificuldade'] : [];
+                $duracaoSelecionada = isset($_GET['duracao']) ? $_GET['duracao'] : [];
+                $avaliacaoSelecionada = isset($_GET['avaliacao']) ? $_GET['avaliacao'] : [];
+                $categoriaSelecionada = isset($_GET['categoria']) ? $_GET['categoria'] : [];
+                $precoSelecionado = isset($_GET['preco']) ? $_GET['preco'] : [];
                 ?>
+
+
+
                 <div class="filtro-secao">
                     <button class="filtro-titulo" onclick="toggleFiltro(this)">
                         Idioma do Curso <i class="fas fa-chevron-up"></i>
                     </button>
-
-
                     <div class="filtro-conteudo">
                         <form method="GET" id="filtroForm">
                             <label>
+                                <?php
+
+                                $total = contarValores($conn, "curso", "Idioma_principal = 'Português'");
+                                ?>
                                 <input type="checkbox" name="idioma[]" value="pt" onchange="document.getElementById('filtroForm').submit()"
                                     <?php echo in_array('pt', $idiomaSelecionado) ? 'checked' : ''; ?> />
-                                Português <span>(122)</span>
+                                Português
+                                <span>(<?php echo ($total == 0 || empty($total)) ? '0' : $total; ?>)</span>
                             </label>
 
                             <label>
+                                <?php
+                                $total = contarValores($conn, "curso", "Idioma_principal = 'ingles'");
+                                ?>
                                 <input type="checkbox" name="idioma[]" value="en" onchange="document.getElementById('filtroForm').submit()"
                                     <?php echo in_array('en', $idiomaSelecionado) ? 'checked' : ''; ?> />
-                                Inglês <span>(55)</span>
+                                Inglês <span>(<?php echo ($total == 0 || empty($total)) ? '0' : $total; ?>)</span>
                             </label>
                         </form>
                     </div>
@@ -105,11 +121,8 @@ include("../database/basedados.sql");
                 <hr />
 
 
-                
-                <?php
-                //com erro
-                $descontoSelecionado = isset($_GET['desconto']) ? $_GET['desconto'] : '';
-                ?>
+
+
                 <div class="filtro-secao">
                     <button class="filtro-titulo" onclick="toggleFiltro(this)">
                         Filtro de Desconto <i class="fas fa-chevron-up"></i>
@@ -118,53 +131,72 @@ include("../database/basedados.sql");
                     <div class="filtro-conteudo">
                         <form method="GET" id="filtroForm">
                             <label>
-                                <input type="checkbox" name="desconto" value="sim" onchange="document.getElementById('filtroForm').submit()"
-                                    <?php echo $descontoSelecionado == 'sim' ? 'checked' : ''; ?> />
-                                Com desconto <span>(122)</span>
+                                <?php
+
+                                $total = contarValores($conn, "curso", "Preco_antigo IS NOT NULL AND Preco_antigo <> 0 AND Preco_antigo > Preco");
+                                ?>
+                                <input type="checkbox" name="desconto[]" value="comDesconto" onchange="document.getElementById('filtroForm').submit()"
+                                    <?php echo in_array('comDesconto', $descontoSelecionado) ? 'checked' : ''; ?> />
+                                Com desconto <span>(<?php echo ($total == 0 || empty($total)) ? '0' : $total; ?>)</span>
+                            </label>
+
+                            <label>
+                                <?php
+                                $total = contarValores($conn, 'curso', 'Preco_antigo IS NULL OR Preco_antigo = 0 OR Preco_antigo < Preco');
+                                ?>
+                                <input type="checkbox" name="desconto[]" value="semDesconto" onchange="document.getElementById('filtroForm').submit()"
+                                    <?php echo in_array('semDesconto', $descontoSelecionado) ? 'checked' : ''; ?> />
+                                Sem desconto <span>(<?php echo ($total == 0 || empty($total)) ? '0' : $total; ?>)</span>
+                            </label>
+
+                            <label>
+                                <?php
+                                $total = contarValores($conn, 'curso');
+                                ?>
+                                <input type="checkbox" name="desconto[]" value="ambos" onchange="document.getElementById('filtroForm').submit()"
+                                    <?php echo in_array('ambos', $descontoSelecionado) ? 'checked' : ''; ?> />
+                                Mostrar tudo <span>(<?php echo ($total == 0 || empty($total)) ? '0' : $total; ?>)</span>
                             </label>
                         </form>
                     </div>
                 </div>
 
-               
 
 
                 <hr />
+
+
 
                 <div class="filtro-secao">
                     <button class="filtro-titulo" onclick="toggleFiltro(this)">
                         Nível de Dificuldade <i class="fas fa-chevron-up"></i>
                     </button>
                     <div class="filtro-conteudo">
-                        <?php
-
-                        $stmt = $conn->prepare("
-                        SELECT Dificuldade FROM curso 
-                        WHERE Dificuldade IS NOT NULL AND Dificuldade <> ''
-                        GROUP BY Dificuldade
-                    ");
-                        $stmt->execute();
-                        $result = $stmt->get_result();
-
-                        if ($result->num_rows > 0) {
-                            while ($row = $result->fetch_assoc()) {
-                                // Contar quantas vezes   aparece
-                                $countStmt = $conn->prepare("SELECT COUNT(*) AS total FROM curso WHERE Dificuldade = ?");
-                                $countStmt->bind_param("s", $row['Dificuldade']);
-                                $countStmt->execute();
-                                $countResult = $countStmt->get_result();
-                                $countData = $countResult->fetch_assoc();
-
-                                // Exibir o checkbox com a dificuldade e total
-                                echo '<label><input type="checkbox" /> ' . htmlspecialchars($row['Dificuldade']) .
-                                    ' <span>(' . $countData['total'] . ')</span></label>';
-                            }
-                        } else {
-                            echo '<label>Sem dificuldade disponiveis <span></span></label>';
-                        }
-                        ?>
+                        <form method="GET" id="filtroForm">
+                            <?php
+                            $total = "por fazer";
+                            ?>
+                            <label>
+                                <input type="checkbox" name="dificuldade[]" value="Iniciante" onchange="document.getElementById('filtroForm').submit()"
+                                    <?php echo in_array('Iniciante', $dificuldadeSelecionada) ? 'checked' : ''; ?> />
+                                Iniciante <span>(<?php echo ($total == 0 || empty($total)) ? '0' : $total; ?>)</span>
+                            </label>
+                            <label>
+                                <input type="checkbox" name="dificuldade[]" value="intermedio" onchange="document.getElementById('filtroForm').submit()"
+                                    <?php echo in_array('intermedio', $dificuldadeSelecionada) ? 'checked' : ''; ?> />
+                                Intermédio <span>(<?php echo ($total == 0 || empty($total)) ? '0' : $total; ?>)</span>
+                            </label>
+                            <label>
+                                <input type="checkbox" name="dificuldade[]" value="avançado" onchange="document.getElementById('filtroForm').submit()"
+                                    <?php echo in_array('avançado', $dificuldadeSelecionada) ? 'checked' : ''; ?> />
+                                Avançado <span>(<?php echo ($total == 0 || empty($total)) ? '0' : $total; ?>)</span>
+                            </label>
+                        </form>
                     </div>
                 </div>
+
+
+
 
                 <hr />
 
@@ -173,12 +205,31 @@ include("../database/basedados.sql");
                         Duração de Curso <i class="fas fa-chevron-up"></i>
                     </button>
                     <div class="filtro-conteudo">
-                        <label><input type="checkbox" /> Menos de 1 hora <span>(289)</span></label>
-                        <label><input type="checkbox" /> De 1 a 3 horas <span>(30)</span></label>
-                        <label><input type="checkbox" /> De 3 a 5 horas <span>(10)</span></label>
-                        <label><input type="checkbox" /> Mais de 5 horas <span>(1)</span></label>
+                        <form method="GET" id="filtroForm">
+                            <label>
+                                <input type="checkbox" name="duracao[]" value="menos1h" onchange="document.getElementById('filtroForm').submit()"
+                                    <?php echo in_array('menos1h', $duracaoSelecionada) ? 'checked' : ''; ?> />
+                                Menos de 1 hora <span>(<?php echo ($total == 0 || empty($total)) ? '0' : $total; ?>)</span>
+                            </label>
+                            <label>
+                                <input type="checkbox" name="duracao[]" value="1ha3h" onchange="document.getElementById('filtroForm').submit()"
+                                    <?php echo in_array('1ha3h', $duracaoSelecionada) ? 'checked' : ''; ?> />
+                                De 1 a 3 horas <span>(<?php echo ($total == 0 || empty($total)) ? '0' : $total; ?>)</span>
+                            </label>
+                            <label>
+                                <input type="checkbox" name="duracao[]" value="3ha5h" onchange="document.getElementById('filtroForm').submit()"
+                                    <?php echo in_array('3ha5h', $duracaoSelecionada) ? 'checked' : ''; ?> />
+                                De 3 a 5 horas <span>(<?php echo ($total == 0 || empty($total)) ? '0' : $total; ?>)</span>
+                            </label>
+                            <label>
+                                <input type="checkbox" name="duracao[]" value="mais5" onchange="document.getElementById('filtroForm').submit()"
+                                    <?php echo in_array('mais5', $duracaoSelecionada) ? 'checked' : ''; ?> />
+                                Mais de 5 horas<span>(<?php echo ($total == 0 || empty($total)) ? '0' : $total; ?>)</span>
+                            </label>
+                        </form>
                     </div>
                 </div>
+
 
                 <hr />
 
@@ -187,44 +238,79 @@ include("../database/basedados.sql");
                         Avaliações <i class="fas fa-chevron-up"></i>
                     </button>
                     <div class="filtro-conteudo" style="display: none;">
-                        <label>
-                            <input type="checkbox" />
-                            <i class="fas fa-star" style="color: gold;"></i>
-                            <i class="fas fa-star" style="color: gold;"></i>
-                            <i class="fas fa-star" style="color: gold;"></i>
-                            <i class="fas fa-star" style="color: gold;"></i>
-                            <i class="fas fa-star" style="color: gold;"></i>
-                            <span>(120)</span>
-                        </label>
-                        <label>
-                            <input type="checkbox" />
-                            <i class="fas fa-star" style="color: gold;"></i>
-                            <i class="fas fa-star" style="color: gold;"></i>
-                            <i class="fas fa-star" style="color: gold;"></i>
-                            <i class="fas fa-star" style="color: gold;"></i>
-                            <i class="far fa-star" style="color: gold;"></i>
-                            <span>(98)</span>
-                        </label>
-                        <label>
-                            <input type="checkbox" />
-                            <i class="fas fa-star" style="color: gold;"></i>
-                            <i class="fas fa-star" style="color: gold;"></i>
-                            <i class="fas fa-star" style="color: gold;"></i>
-                            <i class="far fa-star" style="color: gold;"></i>
-                            <i class="far fa-star" style="color: gold;"></i>
-                            <span>(45)</span>
-                        </label>
-                        <label>
-                            <input type="checkbox" />
-                            <i class="fas fa-star" style="color: gold;"></i>
-                            <i class="fas fa-star" style="color: gold;"></i>
-                            <i class="far fa-star" style="color: gold;"></i>
-                            <i class="far fa-star" style="color: gold;"></i>
-                            <i class="far fa-star" style="color: gold;"></i>
-                            <span>(12)</span>
-                        </label>
+                        <form method="GET" id="filtroForm">
+                            <label>
+
+                                <input type="checkbox" name="avaliacao[]" value="classificacao5" onchange="document.getElementById('filtroForm').submit()"
+                                    <?php echo in_array('classificacao5', $avaliacaoSelecionada) ? 'checked' : ''; ?> />
+                                <i class="fas fa-star" style="color: gold;"></i>
+                                <i class="fas fa-star" style="color: gold;"></i>
+                                <i class="fas fa-star" style="color: gold;"></i>
+                                <i class="fas fa-star" style="color: gold;"></i>
+                                <i class="fas fa-star" style="color: gold;"></i>
+                                <span>(<?php echo ($total == 0 || empty($total)) ? '0' : $total; ?>)</span>
+                            </label>
+
+                            <label>
+
+                                <input type="checkbox" name="avaliacao[]" value="classificacao4" onchange="document.getElementById('filtroForm').submit()"
+                                    <?php echo in_array('classificacao4', $avaliacaoSelecionada) ? 'checked' : ''; ?> />
+                                <i class="fas fa-star" style="color: gold;"></i>
+                                <i class="fas fa-star" style="color: gold;"></i>
+                                <i class="fas fa-star" style="color: gold;"></i>
+                                <i class="fas fa-star" style="color: gold;"></i>
+                                <i class="far fa-star" style="color: gold;"></i>
+                                <span>(<?php echo ($total == 0 || empty($total)) ? '0' : $total; ?>)</span>
+                            </label>
+
+                            <label>
+
+                                <input type="checkbox" name="avaliacao[]" value="classificacao3" onchange="document.getElementById('filtroForm').submit()"
+                                    <?php echo in_array('classificacao3', $avaliacaoSelecionada) ? 'checked' : ''; ?> />
+                                <i class="fas fa-star" style="color: gold;"></i>
+                                <i class="fas fa-star" style="color: gold;"></i>
+                                <i class="fas fa-star" style="color: gold;"></i>
+                                <i class="far fa-star" style="color: gold;"></i>
+                                <i class="far fa-star" style="color: gold;"></i>
+                                <span>(<?php echo ($total == 0 || empty($total)) ? '0' : $total; ?>)</span>
+                            </label>
+
+                            <label>
+
+                                <input type="checkbox" name="avaliacao[]" value="classificacao2" onchange="document.getElementById('filtroForm').submit()"
+                                    <?php echo in_array('classificacao2', $avaliacaoSelecionada) ? 'checked' : ''; ?> />
+                                <i class="fas fa-star" style="color: gold;"></i>
+                                <i class="fas fa-star" style="color: gold;"></i>
+                                <i class="far fa-star" style="color: gold;"></i>
+                                <i class="far fa-star" style="color: gold;"></i>
+                                <i class="far fa-star" style="color: gold;"></i>
+                                <span>(<?php echo ($total == 0 || empty($total)) ? '0' : $total; ?>)</span>
+                            </label>
+
+                            <label>
+
+                                <input type="checkbox" name="avaliacao[]" value="classificacao1" onchange="document.getElementById('filtroForm').submit()"
+                                    <?php echo in_array('classificacao1', $avaliacaoSelecionada) ? 'checked' : ''; ?> />
+                                <i class="fas fa-star" style="color: gold;"></i>
+                                <i class="far fa-star" style="color: gold;"></i>
+                                <i class="far fa-star" style="color: gold;"></i>
+                                <i class="far fa-star" style="color: gold;"></i>
+                                <i class="far fa-star" style="color: gold;"></i>
+                                <span>(<?php echo ($total == 0 || empty($total)) ? '0' : $total; ?>)</span>
+                            </label>
+
+                            <label>
+                                <input type="checkbox" name="avaliacao[]" value="semClassificacao" onchange="document.getElementById('filtroForm').submit()"
+                                    <?php echo in_array('semClassificacao', $avaliacaoSelecionada) ? 'checked' : ''; ?> />
+                                <span style="color: gold;">Sem classificação</span>
+                                <span>(<?php echo ($total == 0 || empty($total)) ? '0' : $total; ?>)</span>
+                            </label>
+
+                        </form>
                     </div>
                 </div>
+
+
 
                 <hr />
 
@@ -246,12 +332,18 @@ include("../database/basedados.sql");
                             $stmt->execute();
                             $result = $stmt->get_result();
                             if ($result->num_rows > 0) {
+                                echo '<form method="GET" id="filtroForm">';
                                 while ($row = $result->fetch_assoc()) {
-                                    $total = contarValores($conn, 'curso', 'Id_categoria', $row['Id_categoria']);
+                                    // $total = contarValores($conn, 'curso', 'Id_categoria', $row['Id_categoria']);
 
-                                    echo '<label><input type="checkbox" /> ' . htmlspecialchars($row['Nome_cat']) .
-                                        ' <span>(' . $total . ')</span></label>';
+                                    echo '<label>
+                                            <input type="checkbox" name="categoria[]" value="' . $row['Nome_cat'] . '" onchange="document.getElementById(\'filtroForm\').submit()" ' .
+                                        (in_array($row['Nome_cat'], $categoriaSelecionada) ? 'checked' : '') . ' />
+                                            ' . htmlspecialchars($row['Nome_cat']) . '
+                                            <span>(' . $total . ')</span>
+                                        </label>';
                                 }
+                                echo '</form>';
                             } else {
                                 echo " <label> Sem categorias disponiveis <span></span></label>";
                             }
@@ -260,6 +352,8 @@ include("../database/basedados.sql");
                         </div>
                     </div>
                 </div>
+
+
 
                 <hr />
 
@@ -275,9 +369,23 @@ include("../database/basedados.sql");
                             <button class="btn-ok">OK</button>
                         </div>
                         <div class="filtro-conteudo">
-                            <label><input type="checkbox" /> 0-30 </label>
-                            <label><input type="checkbox" /> 30-60 </label>
-                            <label><input type="checkbox" /> 60-100 </label>
+                            <form method="GET" id="filtroForm">
+                                <label>
+                                    <input type="checkbox" name="preco[]" value="ate30" onchange="document.getElementById('filtroForm').submit()"
+                                        <?php echo in_array('ate30', $precoSelecionado) ? 'checked' : ''; ?> />
+                                    0-30
+                                </label>
+                                <label>
+                                    <input type="checkbox" name="preco[]" value="de30a60" onchange="document.getElementById('filtroForm').submit()"
+                                        <?php echo in_array('de30a60', $precoSelecionado) ? 'checked' : ''; ?> />
+                                    30-60
+                                </label>
+                                <label>
+                                    <input type="checkbox" name="preco[]" value="de60a100" onchange="document.getElementById('filtroForm').submit()"
+                                        <?php echo in_array('de60a100', $precoSelecionado) ? 'checked' : ''; ?> />
+                                    60-100
+                                </label>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -287,7 +395,7 @@ include("../database/basedados.sql");
                 <section class="lista-cursos">
 
                     <?php
-                    $ordenar = $_GET['ordenar'] ?? 'a-z';
+
 
                     $orderBy = "nome ASC"; // valor padrão
 
@@ -418,22 +526,22 @@ include("../database/basedados.sql");
     <?php
     include("../src/views/utils/rodape.html");
 
-    function contarValores($conn, $tabela, $Nomecampo, $valor)
+    function contarValores($conn, $tabela, $condicao = null)
     {
-        $query = "SELECT COUNT(*) AS total FROM $tabela WHERE $Nomecampo = ?";
-        $stmt = $conn->prepare($query);
-
-        if (is_int($valor)) {
-            $stmt->bind_param("i", $valor);
+        if ($condicao === null) {
+            $query = "SELECT COUNT(*) AS total FROM $tabela";
         } else {
-            $stmt->bind_param("s", $valor);
+            $query = "SELECT COUNT(*) AS total FROM $tabela WHERE $condicao";
         }
 
+        $stmt = $conn->prepare($query);
         $stmt->execute();
         $result = $stmt->get_result();
         $dados = $result->fetch_assoc();
+
         return $dados['total'];
     }
+
 
     ?>
 
@@ -443,8 +551,18 @@ include("../database/basedados.sql");
         function toggleFiltro(btn) {
             btn.classList.toggle('ativo');
             const conteudo = btn.nextElementSibling;
-            conteudo.style.display = conteudo.style.display === 'none' ? 'block' : 'none';
             const icon = btn.querySelector('i');
+
+            const isHidden = conteudo.style.display === 'none' || conteudo.style.display === '';
+
+            if (isHidden) {
+                conteudo.style.display = 'block';
+                conteudo.style.pointerEvents = 'auto'; // Permite interação
+            } else {
+                conteudo.style.display = 'none';
+                conteudo.style.pointerEvents = 'none'; // Impede interação
+            }
+
             icon.classList.toggle('fa-chevron-down');
             icon.classList.toggle('fa-chevron-up');
         }
