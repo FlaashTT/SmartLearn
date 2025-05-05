@@ -8,6 +8,7 @@ function mostrarPopUp($mensagem, $tempo = null) {
         <div class="popup-content">
             <span class="close-btn" onclick="fecharPopup()">&times;</span>
             <p>{$mensagem}</p>
+            <button onclick="fecharPopup()" style="margin-top: 15px; padding: 10px 20px; border: none; background-color: #007bff; color: white; border-radius: 6px; cursor: pointer;">Fechar</button>
         </div>
     </div>
 
