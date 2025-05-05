@@ -51,13 +51,28 @@ include("../database/basedados.sql");
         <section class="filtros-a">
             <div class="filtros-aplicados">
                 <?php
+
                 $search = isset($_GET['search']) ? htmlspecialchars($_GET['search']) : '';
-                if (isset($_GET['search']) && $_GET['search'] != '') {
-                    echo "<p>Resultado da pesquisa: <strong>" . htmlspecialchars($search) . "</strong></p>";
+                if (!empty($search)) {
+                    echo "
+                        <div id='resultado-pesquisa'>
+                            <p style='margin-right: 10px;'>Resultado da pesquisa: <strong>$search</strong> <button onClick='removerSearch()'> X</button></p>
+                        </div>";
+
+                        // Código JavaScript para remover o parâmetro 'search' da URL
+                        echo "
+                        <script>
+                            function removerSearch() {
+                                const url = new URL(window.location.href);
+                                url.searchParams.delete('search');
+                                window.location.href = url.toString(); // Redireciona sem o parâmetro 'search'
+                            }
+                        </script>";
                 }
+
                 ?>
                 <div class="filtros-cont" style="display: none;">
-                    <span>0 filtros aplicados:
+                    <span><br>0 filtros aplicados:
                         <a href="#" id="limpar-tudo">Limpar tudo</a>
                     </span>
                 </div>
@@ -517,11 +532,25 @@ include("../database/basedados.sql");
                             break;
                     }
 
-                    $query = "SELECT curso.*, categoria.* 
+                    if (isset($_GET['search']) && $_GET['search'] != '') {
+                        $search = htmlspecialchars($_GET['search']);
+                        $query = "SELECT curso.*, categoria.* 
+                                    FROM curso 
+                                    INNER JOIN categoria ON curso.Id_categoria = categoria.Id_categoria 
+                                    WHERE curso.Nome_curso LIKE ? 
+                                    ORDER BY $orderBy";
+                        $stmt = $conn->prepare($query);
+                        $searchParam = "%" . $search . "%";
+                        $stmt->bind_param("s", $searchParam);
+                    } else {
+
+                        $query = "SELECT curso.*, categoria.* 
                                     FROM curso 
                                     INNER JOIN categoria ON curso.Id_categoria = categoria.Id_categoria 
                                     ORDER BY $orderBy";
-                    $stmt = $conn->prepare($query);
+                        $stmt = $conn->prepare($query);
+                    }
+
                     $stmt->execute();
                     $result = $stmt->get_result();
                     if ($result->num_rows > 0) {
@@ -634,6 +663,8 @@ include("../database/basedados.sql");
                                 </div>
                             ';
                         }
+                    } else {
+                        echo '<p id="mensagemErro" style="display: block; color: red;">Nenhum curso encontrado</p>';
                     }
 
                     ?>
@@ -762,10 +793,17 @@ include("../database/basedados.sql");
             function limparFiltros() {
                 console.log("Clicou em limpar");
 
+                // Limpa checkboxes
                 checkboxes.forEach(cb => cb.checked = false);
+
+                // Limpa inputs de preço
                 inputMin.value = '';
                 inputMax.value = '';
+
+                // Reseta selects para o valor padrão
                 selects.forEach(select => select.value = 'Relevância');
+
+                // Limpa inputs de texto
                 filtroSecaoInputs.forEach(input => input.value = '');
 
                 atualizarTextoFiltros();
@@ -774,6 +812,7 @@ include("../database/basedados.sql");
             // Função para atualizar o texto de filtros aplicados
             function atualizarTextoFiltros() {
                 const filtrosCheckbox = Array.from(checkboxes).filter(cb => cb.checked).length;
+
                 const filtrosPreco = (inputMin.value.trim() !== '' && !isNaN(inputMin.value) && inputMin.value > 0) ||
                     (inputMax.value.trim() !== '' && !isNaN(inputMax.value) && inputMax.value > 0) ? 1 : 0;
 
@@ -784,10 +823,9 @@ include("../database/basedados.sql");
                 const totalFiltros = filtrosCheckbox + filtrosPreco + filtroSelect;
 
                 if (totalFiltros > 0) {
-                    filtrosCont.style.display = 'flex'; // Mostra o contêiner de filtros aplicados
+                    filtrosCont.style.display = 'flex';
                     filtroTexto.innerHTML = `${totalFiltros} filtro${totalFiltros > 1 ? 's' : ''} aplicado${totalFiltros > 1 ? 's' : ''}: <a href="#" id="limpar-tudo">Limpar tudo</a>`;
 
-                    // Reatribui o evento de clique no novo link
                     const novoLink = document.getElementById('limpar-tudo');
                     if (novoLink) {
                         novoLink.addEventListener('click', function(e) {
@@ -796,10 +834,12 @@ include("../database/basedados.sql");
                         });
                     }
                 } else {
-                    filtrosCont.style.display = 'none'; // Esconde o contêiner de filtros aplicados
-                    filtroTexto.innerHTML = ''; // Garante que o texto seja limpo
+                    filtrosCont.style.display = 'none';
+                    filtroTexto.innerHTML = '';
                 }
             }
+
+            // Adiciona eventos para atualizar os filtros
             checkboxes.forEach(checkbox => {
                 checkbox.addEventListener('change', () => {
                     atualizarTextoFiltros();
@@ -811,6 +851,7 @@ include("../database/basedados.sql");
                     atualizarTextoFiltros();
                 });
             });
+
             selects.forEach(select => {
                 select.addEventListener('change', () => {
                     atualizarTextoFiltros();
