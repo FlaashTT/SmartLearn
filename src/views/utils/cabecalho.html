@@ -9,21 +9,39 @@
                 <ul class="nav-links">
                     <li>
                         <a href="../../public/categorias.php" class="nav-item">
-                             Categorias
+                            Categorias
                         </a>
                     </li>
                     <li>
-                        <input type="text" placeholder="Pesquisar cursos..." class="search-input" />
+                        <input type="text" placeholder="Pesquisar cursos..." class="search-input" id="searchInput" />
                     </li>
+
+                    <script>
+                        document.getElementById('searchInput').addEventListener('keypress', function (e) {
+                            if (e.key === 'Enter') {
+                                e.preventDefault(); // Impede envio de formulário, se houver
+                                const searchValue = e.target.value.trim();
+                                if (searchValue) {
+                                    console.log("deu certo a pesquisa: " + searchValue);
+                                    // Redireciona com o valor da pesquisa
+                                    window.location.href = `../public/categorias.php?search=${encodeURIComponent(searchValue)}`;
+                                }
+                            }
+                        });
+                    </script>
+
                 </ul>
             </div>
             <div class="nav-right">
                 <ul class="nav-links">
                     <li><a href="#" class="nav-item">Tutorial</a></li>
                     <li><a href="../../public/perfil/perfil_cursos.php" class="nav-item">Meus Cursos</a></li>
-                    <li><a href="../../public/perfil/perfil_favoritos.php" class="nav-item"><i class="fa-regular fa-heart"></i></a></li>
-                    <li><a href="../../public/carrinho/carrinho.php" class="nav-item"><i class="fa-solid fa-cart-shopping"></i></a></li>
-                    <li><a href="../../public/perfil/perfil_cursos.php" class="nav-item"><i class="fa-regular fa-circle-user"></i></a></li>
+                    <li><a href="../../public/perfil/perfil_favoritos.php" class="nav-item"><i
+                                class="fa-regular fa-heart"></i></a></li>
+                    <li><a href="../../public/carrinho/carrinho.php" class="nav-item"><i
+                                class="fa-solid fa-cart-shopping"></i></a></li>
+                    <li><a href="../../public/perfil/perfil_cursos.php" class="nav-item"><i
+                                class="fa-regular fa-circle-user"></i></a></li>
                 </ul>
             </div>
         </nav>

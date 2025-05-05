@@ -253,9 +253,7 @@ window.efetuarPesquisa = function (el, tipo) {
 };
 
 
-function limparFiltros() {
-    console.log("clicou em limpar");
-}
+
 
 
 

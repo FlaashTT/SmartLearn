@@ -31,6 +31,7 @@ include("../database/basedados.sql");
 <body>
     <!-- Cabeçalho -->
     <?php
+
     include("../src/views/utils/cabacalhoNaoLogado.html");
     ?>
 
@@ -49,16 +50,22 @@ include("../database/basedados.sql");
 
         <section class="filtros-a">
             <div class="filtros-aplicados">
-                <div class="filtros-cont">
-                    <span>0 filtros aplicado:
-                        <a  onclick="event.preventDefault(); limparFiltros();">Limpar tudo</a>
+                <?php
+                $search = isset($_GET['search']) ? htmlspecialchars($_GET['search']) : '';
+                if (isset($_GET['search']) && $_GET['search'] != '') {
+                    echo "<p>Resultado da pesquisa: <strong>" . htmlspecialchars($search) . "</strong></p>";
+                }
+                ?>
+                <div class="filtros-cont" style="display: none;">
+                    <span>0 filtros aplicados:
+                        <a href="#" id="limpar-tudo">Limpar tudo</a>
                     </span>
                 </div>
                 <?php
-                $ordenar = isset($_GET['ordenar']) ? $_GET['ordenar'] : 'a-z';
+                $ordenar = isset($_POST['ordenar']) ? $_POST['ordenar'] : 'a-z';
                 ?>
 
-                <form method="GET" id="ordenarForm" class="ordenar-por">
+                <form method="POST" id="ordenarForm" class="ordenar-por">
                     <select name="ordenar" onchange="document.getElementById('ordenarForm').submit()">
                         <option value="a-z" <?php echo ($ordenar == 'a-z') ? 'selected' : ''; ?>>A-Z</option>
                         <option value="recentes" <?php echo ($ordenar == 'recentes') ? 'selected' : ''; ?>>Mais Recentes</option>
@@ -78,21 +85,7 @@ include("../database/basedados.sql");
 
             <aside class="sidebar-filtros">
 
-                <?php
-                $ordenar = $_GET['ordenar'] ?? 'a-z';
 
-
-                $idiomaSelecionado = isset($_GET['idioma']) ? $_GET['idioma'] : [];
-                $descontoSelecionado = isset($_GET['desconto']) ? $_GET['desconto'] : [];
-                $dificuldadeSelecionada = isset($_GET['dificuldade']) ? $_GET['dificuldade'] : [];
-                $duracaoSelecionada = isset($_GET['duracao']) ? $_GET['duracao'] : [];
-                $avaliacaoSelecionada = isset($_GET['avaliacao']) ? $_GET['avaliacao'] : [];
-                $categoriaSelecionada = isset($_GET['categoria']) ? $_GET['categoria'] : [];
-                $precoSelecionado = isset($_GET['preco']) ? $_GET['preco'] : [];
-
-
-
-                ?>
 
 
 
@@ -110,7 +103,7 @@ include("../database/basedados.sql");
                                 $desabilitar = ($total == 0 || empty($total)) ? 'disabled' : '';
                                 ?>
                                 <input type="checkbox" name="idioma[]" value="português" onchange="efetuarPesquisa(this,'idioma_português')"
-                                    <?php echo in_array('pt', $idiomaSelecionado) ? 'checked' : '';
+                                    <?php
                                     echo $desabilitar; ?> />
                                 Português
                                 <span>(<?php echo ($total == 0 || empty($total)) ? '0' : $total; ?>)</span>
@@ -123,8 +116,7 @@ include("../database/basedados.sql");
                                 $desabilitar = ($total == 0 || empty($total)) ? 'disabled' : '';
                                 ?>
                                 <input type="checkbox" name="idioma[]" value="ingles" onchange="efetuarPesquisa(this,'idioma_ingles')"
-                                    <?php echo in_array('en', $idiomaSelecionado) ? 'checked' : '';
-                                    echo $desabilitar; ?> />
+                                    <?php echo $desabilitar; ?> />
                                 Inglês <span>(<?php echo ($total == 0 || empty($total)) ? '0' : $total; ?>)</span>
                             </label>
                         </form>
@@ -150,8 +142,7 @@ include("../database/basedados.sql");
                                 $desabilitar = ($total == 0 || empty($total)) ? 'disabled' : '';
                                 ?>
                                 <input type="checkbox" name="desconto[]" value="comDesconto" onchange="efetuarPesquisa(this, 'desconto_comDesconto')"
-                                    <?php echo in_array('comDesconto', $descontoSelecionado) ? 'checked' : '';
-                                    echo $desabilitar; ?> />
+                                    <?php echo $desabilitar; ?> />
                                 Com desconto <span>(<?php echo ($total == 0 || empty($total)) ? '0' : $total; ?>)</span>
                             </label>
 
@@ -161,8 +152,7 @@ include("../database/basedados.sql");
                                 $desabilitar = ($total == 0 || empty($total)) ? 'disabled' : '';
                                 ?>
                                 <input type="checkbox" name="desconto[]" value="semDesconto" onchange="efetuarPesquisa(this, 'desconto_semDesconto')"
-                                    <?php echo in_array('semDesconto', $descontoSelecionado) ? 'checked' : '';
-                                    echo $desabilitar; ?> />
+                                    <?php echo $desabilitar; ?> />
                                 Sem desconto <span>(<?php echo ($total == 0 || empty($total)) ? '0' : $total; ?>)</span>
                             </label>
 
@@ -173,8 +163,7 @@ include("../database/basedados.sql");
                                 $desabilitar = ($total == 0 || empty($total)) ? 'disabled' : '';
                                 ?>
                                 <input type="checkbox" name="desconto[]" value="ambos" onchange="efetuarPesquisa(this, 'desconto_semSelecao')"
-                                    <?php echo in_array('semDesconto', $descontoSelecionado) ? 'checked' : '';
-                                    echo $desabilitar; ?> />
+                                    <?php echo $desabilitar; ?> />
                                 Mostrar tudo <span>(<?php echo ($total == 0 || empty($total)) ? '0' : $total; ?>)</span>
                             </label>
                         </form>
@@ -199,8 +188,7 @@ include("../database/basedados.sql");
                             ?>
                             <label>
                                 <input type="checkbox" name="dificuldade[]" value="Iniciante" onchange="efetuarPesquisa(this,'dificuldade_Iniciante')"
-                                    <?php echo in_array('Iniciante', $dificuldadeSelecionada) ? 'checked' : '';
-                                    echo $desabilitar; ?> />
+                                    <?php echo $desabilitar; ?> />
                                 Iniciante <span>(<?php echo ($total == 0 || empty($total)) ? '0' : $total; ?>)</span>
                             </label>
                             <label>
@@ -209,8 +197,7 @@ include("../database/basedados.sql");
                                 $desabilitar = ($total == 0 || empty($total)) ? 'disabled' : '';
                                 ?>
                                 <input type="checkbox" name="dificuldade[]" value="intermedio" onchange="efetuarPesquisa(this,'dificuldade_intermedio')"
-                                    <?php echo in_array('intermedio', $dificuldadeSelecionada) ? 'checked' : '';
-                                    echo $desabilitar; ?> />
+                                    <?php echo $desabilitar; ?> />
                                 Intermédio <span>(<?php echo ($total == 0 || empty($total)) ? '0' : $total; ?>)</span>
                             </label>
                             <label>
@@ -219,8 +206,7 @@ include("../database/basedados.sql");
                                 $desabilitar = ($total == 0 || empty($total)) ? 'disabled' : '';
                                 ?>
                                 <input type="checkbox" name="dificuldade[]" value="avançado" onchange="efetuarPesquisa(this,'dificuldade_avançado')"
-                                    <?php echo in_array('avançado', $dificuldadeSelecionada) ? 'checked' : '';
-                                    echo $desabilitar; ?> />
+                                    <?php echo $desabilitar; ?> />
                                 Avançado <span>(<?php echo ($total == 0 || empty($total)) ? '0' : $total; ?>)</span>
                             </label>
                         </form>
@@ -245,8 +231,7 @@ include("../database/basedados.sql");
                             ?>
                             <label>
                                 <input type="checkbox" name="duracao[]" value="menos1h" onchange="efetuarPesquisa(this,'tempo_menos1h')"
-                                    <?php echo in_array('menos1h', $duracaoSelecionada) ? 'checked' : '';
-                                    echo $desabilitar; ?> />
+                                    <?php echo $desabilitar; ?> />
                                 Até 1 hora <span>(<?php echo ($total == 0 || empty($total)) ? '0' : $total; ?>)</span>
                             </label>
 
@@ -256,8 +241,7 @@ include("../database/basedados.sql");
                             ?>
                             <label>
                                 <input type="checkbox" name="duracao[]" value="1ha3h" onchange="efetuarPesquisa(this,'tempo_1ha3h')"
-                                    <?php echo in_array('1ha3h', $duracaoSelecionada) ? 'checked' : '';
-                                    echo $desabilitar; ?> />
+                                    <?php echo $desabilitar; ?> />
                                 De 1 a 3 horas <span>(<?php echo ($total == 0 || empty($total)) ? '0' : $total; ?>)</span>
                             </label>
 
@@ -267,8 +251,7 @@ include("../database/basedados.sql");
                             ?>
                             <label>
                                 <input type="checkbox" name="duracao[]" value="3ha6h" onchange="efetuarPesquisa(this,'tempo_3ha6h')"
-                                    <?php echo in_array('3ha6h', $duracaoSelecionada) ? 'checked' : '';
-                                    echo $desabilitar; ?> />
+                                    <?php echo $desabilitar; ?> />
                                 De 3 a 6 horas <span>(<?php echo ($total == 0 || empty($total)) ? '0' : $total; ?>)</span>
                             </label>
 
@@ -278,8 +261,7 @@ include("../database/basedados.sql");
                             ?>
                             <label>
                                 <input type="checkbox" name="duracao[]" value="de6a17h" onchange="efetuarPesquisa(this,'tempo_6ha17h')"
-                                    <?php echo in_array('de6a17h', $duracaoSelecionada) ? 'checked' : '';
-                                    echo $desabilitar; ?> />
+                                    <?php echo $desabilitar; ?> />
                                 De 6 a 17 horas<span>(<?php echo ($total == 0 || empty($total)) ? '0' : $total; ?>)</span>
                             </label>
 
@@ -289,8 +271,7 @@ include("../database/basedados.sql");
                             ?>
                             <label>
                                 <input type="checkbox" name="duracao[]" value="mais17" onchange="efetuarPesquisa(this,'tempo_mais17h')"
-                                    <?php echo in_array('mais17', $duracaoSelecionada) ? 'checked' : '';
-                                    echo $desabilitar; ?> />
+                                    <?php echo $desabilitar; ?> />
                                 Mais de 17 horas<span>(<?php echo ($total == 0 || empty($total)) ? '0' : $total; ?>)</span>
                             </label>
                         </form>
@@ -313,8 +294,7 @@ include("../database/basedados.sql");
                                 $desabilitar = ($total == 0 || empty($total)) ? 'disabled' : '';
                                 ?>
                                 <input type="checkbox" name="avaliacao[]" value="5" onchange="efetuarPesquisa(this,'avaliacao_5')"
-                                    <?php echo in_array('5', $avaliacaoSelecionada) ? 'checked' : '';
-                                    echo $desabilitar; ?> />
+                                    <?php echo $desabilitar; ?> />
                                 <i class="fas fa-star" style="color: gold;"></i>
                                 <i class="fas fa-star" style="color: gold;"></i>
                                 <i class="fas fa-star" style="color: gold;"></i>
@@ -330,8 +310,7 @@ include("../database/basedados.sql");
                                 ?>
 
                                 <input type="checkbox" name="avaliacao[]" value="4" onchange="efetuarPesquisa(this,'avaliacao_4')"
-                                    <?php echo in_array('4', $avaliacaoSelecionada) ? 'checked' : '';
-                                    echo $desabilitar; ?> />
+                                    <?php echo $desabilitar; ?> />
                                 <i class="fas fa-star" style="color: gold;"></i>
                                 <i class="fas fa-star" style="color: gold;"></i>
                                 <i class="fas fa-star" style="color: gold;"></i>
@@ -347,8 +326,7 @@ include("../database/basedados.sql");
                                 $desabilitar = ($total == 0 || empty($total)) ? 'disabled' : '';
                                 ?>
                                 <input type="checkbox" name="avaliacao[]" value="3" onchange="efetuarPesquisa(this,'avaliacao_3')"
-                                    <?php echo in_array('3', $avaliacaoSelecionada) ? 'checked' : '';
-                                    echo $desabilitar; ?> />
+                                    <?php echo $desabilitar; ?> />
                                 <i class="fas fa-star" style="color: gold;"></i>
                                 <i class="fas fa-star" style="color: gold;"></i>
                                 <i class="fas fa-star" style="color: gold;"></i>
@@ -364,8 +342,7 @@ include("../database/basedados.sql");
                                 $desabilitar = ($total == 0 || empty($total)) ? 'disabled' : '';
                                 ?>
                                 <input type="checkbox" name="avaliacao[]" value="2" onchange="efetuarPesquisa(this,'avaliacao_2')"
-                                    <?php echo in_array('2', $avaliacaoSelecionada) ? 'checked' : '';
-                                    echo $desabilitar; ?> />
+                                    <?php echo $desabilitar; ?> />
                                 <i class="fas fa-star" style="color: gold;"></i>
                                 <i class="fas fa-star" style="color: gold;"></i>
                                 <i class="far fa-star" style="color: gold;"></i>
@@ -381,8 +358,7 @@ include("../database/basedados.sql");
                                 $desabilitar = ($total == 0 || empty($total)) ? 'disabled' : '';
                                 ?>
                                 <input type="checkbox" name="avaliacao[]" value="1" onchange="efetuarPesquisa(this,'avaliacao_1')"
-                                    <?php echo in_array('1', $avaliacaoSelecionada) ? 'checked' : '';
-                                    echo $desabilitar; ?> />
+                                    <?php echo $desabilitar; ?> />
                                 <i class="fas fa-star" style="color: gold;"></i>
                                 <i class="far fa-star" style="color: gold;"></i>
                                 <i class="far fa-star" style="color: gold;"></i>
@@ -397,8 +373,7 @@ include("../database/basedados.sql");
                             ?>
                             <label>
                                 <input type="checkbox" name="avaliacao[]" value="0" onchange="efetuarPesquisa(this,'avaliacao_0')"
-                                    <?php echo in_array('0', $avaliacaoSelecionada) ? 'checked' : '';
-                                    echo $desabilitar; ?> />
+                                    <?php echo $desabilitar; ?> />
                                 <span style="color: gold;">Sem classificação</span>
                                 <span>(<?php echo ($total == 0 || empty($total)) ? '0' : $total; ?>)</span>
                             </label>
@@ -438,8 +413,7 @@ include("../database/basedados.sql");
                                     $desabilitar = ($total == 0 || empty($total)) ? 'disabled' : '';
 
                                     echo '<label class="catLabel" data-nome="' . htmlspecialchars($row['Nome_cat']) . '">
-                                            <input type="checkbox" name="categoria[]" value="' . $row['Nome_cat'] . '" onchange="efetuarPesquisa(this,\'categoria_' . $row['Nome_cat'] . '\')" ' .
-                                        (in_array($row['Nome_cat'], $categoriaSelecionada) ? 'checked' : '') . ' 
+                                            <input type="checkbox" name="categoria[]" value="' . $row['Nome_cat'] . '" onchange="efetuarPesquisa(this,\'categoria_' . $row['Nome_cat'] . '\')"                                          
                                         echo $desabilitar;/>
                                             ' . htmlspecialchars($row['Nome_cat']) . '
                                             <span>(' . (($total == 0 || empty($total)) ? '0' : $total) . ')</span>
@@ -478,8 +452,7 @@ include("../database/basedados.sql");
                                 ?>
                                 <label>
                                     <input type="checkbox" name="preco[]" value="gratuito" onchange="efetuarPesquisa(this,'preco_gratuito')"
-                                        <?php echo in_array('gratuito', $precoSelecionado) ? 'checked' : '';
-                                        echo $desabilitar; ?> />
+                                        <?php echo $desabilitar; ?> />
                                     Gratuito<span>(<?php echo ($total == 0 || empty($total)) ? '0' : $total; ?>)</span>
                                 </label>
 
@@ -489,8 +462,7 @@ include("../database/basedados.sql");
                                     $desabilitar = ($total == 0 || empty($total)) ? 'disabled' : '';
                                     ?>
                                     <input type="checkbox" name="preco[]" value="ate30" onchange="efetuarPesquisa(this,'preco_Ate30')"
-                                        <?php echo in_array('ate30', $precoSelecionado) ? 'checked' : '';
-                                        echo $desabilitar; ?> />
+                                        <?php echo $desabilitar; ?> />
                                     Até 30<span>(<?php echo ($total == 0 || empty($total)) ? '0' : $total; ?>)</span>
                                 </label>
 
@@ -500,8 +472,7 @@ include("../database/basedados.sql");
                                 ?>
                                 <label>
                                     <input type="checkbox" name="preco[]" value="de30a60" onchange="efetuarPesquisa(this,'preco_30a60')"
-                                        <?php echo in_array('de30a60', $precoSelecionado) ? 'checked' : '';
-                                        echo $desabilitar; ?> />
+                                        <?php echo $desabilitar; ?> />
                                     30-60<span>(<?php echo ($total == 0 || empty($total)) ? '0' : $total; ?>)</span>
                                 </label>
                                 <?php
@@ -510,8 +481,7 @@ include("../database/basedados.sql");
                                 ?>
                                 <label>
                                     <input type="checkbox" name="preco[]" value="maisde60" onchange="efetuarPesquisa(this,'preco_mais60')"
-                                        <?php echo in_array('de60a100', $precoSelecionado) ? 'checked' : '';
-                                        echo $desabilitar; ?> />
+                                        <?php echo $desabilitar; ?> />
                                     Mais de 60<span>(<?php echo ($total == 0 || empty($total)) ? '0' : $total; ?>)</span>
                                 </label>
                             </form>
@@ -786,60 +756,75 @@ include("../database/basedados.sql");
             const inputMin = document.querySelector('.filtro-preco input[placeholder="Min"]');
             const inputMax = document.querySelector('.filtro-preco input[placeholder="Max"]');
             const selects = document.querySelectorAll('.ordenar-por select');
-            const filtroSecaoInputs = document.querySelectorAll('.filtro-secao input[type="text"]'); // Todos os campos de texto de filtros
-            const limparTudo = document.querySelector('.filtros-cont a');
+            const filtroSecaoInputs = document.querySelectorAll('.filtro-secao input[type="text"]');
 
+            // Função para limpar todos os filtros
+            function limparFiltros() {
+                console.log("Clicou em limpar");
+
+                checkboxes.forEach(cb => cb.checked = false);
+                inputMin.value = '';
+                inputMax.value = '';
+                selects.forEach(select => select.value = 'Relevância');
+                filtroSecaoInputs.forEach(input => input.value = '');
+
+                atualizarTextoFiltros();
+            }
+
+            // Função para atualizar o texto de filtros aplicados
             function atualizarTextoFiltros() {
-                // Conta quantos filtros estão aplicados
                 const filtrosCheckbox = Array.from(checkboxes).filter(cb => cb.checked).length;
-                const filtrosPreco = (inputMin.value.trim() !== '' || inputMax.value.trim() !== '') ? 1 : 0;
-                const filtroSelect = Array.from(selects).filter(select => select.value !== 'Relevância').length; // Assumimos que "Relevância" é o valor inicial, logo não aplicado
+                const filtrosPreco = (inputMin.value.trim() !== '' && !isNaN(inputMin.value) && inputMin.value > 0) ||
+                    (inputMax.value.trim() !== '' && !isNaN(inputMax.value) && inputMax.value > 0) ? 1 : 0;
+
+                const filtroSelect = Array.from(selects).filter(select =>
+                    select.name !== 'ordenar' && select.value !== 'Relevância'
+                ).length;
+
                 const totalFiltros = filtrosCheckbox + filtrosPreco + filtroSelect;
 
                 if (totalFiltros > 0) {
-                    filtrosCont.style.display = 'flex';
-                    filtroTexto.innerHTML = `${totalFiltros} filtro${totalFiltros > 1 ? 's' : ''} aplicado${totalFiltros > 1 ? 's' : ''}: <a href="#">Limpar tudo</a>`;
+                    filtrosCont.style.display = 'flex'; // Mostra o contêiner de filtros aplicados
+                    filtroTexto.innerHTML = `${totalFiltros} filtro${totalFiltros > 1 ? 's' : ''} aplicado${totalFiltros > 1 ? 's' : ''}: <a href="#" id="limpar-tudo">Limpar tudo</a>`;
+
+                    // Reatribui o evento de clique no novo link
+                    const novoLink = document.getElementById('limpar-tudo');
+                    if (novoLink) {
+                        novoLink.addEventListener('click', function(e) {
+                            e.preventDefault();
+                            limparFiltros();
+                        });
+                    }
                 } else {
-                    filtrosCont.style.display = 'none';
+                    filtrosCont.style.display = 'none'; // Esconde o contêiner de filtros aplicados
+                    filtroTexto.innerHTML = ''; // Garante que o texto seja limpo
                 }
             }
-
-            // Função para limpar todos os filtros
-            limparTudo.addEventListener('click', (e) => {
-                e.preventDefault();
-
-                // Limpar todos os checkboxes, desmarcar e desativá-los
-                checkboxes.forEach(cb => {
-                    cb.checked = false; // Desmarca todas as checkboxes
-                    cb.disabled = true; // Desativa todas as checkboxes
+            checkboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', () => {
+                    atualizarTextoFiltros();
                 });
-
-                // Limpar campos de pesquisa (texto) em cada filtro de secção
-                filtroSecaoInputs.forEach(input => {
-                    input.value = ''; // Limpa todos os campos de texto
-                });
-
-                // Limpar campos de preço
-                inputMin.value = '';
-                inputMax.value = '';
-
-                // Limpar todos os selects e restaurá-los ao valor inicial (Relevância)
-                selects.forEach(select => {
-                    select.value = 'Relevância'; // Assumindo que "Relevância" é o valor inicial
-                });
-
-                // Atualizar a exibição dos filtros aplicados
-                atualizarTextoFiltros();
             });
 
-            // Adicionar event listeners para atualização
-            checkboxes.forEach(cb => cb.addEventListener('change', atualizarTextoFiltros));
-            filtroSecaoInputs.forEach(input => input.addEventListener('input', atualizarTextoFiltros));
-            inputMin.addEventListener('input', atualizarTextoFiltros);
-            inputMax.addEventListener('input', atualizarTextoFiltros);
-            selects.forEach(select => select.addEventListener('change', atualizarTextoFiltros));
+            [inputMin, inputMax].forEach(input => {
+                input.addEventListener('input', () => {
+                    atualizarTextoFiltros();
+                });
+            });
+            selects.forEach(select => {
+                select.addEventListener('change', () => {
+                    atualizarTextoFiltros();
+                });
+            });
 
-            // Inicializa a contagem e exibição dos filtros
+            const limparInicial = document.getElementById('limpar-tudo');
+            if (limparInicial) {
+                limparInicial.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    limparFiltros();
+                });
+            }
+
             atualizarTextoFiltros();
         });
     </script>
