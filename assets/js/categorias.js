@@ -76,7 +76,7 @@ window.efetuarPesquisa = function (el, tipo) {
     let encontrouProduto = false;
 
     // Lógica para mostrar todos os produtos caso nenhum filtro seja selecionado
-    if (idiomasSelecionados.length === 0 && descontoSelecionado.length === 0 && dificuldadeSelecionado.length === 0 && duracaoSelecionado.length === 0) {
+    if (idiomasSelecionados.length === 0 && descontoSelecionado.length === 0 && dificuldadeSelecionado.length === 0 && duracaoSelecionado.length === 0 ) {
         produtos.forEach(function (produto) {
             produto.style.display = "block";
         });
@@ -89,7 +89,7 @@ window.efetuarPesquisa = function (el, tipo) {
         const desconto = produto.getAttribute("data-desconto");
         const dificuldade = produto.getAttribute("data-dificuldade");
         const duracao = produto.getAttribute("data-duracao");
-        const avaliacao = produto.getAttribute("data-avaliacao")
+        const avaliacao = produto.getAttribute("data-avaliacao");
 
         switch (categoria) {
             case "idioma":
@@ -165,7 +165,7 @@ window.efetuarPesquisa = function (el, tipo) {
                 break;
 
             case "avaliacao":
-
+                console.log(avaliacaoSelecionado);
                 if (avaliacaoSelecionado.includes(avaliacao)) {
                     produto.style.display = "block";
                     encontrouProduto = true;
