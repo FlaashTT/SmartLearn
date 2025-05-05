@@ -25,6 +25,7 @@ include("../database/basedados.sql");
     ?>
 
     <link rel="stylesheet" href="../assets/css/style_categorias.css" />
+    <script src="../assets/js/categorias.js" defer></script>
 </head>
 
 <body>
@@ -49,7 +50,9 @@ include("../database/basedados.sql");
         <section class="filtros-a">
             <div class="filtros-aplicados">
                 <div class="filtros-cont">
-                    <span>1 filtro aplicado: <a href="#">Limpar tudo</a></span>
+                    <span>0 filtros aplicado:
+                        <a  onclick="event.preventDefault(); limparFiltros();">Limpar tudo</a>
+                    </span>
                 </div>
                 <?php
                 $ordenar = isset($_GET['ordenar']) ? $_GET['ordenar'] : 'a-z';
@@ -104,26 +107,31 @@ include("../database/basedados.sql");
                                 <?php
 
                                 $total = contarValores($conn, "curso", "Idioma_principal = 'Português'");
+                                $desabilitar = ($total == 0 || empty($total)) ? 'disabled' : '';
                                 ?>
                                 <input type="checkbox" name="idioma[]" value="português" onchange="efetuarPesquisa(this,'idioma_português')"
-                                    <?php echo in_array('pt', $idiomaSelecionado) ? 'checked' : ''; ?> />
+                                    <?php echo in_array('pt', $idiomaSelecionado) ? 'checked' : '';
+                                    echo $desabilitar; ?> />
                                 Português
                                 <span>(<?php echo ($total == 0 || empty($total)) ? '0' : $total; ?>)</span>
                             </label>
 
                             <label>
                                 <?php
+
                                 $total = contarValores($conn, "curso", "Idioma_principal = 'ingles'");
+                                $desabilitar = ($total == 0 || empty($total)) ? 'disabled' : '';
                                 ?>
                                 <input type="checkbox" name="idioma[]" value="ingles" onchange="efetuarPesquisa(this,'idioma_ingles')"
-                                    <?php echo in_array('en', $idiomaSelecionado) ? 'checked' : ''; ?> />
+                                    <?php echo in_array('en', $idiomaSelecionado) ? 'checked' : '';
+                                    echo $desabilitar; ?> />
                                 Inglês <span>(<?php echo ($total == 0 || empty($total)) ? '0' : $total; ?>)</span>
                             </label>
                         </form>
                     </div>
 
                 </div>
-    
+
                 <hr />
 
 
@@ -139,27 +147,34 @@ include("../database/basedados.sql");
                             <label>
                                 <?php
                                 $total = contarValores($conn, "curso", "Preco_antigo IS NOT NULL AND Preco_antigo <> 0 AND Preco_antigo > Preco");
+                                $desabilitar = ($total == 0 || empty($total)) ? 'disabled' : '';
                                 ?>
                                 <input type="checkbox" name="desconto[]" value="comDesconto" onchange="efetuarPesquisa(this, 'desconto_comDesconto')"
-                                    <?php echo in_array('comDesconto', $descontoSelecionado) ? 'checked' : ''; ?> />
+                                    <?php echo in_array('comDesconto', $descontoSelecionado) ? 'checked' : '';
+                                    echo $desabilitar; ?> />
                                 Com desconto <span>(<?php echo ($total == 0 || empty($total)) ? '0' : $total; ?>)</span>
                             </label>
 
                             <label>
                                 <?php
                                 $total = contarValores($conn, 'curso', 'Preco_antigo IS NULL OR Preco_antigo = 0 OR Preco_antigo < Preco');
+                                $desabilitar = ($total == 0 || empty($total)) ? 'disabled' : '';
                                 ?>
                                 <input type="checkbox" name="desconto[]" value="semDesconto" onchange="efetuarPesquisa(this, 'desconto_semDesconto')"
-                                    <?php echo in_array('semDesconto', $descontoSelecionado) ? 'checked' : ''; ?> />
+                                    <?php echo in_array('semDesconto', $descontoSelecionado) ? 'checked' : '';
+                                    echo $desabilitar; ?> />
                                 Sem desconto <span>(<?php echo ($total == 0 || empty($total)) ? '0' : $total; ?>)</span>
                             </label>
 
                             <label>
                                 <?php
+
                                 $total = contarValores($conn, 'curso');
+                                $desabilitar = ($total == 0 || empty($total)) ? 'disabled' : '';
                                 ?>
                                 <input type="checkbox" name="desconto[]" value="ambos" onchange="efetuarPesquisa(this, 'desconto_semSelecao')"
-                                    <?php echo in_array('semDesconto', $descontoSelecionado) ? 'checked' : ''; ?> />
+                                    <?php echo in_array('semDesconto', $descontoSelecionado) ? 'checked' : '';
+                                    echo $desabilitar; ?> />
                                 Mostrar tudo <span>(<?php echo ($total == 0 || empty($total)) ? '0' : $total; ?>)</span>
                             </label>
                         </form>
@@ -180,26 +195,32 @@ include("../database/basedados.sql");
                         <form method="GET" id="filtroForm">
                             <?php
                             $total = contarValores($conn, 'curso', 'Dificuldade = "Iniciante"');
+                            $desabilitar = ($total == 0 || empty($total)) ? 'disabled' : '';
                             ?>
                             <label>
                                 <input type="checkbox" name="dificuldade[]" value="Iniciante" onchange="efetuarPesquisa(this,'dificuldade_Iniciante')"
-                                    <?php echo in_array('Iniciante', $dificuldadeSelecionada) ? 'checked' : ''; ?> />
+                                    <?php echo in_array('Iniciante', $dificuldadeSelecionada) ? 'checked' : '';
+                                    echo $desabilitar; ?> />
                                 Iniciante <span>(<?php echo ($total == 0 || empty($total)) ? '0' : $total; ?>)</span>
                             </label>
                             <label>
                                 <?php
                                 $total = contarValores($conn, 'curso', 'Dificuldade = "intermedio"');
+                                $desabilitar = ($total == 0 || empty($total)) ? 'disabled' : '';
                                 ?>
                                 <input type="checkbox" name="dificuldade[]" value="intermedio" onchange="efetuarPesquisa(this,'dificuldade_intermedio')"
-                                    <?php echo in_array('intermedio', $dificuldadeSelecionada) ? 'checked' : ''; ?> />
+                                    <?php echo in_array('intermedio', $dificuldadeSelecionada) ? 'checked' : '';
+                                    echo $desabilitar; ?> />
                                 Intermédio <span>(<?php echo ($total == 0 || empty($total)) ? '0' : $total; ?>)</span>
                             </label>
                             <label>
                                 <?php
                                 $total = contarValores($conn, 'curso', 'Dificuldade = "avançado"');
+                                $desabilitar = ($total == 0 || empty($total)) ? 'disabled' : '';
                                 ?>
                                 <input type="checkbox" name="dificuldade[]" value="avançado" onchange="efetuarPesquisa(this,'dificuldade_avançado')"
-                                    <?php echo in_array('avançado', $dificuldadeSelecionada) ? 'checked' : ''; ?> />
+                                    <?php echo in_array('avançado', $dificuldadeSelecionada) ? 'checked' : '';
+                                    echo $desabilitar; ?> />
                                 Avançado <span>(<?php echo ($total == 0 || empty($total)) ? '0' : $total; ?>)</span>
                             </label>
                         </form>
@@ -220,46 +241,56 @@ include("../database/basedados.sql");
 
                             <?php
                             $total = contarValores($conn, 'curso', 'Tempo_estimado <= "01:00:00"');
+                            $desabilitar = ($total == 0 || empty($total)) ? 'disabled' : '';
                             ?>
                             <label>
                                 <input type="checkbox" name="duracao[]" value="menos1h" onchange="efetuarPesquisa(this,'tempo_menos1h')"
-                                    <?php echo in_array('menos1h', $duracaoSelecionada) ? 'checked' : ''; ?> />
+                                    <?php echo in_array('menos1h', $duracaoSelecionada) ? 'checked' : '';
+                                    echo $desabilitar; ?> />
                                 Até 1 hora <span>(<?php echo ($total == 0 || empty($total)) ? '0' : $total; ?>)</span>
                             </label>
 
                             <?php
                             $total = contarValores($conn, 'curso', 'Tempo_estimado > "01:00:00" AND Tempo_estimado <= "03:00:00"');
+                            $desabilitar = ($total == 0 || empty($total)) ? 'disabled' : '';
                             ?>
                             <label>
                                 <input type="checkbox" name="duracao[]" value="1ha3h" onchange="efetuarPesquisa(this,'tempo_1ha3h')"
-                                    <?php echo in_array('1ha3h', $duracaoSelecionada) ? 'checked' : ''; ?> />
+                                    <?php echo in_array('1ha3h', $duracaoSelecionada) ? 'checked' : '';
+                                    echo $desabilitar; ?> />
                                 De 1 a 3 horas <span>(<?php echo ($total == 0 || empty($total)) ? '0' : $total; ?>)</span>
                             </label>
 
                             <?php
                             $total = contarValores($conn, 'curso', 'Tempo_estimado > "03:00:00" AND Tempo_estimado <= "06:00:00"');
+                            $desabilitar = ($total == 0 || empty($total)) ? 'disabled' : '';
                             ?>
                             <label>
                                 <input type="checkbox" name="duracao[]" value="3ha6h" onchange="efetuarPesquisa(this,'tempo_3ha6h')"
-                                    <?php echo in_array('3ha6h', $duracaoSelecionada) ? 'checked' : ''; ?> />
+                                    <?php echo in_array('3ha6h', $duracaoSelecionada) ? 'checked' : '';
+                                    echo $desabilitar; ?> />
                                 De 3 a 6 horas <span>(<?php echo ($total == 0 || empty($total)) ? '0' : $total; ?>)</span>
                             </label>
 
                             <?php
                             $total = contarValores($conn, 'curso', 'Tempo_estimado > "06:00:00" AND Tempo_estimado <= "17:00:00"');
+                            $desabilitar = ($total == 0 || empty($total)) ? 'disabled' : '';
                             ?>
                             <label>
                                 <input type="checkbox" name="duracao[]" value="de6a17h" onchange="efetuarPesquisa(this,'tempo_6ha17h')"
-                                    <?php echo in_array('de6a17h', $duracaoSelecionada) ? 'checked' : ''; ?> />
+                                    <?php echo in_array('de6a17h', $duracaoSelecionada) ? 'checked' : '';
+                                    echo $desabilitar; ?> />
                                 De 6 a 17 horas<span>(<?php echo ($total == 0 || empty($total)) ? '0' : $total; ?>)</span>
                             </label>
 
                             <?php
                             $total = contarValores($conn, 'curso', 'Tempo_estimado > "17:00:00"');
+                            $desabilitar = ($total == 0 || empty($total)) ? 'disabled' : '';
                             ?>
                             <label>
                                 <input type="checkbox" name="duracao[]" value="mais17" onchange="efetuarPesquisa(this,'tempo_mais17h')"
-                                    <?php echo in_array('mais17', $duracaoSelecionada) ? 'checked' : ''; ?> />
+                                    <?php echo in_array('mais17', $duracaoSelecionada) ? 'checked' : '';
+                                    echo $desabilitar; ?> />
                                 Mais de 17 horas<span>(<?php echo ($total == 0 || empty($total)) ? '0' : $total; ?>)</span>
                             </label>
                         </form>
@@ -279,9 +310,11 @@ include("../database/basedados.sql");
 
                                 <?php
                                 $total = contarValores($conn, 'curso', 'Classificacao = 5 ');
+                                $desabilitar = ($total == 0 || empty($total)) ? 'disabled' : '';
                                 ?>
-                                <input type="checkbox" name="avaliacao[]" value="classificacao5" onchange="efetuarPesquisa(this,'avaliacao_5')"
-                                    <?php echo in_array('classificacao5', $avaliacaoSelecionada) ? 'checked' : ''; ?> />
+                                <input type="checkbox" name="avaliacao[]" value="5" onchange="efetuarPesquisa(this,'avaliacao_5')"
+                                    <?php echo in_array('5', $avaliacaoSelecionada) ? 'checked' : '';
+                                    echo $desabilitar; ?> />
                                 <i class="fas fa-star" style="color: gold;"></i>
                                 <i class="fas fa-star" style="color: gold;"></i>
                                 <i class="fas fa-star" style="color: gold;"></i>
@@ -293,10 +326,12 @@ include("../database/basedados.sql");
                             <label>
                                 <?php
                                 $total = contarValores($conn, 'curso', 'Classificacao = 4 ');
+                                $desabilitar = ($total == 0 || empty($total)) ? 'disabled' : '';
                                 ?>
 
-                                <input type="checkbox" name="avaliacao[]" value="classificacao4" onchange="efetuarPesquisa(this,'avaliacao_4')"
-                                    <?php echo in_array('classificacao4', $avaliacaoSelecionada) ? 'checked' : ''; ?> />
+                                <input type="checkbox" name="avaliacao[]" value="4" onchange="efetuarPesquisa(this,'avaliacao_4')"
+                                    <?php echo in_array('4', $avaliacaoSelecionada) ? 'checked' : '';
+                                    echo $desabilitar; ?> />
                                 <i class="fas fa-star" style="color: gold;"></i>
                                 <i class="fas fa-star" style="color: gold;"></i>
                                 <i class="fas fa-star" style="color: gold;"></i>
@@ -309,9 +344,11 @@ include("../database/basedados.sql");
 
                                 <?php
                                 $total = contarValores($conn, 'curso', 'Classificacao = 3 ');
+                                $desabilitar = ($total == 0 || empty($total)) ? 'disabled' : '';
                                 ?>
-                                <input type="checkbox" name="avaliacao[]" value="classificacao3" onchange="efetuarPesquisa(this,'avaliacao_3')"
-                                    <?php echo in_array('classificacao3', $avaliacaoSelecionada) ? 'checked' : ''; ?> />
+                                <input type="checkbox" name="avaliacao[]" value="3" onchange="efetuarPesquisa(this,'avaliacao_3')"
+                                    <?php echo in_array('3', $avaliacaoSelecionada) ? 'checked' : '';
+                                    echo $desabilitar; ?> />
                                 <i class="fas fa-star" style="color: gold;"></i>
                                 <i class="fas fa-star" style="color: gold;"></i>
                                 <i class="fas fa-star" style="color: gold;"></i>
@@ -324,9 +361,11 @@ include("../database/basedados.sql");
 
                                 <?php
                                 $total = contarValores($conn, 'curso', 'Classificacao = 2 ');
+                                $desabilitar = ($total == 0 || empty($total)) ? 'disabled' : '';
                                 ?>
-                                <input type="checkbox" name="avaliacao[]" value="classificacao2" onchange="efetuarPesquisa(this,'avaliacao_2')"
-                                    <?php echo in_array('classificacao2', $avaliacaoSelecionada) ? 'checked' : ''; ?> />
+                                <input type="checkbox" name="avaliacao[]" value="2" onchange="efetuarPesquisa(this,'avaliacao_2')"
+                                    <?php echo in_array('2', $avaliacaoSelecionada) ? 'checked' : '';
+                                    echo $desabilitar; ?> />
                                 <i class="fas fa-star" style="color: gold;"></i>
                                 <i class="fas fa-star" style="color: gold;"></i>
                                 <i class="far fa-star" style="color: gold;"></i>
@@ -339,9 +378,11 @@ include("../database/basedados.sql");
 
                                 <?php
                                 $total = contarValores($conn, 'curso', 'Classificacao = 1 ');
+                                $desabilitar = ($total == 0 || empty($total)) ? 'disabled' : '';
                                 ?>
-                                <input type="checkbox" name="avaliacao[]" value="classificacao1" onchange="efetuarPesquisa(this,'avaliacao_1')"
-                                    <?php echo in_array('classificacao1', $avaliacaoSelecionada) ? 'checked' : ''; ?> />
+                                <input type="checkbox" name="avaliacao[]" value="1" onchange="efetuarPesquisa(this,'avaliacao_1')"
+                                    <?php echo in_array('1', $avaliacaoSelecionada) ? 'checked' : '';
+                                    echo $desabilitar; ?> />
                                 <i class="fas fa-star" style="color: gold;"></i>
                                 <i class="far fa-star" style="color: gold;"></i>
                                 <i class="far fa-star" style="color: gold;"></i>
@@ -352,10 +393,12 @@ include("../database/basedados.sql");
 
                             <?php
                             $total = contarValores($conn, 'curso', 'Classificacao = 0 ');
+                            $desabilitar = ($total == 0 || empty($total)) ? 'disabled' : '';
                             ?>
                             <label>
-                                <input type="checkbox" name="avaliacao[]" value="semClassificacao" onchange="efetuarPesquisa(this,'avaliacao_semclass')"
-                                    <?php echo in_array('semClassificacao', $avaliacaoSelecionada) ? 'checked' : ''; ?> />
+                                <input type="checkbox" name="avaliacao[]" value="0" onchange="efetuarPesquisa(this,'avaliacao_0')"
+                                    <?php echo in_array('0', $avaliacaoSelecionada) ? 'checked' : '';
+                                    echo $desabilitar; ?> />
                                 <span style="color: gold;">Sem classificação</span>
                                 <span>(<?php echo ($total == 0 || empty($total)) ? '0' : $total; ?>)</span>
                             </label>
@@ -392,10 +435,12 @@ include("../database/basedados.sql");
 
                                 while ($row = $result->fetch_assoc()) {
                                     $total = contarValores($conn, 'curso', "Id_categoria = '" . $row['Id_categoria'] . "'");
+                                    $desabilitar = ($total == 0 || empty($total)) ? 'disabled' : '';
 
                                     echo '<label class="catLabel" data-nome="' . htmlspecialchars($row['Nome_cat']) . '">
-                                            <input type="checkbox" name="categoria[]" value="' . $row['Nome_cat'] . '" onchange="efetuarPesquisa(\'categoria_' . $row['Nome_cat'] . '\')" ' .
-                                        (in_array($row['Nome_cat'], $categoriaSelecionada) ? 'checked' : '') . ' />
+                                            <input type="checkbox" name="categoria[]" value="' . $row['Nome_cat'] . '" onchange="efetuarPesquisa(this,\'categoria_' . $row['Nome_cat'] . '\')" ' .
+                                        (in_array($row['Nome_cat'], $categoriaSelecionada) ? 'checked' : '') . ' 
+                                        echo $desabilitar;/>
                                             ' . htmlspecialchars($row['Nome_cat']) . '
                                             <span>(' . (($total == 0 || empty($total)) ? '0' : $total) . ')</span>
                                         </label>';
@@ -429,36 +474,44 @@ include("../database/basedados.sql");
                             <form method="GET" id="filtroForm">
                                 <?php
                                 $total = contarValores($conn, 'curso', 'Preco = 0 OR Preco = null');
+                                $desabilitar = ($total == 0 || empty($total)) ? 'disabled' : '';
                                 ?>
                                 <label>
-                                    <input type="checkbox" name="preco[]" value="gratuito" onchange="efetuarPesquisa('Preco_gratuito')"
-                                        <?php echo in_array('gratuito', $precoSelecionado) ? 'checked' : ''; ?> />
+                                    <input type="checkbox" name="preco[]" value="gratuito" onchange="efetuarPesquisa(this,'preco_gratuito')"
+                                        <?php echo in_array('gratuito', $precoSelecionado) ? 'checked' : '';
+                                        echo $desabilitar; ?> />
                                     Gratuito<span>(<?php echo ($total == 0 || empty($total)) ? '0' : $total; ?>)</span>
                                 </label>
 
                                 <label>
                                     <?php
                                     $total = contarValores($conn, 'curso', 'Preco <=30');
+                                    $desabilitar = ($total == 0 || empty($total)) ? 'disabled' : '';
                                     ?>
-                                    <input type="checkbox" name="preco[]" value="ate30" onchange="efetuarPesquisa('Preco_Ate30')"
-                                        <?php echo in_array('ate30', $precoSelecionado) ? 'checked' : ''; ?> />
+                                    <input type="checkbox" name="preco[]" value="ate30" onchange="efetuarPesquisa(this,'preco_Ate30')"
+                                        <?php echo in_array('ate30', $precoSelecionado) ? 'checked' : '';
+                                        echo $desabilitar; ?> />
                                     Até 30<span>(<?php echo ($total == 0 || empty($total)) ? '0' : $total; ?>)</span>
                                 </label>
 
                                 <?php
                                 $total = contarValores($conn, 'curso', 'Preco >30 AND Preco <= 60');
+                                $desabilitar = ($total == 0 || empty($total)) ? 'disabled' : '';
                                 ?>
                                 <label>
-                                    <input type="checkbox" name="preco[]" value="de30a60" onchange="efetuarPesquisa('Preco_30a60')"
-                                        <?php echo in_array('de30a60', $precoSelecionado) ? 'checked' : ''; ?> />
+                                    <input type="checkbox" name="preco[]" value="de30a60" onchange="efetuarPesquisa(this,'preco_30a60')"
+                                        <?php echo in_array('de30a60', $precoSelecionado) ? 'checked' : '';
+                                        echo $desabilitar; ?> />
                                     30-60<span>(<?php echo ($total == 0 || empty($total)) ? '0' : $total; ?>)</span>
                                 </label>
                                 <?php
                                 $total = contarValores($conn, 'curso', 'Preco >60');
+                                $desabilitar = ($total == 0 || empty($total)) ? 'disabled' : '';
                                 ?>
                                 <label>
-                                    <input type="checkbox" name="preco[]" value="maisde60" onchange="efetuarPesquisa('Preco_mais60')"
-                                        <?php echo in_array('de60a100', $precoSelecionado) ? 'checked' : ''; ?> />
+                                    <input type="checkbox" name="preco[]" value="maisde60" onchange="efetuarPesquisa(this,'preco_mais60')"
+                                        <?php echo in_array('de60a100', $precoSelecionado) ? 'checked' : '';
+                                        echo $desabilitar; ?> />
                                     Mais de 60<span>(<?php echo ($total == 0 || empty($total)) ? '0' : $total; ?>)</span>
                                 </label>
                             </form>
@@ -796,7 +849,7 @@ include("../database/basedados.sql");
 
 
 
-    <script src="../assets/js/categorias.js"></script>
+
 </body>
 
 </html>
