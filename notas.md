@@ -49,3 +49,9 @@
 ## 💡 Ideias Futuras
 - 
 
+
+---
+## Dificuldades no processo
+
+dificuldade a realizar os filtro da pagina geral de cursos
+

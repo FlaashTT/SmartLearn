@@ -1,4 +1,7 @@
 <?php
+ini_set('log_errors', 1);          // Ativa o registro de erros
+ini_set('error_log', '../logs/erros.log');  // Caminho para o arquivo de log
+
 include("../../database/basedados.sql");
 session_start();
 //evita que utilizador nao registados entrem nas paginas que necessitam login
