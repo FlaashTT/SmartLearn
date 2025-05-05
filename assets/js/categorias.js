@@ -65,21 +65,31 @@ window.efetuarPesquisa = function (el, tipo) {
     const descontoSelecionado = Array.from(document.querySelectorAll("input[name='desconto[]']:checked"))
         .map(input => input.value);
 
+    const dificuldadeSelecionado = Array.from(document.querySelectorAll("input[name='dificuldade[]']:checked"))
+        .map(input => input.value);
+
+    const duracaoSelecionado = Array.from(document.querySelectorAll("input[name='duracao[]']:checked"))
+        .map(input => input.value);
+
+    const avaliacaoSelecionado = Array.from(document.querySelectorAll("input[name='avaliacao[]']:checked"))
+        .map(input => input.value);
     let encontrouProduto = false;
 
     // Lógica para mostrar todos os produtos caso nenhum filtro seja selecionado
-    if (idiomasSelecionados.length === 0 && descontoSelecionado.length === 0) {
+    if (idiomasSelecionados.length === 0 && descontoSelecionado.length === 0 && dificuldadeSelecionado.length === 0 && duracaoSelecionado.length === 0) {
         produtos.forEach(function (produto) {
             produto.style.display = "block";
         });
         return;
     }
 
-    
     // Loop para verificar as condições dos filtros
     produtos.forEach(function (produto) {
         const idioma = produto.getAttribute("data-idioma").toLowerCase();
         const desconto = produto.getAttribute("data-desconto");
+        const dificuldade = produto.getAttribute("data-dificuldade");
+        const duracao = produto.getAttribute("data-duracao");
+        const avaliacao = produto.getAttribute("data-avaliacao")
 
         switch (categoria) {
             case "idioma":
@@ -92,7 +102,7 @@ window.efetuarPesquisa = function (el, tipo) {
                 break;
 
             case "desconto":
-                
+
                 // Lógica especial para "Mostrar tudo"
                 if (descontoSelecionado.includes("ambos")) {
                     produto.style.display = "block";
@@ -111,14 +121,57 @@ window.efetuarPesquisa = function (el, tipo) {
 
             case "dificuldade":
 
+                if (dificuldadeSelecionado.includes(dificuldade)) {
+                    produto.style.display = "block";
+                    encontrouProduto = true;
+                } else {
+                    produto.style.display = "none";
+                }
                 break;
 
             case "tempo":
 
+                const [horas, minutos, segundos] = duracao.split(":").map(Number);
+                const tempoSegundos = horas * 3600 + minutos * 60 + segundos;
+
+                let corresponde = false;
+
+                duracaoSelecionado.forEach(filtro => {
+                    switch (filtro) {
+                        case "menos1h":
+                            if (tempoSegundos <= 3600) corresponde = true;
+                            break;
+                        case "1ha3h":
+                            if (tempoSegundos > 3600 && tempoSegundos <= 10800) corresponde = true;
+                            break;
+                        case "3ha6h":
+                            if (tempoSegundos > 10800 && tempoSegundos <= 21600) corresponde = true;
+                            break;
+                        case "de6a17h":
+                            if (tempoSegundos > 21600 && tempoSegundos <= 61200) corresponde = true;
+                            break;
+                        case "mais17":
+                            if (tempoSegundos > 61200) corresponde = true;
+                            break;
+                    }
+                });
+
+                if (corresponde) {
+                    produto.style.display = "block";
+                    encontrouProduto = true;
+                } else {
+                    produto.style.display = "none";
+                }
                 break;
 
             case "avaliacao":
 
+                if (avaliacaoSelecionado.includes(avaliacao)) {
+                    produto.style.display = "block";
+                    encontrouProduto = true;
+                } else {
+                    produto.style.display = "none";
+                }
                 break;
 
             case "categoria":
