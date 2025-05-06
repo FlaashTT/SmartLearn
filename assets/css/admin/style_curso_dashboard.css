@@ -398,11 +398,18 @@ table th{
 .btn{
     border-radius: 5px;
     border: none;
-    background-color: #dc3545;
     cursor: pointer;
     font-size: 10px;
     padding: 10px;
     transition: background-color 0.3s ease;
+}
+
+.edit-btn{
+    background-color: #007bff;
+}
+
+.delete-btn{
+    background-color: #dc3545;
 }
 
 
