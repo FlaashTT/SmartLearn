@@ -73,10 +73,23 @@ window.efetuarPesquisa = function (el, tipo) {
 
     const avaliacaoSelecionado = Array.from(document.querySelectorAll("input[name='avaliacao[]']:checked"))
         .map(input => input.value);
+
+    const categoriaSelecionado = Array.from(document.querySelectorAll("input[name='categoria[]']:checked"))
+        .map(input => input.value);
+
+    const precoSelecionado = Array.from(document.querySelectorAll("input[name='preco[]']:checked"))
+        .map(input => input.value);
+
     let encontrouProduto = false;
 
     // Lógica para mostrar todos os produtos caso nenhum filtro seja selecionado
-    if (idiomasSelecionados.length === 0 && descontoSelecionado.length === 0 && dificuldadeSelecionado.length === 0 && duracaoSelecionado.length === 0 ) {
+    if (idiomasSelecionados.length === 0
+        && descontoSelecionado.length === 0
+        && dificuldadeSelecionado.length === 0
+        && duracaoSelecionado.length === 0
+        && avaliacaoSelecionado.length === 0
+        && categoriaSelecionado.length === 0
+        && precoSelecionado.length === 0) {
         produtos.forEach(function (produto) {
             produto.style.display = "block";
         });
@@ -90,8 +103,12 @@ window.efetuarPesquisa = function (el, tipo) {
         const dificuldade = produto.getAttribute("data-dificuldade");
         const duracao = produto.getAttribute("data-duracao");
         const avaliacao = produto.getAttribute("data-avaliacao");
+        const categoriaSeleçao = produto.getAttribute("data-categoria");
+        const preco = produto.getAttribute("data-preco");
+
 
         switch (categoria) {
+
             case "idioma":
                 if (idiomasSelecionados.some(id => idioma.includes(id))) {
                     produto.style.display = "block";
@@ -120,6 +137,7 @@ window.efetuarPesquisa = function (el, tipo) {
 
 
             case "dificuldade":
+                console.log(" entrou dificuldade")
 
                 if (dificuldadeSelecionado.includes(dificuldade)) {
                     produto.style.display = "block";
@@ -130,6 +148,7 @@ window.efetuarPesquisa = function (el, tipo) {
                 break;
 
             case "tempo":
+                console.log(" entrou tempo")
 
                 const [horas, minutos, segundos] = duracao.split(":").map(Number);
                 const tempoSegundos = horas * 3600 + minutos * 60 + segundos;
@@ -164,31 +183,77 @@ window.efetuarPesquisa = function (el, tipo) {
                 }
                 break;
 
+
             case "avaliacao":
-                console.log(avaliacaoSelecionado);
+
+
                 if (avaliacaoSelecionado.includes(avaliacao)) {
                     produto.style.display = "block";
                     encontrouProduto = true;
                 } else {
                     produto.style.display = "none";
                 }
+
                 break;
 
             case "categoria":
 
+
+                if (categoriaSelecionado.includes(categoriaSeleçao)) {
+                    produto.style.display = "block";
+                    encontrouProduto = true;
+                } else {
+                    produto.style.display = "none";
+                }
+
                 break;
 
-            case "Preco":
+            case "preco":
+
+
+                
+                const precoProduto = parseFloat(preco);
+
+                let correspondePreco = false;
+
+                precoSelecionado.forEach(filtro => {
+                    switch (filtro) {
+                        case "gratuito":
+                            if (precoProduto === 0) correspondePreco = true;
+                            break;
+                        case "ate30":
+                            if (precoProduto <= 30) correspondePreco = true;
+                            break;
+                        case "de30a60":
+                            if (precoProduto > 30 && precoProduto <= 60) correspondePreco = true;
+                            break;
+                        case "maisde60":
+                            if (precoProduto > 60) correspondePreco = true;
+                            break;
+                    }
+                });
+
+                // Se o preço corresponder ao filtro, mostre o produto
+                if (correspondePreco) {
+                    produto.style.display = "block";
+                    encontrouProduto = true;
+                } else {
+                    produto.style.display = "none";
+                }
 
                 break;
+
 
             default:
-                console.log("Categoria não reconhecida:", categoria);
+                console.log("Erro ao verificar");
                 break;
         }
 
     });
 };
+
+
+
 
 
 
