@@ -182,8 +182,8 @@ include("../database/basedados.sql");
                         echo "";
                     } else {
                         echo '
-                                <form action="../public/carrinho/adicionarAocarrinho.php" method="POST">
-                                    <button class="btn-buy" type="submit" name="IdCurso" value="' . $row['Id_curso'] . '">Comprar</button>
+                                <form action="curso/curso_capa.php" method="POST">
+                                    <button class="btn-buy" type="submit" name="idCurso" value="' . $row['Id_curso'] . '">Ver mais</button>
                                 </form>';
                     }
                     echo '

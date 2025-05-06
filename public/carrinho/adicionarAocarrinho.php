@@ -1,5 +1,4 @@
 <?php
-session_start();
 include('../segurança.php');
 include('../../database/basedados.sql');
 
@@ -11,52 +10,57 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (empty($idCurso)) {
         $erro = true;
     } else {
-        echo ($_SESSION['utilizadorOn']['Id_user']);
+        $idUser = $_SESSION['utilizadorOn']['Id_user'];
 
+        // Verificar se já foi adquirido
         $stmt = $conn->prepare("SELECT * FROM cursos_adquiridos WHERE Id_user = ? AND Id_curso = ?");
-        $stmt->bind_param("ii", $_SESSION['utilizadorOn']['Id_user'], $idCurso);
+        $stmt->bind_param("ii", $idUser, $idCurso);
         $stmt->execute();
         $result = $stmt->get_result();
 
         if ($result->num_rows > 0) {
             echo "
             <script>
-                alert('Ja tem este curso adquirido no seu perfil');
-                window.history.back();
+                alert('Já tem este curso adquirido no seu perfil');
+                window.location.href = '../categorias.php';
             </script>
             ";
-        } else {
-
-            $stmt = $conn->prepare("SELECT * FROM carrinho_compras WHERE Id_user = ? AND Id_curso = ?");
-            $stmt->bind_param("ii", $_SESSION['utilizadorOn']['Id_user'], $idCurso);
-            $stmt->execute();
-            $result = $stmt->get_result();
-
-            if ($result->num_rows > 0) {
-                echo "
-            <script>
-                alert('Ja tem este curso adicionado ao seu carrinho');
-                window.history.back();
-            </script>
-            ";
-            } else {
-
-                $stmt = $conn->prepare("INSERT INTO carrinho_compras (Id_user, Id_curso) VALUES  (?, ?)");
-                $stmt->bind_param("ii", $_SESSION['utilizadorOn']['Id_user'], $idCurso);
-
-                if ($stmt->execute()) {
-                    echo "
-                <script>
-                if(confirm('Adicionado ao carrinho, deseja ir para o carrinho?')){
-                window.location.href ='carrinho.php';
-        }else{
-
-                window.history.back();
+            exit;
         }
-                </script>
+
+        // Verificar se já está no carrinho
+        $stmt = $conn->prepare("SELECT * FROM carrinho_compras WHERE Id_user = ? AND Id_curso = ?");
+        $stmt->bind_param("ii", $idUser, $idCurso);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($result->num_rows > 0) {
+            echo "
+            <script>
+                alert('Já tem este curso adicionado ao seu carrinho');
+                window.location.href = '../categorias.php';
+            </script>
             ";
+            exit;
+        }
+
+        // Adicionar ao carrinho
+        $stmt = $conn->prepare("INSERT INTO carrinho_compras (Id_user, Id_curso) VALUES (?, ?)");
+        $stmt->bind_param("ii", $idUser, $idCurso);
+
+        if ($stmt->execute()) {
+            echo "
+            <script>
+                if(confirm('Adicionado ao carrinho, deseja ir para o carrinho?')) {
+                    window.location.href = 'carrinho.php';
+                } else {
+                    window.location.href = '../categorias.php';
                 }
-            }
+            </script>
+            ";
+            exit;
+        } else {
+            $erro = true;
         }
     }
 } else {
@@ -66,11 +70,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 if ($erro) {
     echo "
     <script>
-    alert('Ocorreu um erro ,tente mais tarde');
-    window.history.back();
+        alert('Ocorreu um erro, tente mais tarde');
+        window.location.href = '../categorias.php';
     </script>
     ";
     exit;
 }
-
 ?>

@@ -19,11 +19,9 @@
                     <script>
                         document.getElementById('searchInput').addEventListener('keypress', function (e) {
                             if (e.key === 'Enter') {
-                                e.preventDefault(); // Impede envio de formulário, se houver
+                                e.preventDefault(); 
                                 const searchValue = e.target.value.trim();
                                 if (searchValue) {
-                                    console.log("deu certo a pesquisa: " + searchValue);
-                                    // Redireciona com o valor da pesquisa
                                     window.location.href = `../public/categorias.php?search=${encodeURIComponent(searchValue)}`;
                                 }
                             }

@@ -1,28 +1,41 @@
 <header>
-    <div class="container-admin">
-      <nav>
-        <div class="nav-left">
-          <div class="logo">
-            <a href="layout_base.html"><img src="../../assets/image/Logo.png" alt="Nao encontrado" /></a>
-            <span class="brand-name">SmartLearn</span>
-          </div>
-          <ul class="nav-links">
-            <li>
+  <div class="container-admin">
+    <nav>
+      <div class="nav-left">
+        <div class="logo">
+          <a href="layout_base.html"><img src="../../assets/image/Logo.png" alt="Nao encontrado" /></a>
+          <span class="brand-name">SmartLearn</span>
+        </div>
+        <ul class="nav-links">
+          <li>
+            <form action="../inicio.php">
               <button class="back-button">Voltar ao site</button>
-            </li>
-          </ul>
-        </div>
-        <div class="nav-right">
-          <ul class="nav-links">
-              <div class="avatar">
-                  <img src="../../assets/image/Admin.png" alt="Avatar" class="avatar-image" />
-              </div>
-              <div class="profile-info">
-                  <p>Administrador de Sistema</p>
-                  <p class="Name">Administrador LePinh</p>
-              </div>
-          </ul>
-        </div>
-      </nav>
-    </div>
-  </header>
+            </form>
+          </li>
+        </ul>
+      </div>
+      <div class="nav-right">
+        <ul class="nav-links">
+          <div class="avatar">
+
+            <?php
+            $sitioImagem = $_SESSION['utilizadorOn']['URL_foto_perfilUser'];
+            $caminhoImagem = "../../assets/image/fotosPerfil/" . $sitioImagem;
+            
+            if(!empty($sitioImagem) && file_exists($caminhoImagem)){
+                echo '<img src="../../assets/image/fotosPerfil/' . $sitioImagem . '" alt="Erro" class="avatar-image">';
+            }else{
+            echo '<img src="../../assets/image/User.png" alt="Erro" class="avatar-image" />';                
+            }
+            ?>
+          </div>
+          <div class="profile-info">
+            <p>Administrador de Sistema</p>
+            <p class="Name"> <?php echo $_SESSION['utilizadorOn']['PNome_user'] . " ". $_SESSION['utilizadorOn']['SNome_user'] ; ?>  </p>
+
+          </div>
+        </ul>
+      </div>
+    </nav>
+  </div>
+</header>

@@ -16,7 +16,7 @@
             
         </div>
         <div class="user-details">
-            <p>Administrador de Sistema</p>
+            <p><?php echo $_SESSION['utilizadorOn']['PNome_user'] . " ". $_SESSION['utilizadorOn']['SNome_user'] ; ?>  </p></p>
         </div>
     </div>
 
@@ -24,12 +24,12 @@
         <ul>
             <h4>Navegação</h4>
             <li>
-                <i class="fas fa-tachometer-alt"></i> Painel
+                <i class="fas fa-tachometer-alt" onclick="window.location.href='../../public/admin/admin_base.php'"></i> Painel
             </li>
             <li class="has-submenu">
                 <i class="fas fa-book"></i> Cursos <i class="fas fa-chevron-right toggle-icon"></i>
                 <ul class="submenu">
-                    <li>Dashboard Cursos</li>
+                    <li onclick="window.location.href='../../public/admin/dashboard_cursos.php'">Dashboard Cursos</li>
                     <li>Gerenciar cursos</li>
                     <li>Adicionar novo curso</li>
                     <li>Categoria do curso</li>
