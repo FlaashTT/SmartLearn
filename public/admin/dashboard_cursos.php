@@ -47,166 +47,74 @@ include("../../database/basedados.sql");
                 </section>
 
                 <section class="card-container">
-                    <div class="card">
-                        <div class="card-image">
-                            <img src="../../assets/image/Curso.png" alt="Curso" />
-                        </div>
-                        <div class="card-content">
-                            <div class="card-header">
-                                <h3><i class="fas fa-book"></i> Tecnologia</h3>
-                                <p>2 Subcategorias</p>
-                            </div>
-                            <hr>
-                            <div class="card-sections">
 
-                                <p>Seçcão 1, Seçcão 2</p>
+                    <?php
+                    $query = "SELECT * FROM curso";
+                    $stmt = $conn->prepare($query);
 
-                                <div class="card-actions">
-                                    <button class="edit-icon"><i class="fas fa-edit"></i></button>
-                                    <button class="delete-icon"><i class="fas fa-trash"></i></button>
+
+                    $stmt->execute();
+                    $result = $stmt->get_result();
+                    if ($result->num_rows > 0) {
+                        while ($row = $result->fetch_assoc()) {
+                            $id_curso = $row['Id_curso'];
+
+                            // Contar as fases do curso
+                            $queryFases = "SELECT COUNT(*) AS Total FROM fase WHERE Id_curso = $id_curso";
+                            $resultFases = $conn->query($queryFases);
+                            $totalFases = 0;
+
+                            if ($resultFases && $dadosFase = $resultFases->fetch_assoc()) {
+                                $totalFases = $dadosFase['Total'];
+                            }
+
+                            // Buscar até 4 nomes de fases (seções)
+                            $querySecoes = "SELECT Titulo_fase FROM fase WHERE Id_curso = $id_curso LIMIT 2";
+                            $resultSecoes = $conn->query($querySecoes);
+                            $listaSecoes = [];
+
+                            while ($secao = $resultSecoes->fetch_assoc()) {
+                                $listaSecoes[] = $secao['Titulo_fase'];
+                            }
+
+                            $secoesTexto = implode(', ', $listaSecoes);
+                            if (count($listaSecoes) === 2) {
+                                $secoesTexto .= ',...';
+                            }
+
+                            echo '
+                            <div class="card">
+                                <div class="card-image">
+                                    <img src="../../assets/image/curso/' . $row['URL_foto_perfil_curso'] . '" alt="Curso" />
                                 </div>
-
-                            </div>
-                            <hr>
-                        </div>
-                        <div class="card-footer">
-                            <button class="btn edit-btn">Editar</button>
-                            <button class="btn delete-btn">Apagar</button>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-image">
-                            <img src="/assets/image/Curso.png" alt="Curso" />
-                        </div>
-                        <div class="card-content">
-                            <div class="card-header">
-                                <h3><i class="fas fa-book"></i> Tecnologia</h3>
-                                <p>2 Subcategorias</p>
-                            </div>
-                            <hr>
-                            <div class="card-sections">
-
-                                <p>Seçcão 1, Seçcão 2</p>
-
-                                <div class="card-actions">
-                                    <button class="edit-icon"><i class="fas fa-edit"></i></button>
-                                    <button class="delete-icon"><i class="fas fa-trash"></i></button>
+                                <div class="card-content">
+                                    <div class="card-header">
+                                        <h3><i class="fas fa-book"></i> ' . $row['Nome_curso'] . '</h3>
+                                        <p>Total de fases: ' . $totalFases . '</p>
+                                    </div>
+                                    <hr>
+                                    <div class="card-sections">
+                                        <p>'.$secoesTexto.'</p>
+                                        <div class="card-actions">
+                                            <button class="edit-icon"><i class="fas fa-edit"></i></button>
+                                            <button class="delete-icon"><i class="fas fa-trash"></i></button>
+                                        </div>
+                                    </div>
+                                    <hr>
                                 </div>
-
-                            </div>
-                            <hr>
-                        </div>
-                        <div class="card-footer">
-                            <button class="btn edit-btn">Editar</button>
-                            <button class="btn delete-btn">Apagar</button>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-image">
-                            <img src="/assets/image/Curso.png" alt="Curso" />
-                        </div>
-                        <div class="card-content">
-                            <div class="card-header">
-                                <h3><i class="fas fa-book"></i> Tecnologia</h3>
-                                <p>2 Subcategorias</p>
-                            </div>
-                            <hr>
-                            <div class="card-sections">
-
-                                <p>Seçcão 1, Seçcão 2</p>
-
-                                <div class="card-actions">
-                                    <button class="edit-icon"><i class="fas fa-edit"></i></button>
-                                    <button class="delete-icon"><i class="fas fa-trash"></i></button>
+                                <div class="card-footer">
+                                    <button class="btn edit-btn">Editar</button>
+                                    <button class="btn delete-btn">Apagar</button>
                                 </div>
-
                             </div>
-                            <hr>
-                        </div>
-                        <div class="card-footer">
-                            <button class="btn edit-btn">Editar</button>
-                            <button class="btn delete-btn">Apagar</button>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-image">
-                            <img src="/assets/image/Curso.png" alt="Curso" />
-                        </div>
-                        <div class="card-content">
-                            <div class="card-header">
-                                <h3><i class="fas fa-book"></i> Tecnologia</h3>
-                                <p>2 Subcategorias</p>
-                            </div>
-                            <hr>
-                            <div class="card-sections">
+                            ';
+                        }
+                    }
+                    ?>
 
-                                <p>Seçcão 1, Seçcão 2</p>
 
-                                <div class="card-actions">
-                                    <button class="edit-icon"><i class="fas fa-edit"></i></button>
-                                    <button class="delete-icon"><i class="fas fa-trash"></i></button>
-                                </div>
 
-                            </div>
-                            <hr>
-                        </div>
-                        <div class="card-footer">
-                            <button class="btn edit-btn">Editar</button>
-                            <button class="btn delete-btn">Apagar</button>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-image">
-                            <img src="/assets/image/Curso.png" alt="Curso" />
-                        </div>
-                        <div class="card-content">
-                            <div class="card-header">
-                                <h3>Tecnologia</h3>
-                                <p>2 Subcategorias</p>
-                            </div>
-                            <hr>
-                            <div class="card-sections">
 
-                                <p>Seçcão 1, Seçcão 2</p>
-
-                                <div class="card-actions">
-                                    <button class="edit-icon"><i class="fas fa-edit"></i></button>
-                                    <button class="delete-icon"><i class="fas fa-trash"></i></button>
-                                </div>
-
-                            </div>
-                            <hr>
-                        </div>
-                        <div class="card-footer">
-                            <button class="btn">Editar</button>
-                            <button class="btn">Apagar</button>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-image">
-                            <img src="/assets/image/Curso.png" alt="Curso" />
-                        </div>
-                        <div class="card-content">
-                            <div class="card-header">
-                                <h3><i class="fas fa-book"></i> Tecnologia</h3>
-                                <p>2 Subcategorias</p>
-                            </div>
-                            <hr>
-                            <div class="card-sections">
-                                <p>Seçcão 1, Seçcão 2</p>
-                                <div class="card-actions">
-                                    <button class="edit-icon"><i class="fas fa-edit"></i></button>
-                                    <button class="delete-icon"><i class="fas fa-trash"></i></button>
-                                </div>
-
-                            </div>
-                            <hr>
-                        </div>
-                        <div class="card-footer">
-                            <button class="btn edit-btn">Editar</button>
-                            <button class="btn delete-btn">Apagar</button>
-                        </div>
-                    </div>
                 </section>
 
                 <!-- Modal para Editar -->
