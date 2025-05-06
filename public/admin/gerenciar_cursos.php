@@ -48,22 +48,82 @@ include("../../database/basedados.sql");
                     <div class="stats">
                         <div class="stat">
                             <i class="fas fa-book"></i>
-                            <span>0</span>
+                            <span>
+
+                            <?php
+                                $query = "SELECT COUNT(*) AS total FROM curso WHERE Estado_curso = 'ativo'";
+                                $result = $conn->query($query);
+
+                                if ($result) {
+                                    $row = $result->fetch_assoc();
+                                    $total = $row['total'];
+                                    echo $total;
+                                } else {
+                                    echo "Erro ao contar cursos.";
+                                }
+                                ?>
+
+                            </span>
                             <p>Cursos Ativos</p>
                         </div>
                         <div class="stat">
                             <i class="fas fa-file-alt"></i>
-                            <span>0</span>
+                            <span>
+
+                            <?php
+                                $query = "SELECT COUNT(*) AS total FROM curso WHERE Estado_curso != 'pendente'";
+                                $result = $conn->query($query);
+
+                                if ($result) {
+                                    $row = $result->fetch_assoc();
+                                    $total = $row['total'];
+                                    echo $total;
+                                } else {
+                                    echo "Erro ao contar cursos.";
+                                }
+                                ?>
+
+                            </span>
                             <p>Cursos pendentes</p>
                         </div>
                         <div class="stat">
                             <i class="fas fa-user-check"></i>
-                            <span>0</span>
+                            <span>
+
+                            <?php
+                                $query = "SELECT COUNT(*) AS total FROM curso WHERE Preco = 0 OR Preco IS NULL";
+                                $result = $conn->query($query);
+
+                                if ($result) {
+                                    $row = $result->fetch_assoc();
+                                    $total = $row['total'];
+                                    echo $total;
+                                } else {
+                                    echo "Erro ao contar cursos.";
+                                }
+                                ?>
+
+                            </span>
                             <p>Cursos gratuitos</p>
                         </div>
                         <div class="stat">
                             <i class="fas fa-users"></i>
-                            <span>0</span>
+                            <span>
+                                
+                            <?php
+                                $query = "SELECT COUNT(*) AS total FROM curso WHERE Preco > 0";
+                                $result = $conn->query($query);
+
+                                if ($result) {
+                                    $row = $result->fetch_assoc();
+                                    $total = $row['total'];
+                                    echo $total;
+                                } else {
+                                    echo "Erro ao contar cursos.";
+                                }
+                                ?>
+
+                            </span>
                             <p>Cursos Pagos</p>
                         </div>
                     </div>
@@ -96,42 +156,51 @@ include("../../database/basedados.sql");
                                 <th>#</th>
                                 <th>Título</th>
                                 <th>Categoria</th>
-                                <th>Utilizador inscrito</th>
+                                <th>Utilizadores inscrito</th>
                                 <th>Status</th>
                                 <th>Preço</th>
                                 <th>Ações</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-
-                            <?php
-                            $query = "SELECT * FROM curso";
-                            $stmt = $conn->prepare($query);
-
-
-                            $stmt->execute();
-                            $result = $stmt->get_result();
-                            if ($result->num_rows > 0) {
-                                while ($row = $result->fetch_assoc()) {
-                                    <td>1</td>
-                                <td>ola</td>
-                                <td>1</td>
-                                <td>ola</td>
-                                <td>1</td>
-                                <td>ola</td>
-                                <td>1</td>
-                                }
-                            } else {
-                                echo '<td colspan="7">Nenhum dado inserido</td>';
-                            }
-                            ?>
                             
 
-                                
+                                <?php
+                                $query = "SELECT * FROM curso";
+                                $stmt = $conn->prepare($query);
 
 
-                            </tr>
+                                $stmt->execute();
+                                $result = $stmt->get_result();
+                                if ($result->num_rows > 0) {
+                                    $total = 0;
+                                    while ($row = $result->fetch_assoc()) {
+                                        echo '
+                                        <tr>
+                                    <td>'.$row['Id_curso'].'</td>
+                                    <td>'.$row['Nome_curso'].'</td>
+                                    <td>'.$row['Id_categoria'].'</td>
+                                    <td>'.$total.'</td>
+                                    <td>'.$row['Estado_curso'].'</td>
+                                    <td>'.$row['Preco'].'€</td>
+                                    <td onclick="mostrarInfo(' . $row['Id_curso'] . ')" style="cursor: pointer;" >Ver detalhes curso</td>
+                                    </tr>
+                                ';
+                                    }
+                                } else {
+                                    
+                                    echo '
+                                    <tr>
+                                    <td colspan="7">Nenhum dado inserido</td>
+                                    </tr>';
+                                }
+                                ?>
+
+
+
+
+
+                            
                         </tbody>
                     </table>
                     <div class="pagination">
