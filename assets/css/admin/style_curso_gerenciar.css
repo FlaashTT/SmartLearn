@@ -267,7 +267,7 @@ table{
 
 table th{
   padding: 10px;
-  text-align: left;
+  text-align: center;
   border-bottom: 1px solid #ccc;
 }
 
@@ -276,6 +276,7 @@ table td{
   border-bottom: 1px solid #ccc;
   text-align: center;
 }
+
 
 table th{
   background-color: #f2f2f2;
