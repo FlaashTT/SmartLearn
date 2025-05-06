@@ -44,7 +44,7 @@ include("../database/basedados.sql");
                     <li><i class="fas fa-check"></i> Acesso a materiais exclusivos</li>
                     <li><i class="fas fa-check"></i> Suporte de instrutores qualificados</li>
                 </ul>
-                <button class="btn-ver-cursos">VER CURSOS</button>
+                <button class="btn-ver-cursos" disabled>VER CURSOS</button>
             </div>
         </section>
 
@@ -59,8 +59,8 @@ include("../database/basedados.sql");
                             <p style='margin-right: 10px;'>Resultado da pesquisa: <strong>$search</strong> <button onClick='removerSearch()'> X</button></p>
                         </div>";
 
-                        // Código JavaScript para remover o parâmetro 'search' da URL
-                        echo "
+                    // Código JavaScript para remover o  'search' da URL
+                    echo "
                         <script>
                             function removerSearch() {
                                 const url = new URL(window.location.href);
@@ -654,9 +654,9 @@ include("../database/basedados.sql");
                                             ';
 
                             echo '
-                                    <form action="carrinho/adicionarAocarrinho.php" method="POST">
-                                        <button name="IdCurso" value="' . $row['Id_curso'] . '" class="start-button">
-                                            Comprar
+                                    <form action="curso/curso_capa.php" method="POST">
+                                        <button name="idCurso" value="' . $row['Id_curso'] . '" class="start-button">
+                                            Mais informações
                                         </button>
                                     </form>
                                     </div>
@@ -807,6 +807,9 @@ include("../database/basedados.sql");
                 filtroSecaoInputs.forEach(input => input.value = '');
 
                 atualizarTextoFiltros();
+
+                // Dá refresh na página para mostrar todos os cursos
+                location.reload(); 
             }
 
             // Função para atualizar o texto de filtros aplicados

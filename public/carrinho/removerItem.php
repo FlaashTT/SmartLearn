@@ -1,5 +1,4 @@
 <?php
-session_start();
 include("../segurança.php");
 include("../../database/basedados.sql");
 

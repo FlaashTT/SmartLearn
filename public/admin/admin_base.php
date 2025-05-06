@@ -1,6 +1,6 @@
 <?php
-    include("../segurançaAdmin.php");
-    include("../../database/basedados.sql");
+include("segurançaAdmin.php");
+include("../../database/basedados.sql");
 ?>
 
 <!DOCTYPE html>
@@ -48,22 +48,82 @@
                     <div class="stats">
                         <div class="stat">
                             <i class="fas fa-book"></i>
-                            <span id="numCursos">0</span>
+                            <span id="numCursos">
+
+                                <?php
+                                $query = "SELECT COUNT(*) AS total FROM curso";
+                                $result = $conn->query($query);
+
+                                if ($result) {
+                                    $row = $result->fetch_assoc();
+                                    $total = $row['total'];
+                                    echo $total;
+                                } else {
+                                    echo "Erro ao contar cursos.";
+                                }
+                                ?>
+
+                            </span>
                             <p>Número de cursos</p>
                         </div>
                         <div class="stat">
                             <i class="fas fa-file-alt"></i>
-                            <span id="numCapitulos">0</span>
+                            <span id="numCapitulos">
+
+                                <?php
+                                $query = "SELECT COUNT(*) AS total FROM fase";
+                                $result = $conn->query($query);
+
+                                if ($result) {
+                                    $row = $result->fetch_assoc();
+                                    $total = $row['total'];
+                                    echo $total;
+                                } else {
+                                    echo "Erro ao contar capitulos.";
+                                }
+                                ?>
+
+                            </span>
                             <p>Número de capítulos</p>
                         </div>
                         <div class="stat">
                             <i class="fas fa-user-check"></i>
-                            <span id="numInscricoes">0</span>
+                            <span id="numInscricoes">
+
+                                <?php
+                                $query = "SELECT COUNT(*) AS total FROM cursos_adquiridos";
+                                $result = $conn->query($query);
+
+                                if ($result) {
+                                    $row = $result->fetch_assoc();
+                                    $total = $row['total'];
+                                    echo $total;
+                                } else {
+                                    echo "Erro ao contar inscrições.";
+                                }
+                                ?>
+
+                            </span>
                             <p>Número de inscrições</p>
                         </div>
                         <div class="stat">
                             <i class="fas fa-users"></i>
-                            <span id="numUtilizadores">0</span>
+                            <span id="numUtilizadores">
+
+                                <?php
+                                $query = "SELECT COUNT(*) AS total FROM user";
+                                $result = $conn->query($query);
+
+                                if ($result) {
+                                    $row = $result->fetch_assoc();
+                                    $total = $row['total'];
+                                    echo $total;
+                                } else {
+                                    echo "Erro ao contar utilizadores.";
+                                }
+                                ?>
+
+                            </span>
                             <p>Número de utilizadores</p>
                         </div>
                     </div>
@@ -88,7 +148,7 @@
             labels: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
             datasets: [{
                 label: 'Atividades Mensais',
-                data: [12, 19, 3, 5, 2, 3, 7, 10, 15, 8, 6, 9], // Dados do gráfico
+                data: [40, 19, 3, 5, 2, 3, 7, 10, 15, 8, 6, 9], // Dados do gráfico
                 backgroundColor: 'rgba(75, 192, 192, 0.2)',
                 borderColor: 'rgba(75, 192, 192, 1)',
                 borderWidth: 1
@@ -109,14 +169,12 @@
                 }
             }
         });
-
-        // Atualizar os números nos spans
-        document.getElementById('numCursos').textContent = data.datasets[0].data.reduce((a, b) => a + b, 0); // Soma total dos dados
-        document.getElementById('numCapitulos').textContent = 50; // Exemplo de valor fixo
-        document.getElementById('numInscricoes').textContent = 120; // Exemplo de valor fixo
-        document.getElementById('numUtilizadores').textContent = 300; // Exemplo de valor fixo
-    </script>
-    </script>
+        /*
+               // Atualizar os números nos spans
+               document.getElementById('numCursos').textContent = data.datasets[0].data.reduce((a, b) => a + b, 0); // Soma total dos dados
+               document.getElementById('numCapitulos').textContent = 50; // Exemplo de valor fixo
+               document.getElementById('numInscricoes').textContent = 120; // Exemplo de valor fixo
+               document.getElementById('numUtilizadores').textContent = 300; // Exemplo de valor fixo*/
     </script>
 </body>
 
