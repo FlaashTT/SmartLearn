@@ -47,24 +47,14 @@ include("../../database/basedados.sql");
                     <section class="page">
                         <div id="formCategoria" style="display: none;">
                             <h2>Formulário de Adição de uma categorias</h2>
-                            <form class="form-content">
+                            <form class="form-content" method="POST" action="acoes/adicionarCategoria.php">
                                 <div class="form-group">
                                     <label for="titulo">Título da Categoria</label>
-                                    <input type="text" id="titulo" placeholder="Digite o título do curso" required />
-                                </div>
-                                <div class="form-group">
-                                    <label for="categorias">Tipo de categoria</label>
-                                    <select id="categorias">
-                                        <option>Selecione</option>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label for="descricao-curta">Selector de ícones</label>
-                                    <input type="text" id="descricao-curta" placeholder="Digite uma pequena descrição" required />
+                                    <input type="text" name="nome_categoria" id="titulo" placeholder="Digite o título do curso" required />
                                 </div>
                                 <div class="form-group">
                                     <label for="miniatura">Miniatura da categoria <span>(O tamanho da imagem deve ser 400 x 255)</span></label>
-                                    <input type="file" id="miniatura" required />
+                                    <input type="file" name="miniatura_cat" id="miniatura"  accept=".jpg, .jpeg, .png">
                                 </div>
                                 <div class="form-buttons">
                                     <button type="submit" class="btn-enviar">Enviar</button>
@@ -99,7 +89,7 @@ include("../../database/basedados.sql");
                                     echo '
                                         <div class="card">
                                             <div class="card-image">
-                                                <img src="/assets/image/'.$row[''].'" alt="Curso" />
+                                                <img src="../../assets/image/miniatura_cat/'.$row['Miniatura_cat'].'" alt="Imagem não encontrada" />
                                             </div>
                                             <div class="card-content">
                                                 <div class="card-header">

@@ -133,7 +133,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                         // Agora insere a nova imagem e atualiza a base de dados
                         inserirImagem($conn, $idUser);
-                        
                     } else {
                         echo "<script>alert('Erro ao remover a imagem antiga!');</script>";
                     }
@@ -169,10 +168,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </script>";
                 $erro = true;
             } else {
-                $passantigaBD = $row['Password']; 
+                $passantigaBD = $row['Password'];
 
                 if (hash('sha256', $_POST['OldPass']) == $passantigaBD) {
-                   
+
                     $password = hash('sha256', $_POST['novaPass']);
 
                     // Atualizar na BD
