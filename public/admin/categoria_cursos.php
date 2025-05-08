@@ -75,96 +75,65 @@ include("../../database/basedados.sql");
                         </div>
 
                         <section class="card-container">
-                            <div class="card">
-                                <div class="card-image">
-                                    <img src="/assets/image/Curso.png" alt="Curso" />
-                                </div>
-                                <div class="card-content">
-                                    <div class="card-header">
-                                        <h3><i class="fas fa-book"></i> Tecnologia</h3>
-                                        <p>2 Subcategorias</p>
-                                    </div>
-                                </div>
-                                <div class="card-footer">
-                                    <button class="btn edit-btn">Editar</button>
-                                    <button class="btn delete-btn">Apagar</button>
-                                </div>
-                            </div>
-                            <div class="card">
-                                <div class="card-image">
-                                    <img src="/assets/image/Curso.png" alt="Curso" />
-                                </div>
-                                <div class="card-content">
-                                    <div class="card-header">
-                                        <h3><i class="fas fa-book"></i> Tecnologia</h3>
-                                        <p>2 Subcategorias</p>
-                                    </div>
-                                </div>
-                                <div class="card-footer">
-                                    <button class="btn edit-btn">Editar</button>
-                                    <button class="btn delete-btn">Apagar</button>
-                                </div>
-                            </div>
-                            <div class="card">
-                                <div class="card-image">
-                                    <img src="/assets/image/Curso.png" alt="Curso" />
-                                </div>
-                                <div class="card-content">
-                                    <div class="card-header">
-                                        <h3><i class="fas fa-book"></i> Tecnologia</h3>
-                                        <p>2 Subcategorias</p>
-                                    </div>
-                                </div>
-                                <div class="card-footer">
-                                    <button class="btn edit-btn">Editar</button>
-                                    <button class="btn delete-btn">Apagar</button>
-                                </div>
-                            </div>
-                            <div class="card">
-                                <div class="card-image">
-                                    <img src="/assets/image/Curso.png" alt="Curso" />
-                                </div>
-                                <div class="card-content">
-                                    <div class="card-header">
-                                        <h3><i class="fas fa-book"></i> Tecnologia</h3>
-                                        <p>2 Subcategorias</p>
-                                    </div>
-                                </div>
-                                <div class="card-footer">
-                                    <button class="btn edit-btn">Editar</button>
-                                    <button class="btn delete-btn">Apagar</button>
-                                </div>
-                            </div>
-                            <div class="card">
-                                <div class="card-image">
-                                    <img src="/assets/image/Curso.png" alt="Curso" />
-                                </div>
-                                <div class="card-content">
-                                    <div class="card-header">
-                                        <h3><i class="fas fa-book"></i> Tecnologia</h3>
-                                        <p>2 Subcategorias</p>
-                                    </div>
-                                </div>
-                                <div class="card-footer">
-                                    <button class="btn edit-btn">Editar</button>
-                                    <button class="btn delete-btn">Apagar</button>
-                                </div>
-                            </div>
-                            <div class="card">
-                                <div class="card-image">
-                                    <img src="/assets/image/Curso.png" alt="Curso" />
-                                </div>
-                                <div class="card-content">
-                                    <div class="card-header">
-                                        <h3><i class="fas fa-book"></i> Tecnologia</h3>
-                                        <p>2 Subcategorias</p>
-                                    </div>
-                                </div>
-                                <div class="card-footer">
-                                    <button class="btn edit-btn">Editar</button>
-                                    <button class="btn delete-btn">Apagar</button>
-                                </div>
-                            </div>
+
+                            <?php
+                            $query = "SELECT * FROM categoria";
+                            $stmt = $conn->prepare($query);
+
+
+                            $stmt->execute();
+                            $result = $stmt->get_result();
+                            if ($result->num_rows > 0) {
+                                while ($row = $result->fetch_assoc()) {
+
+                                    $id_categoria = $row['Id_categoria'];
+
+                                    $queryFases = "SELECT COUNT(*) AS Total FROM categoria WHERE Id_categoria = $id_categoria";
+                                    $resultFases = $conn->query($queryFases);
+                                    $totalCursos = 0;
+
+                                    if ($resultFases && $dadosFase = $resultFases->fetch_assoc()) {
+                                        $totalCursos = $dadosFase['Total'];
+                                    }
+
+                                    echo '
+                                        <div class="card">
+                                            <div class="card-image">
+                                                <img src="/assets/image/'.$row[''].'" alt="Curso" />
+                                            </div>
+                                            <div class="card-content">
+                                                <div class="card-header">
+                                                    <h3><i class="fas fa-book"></i> ' . $row['Nome_cat'] . '</h3>
+                                                    ';
+                                                    switch($totalCursos){
+                                                        case 0:
+                                                            echo '<p style="color: red;">Nenhum curso associado</p>';
+                                                            break;
+                                                        case 1:
+                                                            echo '<p style="color: green;">1 Curso encontrado</p>';
+                                                            break;
+                                                        default:
+                                                            echo '<p style="color: blue;">' . $totalCursos . ' Cursos encontrados</p>';
+                                                            break;
+                                                    }
+                                    echo'
+                                                </div>
+                                            </div>
+                                            <div class="card-footer">
+                                                <button class="btn edit-btn">Editar</button>
+                                                <button class="btn delete-btn">Apagar</button>
+                                            </div>
+                                        </div>
+                                    ';
+                                }
+                            } else {
+                                echo "<p>Nenhuma categoria encontrada.</p>";
+                            }
+                            ?>
+
+
+
+
                         </section>
                     </section>
 

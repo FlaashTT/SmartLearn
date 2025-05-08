@@ -179,7 +179,7 @@ include("../../database/basedados.sql");
                                         <tr>
                                     <td>'.$row['Id_curso'].'</td>
                                     <td>'.$row['Nome_curso'].'</td>
-                                    <td>'.$row['Id_categoria'].'</td>
+                                    <td>fazer o selct da cat e por o nome</td>
                                     <td>'.$total.'</td>
                                     <td>'.$row['Estado_curso'].'</td>
                                     <td>'.$row['Preco'].'€</td>
