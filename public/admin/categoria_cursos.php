@@ -47,14 +47,14 @@ include("../../database/basedados.sql");
                     <section class="page">
                         <div id="formCategoria" style="display: none;">
                             <h2>Formulário de Adição de uma categorias</h2>
-                            <form class="form-content" method="POST" action="acoes/adicionarCategoria.php">
+                            <form class="form-content" method="POST" action="acoes/adicionarCategoria.php" enctype="multipart/form-data">
                                 <div class="form-group">
                                     <label for="titulo">Título da Categoria</label>
                                     <input type="text" name="nome_categoria" id="titulo" placeholder="Digite o título do curso" required />
                                 </div>
                                 <div class="form-group">
                                     <label for="miniatura">Miniatura da categoria <span>(O tamanho da imagem deve ser 400 x 255)</span></label>
-                                    <input type="file" name="miniatura_cat" id="miniatura"  accept=".jpg, .jpeg, .png">
+                                    <input  type="file" name="url_imagem" id="miniatura" accept=".jpg, .jpeg, .png">
                                 </div>
                                 <div class="form-buttons">
                                     <button type="submit" class="btn-enviar">Enviar</button>
@@ -78,7 +78,7 @@ include("../../database/basedados.sql");
 
                                     $id_categoria = $row['Id_categoria'];
 
-                                    $queryFases = "SELECT COUNT(*) AS Total FROM categoria WHERE Id_categoria = $id_categoria";
+                                    $queryFases = "SELECT COUNT(*) AS Total FROM curso WHERE Id_categoria = $id_categoria";
                                     $resultFases = $conn->query($queryFases);
                                     $totalCursos = 0;
 
@@ -89,29 +89,49 @@ include("../../database/basedados.sql");
                                     echo '
                                         <div class="card">
                                             <div class="card-image">
-                                                <img src="../../assets/image/miniatura_cat/'.$row['Miniatura_cat'].'" alt="Imagem não encontrada" />
+                                    ';
+
+                                    $sitioImagem = $row['Miniatura_cat'];
+                                    $caminhoImagem = "../../assets/image/miniatura_cat/" . $sitioImagem;
+
+                                    if (!empty($sitioImagem) && file_exists($caminhoImagem)) {
+                                        echo '<img src="' . $caminhoImagem . '" alt="Imagem da categoria">';
+                                    } else {
+                                        echo '<img src="../../assets/image/miniatura_cat/miniatura_default.png" alt="Imagem padrão">';
+                                    }
+
+
+                                    echo '
+
                                             </div>
                                             <div class="card-content">
                                                 <div class="card-header">
                                                     <h3><i class="fas fa-book"></i> ' . $row['Nome_cat'] . '</h3>
                                                     ';
-                                                    switch($totalCursos){
-                                                        case 0:
-                                                            echo '<p style="color: red;">Nenhum curso associado</p>';
-                                                            break;
-                                                        case 1:
-                                                            echo '<p style="color: green;">1 Curso encontrado</p>';
-                                                            break;
-                                                        default:
-                                                            echo '<p style="color: blue;">' . $totalCursos . ' Cursos encontrados</p>';
-                                                            break;
-                                                    }
-                                    echo'
+                                    switch ($totalCursos) {
+                                        case 0:
+                                            echo '<p style="color: red;">Nenhum curso associado</p>';
+                                            break;
+                                        case 1:
+                                            echo '<p style="color: green;">1 Curso encontrado</p>';
+                                            break;
+                                        default:
+                                            echo '<p style="color: blue;">' . $totalCursos . ' Cursos encontrados</p>';
+                                            break;
+                                    }
+                                    echo '
                                                 </div>
                                             </div>
                                             <div class="card-footer">
-                                                <button class="btn edit-btn">Editar</button>
-                                                <button class="btn delete-btn">Apagar</button>
+                                            <form action="acoes/editarCategoria.php" method="POST" >
+                                                <input type="hidden" name="idCategoria" value="' . $row['Id_categoria'] . '">
+                                                <button class="btn edit-btn" type="submit">Editar</button>
+                                            </form>
+
+                                            <form action="acoes/apagarCategoria.php" method="POST">
+                                                <input type="hidden" name="idCategoria" value="' . $row['Id_categoria'] . '">
+                                                <button class="btn delete-btn" type="submit">Apagar</button>
+                                            </form>
                                             </div>
                                         </div>
                                     ';

@@ -30,12 +30,38 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         if ($stmt->affected_rows > 0) {
             $novoId = $conn->insert_id;
-
             // Se foi enviada uma imagem válida
-            if (!empty($_FILES['miniatura_cat']['tmp_name'])) {
-                inserirImagem($conn, $novoId);
-            }
 
+
+           
+
+            if (!empty($_FILES['url_imagem']['name'])) {
+
+                // verificar se já existe imagem na base de dados
+                if (empty($row['URL_imagem_perfilUser'])) {
+                    inserirImagem($conn, $novoId);
+                } else {
+
+                    $file = "../../../assets/image/miniatura_cat/" . $novoId;
+
+                    if (file_exists($file)) {
+
+                        if (unlink($file)) {
+                            echo "<script>alert('Imagem antiga removida com sucesso.');</script>";
+                            inserirImagem($conn, $novoId);
+                        } else {
+                            echo "<script>alert('Erro ao remover a imagem antiga!');</script>";
+                        }
+                    } else {
+                        echo "<script>alert('Imagem antiga não encontrada.');</script>";
+                        $erro = true;
+                    }
+                }
+
+                $alteracaoFeita = true;
+            } else {
+                echo "<script>alert('Nenhuma imagem enviada pelo formulário!');</script>";
+            }
         } else {
             echo "<script>alert('Erro ao criar categoria.');</script>";
             $erro = true;
@@ -44,46 +70,52 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->close();
     }
 
-    if (!$erro) {
+    if ($erro) {
         echo "<script>window.location.href = '../categoria_cursos.php';</script>";
         exit;
     }
-
 } else {
     echo "<script>alert('Requisição inválida!'); window.location.href = '../categoria_cursos.php';</script>";
     exit;
 }
 
-function inserirImagem($conn, $novoId)
+function inserirImagem($conn, $idCategoria)
 {
-    $extensao = strtolower(pathinfo($_FILES["miniatura_cat"]["name"], PATHINFO_EXTENSION));
+    
 
+    $extensao = strtolower(pathinfo($_FILES["url_imagem"]["name"], PATHINFO_EXTENSION));
     $extensoes_permitidas = ['jpg', 'jpeg', 'png'];
-    $tipo_mime = mime_content_type($_FILES["miniatura_cat"]["tmp_name"]);
+    $tipo_mime = mime_content_type($_FILES["url_imagem"]["tmp_name"]);
     $mimes_permitidos = ['image/jpeg', 'image/png'];
 
     if (in_array($extensao, $extensoes_permitidas) && in_array($tipo_mime, $mimes_permitidos)) {
+       
 
-        $diretorio = "../../assets/image/miniatura_cat/";
-        $base_nome = "miniatura_" . $novoId;
+        $diretorio = "../../../assets/image/miniatura_cat/";
+        $base_nome = "miniatura_cat" . $idCategoria;
         $novo_nome = $base_nome . "." . $extensao;
         $destino = $diretorio . $novo_nome;
 
-        // Apagar versões anteriores com outras extensões
         foreach (['jpg', 'jpeg', 'png'] as $ext) {
             $possivel_arquivo = $diretorio . $base_nome . '.' . $ext;
             if (file_exists($possivel_arquivo)) {
                 unlink($possivel_arquivo);
             }
         }
-        echo"<script>console.log(".$novo_nome.");</script>";
-        if (move_uploaded_file($_FILES["miniatura_cat"]["tmp_name"], $destino)) {
-            // Atualizar o caminho da imagem na tabela categoria
-            $sql = "UPDATE categoria SET Imagem_cat = ? WHERE Id_cat = ?";
+
+        if (move_uploaded_file($_FILES["url_imagem"]["tmp_name"], $destino)) {
+            
+
+            $URL_foto = $novo_nome;
+            $sql = "UPDATE categoria SET Miniatura_cat = ? WHERE Id_categoria = ?";
             $stmt = $conn->prepare($sql);
-            $stmt->bind_param("si", $novo_nome, $novoId);
-            $stmt->execute();
-            $stmt->close();
+            $stmt->bind_param("si", $URL_foto, $idCategoria);
+
+            if ($stmt->execute()) {
+                $stmt->close();
+            } else {
+                echo "<script>alert('Erro ao atualizar o banco de dados!');</script>";
+            }
         } else {
             echo "<script>alert('Erro ao mover a imagem!');</script>";
         }
@@ -91,3 +123,4 @@ function inserirImagem($conn, $novoId)
         echo "<script>alert('Formato de imagem inválido. Apenas JPG, JPEG e PNG são permitidos.');</script>";
     }
 }
+
