@@ -30,9 +30,9 @@ include("../../database/basedados.sql");
     <div class="container-admin">
         <main class="container">
 
-        <?php
-        include("../../src/views/utils/sidebarAdmin.html");
-        ?>
+            <?php
+            include("../../src/views/utils/sidebarAdmin.html");
+            ?>
 
             <main class="container-page">
                 <section class="main-content" style="display: flex; align-items: center; justify-content: space-between;">
@@ -75,19 +75,29 @@ include("../../database/basedados.sql");
                             <div class="form-group">
                                 <label for="categorias">Categorias</label>
                                 <select id="categorias">
-                                    <option>Selecione</option>
+                                    <option disabled selected>Selecione</option>
+                                    <?php
+                                    $query = "SELECT * FROM categoria";
+                                    $result = mysqli_query($conn, $query);
+                                    while ($row = mysqli_fetch_assoc($result)) {
+                                        echo "<option value='" . $row['id'] . "'>" . $row['Nome_cat'] . "</option>";
+                                    }
+                                    ?>
                                 </select>
                             </div>
                             <div class="form-group">
                                 <label for="nivel">Nível</label>
                                 <select id="nivel">
-                                    <option>Selecione</option>
+                                    <option disabled selected>Selecione</option>
+                                    <option value="iniciante">Iniciante</option>
+                                    <option value="intermedio">Intermedio</option>
+                                    <option value="avancado">Avançado</option>
                                 </select>
                             </div>
                             <div class="form-group">
                                 <label for="linguagem">Linguagem feita em</label>
                                 <select id="linguagem">
-                                    <option>Selecione</option>
+                                    <option disabled selected>Selecione</option>
                                 </select>
                             </div>
                         </form>
@@ -152,7 +162,7 @@ include("../../database/basedados.sql");
                             <div class="form-group">
                                 <label for="linguagem">Provedor de visão geral do curso</label>
                                 <select id="linguagem">
-                                    <option>Selecione</option>
+                                    <option disabled selected>Selecione</option>
                                 </select>
                             </div>
                             <div class="form-group">

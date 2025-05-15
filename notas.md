@@ -32,7 +32,7 @@
 - style do modalEditarCategoria.php
 
 
-
+corrigir os idiomas da categoria.php(pagina de todos os cursos)
 
 
 
