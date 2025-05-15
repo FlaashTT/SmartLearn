@@ -29,6 +29,7 @@
 ## 📌 Para Fazer
 - [X] Sitio onde tem dados das respostas do forms de satisfação dos clientes
 
+- style do modalEditarCategoria.php
 
 
 

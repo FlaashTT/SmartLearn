@@ -1,7 +1,7 @@
 <?php
 
 include("../../../database/basedados.sql");
-
+include("inserirImagemCat.php");
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $erro = false;
 
@@ -40,6 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 // verificar se já existe imagem na base de dados
                 if (empty($row['URL_imagem_perfilUser'])) {
                     inserirImagem($conn, $novoId);
+                    echo "<script>window.location.href = '../categoria_cursos.php';</script>";
                 } else {
 
                     $file = "../../../assets/image/miniatura_cat/" . $novoId;
@@ -49,6 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         if (unlink($file)) {
                             echo "<script>alert('Imagem antiga removida com sucesso.');</script>";
                             inserirImagem($conn, $novoId);
+                            echo "<script>window.location.href = '../categoria_cursos.php';</script>";
                         } else {
                             echo "<script>alert('Erro ao remover a imagem antiga!');</script>";
                         }
@@ -79,48 +81,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     exit;
 }
 
-function inserirImagem($conn, $idCategoria)
-{
-    
 
-    $extensao = strtolower(pathinfo($_FILES["url_imagem"]["name"], PATHINFO_EXTENSION));
-    $extensoes_permitidas = ['jpg', 'jpeg', 'png'];
-    $tipo_mime = mime_content_type($_FILES["url_imagem"]["tmp_name"]);
-    $mimes_permitidos = ['image/jpeg', 'image/png'];
-
-    if (in_array($extensao, $extensoes_permitidas) && in_array($tipo_mime, $mimes_permitidos)) {
-       
-
-        $diretorio = "../../../assets/image/miniatura_cat/";
-        $base_nome = "miniatura_cat" . $idCategoria;
-        $novo_nome = $base_nome . "." . $extensao;
-        $destino = $diretorio . $novo_nome;
-
-        foreach (['jpg', 'jpeg', 'png'] as $ext) {
-            $possivel_arquivo = $diretorio . $base_nome . '.' . $ext;
-            if (file_exists($possivel_arquivo)) {
-                unlink($possivel_arquivo);
-            }
-        }
-
-        if (move_uploaded_file($_FILES["url_imagem"]["tmp_name"], $destino)) {
-            
-
-            $URL_foto = $novo_nome;
-            $sql = "UPDATE categoria SET Miniatura_cat = ? WHERE Id_categoria = ?";
-            $stmt = $conn->prepare($sql);
-            $stmt->bind_param("si", $URL_foto, $idCategoria);
-
-            if ($stmt->execute()) {
-                $stmt->close();
-            } else {
-                echo "<script>alert('Erro ao atualizar o banco de dados!');</script>";
-            }
-        } else {
-            echo "<script>alert('Erro ao mover a imagem!');</script>";
-        }
-    } else {
-        echo "<script>alert('Formato de imagem inválido. Apenas JPG, JPEG e PNG são permitidos.');</script>";
-    }
-}
 

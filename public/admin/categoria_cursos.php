@@ -1,6 +1,8 @@
 <?php
 include("segurançaAdmin.php");
 include("../../database/basedados.sql");
+$idCategoriaGlobal = "";
+
 ?>
 
 
@@ -54,7 +56,7 @@ include("../../database/basedados.sql");
                                 </div>
                                 <div class="form-group">
                                     <label for="miniatura">Miniatura da categoria <span>(O tamanho da imagem deve ser 400 x 255)</span></label>
-                                    <input  type="file" name="url_imagem" id="miniatura" accept=".jpg, .jpeg, .png">
+                                    <input type="file" name="url_imagem" id="miniatura" accept=".jpg, .jpeg, .png">
                                 </div>
                                 <div class="form-buttons">
                                     <button type="submit" class="btn-enviar">Enviar</button>
@@ -77,7 +79,7 @@ include("../../database/basedados.sql");
                                 while ($row = $result->fetch_assoc()) {
 
                                     $id_categoria = $row['Id_categoria'];
-
+                                    $idCategoriaGlobal = $id_categoria;
                                     $queryFases = "SELECT COUNT(*) AS Total FROM curso WHERE Id_categoria = $id_categoria";
                                     $resultFases = $conn->query($queryFases);
                                     $totalCursos = 0;
@@ -106,7 +108,7 @@ include("../../database/basedados.sql");
                                             </div>
                                             <div class="card-content">
                                                 <div class="card-header">
-                                                    <h3><i class="fas fa-book"></i> ' . $row['Nome_cat'] . '</h3>
+                                                    <h3><i class="fas fa-book"></i> ' . $row['Nome_cat'] . ' (' . $row['Id_categoria'] . ')</h3>
                                                     ';
                                     switch ($totalCursos) {
                                         case 0:
@@ -123,15 +125,14 @@ include("../../database/basedados.sql");
                                                 </div>
                                             </div>
                                             <div class="card-footer">
-                                            <form action="acoes/editarCategoria.php" method="POST" >
-                                                <input type="hidden" name="idCategoria" value="' . $row['Id_categoria'] . '">
-                                                <button class="btn edit-btn" type="submit">Editar</button>
+                                            <form action="acoes/modalEditarCategoria.php" method="POST">
+                                            
+                                                <button class="btn edit-btn" type="submit" name="Id_catEditar" value = "'.$row['Id_categoria'].'">Editar</button>
                                             </form>
+                                            
 
-                                            <form action="acoes/apagarCategoria.php" method="POST">
-                                                <input type="hidden" name="idCategoria" value="' . $row['Id_categoria'] . '">
                                                 <button class="btn delete-btn" type="submit">Apagar</button>
-                                            </form>
+                                            
                                             </div>
                                         </div>
                                     ';
@@ -147,33 +148,21 @@ include("../../database/basedados.sql");
                         </section>
                     </section>
 
-                    <!-- Modal para Editar -->
-                    <div id="editModal" class="modal" style="display: none;">
-                        <div class="modal-content">
-                            <h2>Editar Curso</h2>
-                            <form id="editForm">
-                                <label for="editTitle">Título do Curso:</label>
-                                <input type="text" id="editTitle" name="editTitle" required>
 
-                                <label for="editSubcategories">Subcategorias: </label>
-                                <div id="subcategoriesContainer">
-                                    <input type="text" id="editSubcategory1" name="editSubcategories[]" required>
-                                </div>
-                                <button type="button" id="addSubcategoryBtn" class="btn">Adicionar Subcategoria</button>
-
-                                <button type="submit" class="btn">Salvar</button>
-                                <button type="button" class="btn cancel-btn" onclick="closeModal('editModal')">Cancelar</button>
-                            </form>
-                        </div>
-                    </div>
-
+                    
                     <!-- Modal para Confirmar Exclusão -->
                     <div id="deleteModal" class="modal" style="display: none;">
                         <div class="modal-content">
-                            <h2>Confirmar Exclusão</h2>
-                            <p>Tem certeza de que deseja apagar este curso?</p>
-                            <button id="confirmDelete" class="btn delete-btn">Sim, Apagar</button>
-                            <button type="button" class="btn cancel-btn" onclick="closeModal('deleteModal')">Cancelar</button>
+
+                            <form action="acoes/apagarCategoria.php" method="POST">
+                                <input type="hidden" name="idCategoria" value="<?php echo $idCategoriaGlobal ?>">
+                                <h2>Confirmar Exclusão</h2>
+                                <p>Tem certeza de que deseja apagar este curso?</p>
+                                <button type="submit" id="confirmDelete" class="btn delete-btn">Sim, Apagar</button>
+                                <button type="button" class="btn cancel-btn" onclick="closeModal('deleteModal')">Cancelar</button>
+                            </form>
+
+
                         </div>
                     </div>
 
@@ -247,103 +236,6 @@ include("../../database/basedados.sql");
             function closeModal(modalId) {
                 document.getElementById(modalId).style.display = 'none';
             }
-
-            // Função para editar o card
-
-            document.querySelectorAll('.edit-btn').forEach((button) => {
-                button.addEventListener('click', (event) => {
-                    currentCard = event.target.closest('.card'); // Encontra o card correspondente
-                    const title = currentCard.querySelector('.card-header h3').textContent;
-                    const subcategories = currentCard.querySelector('.card-header p').textContent;
-
-                    // Preenche os campos do modal com os valores atuais
-                    document.getElementById('editTitle').value = title;
-
-                    // Preenche as subcategorias no modal de forma não editável
-                    const subcategoryContainer = document.getElementById('subcategoriesContainer');
-                    subcategoryContainer.innerHTML = ''; // Limpa as subcategorias existentes
-
-                    if (subcategories.trim() === '') {
-                        // Se não houver subcategorias, cria um input vazio
-                        const subcategoryInput = document.createElement('input');
-                        subcategoryInput.type = 'text';
-                        subcategoryInput.name = 'editSubcategories[]';
-                        subcategoryInput.required = true;
-                        subcategoryInput.placeholder = 'Nova Subcategoria';
-                        subcategoryContainer.appendChild(subcategoryInput);
-                    } else {
-                        subcategories.split(',').forEach((subcategory) => {
-                            const subcategoryElement = document.createElement('div');
-                            subcategoryElement.classList.add('subcategory');
-                            subcategoryElement.textContent = subcategory.trim();
-
-                            // Cria um botão de remoção para cada subcategoria
-                            const removeBtn = document.createElement('button');
-                            removeBtn.textContent = 'Remover';
-                            removeBtn.type = 'button';
-                            removeBtn.classList.add('remove-btn');
-                            removeBtn.addEventListener('click', () => {
-                                subcategoryElement.remove(); // Remove a subcategoria ao clicar no botão
-                                updateSubcategoriesInCard(); // Atualiza o card após a remoção
-                            });
-
-                            // Adiciona o botão de remoção ao lado da subcategoria
-                            subcategoryElement.appendChild(removeBtn);
-                            subcategoryContainer.appendChild(subcategoryElement);
-                        });
-                    }
-
-                    openModal('editModal'); // Abre o modal de edição
-                });
-            });
-
-            // Função para atualizar o card após a remoção de subcategorias
-            function updateSubcategoriesInCard() {
-                const subcategoryContainer = document.getElementById('subcategoriesContainer');
-                const subcategories = Array.from(subcategoryContainer.querySelectorAll('input')).map(input => input.value).join(', ');
-
-                // Atualiza o card com as subcategorias restantes
-                currentCard.querySelector('.card-header p').textContent = subcategories;
-
-                // Se não houver subcategorias, adiciona o campo de input para nova subcategoria
-                if (subcategories.trim() === '') {
-                    const subcategoryInput = document.createElement('input');
-                    subcategoryInput.type = 'text';
-                    subcategoryInput.name = 'editSubcategories[]';
-                    subcategoryInput.required = true;
-                    subcategoryInput.placeholder = 'Nova Subcategoria';
-                    subcategoryContainer.appendChild(subcategoryInput);
-                }
-            }
-
-            // Adicionar subcategoria dinamicamente
-            document.getElementById('addSubcategoryBtn').addEventListener('click', () => {
-                // Cria um novo campo de input para subcategoria
-                const subcategoryInput = document.createElement('input');
-                subcategoryInput.type = 'text';
-                subcategoryInput.name = 'editSubcategories[]';
-                subcategoryInput.required = true;
-                subcategoryInput.placeholder = 'Nova Subcategoria';
-
-                // Adiciona o novo campo de input ao contêiner de subcategorias
-                const subcategoryContainer = document.getElementById('subcategoriesContainer');
-                subcategoryContainer.appendChild(subcategoryInput); // Em vez de limpar, apenas adiciona o novo input
-            });
-
-            // Salvar alterações no modal de edição
-            document.getElementById('editForm').addEventListener('submit', (event) => {
-                event.preventDefault(); // Evita o envio do formulário
-                const newTitle = document.getElementById('editTitle').value;
-
-                // Recolher as subcategorias após a adição
-                const subcategories = Array.from(document.querySelectorAll('#subcategoriesContainer input')).map(input => input.value).join(', ');
-
-                // Atualiza os valores no card
-                currentCard.querySelector('.card-header h3').textContent = newTitle;
-                currentCard.querySelector('.card-header p').textContent = subcategories;
-
-                closeModal('editModal'); // Fecha o modal
-            });
         </script>
 
 
