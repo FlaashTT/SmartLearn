@@ -17,7 +17,7 @@
   _Localização do ficheiro:_  
   - `src\views\layout\admin\layout.....`
 
-
+ 
 ---
 ## 🔧 Em Progresso
 - **Criacão da pagina gerenciamento perfil**
