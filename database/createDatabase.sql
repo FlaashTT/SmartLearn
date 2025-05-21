@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 08-Maio-2025 às 17:01
+-- Tempo de geração: 21-Maio-2025 às 18:43
 -- Versão do servidor: 10.4.32-MariaDB
 -- versão do PHP: 8.2.12
 
@@ -54,10 +54,7 @@ CREATE TABLE `categoria` (
 --
 
 INSERT INTO `categoria` (`Id_categoria`, `Nome_cat`, `Num_visitasCat`, `Quantidade_cursos`, `Miniatura_cat`) VALUES
-(1, 'tecnologia', 0, 1, 'miniatura_default.png	'),
-(2, 'Teste', 0, 0, 'miniatura_default.png	'),
-(13, 'gch', 0, 0, ''),
-(14, 'hv', 0, 0, '');
+(1, 'tecnologia', 0, 1, '');
 
 -- --------------------------------------------------------
 
@@ -82,7 +79,8 @@ CREATE TABLE `configuracoes_site` (
 CREATE TABLE `curso` (
   `Id_curso` int(11) NOT NULL,
   `Nome_curso` varchar(40) NOT NULL,
-  `Id_categoria` int(11) NOT NULL,
+  `Id_categoria` int(11) DEFAULT NULL,
+  `Id_idioma` int(11) NOT NULL,
   `Criador_curso` int(11) NOT NULL,
   `Data_criacao` date NOT NULL DEFAULT '2025-01-01',
   `URL_foto_perfil_curso` varchar(100) DEFAULT NULL,
@@ -95,7 +93,6 @@ CREATE TABLE `curso` (
   `Num_visitascurso` int(11) DEFAULT 0,
   `Tempo_estimado` time NOT NULL,
   `Dificuldade` enum('Iniciante','intermedio','avançado') NOT NULL,
-  `Idioma_principal` enum('Português','Ingles','espanhol') NOT NULL,
   `Quantidade_fases` int(11) NOT NULL DEFAULT 0,
   `Requisitos` varchar(100) NOT NULL,
   `Provedor_geral_curso` enum('youtube','tiktok','instagram','linkedin') DEFAULT NULL,
@@ -107,10 +104,10 @@ CREATE TABLE `curso` (
 -- Extraindo dados da tabela `curso`
 --
 
-INSERT INTO `curso` (`Id_curso`, `Nome_curso`, `Id_categoria`, `Criador_curso`, `Data_criacao`, `URL_foto_perfil_curso`, `Pequena_descricao`, `Descricao`, `Preco`, `Preco_antigo`, `Estado_curso`, `Classificacao`, `Num_visitascurso`, `Tempo_estimado`, `Dificuldade`, `Idioma_principal`, `Quantidade_fases`, `Requisitos`, `Provedor_geral_curso`, `URL_geral_curso`, `Keywords`) VALUES
-(2, 'Curso de Programação', 2, 14, '2025-04-01', 'capa_curso.png', 'Curso básico de programação', 'Aprenda os fundamentos da programação', 19.99, 25.00, 'ativo', 0, 100, '01:30:00', 'Iniciante', 'Português', 10, 'Nenhum', 'youtube', NULL, 'programação, iniciante, código'),
-(3, 'Nome do Curso ', 1, 32, '2025-04-08', 'capa_curso.png', 'Pequena descrição do curso', 'Descrição completa do curso com todos os detalhes.', 99.99, 0.00, 'ativo', 1, 150, '17:00:10', 'intermedio', 'Português', 5, 'Requisitos básicos de informática', '', 'http://exemplo.com/curso', 'exemplo, curso, online'),
-(4, 'teste ', 2, 32, '2025-04-08', 'capa_curso.png', 'Pequena descrição do cursoPequena descrição do cursoPequena descrição do cursoPequena descrição do c', 'Este curso fornece uma introdução abrangente aos princípios da cibersegurança. Os formandos irão aprender sobre ameaças, vulnerabilidades, e mecanismos de defesa. A formação também aborda práticas de segurança pessoal e empresarial, políticas de segurança, e muito mais. Ideal para quem pretende iniciar carreira na área ou reforçar conhecimentos existentes. A conclusão bem-sucedida deste curso confere um certificado de participação.', 99.99, 0.00, 'ativo', 5, 150, '00:00:10', 'avançado', 'Ingles', 5, 'Requisitos básicos de informática', '', 'http://exemplo.com/curso', 'exemplo, curso, online');
+INSERT INTO `curso` (`Id_curso`, `Nome_curso`, `Id_categoria`, `Id_idioma`, `Criador_curso`, `Data_criacao`, `URL_foto_perfil_curso`, `Pequena_descricao`, `Descricao`, `Preco`, `Preco_antigo`, `Estado_curso`, `Classificacao`, `Num_visitascurso`, `Tempo_estimado`, `Dificuldade`, `Quantidade_fases`, `Requisitos`, `Provedor_geral_curso`, `URL_geral_curso`, `Keywords`) VALUES
+(2, 'Curso de Programação', NULL, 2, 14, '2025-04-01', 'capa_curso.png', 'Curso básico de programação', 'Aprenda os fundamentos da programação', NULL, 25.00, 'ativo', 0, 100, '01:30:00', 'Iniciante', 10, 'Nenhum', 'youtube', NULL, 'programação, iniciante, código'),
+(3, 'Nome do Curso ', 1, 1, 32, '2025-04-08', 'capa_curso.png', 'Pequena descrição do curso', 'Descrição completa do curso com todos os detalhes.', 99.99, 0.00, 'ativo', 1, 150, '17:00:10', 'intermedio', 5, 'Requisitos básicos de informática', '', 'http://exemplo.com/curso', 'exemplo, curso, online'),
+(4, 'teste ', NULL, 2, 32, '2025-04-08', 'capa_curso.png', 'Pequena descrição do cursoPequena descrição do cursoPequena descrição do cursoPequena descrição do c', 'Este curso fornece uma introdução abrangente aos princípios da cibersegurança. Os formandos irão aprender sobre ameaças, vulnerabilidades, e mecanismos de defesa. A formação também aborda práticas de segurança pessoal e empresarial, políticas de segurança, e muito mais. Ideal para quem pretende iniciar carreira na área ou reforçar conhecimentos existentes. A conclusão bem-sucedida deste curso confere um certificado de participação.', 99.99, 0.00, 'ativo', 5, 150, '00:00:10', 'avançado', 5, 'Requisitos básicos de informática', '', 'http://exemplo.com/curso', 'exemplo, curso, online');
 
 -- --------------------------------------------------------
 
@@ -200,6 +197,26 @@ INSERT INTO `historico_compras` (`Id_historicoCompras`, `Id_user`, `Data_compra`
 (9, 32, '2025-04-16', 'reembolsado', 3),
 (10, 32, '2025-04-16', 'carteira', 4),
 (11, 32, '2025-05-06', 'carteira', 3);
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `idioma`
+--
+
+CREATE TABLE `idioma` (
+  `Id_idioma` int(11) NOT NULL,
+  `Nome_idioma` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Extraindo dados da tabela `idioma`
+--
+
+INSERT INTO `idioma` (`Id_idioma`, `Nome_idioma`) VALUES
+(1, 'Português'),
+(2, 'Ingles'),
+(3, 'Espanhol');
 
 -- --------------------------------------------------------
 
@@ -366,7 +383,8 @@ ALTER TABLE `configuracoes_site`
 ALTER TABLE `curso`
   ADD PRIMARY KEY (`Id_curso`),
   ADD KEY `Id_categoria` (`Id_categoria`),
-  ADD KEY `Criador_curso` (`Criador_curso`);
+  ADD KEY `Criador_curso` (`Criador_curso`),
+  ADD KEY `fk_idioma` (`Id_idioma`);
 
 --
 -- Índices para tabela `cursos_adquiridos`
@@ -396,6 +414,12 @@ ALTER TABLE `historico_compras`
   ADD PRIMARY KEY (`Id_historicoCompras`),
   ADD KEY `Id_user` (`Id_user`),
   ADD KEY `fk_id_curso` (`Id_curso`);
+
+--
+-- Índices para tabela `idioma`
+--
+ALTER TABLE `idioma`
+  ADD PRIMARY KEY (`Id_idioma`);
 
 --
 -- Índices para tabela `logs_sistema`
@@ -457,7 +481,7 @@ ALTER TABLE `carrinho_compras`
 -- AUTO_INCREMENT de tabela `categoria`
 --
 ALTER TABLE `categoria`
-  MODIFY `Id_categoria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `Id_categoria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT de tabela `configuracoes_site`
@@ -482,6 +506,12 @@ ALTER TABLE `fase`
 --
 ALTER TABLE `historico_compras`
   MODIFY `Id_historicoCompras` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+
+--
+-- AUTO_INCREMENT de tabela `idioma`
+--
+ALTER TABLE `idioma`
+  MODIFY `Id_idioma` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de tabela `logs_sistema`
@@ -535,6 +565,13 @@ ALTER TABLE `user`
 ALTER TABLE `carrinho_compras`
   ADD CONSTRAINT `carrinho_compras_ibfk_1` FOREIGN KEY (`Id_user`) REFERENCES `user` (`Id_user`),
   ADD CONSTRAINT `carrinho_compras_ibfk_2` FOREIGN KEY (`Id_curso`) REFERENCES `curso` (`Id_curso`);
+
+--
+-- Limitadores para a tabela `curso`
+--
+ALTER TABLE `curso`
+  ADD CONSTRAINT `fk_categoria` FOREIGN KEY (`Id_categoria`) REFERENCES `categoria` (`Id_categoria`),
+  ADD CONSTRAINT `fk_idioma` FOREIGN KEY (`Id_idioma`) REFERENCES `idioma` (`Id_idioma`);
 
 --
 -- Limitadores para a tabela `cursos_adquiridos`
