@@ -50,7 +50,7 @@ include("../../database/basedados.sql");
                             <i class="fas fa-book"></i>
                             <span>
 
-                            <?php
+                                <?php
                                 $query = "SELECT COUNT(*) AS total FROM curso WHERE Estado_curso = 'ativo'";
                                 $result = $conn->query($query);
 
@@ -70,7 +70,7 @@ include("../../database/basedados.sql");
                             <i class="fas fa-file-alt"></i>
                             <span>
 
-                            <?php
+                                <?php
                                 $query = "SELECT COUNT(*) AS total FROM curso WHERE Estado_curso != 'pendente'";
                                 $result = $conn->query($query);
 
@@ -90,7 +90,7 @@ include("../../database/basedados.sql");
                             <i class="fas fa-user-check"></i>
                             <span>
 
-                            <?php
+                                <?php
                                 $query = "SELECT COUNT(*) AS total FROM curso WHERE Preco = 0 OR Preco IS NULL";
                                 $result = $conn->query($query);
 
@@ -109,8 +109,8 @@ include("../../database/basedados.sql");
                         <div class="stat">
                             <i class="fas fa-users"></i>
                             <span>
-                                
-                            <?php
+
+                                <?php
                                 $query = "SELECT COUNT(*) AS total FROM curso WHERE Preco > 0";
                                 $result = $conn->query($query);
 
@@ -163,44 +163,78 @@ include("../../database/basedados.sql");
                             </tr>
                         </thead>
                         <tbody>
-                            
-
-                                <?php
-                                $query = "SELECT * FROM curso";
-                                $stmt = $conn->prepare($query);
 
 
-                                $stmt->execute();
-                                $result = $stmt->get_result();
-                                if ($result->num_rows > 0) {
-                                    $total = 0;
-                                    while ($row = $result->fetch_assoc()) {
-                                        echo '
+                            <?php
+                            $query = "SELECT * FROM curso";
+                            $stmt = $conn->prepare($query);
+
+
+                            $stmt->execute();
+                            $result = $stmt->get_result();
+                            if ($result->num_rows > 0) {
+                                $total = 0;
+                                while ($row = $result->fetch_assoc()) {
+
+                                    //select da categoria
+                                    if (isset($row['Id_categoria']) && !empty($row['Id_categoria'])) {
+                                        $stmtCategoria = $conn->prepare("SELECT Nome_cat FROM categoria WHERE Id_categoria = ?");
+                                        $stmtCategoria->bind_param("i", $row['Id_categoria']);
+                                        $stmtCategoria->execute();
+                                        $resultCategoria = $stmtCategoria->get_result();
+
+                                        if ($resultCategoria->num_rows > 0) {
+                                            $rowCategoria = $resultCategoria->fetch_assoc();
+                                            $Categoria = $rowCategoria['Nome_cat'];
+                                        } else {
+                                            $Categoria = "Categoria não encontrada";
+                                        }
+                                    } else {
+                                        $Categoria = "Sem categoria";
+
+
+                                    }
+
+
+
+                                    //para contagem o numero de utilizadores com curso comprado 
+                                    $stmtContagem = $conn->prepare("SELECT COUNT(*) AS total FROM cursos_adquiridos WHERE Id_curso = ?");
+                                    $stmtContagem->bind_param("i", $row['Id_curso']);
+                                    $stmtContagem->execute();
+                                    $resultContagem = $stmtContagem->get_result();
+                                    $rowContagem = $resultContagem->fetch_assoc();
+
+                                    $total = $rowContagem['total'];
+
+
+
+
+                                    echo '
                                         <tr>
-                                    <td>'.$row['Id_curso'].'</td>
-                                    <td>'.$row['Nome_curso'].'</td>
-                                    <td>fazer o selct da cat e por o nome</td>
-                                    <td>'.$total.'</td>
-                                    <td>'.$row['Estado_curso'].'</td>
-                                    <td>'.$row['Preco'].'€</td>
+                                    <td>' . $row['Id_curso'] . '</td>
+                                    <td>' . $row['Nome_curso'] . '</td>
+                                    <td>' . $Categoria . '</td>
+                                    <td>' . $total . '</td>
+                                    <td>' . $row['Estado_curso'] . '</td>
+                                    <td>' . (empty($row['Preco']) || $row['Preco'] == 0 ? 'Gratuito' : $row['Preco'] . '€') . '</td>
                                     <td onclick="mostrarInfo(' . $row['Id_curso'] . ')" style="cursor: pointer;" >Ver detalhes curso</td>
                                     </tr>
                                 ';
-                                    }
-                                } else {
-                                    
-                                    echo '
+                                }
+                            } else {
+
+                                echo '
                                     <tr>
                                     <td colspan="7">Nenhum dado inserido</td>
                                     </tr>';
-                                }
-                                ?>
+                            }
+                            ?>
 
 
 
 
 
-                            
+
                         </tbody>
                     </table>
                     <div class="pagination">

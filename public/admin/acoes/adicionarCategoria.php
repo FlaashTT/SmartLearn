@@ -33,14 +33,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Se foi enviada uma imagem válida
 
 
-           
+
 
             if (!empty($_FILES['url_imagem']['name'])) {
 
                 // verificar se já existe imagem na base de dados
                 if (empty($row['URL_imagem_perfilUser'])) {
                     inserirImagem($conn, $novoId);
-                    echo "<script>window.location.href = '../categoria_cursos.php';</script>";
+
+                    caminho();
                 } else {
 
                     $file = "../../../assets/image/miniatura_cat/" . $novoId;
@@ -50,7 +51,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         if (unlink($file)) {
                             echo "<script>alert('Imagem antiga removida com sucesso.');</script>";
                             inserirImagem($conn, $novoId);
-                            echo "<script>window.location.href = '../categoria_cursos.php';</script>";
+
+                            caminho();
                         } else {
                             echo "<script>alert('Erro ao remover a imagem antiga!');</script>";
                         }
@@ -62,7 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                 $alteracaoFeita = true;
             } else {
-                echo "<script>alert('Nenhuma imagem enviada pelo formulário!');</script>";
+                caminho();
             }
         } else {
             echo "<script>alert('Erro ao criar categoria.');</script>";
@@ -73,13 +75,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     if ($erro) {
-        echo "<script>window.location.href = '../categoria_cursos.php';</script>";
-        exit;
+        caminho();
     }
 } else {
-    echo "<script>alert('Requisição inválida!'); window.location.href = '../categoria_cursos.php';</script>";
+    echo "<script>alert('Requisição inválida!'); 
+    
+    </script>";
+    caminho();
     exit;
 }
 
-
-
+function caminho()
+{
+    echo "<script>window.location.href = '../categoria_cursos.php';</script>";
+    exit;
+}

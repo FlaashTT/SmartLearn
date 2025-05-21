@@ -110,35 +110,42 @@ include("../database/basedados.sql");
                         Idioma do Curso <i class="fas fa-chevron-up"></i>
                     </button>
                     <div class="filtro-conteudo">
-                        <form method="GET" id="filtroForm">
-                            <label>
-                                <?php
 
-                                $total = contarValores($conn, "curso", "Idioma_principal = 'Português'");
+                        <?php
+                        $stmt = $conn->prepare("
+                                Select * from idioma ;
+                            ");
+                        $stmt->execute();
+                        $result = $stmt->get_result();
+                        if ($result->num_rows > 0) {
+                            echo '<form method="GET" id="filtroForm">';
+                            echo '<p id="mensagemErro" style="display: none; color: red;">Nome inválido</p>';
+
+                            while ($row = $result->fetch_assoc()) {
+                                $total = contarValores($conn, "curso", "Id_idioma = '" . $row['Id_idioma'] . "'");
                                 $desabilitar = ($total == 0 || empty($total)) ? 'disabled' : '';
-                                ?>
-                                <input type="checkbox" name="idioma[]" value="português" onchange="efetuarPesquisa(this,'idioma_português')"
-                                    <?php
-                                    echo $desabilitar; ?> />
-                                Português
-                                <span>(<?php echo ($total == 0 || empty($total)) ? '0' : $total; ?>)</span>
-                            </label>
 
-                            <label>
-                                <?php
+                                echo '
+                                    <label>
+                                        <input type="checkbox" name="idioma[]" value="' . $row['Nome_idioma'] . '" onchange="efetuarPesquisa(this,\'idioma_'.$row['Nome_idioma'].'\')" ' . $desabilitar . ' />
+                                        ' . $row['Nome_idioma'] . '
+                                        <span>(' . (($total == 0 || empty($total)) ? '0' : $total) . ')</span>
+                                    </label>
+                                    ';
+                            }
+                            echo '</form>';
+                        } else {
+                            echo " <label> Sem categorias disponiveis <span></span></label>";
+                        }
 
-                                $total = contarValores($conn, "curso", "Idioma_principal = 'ingles'");
-                                $desabilitar = ($total == 0 || empty($total)) ? 'disabled' : '';
-                                ?>
-                                <input type="checkbox" name="idioma[]" value="ingles" onchange="efetuarPesquisa(this,'idioma_ingles')"
-                                    <?php echo $desabilitar; ?> />
-                                Inglês <span>(<?php echo ($total == 0 || empty($total)) ? '0' : $total; ?>)</span>
-                            </label>
-                        </form>
+                        ?>
+
+
+
+
                     </div>
 
                 </div>
-
                 <hr />
 
 
@@ -544,9 +551,10 @@ include("../database/basedados.sql");
                         $stmt->bind_param("s", $searchParam);
                     } else {
 
-                        $query = "SELECT curso.*, categoria.* 
+                        $query = "SELECT curso.*, categoria.*, idioma.Nome_idioma 
                                     FROM curso 
                                     INNER JOIN categoria ON curso.Id_categoria = categoria.Id_categoria 
+                                    INNER JOIN idioma ON curso.Id_idioma = idioma.Id_idioma 
                                     ORDER BY $orderBy";
                         $stmt = $conn->prepare($query);
                     }
@@ -559,7 +567,7 @@ include("../database/basedados.sql");
 
                             echo '
                                     <div class="course-card produto"
-                                        data-idioma="' . strtolower($row['Idioma_principal']) . '" 
+                                        data-idioma="' . $row['Nome_idioma'] . '" 
                                         data-desconto="' . (
                                 $row['Preco_antigo'] != null && $row['Preco_antigo'] != 0 && $row['Preco_antigo'] > $row['Preco']
                                 ? 'comDesconto'
@@ -639,7 +647,7 @@ include("../database/basedados.sql");
                                             <span class="difficulty">Dificuldade: <strong>' . $row['Dificuldade'] . '</strong></span>
                                         </div>
                                         <div class="course-difficulty-language">
-                                            <span class="language">Idioma: <strong>' . $row['Idioma_principal'] . '</strong></span>
+                                            <span class="language">Idioma: <strong>' . $row['Nome_idioma'] . '</strong></span>
                                         </div>
                                         
                                         <div class="course-price ">
@@ -809,7 +817,7 @@ include("../database/basedados.sql");
                 atualizarTextoFiltros();
 
                 // Dá refresh na página para mostrar todos os cursos
-                location.reload(); 
+                location.reload();
             }
 
             // Função para atualizar o texto de filtros aplicados

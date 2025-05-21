@@ -98,7 +98,7 @@ window.efetuarPesquisa = function (el, tipo) {
 
     // Loop para verificar as condições dos filtros
     produtos.forEach(function (produto) {
-        const idioma = produto.getAttribute("data-idioma").toLowerCase();
+        const idioma = produto.getAttribute("data-idioma");
         const desconto = produto.getAttribute("data-desconto");
         const dificuldade = produto.getAttribute("data-dificuldade");
         const duracao = produto.getAttribute("data-duracao");

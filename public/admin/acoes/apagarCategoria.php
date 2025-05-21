@@ -24,33 +24,37 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $erro = true;
     }
 
+
     $imagem = "../../../assets/image/miniatura_cat/" . $urlMiniaturaAntiga;
-    if (unlink($imagem)) {
-        //remover a categoria dos cursos associado ha mesma
-        $sql = "UPDATE curso SET Id_categoria = '' WHERE Id_categoria = ?";
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("i", $id_categoria);
-
-        if ($stmt->execute()) {
-
-
-            //eliminar a categoria
-            $sql = "DELETE FROM categoria WHERE Id_categoria = ?";
-            $stmt = $conn->prepare($sql);
-            $stmt->bind_param("i", $id_categoria);
-            $stmt->execute();
-            if ($stmt->affected_rows > 0) {
-
-                echo "<script>alert('Categoria eliminada com sucesso!');</script>";
-                caminho();
-            } else {
-                $textoErro = "Erro ao eliminar categoria!";
+    if (!empty($urlMiniaturaAntiga)) {
+        if (file_exists($imagem)) {
+            if (!unlink($imagem)) {
+                $textoErro = "Erro ao remover a imagem da categoria!";
                 $erro = true;
             }
         }
-    } else {
-        $textoErro = "Erro ao remover a categoria da base de dados!";
-        $erro = true;
+    }
+    //remover a categoria dos cursos associado ha mesma
+    $sql = "UPDATE curso SET Id_categoria = Null WHERE Id_categoria = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $id_categoria);
+
+    if ($stmt->execute()) {
+
+
+        //eliminar a categoria
+        $sql = "DELETE FROM categoria WHERE Id_categoria = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("i", $id_categoria);
+        $stmt->execute();
+        if ($stmt->affected_rows > 0) {
+
+            echo "<script>alert('Categoria eliminada com sucesso!');</script>";
+            caminho();
+        } else {
+            $textoErro = "Erro ao eliminar categoria!";
+            $erro = true;
+        }
     }
 } else {
     echo "<script>alert('Método de requisição inválido!');</script>";

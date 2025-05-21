@@ -32,7 +32,12 @@
 - style do modalEditarCategoria.php
 
 
-corrigir os idiomas da categoria.php(pagina de todos os cursos)
+provedores possiveis(pensar mais)
+pessoal(dado pelo proprio criador)
+youtube
+facebook
+outros
+
 
 
 

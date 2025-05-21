@@ -127,7 +127,7 @@ $idCategoriaGlobal = "";
                                             <div class="card-footer">
                                             <form action="acoes/modalEditarCategoria.php" method="POST">
                                             
-                                                <button class="btn edit-btn" type="submit" name="Id_catEditar" value = "'.$row['Id_categoria'].'">Editar</button>
+                                                <button class="btn edit-btn" type="submit" name="Id_catEditar" value = "' . $row['Id_categoria'] . '">Editar</button>
                                             </form>
                                             
 
@@ -149,7 +149,7 @@ $idCategoriaGlobal = "";
                     </section>
 
 
-                    
+
                     <!-- Modal para Confirmar Exclusão -->
                     <div id="deleteModal" class="modal" style="display: none;">
                         <div class="modal-content">
@@ -159,8 +159,10 @@ $idCategoriaGlobal = "";
                                 <h2>Confirmar Exclusão</h2>
                                 <p>Tem certeza de que deseja apagar este curso?</p>
                                 <button type="submit" id="confirmDelete" class="btn delete-btn">Sim, Apagar</button>
+
                                 <button type="button" class="btn cancel-btn" onclick="closeModal('deleteModal')">Cancelar</button>
                             </form>
+
 
 
                         </div>

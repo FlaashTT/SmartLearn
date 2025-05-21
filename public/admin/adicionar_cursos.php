@@ -15,6 +15,7 @@ include("../../database/basedados.sql");
         href="../../assets/fontawesome/fontawesome/css/all.min.css" />
     <link rel="stylesheet" href="../../assets/css/admin/style_admin.css" />
     <link rel="stylesheet" href="../../assets/css/admin/style_curso_adicionar.css" />
+    <script src="../../assets/js/adicionar_curso.js"></script>
 </head>
 
 <body>
@@ -62,32 +63,32 @@ include("../../database/basedados.sql");
                         <form class="form-content">
                             <div class="form-group">
                                 <label for="titulo">Título do Curso</label>
-                                <input type="text" id="titulo" placeholder="Digite o título do curso" required />
+                                <input type="text" name="titulo" id="titulo" placeholder="Digite o título do curso" required />
                             </div>
                             <div class="form-group">
                                 <label for="descricao-curta">Pequena-descrição</label>
-                                <input type="text" id="descricao-curta" placeholder="Digite uma pequena descrição" required />
+                                <input type="text" name="peq_descricao" id="descricao-curta" placeholder="Digite uma pequena descrição" required />
                             </div>
                             <div class="form-group">
                                 <label for="descricao">Descrição</label>
-                                <input type="text" id="descricao" placeholder="Digite a descrição" required />
+                                <input type="text" name="descricao" id="descricao" placeholder="Digite a descrição" required />
                             </div>
                             <div class="form-group">
                                 <label for="categorias">Categorias</label>
-                                <select id="categorias">
+                                <select name="categoria" id="categorias">
                                     <option disabled selected>Selecione</option>
                                     <?php
                                     $query = "SELECT * FROM categoria";
                                     $result = mysqli_query($conn, $query);
                                     while ($row = mysqli_fetch_assoc($result)) {
-                                        echo "<option value='" . $row['id'] . "'>" . $row['Nome_cat'] . "</option>";
+                                        echo "<option value='" . $row['Id_categoria'] . "'>" . $row['Nome_cat'] . "</option>";
                                     }
                                     ?>
                                 </select>
                             </div>
                             <div class="form-group">
                                 <label for="nivel">Nível</label>
-                                <select id="nivel">
+                                <select name="dificuldade" id="nivel">
                                     <option disabled selected>Selecione</option>
                                     <option value="iniciante">Iniciante</option>
                                     <option value="intermedio">Intermedio</option>
@@ -98,6 +99,13 @@ include("../../database/basedados.sql");
                                 <label for="linguagem">Linguagem feita em</label>
                                 <select id="linguagem">
                                     <option disabled selected>Selecione</option>
+                                    <?php
+                                    $query = "SELECT * FROM idioma";
+                                    $result = mysqli_query($conn, $query);
+                                    while ($row = mysqli_fetch_assoc($result)) {
+                                        echo "<option value='" . $row['Id_idioma'] . "'>" . $row['Nome_idioma'] . "</option>";
+                                    }
+                                    ?>
                                 </select>
                             </div>
                         </form>
@@ -138,19 +146,20 @@ include("../../database/basedados.sql");
                     <div class="form-content tab-content" data-content="precos">
                         <form class="form-content">
                             <div class="form-group">
-                                <label for="titulo">Preço do curso (€)</label>
-                                <input type="text" id="titulo" placeholder="Digite o título do curso" required />
+                                <label for="preco">Preço do curso (€)</label>
+                                <input type="text" name="preco" id="preco" placeholder="Digite o preço do curso" required />
                                 <div class="checkbox-curso">
-                                    <input type="checkbox" id="verificarCurso" />
-                                    <label class="label-btn" for="verificarCurso">Verifique que este é um curso gratuito</label>
+                                    <input type="checkbox" id="verificarGratuito" />
+                                    <label class="label-btn" for="verificarGratuito">Verifique que este é um curso gratuito</label>
                                 </div>
+
                             </div>
                             <div class="form-group">
-                                <label for="descricao-curta">Preço com desconto (€)</label>
-                                <input type="text" id="descricao-curta" placeholder="Digite uma pequena descrição" required />
+                                <label for="desconto">Preço com desconto (€)</label>
+                                <input type="text" id="desconto" placeholder="Digite uma pequena descrição" required />
                                 <div class="checkbox-curso">
-                                    <input type="checkbox" id="verificarCurso" />
-                                    <label class="label-btn" for="verificarCurso">Verifique que este curso têm desconto</label>
+                                    <input type="checkbox" id="verificarDesconto" />
+                                    <label class="label-btn" for="verificarCurso">Verifique que este curso tem desconto</label>
                                 </div>
                             </div>
                         </form>
@@ -384,6 +393,37 @@ include("../../database/basedados.sql");
                 }, 1000);
             }
         });
+
+        
+            // Executa depois que o DOM estiver pronto
+            window.addEventListener("DOMContentLoaded", function() {
+                const checkGratis = document.getElementById("verificarGratuito");
+                const inputPreco = document.getElementById("preco");
+                const inputDesconto = document.getElementById("desconto");
+                const verificarDesconto = document.getElementById("verificarDesconto");
+
+                function atualizarCampos() {
+                    if (checkGratis.checked) {
+                        inputPreco.disabled = true;
+                        inputPreco.value = ""; // limpa valor
+                        inputDesconto.disabled = true;
+                        inputDesconto.value = ""; // limpa valor
+                        verificarDesconto.disabled = true;
+                    } else {
+                        inputPreco.disabled = false;
+                        inputDesconto.disabled = false;
+                        verificarDesconto.disabled = false;
+                    }
+                }
+
+                // Chama uma vez ao carregar
+                atualizarCampos();
+
+                // Chama sempre que mudar o checkbox
+                checkGratis.addEventListener("change", atualizarCampos);
+            });
+    
+
     </script>
 
 
