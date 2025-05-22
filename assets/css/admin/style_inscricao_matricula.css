@@ -189,6 +189,7 @@
 .form-group{
     display: flex;
     flex-direction: column;
+    position: relative;
 }
 
 .form-group label{
@@ -251,6 +252,31 @@ textarea{
 .btn-voltar:hover {
   background-color: #5a6268;
 }
+.sugestoes {
+  position: absolute;
+  z-index: 1000;
+  top: 100%; /* Coloca a lista logo abaixo do campo de entrada */
+  background-color: white;
+  border: 1px solid #ccc;
+  border-top: none;
+  max-height: 200px;
+  overflow-y: auto;
+  list-style: none;
+  padding: 0;
+  margin-top: 0;
+  width: 100%;
+  display: none;
+}
+
+.sugestoes li {
+  padding: 10px;
+  cursor: pointer;
+}
+
+.sugestoes li:hover {
+  background-color: #f0f0f0;
+}
+
 
 
 
