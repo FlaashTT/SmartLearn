@@ -74,6 +74,11 @@ include("segurançaAdmin.php");
                             </tr>
                         </thead>
                         <tbody>
+
+                            <?php
+                            
+                            ?>
+
                             <tr>
                                 <td>
                                     <div class="">
@@ -89,6 +94,8 @@ include("segurançaAdmin.php");
                                     </a>
                                 </td>
                             </tr>
+
+
                             <tr>
                                 <td>
                                     <div class="">
