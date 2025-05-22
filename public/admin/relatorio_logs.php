@@ -2,11 +2,13 @@
 include("../../database/basedados.sql");
 include("segurançaAdmin.php");
 
+
 $quantidadePesquisa = 0;
 $limite = isset($_GET['limite']) ? intval($_GET['limite']) : 10;
 $pagina = isset($_GET['pagina']) ? intval($_GET['pagina']) : 1;
 $textoPesquisa = isset($_GET['pesquisa']) ? $_GET['pesquisa'] : '';
 $offset = ($pagina - 1) * $limite;
+$totalEntradas = 0;
 ?>
 
 <!DOCTYPE html>
@@ -20,7 +22,7 @@ $offset = ($pagina - 1) * $limite;
         rel="stylesheet"
         href="../../assets/fontawesome/fontawesome/css/all.min.css" />
     <link rel="stylesheet" href="../../assets/css/admin/style_admin.css" />
-    <link rel="stylesheet" href="../../assets/css/admin/style_inscricao_historico.css" />
+    <link rel="stylesheet" href="../../assets/css/admin/style_relatorio_logs.css" />
 </head>
 
 <body>
@@ -42,14 +44,14 @@ $offset = ($pagina - 1) * $limite;
             <main class="container-page">
                 <section class="main-content" style="display: flex; align-items: center; justify-content: space-between;">
                     <h1 style="display: flex; align-items: center;">
-                        <i style="font-size: 18px; margin-right: 10px;" class="fa-solid fa-user-plus"></i> Registro do historico
+                        <i style="font-size: 18px; margin-right: 10px;" class="fa-solid fa-font-awesome"></i> Logs de Acesso
                     </h1>
                 </section>
 
                 <section class="course-list">
-                    <h2>Historico</h2>
+                    <h2>Logs</h2>
                     <div class="filters">
-                        <form method="GET" action="registar_historico.php">
+                        <form method="GET" action="relatorio_logs.php">
                             <div class="search-container">
                                 <input type="text" name="pesquisa" id="searchInput" placeholder="Pesquisar...">
                                 <button type="submit">Filtrar</button>
@@ -76,11 +78,11 @@ $offset = ($pagina - 1) * $limite;
                     <table>
                         <thead>
                             <tr>
-                                <th>Foto</th>
+                                <th>ID</th>
                                 <th>Nome | Email</th>
-                                <th>Curso</th>
+                                <th>Descrição</th>
                                 <th>Data de Acesso</th>
-                                <th>Adicionado por</th>
+                                <th>Tipo</th>
                                 <th>Ações</th>
                             </tr>
                         </thead>
@@ -88,13 +90,11 @@ $offset = ($pagina - 1) * $limite;
 
                             <?php
                             if ($textoPesquisa != '') {
-                                $query = "SELECT cursos_adquiridos.*, user.*, curso.*, adicionador.Pnome_user AS NomeAdicionadoPor
-                                            FROM cursos_adquiridos
-                                            INNER JOIN user ON cursos_adquiridos.Id_user = user.Id_user
-                                            INNER JOIN curso ON cursos_adquiridos.Id_curso = curso.Id_curso
-                                            LEFT JOIN user AS adicionador ON cursos_adquiridos.AdicionadoPor = adicionador.Id_user
-                                            WHERE cursos_adquiridos.AdicionadoPor IS NOT NULL
-                                            AND (user.Pnome_user LIKE ? OR user.Email LIKE ? OR adicionador.Pnome_user LIKE ?)
+                                $query = "SELECT * FROM logs_sistema
+                                            INNER JOIN user ON logs_sistema.Id_user = user.Id_user
+                                            WHERE user.Pnome_user LIKE ? 
+                                            OR user.Email LIKE ? 
+                                            OR logs_sistema.Tipo_log LIKE ?
                                             LIMIT ?, ?";
                                 $stmt = $conn->prepare($query);
                                 $pesquisaParam = "%" . $textoPesquisa . "%";
@@ -102,18 +102,9 @@ $offset = ($pagina - 1) * $limite;
                             } else {
 
 
-                                $query = "SELECT 
-                                            cursos_adquiridos.*, 
-                                            user.*, 
-                                            curso.*, 
-                                            adicionador.Pnome_user AS NomeAdicionadoPor
-                                        FROM cursos_adquiridos
-                                        INNER JOIN user ON cursos_adquiridos.Id_user = user.Id_user
-                                        INNER JOIN curso ON cursos_adquiridos.Id_curso = curso.Id_curso
-                                        LEFT JOIN user AS adicionador ON cursos_adquiridos.AdicionadoPor = adicionador.Id_user
-                                        WHERE cursos_adquiridos.AdicionadoPor IS NOT NULL
-                                        LIMIT ?, ?
-                                        ";
+                                $query = "SELECT * FROM logs_sistema
+                                            INNER JOIN user ON logs_sistema.Id_user = user.Id_user
+                                            LIMIT ?, ?";
                                 $stmt = $conn->prepare($query);
                                 $stmt->bind_param("ii", $offset, $limite);
                             }
@@ -124,61 +115,35 @@ $offset = ($pagina - 1) * $limite;
                                 $quantidadePesquisa = $result->num_rows;
 
                                 while ($row = $result->fetch_assoc()) {
-
-
-
-                                    $caminhoImagem = "../../assets/image/fotosPerfil/" . $row['URL_foto_perfilUser'];
-
-
-
-
+                                    $totalEntradas++;
                                     echo '
                                     <tr>
+                                        <td>' . $row['Id_user'] . '</td>
+                                        <td>' . $row['PNome_user'] . ' ' . $row['SNome_user'] . ' <br><small>' . $row['Email'] . '</small></td>
                                         <td>
-                                            <div class="">
-                                                ';
-                                    if (!empty($row['URL_foto_perfilUser']) && file_exists($caminhoImagem)) {
-                                        echo '<img  class="avatar" src="../../assets/image/fotosPerfil/' . $row['URL_foto_perfilUser'] . '" alt="Erro">';
-                                    } else {
-                                        echo '<img  class="avatar" src="../../assets/image/User.png" alt="Erro">';
-                                    }
-                                    echo '
-                                            </div>
+                                            Responsável pela gestão dos cursos...
+                                            <a href="#" class="ver-mais-link" onclick="abrirDescricaoModal("Joana Silva", "Responsável pela gestão dos cursos e conteúdos da plataforma, incluindo organização, monitorização de progresso, e suporte a formadores e alunos.")"
+                                                style="color: #007bff; text-decoration: none;">Ver mais</a>
                                         </td>
-                                        <td>' . $row['PNome_user'] . ' ' . $row['SNome_user'] . '<br><small>' . $row['Email'] . '</small></td>
-                                        <td>' . $row['Nome_curso'] . '</td>
-                                        <td>' . $row['Data_compra'] . '</td>
-                                        <td>' . $row['NomeAdicionadoPor'] . '</td>
-                                        <td>
-                                            <form action="../admin/acoes/removerUtilizadorDeCurso.php" method="POST" style="display:inline;">
-                                                <input type="hidden" name="IdRemover" value="' . $row['Id_adquirido'] . '">
-                                                <button type="submit" title="Desmatricular utilizador" style="background:none; border:none; color:#e74c3c; font-size:14px; cursor:pointer; padding:0;">
-                                                    <i class="fa-solid fa-trash"></i>
-                                                </button>
-                                            </form>
+                                        <td>2025-04-14 15:23</td>
+                                        <td>' . $row['Tipo_log'] . '</td>
+                                        <td style="text-align: center;">
+                                            <a href="#" style="color: #e74c3c; font-size: 14px; text-decoration: none;">
+                                                <i class="fa-solid fa-arrow-right"></i>
+                                            </a>
                                         </td>
                                     </tr>
 
 
-                                    ';
+                                ';
                                 }
-                            } else {
-                                echo "<tr><td colspan='5'>Nenhum resultado encontrado.</td></tr>";
                             }
                             ?>
 
-
-
-
-
                         </tbody>
                     </table>
-
                     <?php
-                    $totalQuery = "SELECT COUNT(*) as total FROM cursos_adquiridos WHERE AdicionadoPor IS NOT NULL";
-                    $totalResult = $conn->query($totalQuery);
-                    $totalRow = $totalResult->fetch_assoc();
-                    $totalEntradas = $totalRow['total'];
+
                     $totalPaginas = ceil($totalEntradas / $limite);
                     $de = $offset + 1;
                     $ate = min($offset + $limite, $totalEntradas);
@@ -223,6 +188,31 @@ $offset = ($pagina - 1) * $limite;
             });
         });
     </script>
+
+    <script>
+        function abrirDescricaoModal(nome, descricao) {
+            // Define o título e a descrição no modal
+            document.getElementById("modalTitle").innerText = `Descrição de ${nome}`;
+            document.getElementById("modalDescricao").innerText = descricao;
+
+            // Mostra o modal
+            document.getElementById("descricaoModal").style.display = "block";
+        }
+
+        function fecharModal() {
+            // Fecha o modal
+            document.getElementById("descricaoModal").style.display = "none";
+        }
+
+        // Fecha o modal quando clica fora da janela do modal
+        window.onclick = function(event) {
+            if (event.target == document.getElementById("descricaoModal")) {
+                fecharModal();
+            }
+        }
+    </script>
+
+
 
 </body>
 

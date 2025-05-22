@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 21-Maio-2025 às 18:43
+-- Tempo de geração: 22-Maio-2025 às 14:18
 -- Versão do servidor: 10.4.32-MariaDB
 -- versão do PHP: 8.2.12
 
@@ -34,6 +34,21 @@ CREATE TABLE `carrinho_compras` (
   `Id_user` int(11) NOT NULL,
   `Id_curso` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Extraindo dados da tabela `carrinho_compras`
+--
+
+INSERT INTO `carrinho_compras` (`Id_carrinho`, `Id_user`, `Id_curso`) VALUES
+(56, 32, 5),
+(57, 32, 6),
+(58, 32, 7),
+(59, 32, 8),
+(60, 32, 9),
+(61, 32, 10),
+(62, 32, 11),
+(63, 32, 12),
+(64, 32, 13);
 
 -- --------------------------------------------------------
 
@@ -107,7 +122,16 @@ CREATE TABLE `curso` (
 INSERT INTO `curso` (`Id_curso`, `Nome_curso`, `Id_categoria`, `Id_idioma`, `Criador_curso`, `Data_criacao`, `URL_foto_perfil_curso`, `Pequena_descricao`, `Descricao`, `Preco`, `Preco_antigo`, `Estado_curso`, `Classificacao`, `Num_visitascurso`, `Tempo_estimado`, `Dificuldade`, `Quantidade_fases`, `Requisitos`, `Provedor_geral_curso`, `URL_geral_curso`, `Keywords`) VALUES
 (2, 'Curso de Programação', NULL, 2, 14, '2025-04-01', 'capa_curso.png', 'Curso básico de programação', 'Aprenda os fundamentos da programação', NULL, 25.00, 'ativo', 0, 100, '01:30:00', 'Iniciante', 10, 'Nenhum', 'youtube', NULL, 'programação, iniciante, código'),
 (3, 'Nome do Curso ', 1, 1, 32, '2025-04-08', 'capa_curso.png', 'Pequena descrição do curso', 'Descrição completa do curso com todos os detalhes.', 99.99, 0.00, 'ativo', 1, 150, '17:00:10', 'intermedio', 5, 'Requisitos básicos de informática', '', 'http://exemplo.com/curso', 'exemplo, curso, online'),
-(4, 'teste ', NULL, 2, 32, '2025-04-08', 'capa_curso.png', 'Pequena descrição do cursoPequena descrição do cursoPequena descrição do cursoPequena descrição do c', 'Este curso fornece uma introdução abrangente aos princípios da cibersegurança. Os formandos irão aprender sobre ameaças, vulnerabilidades, e mecanismos de defesa. A formação também aborda práticas de segurança pessoal e empresarial, políticas de segurança, e muito mais. Ideal para quem pretende iniciar carreira na área ou reforçar conhecimentos existentes. A conclusão bem-sucedida deste curso confere um certificado de participação.', 99.99, 0.00, 'ativo', 5, 150, '00:00:10', 'avançado', 5, 'Requisitos básicos de informática', '', 'http://exemplo.com/curso', 'exemplo, curso, online');
+(4, 'teste ', NULL, 2, 32, '2025-04-08', 'capa_curso.png', 'Pequena descrição do cursoPequena descrição do cursoPequena descrição do cursoPequena descrição do c', 'Este curso fornece uma introdução abrangente aos princípios da cibersegurança. Os formandos irão aprender sobre ameaças, vulnerabilidades, e mecanismos de defesa. A formação também aborda práticas de segurança pessoal e empresarial, políticas de segurança, e muito mais. Ideal para quem pretende iniciar carreira na área ou reforçar conhecimentos existentes. A conclusão bem-sucedida deste curso confere um certificado de participação.', 99.99, 0.00, 'ativo', 5, 150, '00:00:10', 'avançado', 5, 'Requisitos básicos de informática', '', 'http://exemplo.com/curso', 'exemplo, curso, online'),
+(5, 'Curso 1', 1, 1, 32, '2025-05-22', '/imagens/curso1.jpg', 'Descrição curta do curso 1', 'Descrição completa do curso 1', 49.99, 59.99, 'ativo', 5, 120, '00:00:10', '', 5, 'Noções básicas de informática', '', 'https://curso1.exemplo.com', 'curso, informática'),
+(6, 'Curso 2', 1, 1, 32, '2025-05-22', '/imagens/curso2.jpg', 'Descrição curta do curso 2', 'Descrição completa do curso 2', 29.99, 39.99, 'ativo', 4, 80, '00:00:08', '', 4, 'Nenhum requisito', '', 'https://curso2.exemplo.com', 'curso, básico'),
+(7, 'Curso 3', 1, 1, 32, '2025-05-22', '/imagens/curso3.jpg', 'Descrição curta do curso 3', 'Descrição completa do curso 3', 59.99, 69.99, 'ativo', 5, 200, '00:00:15', 'avançado', 7, 'Conhecimentos intermediários', '', 'https://curso3.exemplo.com', 'curso, avançado'),
+(8, 'Curso 4', 1, 1, 32, '2025-05-22', '/imagens/curso4.jpg', 'Descrição curta do curso 4', 'Descrição completa do curso 4', 19.99, 24.99, 'ativo', 4, 50, '00:00:06', '', 3, 'Nenhum requisito', '', 'https://curso4.exemplo.com', 'curso, iniciante'),
+(9, 'Curso 5', 1, 1, 32, '2025-05-22', '/imagens/curso5.jpg', 'Descrição curta do curso 5', 'Descrição completa do curso 5', 39.99, 49.99, 'ativo', 4, 110, '00:00:12', '', 6, 'Conhecimentos básicos', '', 'https://curso5.exemplo.com', 'curso, intermediário'),
+(10, 'Curso 6', 1, 1, 32, '2025-05-22', '/imagens/curso6.jpg', 'Descrição curta do curso 6', 'Descrição completa do curso 6', 25.00, 30.00, 'ativo', 4, 70, '00:00:07', '', 4, 'Nenhum requisito', '', 'https://curso6.exemplo.com', 'curso, básico'),
+(11, 'Curso 7', 1, 1, 32, '2025-05-22', '/imagens/curso7.jpg', 'Descrição curta do curso 7', 'Descrição completa do curso 7', 44.99, 54.99, 'ativo', 5, 150, '00:00:13', '', 6, 'Conhecimentos intermediários', '', 'https://curso7.exemplo.com', 'curso, tecnologia'),
+(12, 'Curso 8', 1, 1, 32, '2025-05-22', '/imagens/curso8.jpg', 'Descrição curta do curso 8', 'Descrição completa do curso 8', 34.99, 44.99, 'ativo', 4, 90, '00:00:09', '', 5, 'Nenhum requisito', '', 'https://curso8.exemplo.com', 'curso, iniciantes'),
+(13, 'Curso 9', 1, 1, 32, '2025-05-22', '/imagens/curso9.jpg', 'Descrição curta do curso 9', 'Descrição completa do curso 9', 54.99, 64.99, 'ativo', 5, 180, '00:00:14', 'avançado', 7, 'Conhecimentos avançados', '', 'https://curso9.exemplo.com', 'curso, avançado');
 
 -- --------------------------------------------------------
 
@@ -116,21 +140,21 @@ INSERT INTO `curso` (`Id_curso`, `Nome_curso`, `Id_categoria`, `Id_idioma`, `Cri
 --
 
 CREATE TABLE `cursos_adquiridos` (
+  `Id_adquirido` int(11) NOT NULL,
   `Id_user` int(11) NOT NULL,
   `Id_curso` int(11) NOT NULL,
   `Data_compra` date NOT NULL,
   `Progresso` enum('Iniciado','Concluido') DEFAULT 'Iniciado',
-  `Percentagem_progresso` int(11) NOT NULL DEFAULT 0
+  `Percentagem_progresso` int(11) NOT NULL DEFAULT 0,
+  `AdicionadoPor` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Extraindo dados da tabela `cursos_adquiridos`
 --
 
-INSERT INTO `cursos_adquiridos` (`Id_user`, `Id_curso`, `Data_compra`, `Progresso`, `Percentagem_progresso`) VALUES
-(32, 3, '2025-05-06', 'Iniciado', 0),
-(32, 4, '2025-04-16', 'Iniciado', 5),
-(39, 3, '2025-04-15', 'Iniciado', 0);
+INSERT INTO `cursos_adquiridos` (`Id_adquirido`, `Id_user`, `Id_curso`, `Data_compra`, `Progresso`, `Percentagem_progresso`, `AdicionadoPor`) VALUES
+(1, 39, 2, '0000-00-00', 'Iniciado', 0, 32);
 
 -- --------------------------------------------------------
 
@@ -350,7 +374,7 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`Id_user`, `PNome_user`, `SNome_user`, `Estado_conta`, `Biografia`, `Password`, `Data_criacao`, `Email`, `Tipo_user`, `Carteira`, `URL_facebook`, `URL_youtube`, `URL_linkedin`, `URL_foto_perfilUser`) VALUES
-(32, 'ruben', 'bras', 'Ativo', 'teste', '03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4', '2025-04-02', 'vb@gmail.com', 'Admin', 233.43, 'testeee', 'teste', 'test', 'fotoPerfil_32.jpg'),
+(32, 'ruben', 'bras', 'Ativo', 'teste', '03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4', '2025-04-02', 'vb@gmail.com', 'Admin', 99999999.00, 'testeee', 'teste', 'test', 'fotoPerfil_32.jpg'),
 (39, 'teste', 'teste', 'Ativo', NULL, '6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b', '2025-04-15', 'teste@gmail.com', 'Cliente', 77.01, NULL, NULL, NULL, NULL);
 
 --
@@ -390,8 +414,10 @@ ALTER TABLE `curso`
 -- Índices para tabela `cursos_adquiridos`
 --
 ALTER TABLE `cursos_adquiridos`
-  ADD PRIMARY KEY (`Id_user`,`Id_curso`),
-  ADD KEY `Id_curso` (`Id_curso`);
+  ADD PRIMARY KEY (`Id_adquirido`),
+  ADD KEY `fk_curso` (`Id_curso`),
+  ADD KEY `fk_user` (`Id_user`),
+  ADD KEY `fk_addPor` (`AdicionadoPor`);
 
 --
 -- Índices para tabela `cursos_favoritos`
@@ -475,7 +501,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT de tabela `carrinho_compras`
 --
 ALTER TABLE `carrinho_compras`
-  MODIFY `Id_carrinho` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
+  MODIFY `Id_carrinho` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=65;
 
 --
 -- AUTO_INCREMENT de tabela `categoria`
@@ -493,7 +519,13 @@ ALTER TABLE `configuracoes_site`
 -- AUTO_INCREMENT de tabela `curso`
 --
 ALTER TABLE `curso`
-  MODIFY `Id_curso` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `Id_curso` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+
+--
+-- AUTO_INCREMENT de tabela `cursos_adquiridos`
+--
+ALTER TABLE `cursos_adquiridos`
+  MODIFY `Id_adquirido` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de tabela `fase`
@@ -578,7 +610,11 @@ ALTER TABLE `curso`
 --
 ALTER TABLE `cursos_adquiridos`
   ADD CONSTRAINT `cursos_adquiridos_ibfk_1` FOREIGN KEY (`Id_user`) REFERENCES `user` (`Id_user`),
-  ADD CONSTRAINT `cursos_adquiridos_ibfk_2` FOREIGN KEY (`Id_curso`) REFERENCES `curso` (`Id_curso`);
+  ADD CONSTRAINT `cursos_adquiridos_ibfk_2` FOREIGN KEY (`Id_curso`) REFERENCES `curso` (`Id_curso`),
+  ADD CONSTRAINT `fk_addPor` FOREIGN KEY (`AdicionadoPor`) REFERENCES `user` (`Id_user`),
+  ADD CONSTRAINT `fk_adicionadoPor` FOREIGN KEY (`AdicionadoPor`) REFERENCES `user` (`Id_user`),
+  ADD CONSTRAINT `fk_curso` FOREIGN KEY (`Id_curso`) REFERENCES `curso` (`Id_curso`),
+  ADD CONSTRAINT `fk_user` FOREIGN KEY (`Id_user`) REFERENCES `user` (`Id_user`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
