@@ -7,6 +7,7 @@ $limite = isset($_GET['limite']) ? intval($_GET['limite']) : 10;
 $pagina = isset($_GET['pagina']) ? intval($_GET['pagina']) : 1;
 $textoPesquisa = isset($_GET['pesquisa']) ? $_GET['pesquisa'] : '';
 $offset = ($pagina - 1) * $limite;
+$idEditar = isset($_POST['idEditar']) ? $_POST['idEditar'] : null;
 ?>
 
 
@@ -49,9 +50,9 @@ $offset = ($pagina - 1) * $limite;
                 <section class="course-list">
                     <h2>Histórico</h2>
                     <div class="filters">
-                        <form method="GET" action="registar_historico.php">
+                        <form method="GET" action="gerenciar_admin.php">
                             <div class="search-container">
-                                <input type="text" name="pesquisa" id="searchInput" placeholder="Pesquisar...">
+                                <input type="text" name="pesquisa" id="searchInput" placeholder="Pesquisar...  (necessario clicar no botão filtrar)">
                                 <button type="submit">Filtrar</button>
                             </div>
                         </form>
@@ -120,8 +121,8 @@ $offset = ($pagina - 1) * $limite;
                                 while ($row = $result->fetch_assoc()) {
 
                                     echo '
-                                        <tr >
-                                            <td>'.$row['Id_user'].'</td>
+                                        <tr data-id="' . $row['Id_user'] . '">
+                                            <td>' . $row['Id_user'] . '</td>
                                             ';
                                     if (!empty($row['URL_foto_perfilUser']) && file_exists($caminhoImagem)) {
                                         echo '<td><img  class="avatar" src="../../assets/image/fotosPerfil/' . $row['URL_foto_perfilUser'] . '" alt="Erro"></td>';
@@ -138,17 +139,85 @@ $offset = ($pagina - 1) * $limite;
                                         echo '<td><span class="tag-cargo admin">Admin</span></td>';
                                     }
                                     echo '
+
                                             <td class="actions">
-                                                <button class="btn-editar" onclick="abrirModalEditar(this)">
-                                                    Editar
-                                                </button>
-                                                <button class="btn-eliminar" onclick="abrirModalEliminar("Joana Silva")">
-                                                    Eliminar
-                                                </button>
+                                                <div style="display: flex; gap: 8px;">
+                                                        
+                                                        <button type="button" class="btn-editar" onclick="abrirModalEditar(this)">
+                                                            Editar
+                                                        </button>
+                                                    
+
+                                                    
+                                                        <input type="hidden" name="idEliminiar" value="' . $row['Id_user'] . '">
+                                                        <button type="button" class="btn-eliminar" onclick="abrirModalEliminar(\'' . $row['PNome_user'] . ' ' . $row['SNome_user'] . '\')">
+                                                            Eliminar
+                                                        </button>
+                                                    
+                                                </div>
                                             </td>
+                                            
+
+
                                         </tr>
+                                        ';
+                                    echo '
+                                            <form method="POST" action="teste.php" style="margin: 0;">
+                                                <input type="hidden" name="idEditar" value="' . $row['Id_user'] . '">
+                                                <div id="editarModal" class="modal">
+                                                    <div class="modal-content">
+                                                        <span class="close"  onclick="fecharModal(\'editarModal\')">&times;</span>
+                                                        <h3>Editar Utilizador</h3>
+                                                        
+                                                        <label>Nome:</label>
+                                                        <input type="text" value="' . $row['PNome_user'] . ' ' . $row['SNome_user'] . '" name="NovoNomeAdmin" id="inputNome" style="width: 100%; padding: 8px;">
+                                                        
+                                                        <label>Email:</label>
+                                                        <input type="email" value="' . $row['Email'] . '"  name="NovoEmailAdmin" style="width: 100%; padding: 8px;">
+                                                        
+                                                        <label>Cargo:</label>
+                                                        <select name="novoCargoAdmin" id="inputCargo" style="width: 100%; padding: 8px;">
+                                                         <option value="" disabled selected>Selecione um cargo</option>
                                     ';
+                                    if ($row['Tipo_user'] === 'Main-admin') {
+                                        echo ' <option value="Main-admin">Passar a dono</option>';
+                                    }
+                                    echo '
+                                                        <option value="Admin">Editor</option>
+                                                        <option value="Cliente">Utilizador</option>
+                                                        </select>
+                                                        <div class="modal-buttons">
+                                                            <button type="button" onclick="fecharModal(\'editarModal\')">Cancelar</button>
+                                                            <button type="submit">Guardar</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
+
+
+                                            <!-- Modal Eliminar -->
+                                            <form method="POST" action="eliminarUserAdmin.php.php" style="margin: 0;">
+                                                <input type="hidden" name="idEliminiar" value="' . $row['Id_user'] . '">
+                                                <div id="eliminarModal" class="modal">
+                                                    <div class="modal-content">
+                                                        <span class="close" onclick="fecharModal(\'eliminarModal\')">&times;</span>
+                                                        <h3>Confirmar Eliminação</h3>
+                                                        <p>Tens a certeza que queres eliminar <strong>Joana Silva</strong>?</p>
+                                                        <div class="modal-buttons">
+                                                            <button  type="button" onclick="fecharModal(\'eliminarModal\')">Cancelar</button>
+                                                            <button  type="submit" style="background-color: #dc3545; color: white;">Eliminar</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        ';
                                 }
+                            } else {
+                                echo '
+                                    <tr>
+                                        <td colspan="6" style="text-align: center;">Nenhum resultado encontrado</td>
+                                    </tr>
+                                ';
                             }
                             ?>
 
@@ -205,38 +274,11 @@ $offset = ($pagina - 1) * $limite;
                         <?php endif; ?>
                     </div>
 
-                    <!-- Modal Editar -->
-                    <div id="editarModal" class="modal">
-                        <div class="modal-content">
-                            <span class="close" onclick="fecharModal('editarModal')">&times;</span>
-                            <h3>Editar Utilizador</h3>
-                            <form>
-                                <label>Nome:</label>
-                                <input type="text" id="inputNome" style="width: 100%; padding: 8px;">
-                                <label>Email:</label>
-                                <input type="email" id="inputEmail" style="width: 100%; padding: 8px;">
-                                <label>Cargo:</label>
-                                <input type="text" id="inputCargo" style="width: 100%; padding: 8px;">
-                                <div class="modal-buttons">
-                                    <button type="button" onclick="fecharModal('editarModal')">Cancelar</button>
-                                    <button type="submit">Guardar</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
 
-                    <!-- Modal Eliminar -->
-                    <div id="eliminarModal" class="modal">
-                        <div class="modal-content">
-                            <span class="close" onclick="fecharModal('eliminarModal')">&times;</span>
-                            <h3>Confirmar Eliminação</h3>
-                            <p>Tens a certeza que queres eliminar <strong>Joana Silva</strong>?</p>
-                            <div class="modal-buttons">
-                                <button onclick="fecharModal('eliminarModal')">Cancelar</button>
-                                <button style="background-color: #dc3545; color: white;">Eliminar</button>
-                            </div>
-                        </div>
-                    </div>
+                    <!-- Modal Editar -->
+
+
+
                 </section>
             </main>
         </main>
@@ -274,9 +316,7 @@ $offset = ($pagina - 1) * $limite;
 
             // Abre o modal e preenche os campos com os dados da linha
             document.getElementById('editarModal').style.display = 'block';
-            document.getElementById('inputNome').value = nome;
-            document.getElementById('inputEmail').value = email;
-            document.getElementById('inputCargo').value = cargo;
+
         }
 
 
