@@ -137,11 +137,18 @@ include("../../database/basedados.sql");
     </script>
     <script>
         document.querySelectorAll('.has-submenu').forEach(item => {
-            item.addEventListener('click', () => {
-                // Alterna a classe "open" no item clicado
-                item.classList.toggle('open');
-            });
+        item.addEventListener('click', () => {
+            item.classList.toggle('open');
         });
+        });
+
+        document.querySelectorAll('.has-submenu-a').forEach(item => {
+        item.addEventListener('click', (e) => {
+            e.stopPropagation(); // Impede o clique de subir
+            item.classList.toggle('open');
+        });
+        });
+
 
         // Dados do gráfico
         const data = {
