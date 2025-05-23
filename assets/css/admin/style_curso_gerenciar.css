@@ -19,14 +19,16 @@
 }
 
 .sidebar{
+  flex: 0 0 305px;
   margin-top: 50px;
   height: auto;
-  width: 400px;
-  margin-right: 40px;
+  width: 400px !important;
   background-color: aliceblue;
   padding: 20px;
   overflow-y: auto;
   position: sticky;
+  top: 0; /* importante para sticky */
+  align-self: flex-start; /* impede que estique para o fundo */
   box-shadow: 2px 0 5px rgba(0,0,0,0.1);
 }
 
@@ -165,17 +167,28 @@
   display: flex; /* Define o layout como flexbox */
   flex-direction: column; /* Alinha os elementos verticalmente */
   gap: 20px; /* Espaçamento entre os elementos */
-  width: 100%; /* Largura total */
+  width: 74%; /* Largura total */
   margin-top: 50px;
 }
 
-.main-content, .page {
+.main-content{
   width: 100%; 
   padding: 20px;
   background-color: #fff; 
   border-radius: 5px; 
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
   height: auto; 
+  margin-left: 40px;
+}
+
+.page{
+  width: 100%; 
+  padding: 20px;
+  background-color: #fff; 
+  border-radius: 5px; 
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
+  height: auto; 
+  margin-left: 40px;
 }
 
 .course-list{
@@ -185,6 +198,7 @@
   border-radius: 5px; 
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
   height: auto; 
+  margin-left: 40px;
 }
 
 .stats{
@@ -238,7 +252,7 @@
   padding: 10px;
   border-radius: 5px;
   border: 1px solid #ccc;
-  width: 280px;
+  width: 270px;
   cursor: pointer;
   font-size: 14px;
 }
