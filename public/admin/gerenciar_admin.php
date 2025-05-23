@@ -150,7 +150,7 @@ $idEditar = isset($_POST['idEditar']) ? $_POST['idEditar'] : null;
 
                                                     
                                                         <input type="hidden" name="idEliminiar" value="' . $row['Id_user'] . '">
-                                                        <button type="button" class="btn-eliminar" onclick="abrirModalEliminar(\'' . $row['PNome_user'] . ' ' . $row['SNome_user'] . '\')">
+                                                        <button type="button" class="btn-eliminar" onclick="abrirModalEliminar(\'' . $row['Email'] . ' \')">
                                                             Eliminar
                                                         </button>
                                                     
@@ -170,13 +170,13 @@ $idEditar = isset($_POST['idEditar']) ? $_POST['idEditar'] : null;
                                                         <h3>Editar Utilizador</h3>
                                                         
                                                         <label>Nome:</label>
-                                                        <input type="text" value="' . $row['PNome_user'] . ' ' . $row['SNome_user'] . '" name="NovoNomeAdmin" id="inputNome" style="width: 100%; padding: 8px;">
+                                                        <input type="text" id="inputNome" name="NovoNomeAdmin" id="inputNome" style="width: 100%; padding: 8px;">
                                                         
                                                         <label>Email:</label>
-                                                        <input type="email" value="' . $row['Email'] . '"  name="NovoEmailAdmin" style="width: 100%; padding: 8px;">
+                                                        <input type="email" id="inputEmail"   name="NovoEmailAdmin" style="width: 100%; padding: 8px;">
                                                         
                                                         <label>Cargo:</label>
-                                                        <select name="novoCargoAdmin" id="inputCargo" style="width: 100%; padding: 8px;">
+                                                        <select name="novoCargoAdmin"  style="width: 100%; padding: 8px;">
                                                          <option value="" disabled selected>Selecione um cargo</option>
                                     ';
                                     if ($row['Tipo_user'] === 'Main-admin') {
@@ -184,7 +184,7 @@ $idEditar = isset($_POST['idEditar']) ? $_POST['idEditar'] : null;
                                     }
                                     echo '
                                                         <option value="Admin">Editor</option>
-                                                        <option value="Cliente">Utilizador</option>
+                                                        <option value="Cliente">Cliente</option>
                                                         </select>
                                                         <div class="modal-buttons">
                                                             <button type="button" onclick="fecharModal(\'editarModal\')">Cancelar</button>
@@ -316,13 +316,14 @@ $idEditar = isset($_POST['idEditar']) ? $_POST['idEditar'] : null;
 
             // Abre o modal e preenche os campos com os dados da linha
             document.getElementById('editarModal').style.display = 'block';
-
+            document.getElementById('inputNome').value = nome;
+            document.getElementById('inputEmail').value = email;
         }
 
 
-        function abrirModalEliminar(nome) {
+        function abrirModalEliminar(Email) {
             document.getElementById('eliminarModal').style.display = 'block';
-            document.querySelector('#eliminarModal p').innerHTML = `Tens a certeza que queres eliminar <strong>${nome}</strong>?`;
+            document.querySelector('#eliminarModal p').innerHTML = `Tens a certeza que queres eliminar <strong>${Email}</strong>?`;
         }
     </script>
 

@@ -44,6 +44,9 @@ outros
 relatorio_logs.php concluir as açoes
 
 
+em categoria_curso.php fazer o modal como fiz no gerenciar_admin.php na mesma pagina
+
+
 ---
 ## 🐞 Bugs a Corrigir
 - 
