@@ -579,8 +579,18 @@ include("../database/basedados.sql");
                                         data-categoria="' . $row['Nome_cat'] . '" 
                                         data-preco="' . $row['Preco'] . '"
                                     >
-                                    <div class="course-image">
-                                        <img src="../assets/image/curso/' . $row['URL_foto_perfil_curso'] . '" alt="Erro" >
+                                    <div class="course-image">';
+
+                                    $sitioImagem = $row['URL_foto_perfil_curso'];
+                                    $caminhoImagem = "../assets/image/curso/" . $sitioImagem;
+
+                                    if (!empty($sitioImagem) && file_exists($caminhoImagem)) {
+                                        echo '<img src="' . $caminhoImagem . '" alt="Imagem da categoria">';
+                                    } else {
+                                        echo '<img src="../assets/image/curso/capa_curso.png" alt="Imagem padrão">';
+                                    }
+
+                                        echo'
                                     </div>
                                     <div class="course-info">
                                         <h3>' . $row['Nome_curso'] . '</h3>

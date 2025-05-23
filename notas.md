@@ -41,12 +41,25 @@ outros
 
 
 
+relatorio_logs.php concluir as açoes
+
 
 ---
 ## 🐞 Bugs a Corrigir
 - 
 
+Fatal error: Uncaught ArgumentCountError: The number of elements in the type definition string must match the number of bind variables in C:\xampp\htdocs\SmartLearn\public\perfil\perfil_carteira.php:36 Stack trace: #0 C:\xampp\htdocs\SmartLearn\public\perfil\perfil_carteira.php(36): mysqli_stmt->bind_param('issii', 32, '%cur%', '%cur%', '%cur%', 10, 0) #1 {main} thrown in C:\xampp\htdocs\SmartLearn\public\perfil\perfil_carteira.php on line 36
 
+
+categoria.php:
+- idioma curso ingles a nao funcionar
+-Sem desconto diz ter 2 mas so mostra 1
+-avançado e iniciante
+- de 1 a 3 horas
+5 estrelas
+sem classificacao
+categorias
+mais de 60 euros
 
 
 

@@ -92,7 +92,20 @@ $result = $stmt->get_result();
                         echo '
                         <div class="course-card">
                             <div class="course-image">
-                                <img src="../../assets/image/curso/' . $row['URL_foto_perfil_curso'] . '" alt="erro" style="width: 210px; height: 150px;">
+
+                            ';
+
+                        $sitioImagem = $row['URL_foto_perfil_curso'];
+                        $caminhoImagem = "../../assets/image/curso/" . $sitioImagem;
+
+                        if (!empty($sitioImagem) && file_exists($caminhoImagem)) {
+                            echo '<img src="' . $caminhoImagem . '" alt="Imagem da categoria">';
+                        } else {
+                            echo '<img src="../../assets/image/curso.png" alt="erro" style="width: 210px; height: 150px;">';
+                        }
+
+
+                        echo '
                             </div>
                             <div class="course-info">
                                 <h3>' . $row['Nome_curso'] . '</h3>
@@ -167,7 +180,7 @@ $result = $stmt->get_result();
     </div>
 
     <?php
-        include("../../src/views/utils/rodape.html");
+    include("../../src/views/utils/rodape.html");
     ?>
 
     <script>
