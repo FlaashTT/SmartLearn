@@ -43,7 +43,7 @@
                         <li><a href="../public/autenticacao/registo.php" class="btn">Inscrever-se</a></li>
                     </ul>
                 ';
-                } else if ($_SESSION['utilizadorOn']['Tipo_user'] === "Admin") {
+                } else if ($_SESSION['utilizadorOn']['Tipo_user'] === "Admin" || $_SESSION['utilizadorOn']['Tipo_user'] === "Main-admin") {
 
                     echo '
                     <div class="nav-right">

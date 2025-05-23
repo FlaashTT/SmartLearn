@@ -2,7 +2,8 @@
 include("../../database/basedados.sql");
 session_start();
 //evita que utilizador nao registados entrem nas paginas que necessitam login
-if ($_SESSION['utilizadorOn'] == null || !$_SESSION['utilizadorOn'] || $_SESSION['utilizadorOn']['Tipo_user'] !== "Admin") {
+if ($_SESSION['utilizadorOn'] == null || !$_SESSION['utilizadorOn'] || ($_SESSION['utilizadorOn']['Tipo_user'] !== "Admin" && $_SESSION['utilizadorOn']['Tipo_user'] !== "Main-admin"))
+{
     header('Location:../inicio.php');
     exit();
 } else {

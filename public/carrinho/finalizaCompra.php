@@ -31,13 +31,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             // Corrigir formato de listaCursos (string para array, se necessário)
             $listaCursos = $_SESSION['listaCursos'] ?? [];
-            
+
             // Inserir no cursos_adquiridos
             $stmt = $conn->prepare("
-                INSERT INTO cursos_adquiridos(Id_user, Id_curso, Data_compra)  
-                VALUES (?, ?, ?)
+                INSERT INTO cursos_adquiridos(Id_user, Id_curso, Data_compra, AdicionadoPor)  
+                VALUES (?, ?, ?, ?)
             ");
-            $stmt->bind_param("iis", $_SESSION['utilizadorOn']['Id_user'], $id_curso, $DataAtual);
+            $adicionaPor = null;
+            $stmt->bind_param("iisi", $_SESSION['utilizadorOn']['Id_user'], $id_curso, $DataAtual, $adicionaPor);
+
 
             foreach ($listaCursos as $id_curso) {
                 $id_curso = (int) trim($id_curso); // garantir que é inteiro
