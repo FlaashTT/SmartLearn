@@ -88,13 +88,13 @@ $offset = ($pagina - 1) * $limite;
 
                             <?php
                             if ($textoPesquisa != '') {
-                                $query = "SELECT cursos_adquiridos.*, user.*, curso.*, adicionador.Pnome_user AS NomeAdicionadoPor
-                                            FROM cursos_adquiridos
-                                            INNER JOIN user ON cursos_adquiridos.Id_user = user.Id_user
-                                            INNER JOIN curso ON cursos_adquiridos.Id_curso = curso.Id_curso
-                                            LEFT JOIN user AS adicionador ON cursos_adquiridos.AdicionadoPor = adicionador.Id_user
-                                            WHERE cursos_adquiridos.AdicionadoPor IS NOT NULL
-                                            AND (user.Pnome_user LIKE ? OR user.Email LIKE ? OR adicionador.Pnome_user LIKE ?)
+                                $query = "SELECT * FROM user
+                                            WHERE (Tipo_user = 'admin' OR Tipo_user = 'Main-admin')
+                                            AND (
+                                                PNome_user LIKE ? OR
+                                                SNome_user LIKE ? OR
+                                                Email LIKE ?
+                                            )
                                             LIMIT ?, ?";
                                 $stmt = $conn->prepare($query);
                                 $pesquisaParam = "%" . $textoPesquisa . "%";
@@ -121,7 +121,7 @@ $offset = ($pagina - 1) * $limite;
 
                                     echo '
                                         <tr >
-                                            <td>1</td>
+                                            <td>'.$row['Id_user'].'</td>
                                             ';
                                     if (!empty($row['URL_foto_perfilUser']) && file_exists($caminhoImagem)) {
                                         echo '<td><img  class="avatar" src="../../assets/image/fotosPerfil/' . $row['URL_foto_perfilUser'] . '" alt="Erro"></td>';
@@ -132,8 +132,8 @@ $offset = ($pagina - 1) * $limite;
                                             <td>' . $row['PNome_user'] . ' ' . $row['SNome_user'] . '</td>
                                             <td>' . $row['Email'] . '</td>
                                             ';
-                                    if ($row['Tipo_user'] == 'Main-Admin') {
-                                        echo '<td><span class="tag-cargo root-admin">Root Admin</span></td>';
+                                    if ($row['Tipo_user'] === 'Main-admin') {
+                                        echo '<td><span class="tag-cargo root-admin">Main Admin</span></td>';
                                     } else {
                                         echo '<td><span class="tag-cargo admin">Admin</span></td>';
                                     }
@@ -159,9 +159,25 @@ $offset = ($pagina - 1) * $limite;
                     </table>
 
                     <?php
-                    $totalQuery = "SELECT COUNT(*) as total FROM cursos_adquiridos WHERE AdicionadoPor IS NOT NULL";
-                    $totalResult = $conn->query($totalQuery);
-                    $totalRow = $totalResult->fetch_assoc();
+                    if ($textoPesquisa != '') {
+                        $totalQuery = "SELECT COUNT(*) as total FROM user 
+                   WHERE (Tipo_user = 'admin' OR Tipo_user = 'Main-admin') 
+                   AND (PNome_user LIKE ? OR SNome_user LIKE ? OR Email LIKE ?)";
+                        $stmtTotal = $conn->prepare($totalQuery);
+                        $stmtTotal->bind_param("sss", $pesquisaParam, $pesquisaParam, $pesquisaParam);
+                    } else {
+                        $totalQuery = "SELECT COUNT(*) as total FROM user 
+                   WHERE Tipo_user = 'admin' OR Tipo_user = 'Main-admin'";
+                        $stmtTotal = $conn->prepare($totalQuery);
+                    }
+
+                    // Executar o statement
+                    $stmtTotal->execute();
+
+                    // Obter resultado
+                    $resultTotal = $stmtTotal->get_result();
+                    $totalRow = $resultTotal->fetch_assoc();
+
                     $totalEntradas = $totalRow['total'];
                     $totalPaginas = ceil($totalEntradas / $limite);
                     $de = $offset + 1;
