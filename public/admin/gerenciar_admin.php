@@ -162,21 +162,21 @@ $idEditar = isset($_POST['idEditar']) ? $_POST['idEditar'] : null;
                                         </tr>
                                         ';
                                     echo '
-                                            <form method="POST" action="teste.php" style="margin: 0;">
-                                                <input type="hidden" name="idEditar" value="' . $row['Id_user'] . '">
+                                            <form method="POST" action="acoes/alterarUtilizador.php" style="margin: 0;">
+                                                <input type="hidden" name="idEditar" id=IdEditar value="">
                                                 <div id="editarModal" class="modal">
                                                     <div class="modal-content">
                                                         <span class="close"  onclick="fecharModal(\'editarModal\')">&times;</span>
                                                         <h3>Editar Utilizador</h3>
                                                         
                                                         <label>Nome:</label>
-                                                        <input type="text" id="inputNome" name="NovoNomeAdmin" id="inputNome" style="width: 100%; padding: 8px;">
+                                                        <input type="text" id="inputNome" name="NovoNome" id="inputNome" style="width: 100%; padding: 8px;">
                                                         
                                                         <label>Email:</label>
-                                                        <input type="email" id="inputEmail"   name="NovoEmailAdmin" style="width: 100%; padding: 8px;">
+                                                        <input type="email" id="inputEmail"   name="NovoEmail" style="width: 100%; padding: 8px;">
                                                         
                                                         <label>Cargo:</label>
-                                                        <select name="novoCargoAdmin"  style="width: 100%; padding: 8px;">
+                                                        <select name="novoCargo"  style="width: 100%; padding: 8px;">
                                                          <option value="" disabled selected>Selecione um cargo</option>
                                     ';
                                     if ($row['Tipo_user'] === 'Main-admin') {
@@ -318,6 +318,7 @@ $idEditar = isset($_POST['idEditar']) ? $_POST['idEditar'] : null;
             document.getElementById('editarModal').style.display = 'block';
             document.getElementById('inputNome').value = nome;
             document.getElementById('inputEmail').value = email;
+            document.getElementById('IdEditar').value = id;
         }
 
 
