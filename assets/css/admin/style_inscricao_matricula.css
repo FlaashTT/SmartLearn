@@ -1,4 +1,6 @@
-
+html {
+  scrollbar-gutter: stable;
+}
 .container-admin {
     width: 100%;
     max-width: 1400px;
@@ -30,6 +32,10 @@
   top: 0; /* importante para sticky */
   align-self: flex-start; /* impede que estique para o fundo */
   box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+}
+
+.sidebar::-webkit-scrollbar {
+  display: none;              /* Chrome, Safari e outros WebKit */
 }
 
 

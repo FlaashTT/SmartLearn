@@ -1,4 +1,6 @@
-
+html {
+  scrollbar-gutter: stable;
+}
 .container-admin {
     width: 100%;
     max-width: 1400px;
@@ -32,6 +34,9 @@
   box-shadow: 2px 0 5px rgba(0,0,0,0.1);
 }
 
+.sidebar::-webkit-scrollbar {
+  display: none;              /* Chrome, Safari e outros WebKit */
+}
 
 .user-info{
   display: flex;
