@@ -15,6 +15,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $novoCargo = $_POST['novoCargo'] ?? '';
 
 
+    if ($novoCargo === "Main-admin") {
+        echo "<script>
+                    if(!confirm('Tem a certeza que deseja tornar este utilizador Main-admin? Esta ação não pode ser desfeita.')) {
+                        // Ação confirmada, continue com a atualização
+                        ";
+        $novoCargo = '';
+        echo "
+                    } 
+                </script>";
+    }
+
     //fazer select da tabela user atravez do id
     $query = "SELECT * from user WHERE Id_user = ?";
     $stmt = $conn->prepare($query);
@@ -88,17 +99,49 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
         if ($novoCargo != '' && $novoCargo !== $row['Tipo_user']) {
-            // Atualiza o cargo
-            $updateCargo = "UPDATE user SET Tipo_user = ? WHERE Id_user = ?";
-            $stmtCargo = $conn->prepare($updateCargo);
-            $stmtCargo->bind_param("si", $novoCargo, $idEditar);
-            if (!$stmtCargo->execute()) {
-                $erro = true;
-                $textoErro = "Erro ao atualizar o cargo: " . $stmtCargo->error;
+
+            if ($novoCargo === "Main-admin" && $row['Tipo_user'] !== "Main-admin") {
+                // Remover Main-admin de todos os outros utilizadores
+                $updateCargo = "UPDATE user SET Tipo_user = 'Admin' WHERE Tipo_user = 'Main-admin'";
+                $stmtCargo = $conn->prepare($updateCargo);
+
+                if (!$stmtCargo->execute()) {
+                    $erro = true;
+                    $textoErro = "Erro ao remover Main-Admin de outros utilizadores: " . $stmtCargo->error;
+                }
+                $stmtCargo->close();
+
+                if (!$erro) {
+                    // Atualiza o cargo
+                    $updateCargo = "UPDATE user SET Tipo_user = ? WHERE Id_user = ?";
+                    $stmtCargo = $conn->prepare($updateCargo);
+                    $stmtCargo->bind_param("si", $novoCargo, $idEditar);
+
+                    if (!$stmtCargo->execute()) {
+                        $erro = true;
+                        $textoErro = "Erro ao atualizar o cargo: " . $stmtCargo->error;
+                    } else {
+                        $efetuadaTroca = true;
+                    }
+                    $stmtCargo->close();
+                }
             } else {
-                $efetuadaTroca = true;
+                // Atualiza o cargo normalmente
+                $updateCargo = "UPDATE user SET Tipo_user = ? WHERE Id_user = ?";
+                $stmtCargo = $conn->prepare($updateCargo);
+                $stmtCargo->bind_param("si", $novoCargo, $idEditar);
+
+                if (!$stmtCargo->execute()) {
+                    $erro = true;
+                    $textoErro = "Erro ao atualizar o cargo: " . $stmtCargo->error;
+                } else {
+                    $efetuadaTroca = true;
+                }
+                $stmtCargo->close();
             }
         }
+
+        
     } else {
         $erro = true;
         $textoErro = "Utilizador não encontrado.";
@@ -106,16 +149,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 } else {
     $erro = true;
     $textoErro = "Método de requisição inválido.";
-    
 }
 
 if (!$erro && $efetuadaTroca) {
     mostrarPopUp("Utilizador atualizado com sucesso!");
-    
 } else if ($erro) {
     mostrarPopUp($textoErro);
-    
-    
 }
 
 function caminho()
