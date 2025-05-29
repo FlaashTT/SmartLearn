@@ -103,10 +103,18 @@ $idEditar = isset($_POST['idEditar']) ? $_POST['idEditar'] : null;
                             } else {
 
 
-                                $query = "SELECT * from user
+                                $query = "SELECT * FROM user
                                         WHERE Tipo_user = 'admin' OR Tipo_user = 'Main-admin'
-                                            
-                                        
+                                        ORDER BY
+                                            -- Prioridade 1: Main-admin primeiro
+                                            CASE 
+                                                WHEN Tipo_user = 'Main-admin' THEN 0
+                                                WHEN Tipo_user = 'admin' AND Estado_conta = 'Ativo' THEN 1
+                                                WHEN Tipo_user = 'admin' AND Estado_conta = 'Eliminado' THEN 2
+                                                ELSE 3
+                                            END,
+                                            -- Ordenar por nome (ou email) dentro de cada grupo
+                                            Pnome_user ASC
                                         LIMIT ?, ?
                                         ";
                                 $stmt = $conn->prepare($query);
@@ -138,7 +146,23 @@ $idEditar = isset($_POST['idEditar']) ? $_POST['idEditar'] : null;
                                     } else {
                                         echo '<td><span class="tag-cargo admin">Admin</span></td>';
                                     }
-                                    echo '
+
+
+                                    if ($row['Estado_conta'] === "Eliminado") {
+                                        echo '
+                                        <td class="actions">
+                                            <div style="display: flex; gap: 8px;">
+                                                <p>Conta eliminada</p>
+                                            </div>
+                                        </td>
+                                        ';
+                                    } else if (
+                                        ($_SESSION['utilizadorOn']['Tipo_user'] === "Main-admin") ||
+                                        ($_SESSION['utilizadorOn']['Tipo_user'] === "Admin" && $row['Tipo_user'] !== "Main-admin")
+                                    ) {
+                                        echo '
+
+
 
                                             <td class="actions">
                                                 <div style="display: flex; gap: 8px;">
@@ -146,13 +170,23 @@ $idEditar = isset($_POST['idEditar']) ? $_POST['idEditar'] : null;
                                                         <button type="button" class="btn-editar" onclick="abrirModalEditar(this)">
                                                             Editar
                                                         </button>
-                                                    
 
-                                                    
-                                                        <input type="hidden" name="idEliminiar" value="' . $row['Id_user'] . '">
-                                                        <button type="button" class="btn-eliminar" onclick="abrirModalEliminar(\'' . $row['Email'] . ' \')">
-                                                            Eliminar
-                                                        </button>
+                                                        ';
+                                        if ($row['Tipo_user'] !== "Main-admin") {
+                                            echo '
+                                                            <button type="button" class="btn-eliminar" onclick="abrirModalEliminar(this)">
+                                                                Eliminar
+                                                            </button>
+                                                            ';
+                                        } else {
+                                            echo '
+                                                            <button type="button" class="btn-eliminar" style="pointer-events: none; cursor: default; opacity: 0.6;">
+                                                                Indisponivel
+                                                            </button>
+                                                            ';
+                                        }
+
+                                        echo '
                                                     
                                                 </div>
                                             </td>
@@ -161,6 +195,8 @@ $idEditar = isset($_POST['idEditar']) ? $_POST['idEditar'] : null;
 
                                         </tr>
                                         ';
+                                    }
+
                                     echo '
                                             <form method="POST" action="acoes/alterarUtilizador.php" style="margin: 0;">
                                                 <input type="hidden" name="idEditar" id=IdEditar value="">
@@ -176,7 +212,7 @@ $idEditar = isset($_POST['idEditar']) ? $_POST['idEditar'] : null;
                                                         <input type="email" id="inputEmail"   name="NovoEmail" style="width: 100%; padding: 8px;">
                                                         
                                                         <label>Cargo:</label>
-                                                        <select name="novoCargo"  style="width: 100%; padding: 8px;">
+                                                        <select name="novoCargo" id="novoCargo" style="width: 100%; padding: 8px;">
                                                          <option value="" disabled selected>Selecione um cargo</option>
                                     ';
                                     if ($row['Tipo_user'] === 'Main-admin') {
@@ -186,18 +222,26 @@ $idEditar = isset($_POST['idEditar']) ? $_POST['idEditar'] : null;
                                                         <option value="Admin">Editor</option>
                                                         <option value="Cliente">Cliente</option>
                                                         </select>
+                                                        <p id="mensagem" style="color:Red; display:none"> Não pode remover o cargo de Main admin</p>
                                                         <div class="modal-buttons">
                                                             <button type="button" onclick="fecharModal(\'editarModal\')">Cancelar</button>
                                                             <button type="submit">Guardar</button>
                                                         </div>
+                                                        <div id="confirmacaoTrocaMainAdmin" style="display: none;">
+                                                            <label>
+                                                                <input type="checkbox" name="checkboxConfirmacao" id="checkboxConfirmacao">
+                                                                Confirmo que desejo transferir o cargo de Main Admin da plataforma.
+                                                            </label>
+                                                        </div>
+
                                                     </div>
                                                 </div>
                                             </form>
 
 
                                             <!-- Modal Eliminar -->
-                                            <form method="POST" action="eliminarUserAdmin.php.php" style="margin: 0;">
-                                                <input type="hidden" name="idEliminiar" value="' . $row['Id_user'] . '">
+                                            <form method="POST" action="acoes/eliminarUser.php" style="margin: 0;">
+                                                <input type="hidden" name="idEliminar" id="idEliminar" value="">
                                                 <div id="eliminarModal" class="modal">
                                                     <div class="modal-content">
                                                         <span class="close" onclick="fecharModal(\'eliminarModal\')">&times;</span>
@@ -305,6 +349,8 @@ $idEditar = isset($_POST['idEditar']) ? $_POST['idEditar'] : null;
         }
 
         function abrirModalEditar(button) {
+            let novoCargo = document.getElementById("novoCargo");
+            let mensagem = document.getElementById("mensagem");
             // Obtém a linha da tabela (tr) onde o botão foi clicado
             var row = button.closest('tr');
 
@@ -319,13 +365,55 @@ $idEditar = isset($_POST['idEditar']) ? $_POST['idEditar'] : null;
             document.getElementById('inputNome').value = nome;
             document.getElementById('inputEmail').value = email;
             document.getElementById('IdEditar').value = id;
+
+            if (cargo === "Main Admin") {
+                //esconder o campo novo admin
+                novoCargo.style.display = "none";
+                mensagem.style.display = "block";
+            } else {
+                novoCargo.style.display = "block";
+                mensagem.style.display = "none";
+            }
         }
+    </script>
 
 
-        function abrirModalEliminar(Email) {
+    <script>
+        //function abrirModalEliminar(Email) {
+        function abrirModalEliminar(button) {
             document.getElementById('eliminarModal').style.display = 'block';
-            document.querySelector('#eliminarModal p').innerHTML = `Tens a certeza que queres eliminar <strong>${Email}</strong>?`;
+
+
+
+            var row = button.closest('tr');
+
+            // Obtém os dados da linha
+            var id = row.getAttribute('data-id');
+            var email = row.cells[3].innerText; // Coluna do email
+
+            document.getElementById('idEliminar').value = id;
+
+            document.querySelector('#eliminarModal p').innerHTML = `Tens a certeza que queres eliminar <strong>${email}</strong>?`;
+
+
         }
+
+
+
+
+        let novoCargo = document.getElementById("novoCargo");
+        let confirmacaoTrocaMainAdmin = document.getElementById("confirmacaoTrocaMainAdmin");
+        novoCargo.addEventListener("change", function() {
+            if (novoCargo.value === "Main-admin") {
+                confirmacaoTrocaMainAdmin.style.display = "block";
+
+            } else {
+                confirmacaoTrocaMainAdmin.style.display = "none";
+
+            }
+
+
+        });
     </script>
 
 
