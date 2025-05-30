@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 22-Maio-2025 às 14:18
+-- Tempo de geração: 30-Maio-2025 às 17:42
 -- Versão do servidor: 10.4.32-MariaDB
 -- versão do PHP: 8.2.12
 
@@ -34,21 +34,6 @@ CREATE TABLE `carrinho_compras` (
   `Id_user` int(11) NOT NULL,
   `Id_curso` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Extraindo dados da tabela `carrinho_compras`
---
-
-INSERT INTO `carrinho_compras` (`Id_carrinho`, `Id_user`, `Id_curso`) VALUES
-(56, 32, 5),
-(57, 32, 6),
-(58, 32, 7),
-(59, 32, 8),
-(60, 32, 9),
-(61, 32, 10),
-(62, 32, 11),
-(63, 32, 12),
-(64, 32, 13);
 
 -- --------------------------------------------------------
 
@@ -123,7 +108,7 @@ INSERT INTO `curso` (`Id_curso`, `Nome_curso`, `Id_categoria`, `Id_idioma`, `Cri
 (2, 'Curso de Programação', NULL, 2, 14, '2025-04-01', 'capa_curso.png', 'Curso básico de programação', 'Aprenda os fundamentos da programação', NULL, 25.00, 'ativo', 0, 100, '01:30:00', 'Iniciante', 10, 'Nenhum', 'youtube', NULL, 'programação, iniciante, código'),
 (3, 'Nome do Curso ', 1, 1, 32, '2025-04-08', 'capa_curso.png', 'Pequena descrição do curso', 'Descrição completa do curso com todos os detalhes.', 99.99, 0.00, 'ativo', 1, 150, '17:00:10', 'intermedio', 5, 'Requisitos básicos de informática', '', 'http://exemplo.com/curso', 'exemplo, curso, online'),
 (4, 'teste ', NULL, 2, 32, '2025-04-08', 'capa_curso.png', 'Pequena descrição do cursoPequena descrição do cursoPequena descrição do cursoPequena descrição do c', 'Este curso fornece uma introdução abrangente aos princípios da cibersegurança. Os formandos irão aprender sobre ameaças, vulnerabilidades, e mecanismos de defesa. A formação também aborda práticas de segurança pessoal e empresarial, políticas de segurança, e muito mais. Ideal para quem pretende iniciar carreira na área ou reforçar conhecimentos existentes. A conclusão bem-sucedida deste curso confere um certificado de participação.', 99.99, 0.00, 'ativo', 5, 150, '00:00:10', 'avançado', 5, 'Requisitos básicos de informática', '', 'http://exemplo.com/curso', 'exemplo, curso, online'),
-(5, 'Curso 1', 1, 1, 32, '2025-05-22', '/imagens/curso1.jpg', 'Descrição curta do curso 1', 'Descrição completa do curso 1', 49.99, 59.99, 'ativo', 5, 120, '00:00:10', '', 5, 'Noções básicas de informática', '', 'https://curso1.exemplo.com', 'curso, informática'),
+(5, 'Curso 1', 1, 1, 32, '2025-05-22', 'curso1.jpg', 'Descrição curta do curso 1', 'Descrição completa do curso 1', 49.99, 59.99, 'ativo', 5, 120, '00:00:10', '', 5, 'Noções básicas de informática', '', 'https://curso1.exemplo.com', 'curso, informática'),
 (6, 'Curso 2', 1, 1, 32, '2025-05-22', '/imagens/curso2.jpg', 'Descrição curta do curso 2', 'Descrição completa do curso 2', 29.99, 39.99, 'ativo', 4, 80, '00:00:08', '', 4, 'Nenhum requisito', '', 'https://curso2.exemplo.com', 'curso, básico'),
 (7, 'Curso 3', 1, 1, 32, '2025-05-22', '/imagens/curso3.jpg', 'Descrição curta do curso 3', 'Descrição completa do curso 3', 59.99, 69.99, 'ativo', 5, 200, '00:00:15', 'avançado', 7, 'Conhecimentos intermediários', '', 'https://curso3.exemplo.com', 'curso, avançado'),
 (8, 'Curso 4', 1, 1, 32, '2025-05-22', '/imagens/curso4.jpg', 'Descrição curta do curso 4', 'Descrição completa do curso 4', 19.99, 24.99, 'ativo', 4, 50, '00:00:06', '', 3, 'Nenhum requisito', '', 'https://curso4.exemplo.com', 'curso, iniciante'),
@@ -146,7 +131,7 @@ CREATE TABLE `cursos_adquiridos` (
   `Data_compra` date NOT NULL,
   `Progresso` enum('Iniciado','Concluido') DEFAULT 'Iniciado',
   `Percentagem_progresso` int(11) NOT NULL DEFAULT 0,
-  `AdicionadoPor` int(11) NOT NULL
+  `AdicionadoPor` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -154,7 +139,16 @@ CREATE TABLE `cursos_adquiridos` (
 --
 
 INSERT INTO `cursos_adquiridos` (`Id_adquirido`, `Id_user`, `Id_curso`, `Data_compra`, `Progresso`, `Percentagem_progresso`, `AdicionadoPor`) VALUES
-(1, 39, 2, '0000-00-00', 'Iniciado', 0, 32);
+(2, 39, 5, '0000-00-00', 'Iniciado', 0, 39),
+(3, 39, 6, '0000-00-00', 'Iniciado', 0, 32),
+(4, 39, 7, '0000-00-00', 'Iniciado', 0, 32),
+(5, 39, 8, '0000-00-00', 'Iniciado', 0, 32),
+(6, 39, 9, '0000-00-00', 'Iniciado', 0, 32),
+(7, 39, 10, '0000-00-00', 'Iniciado', 0, 39),
+(8, 39, 11, '0000-00-00', 'Iniciado', 0, 32),
+(9, 39, 12, '0000-00-00', 'Iniciado', 0, 32),
+(10, 32, 13, '0000-00-00', 'Iniciado', 0, 32),
+(12, 32, 9, '2025-05-23', 'Iniciado', 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -220,7 +214,8 @@ INSERT INTO `historico_compras` (`Id_historicoCompras`, `Id_user`, `Data_compra`
 (8, 39, '2025-04-15', 'carteira', 3),
 (9, 32, '2025-04-16', 'reembolsado', 3),
 (10, 32, '2025-04-16', 'carteira', 4),
-(11, 32, '2025-05-06', 'carteira', 3);
+(11, 32, '2025-05-06', 'carteira', 3),
+(12, 32, '2025-05-23', 'carteira', 9);
 
 -- --------------------------------------------------------
 
@@ -254,7 +249,7 @@ CREATE TABLE `logs_sistema` (
   `Descricao_log` varchar(100) NOT NULL,
   `Tipo_log` enum('Informacional','Erro','Aviso','Novo Registo','Deposito de saldo','Levantamento de saldo','Compra curso','Reembolso curso') NOT NULL,
   `Data_log` datetime NOT NULL,
-  `saldo` double NOT NULL
+  `saldo` double DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -284,7 +279,14 @@ INSERT INTO `logs_sistema` (`Id_log`, `Id_user`, `Descricao_log`, `Tipo_log`, `D
 (53, 32, 'Foi depositado na conta o valor de 500€ euros', 'Deposito de saldo', '2025-04-16 12:02:37', 500),
 (54, 32, 'O utilizador realizou uma compra no valor de 245.9754 €', 'Compra curso', '2025-04-16 12:06:07', 245.97539999999998),
 (55, 32, 'Foi solicitado reembolso do curso com id3', 'Reembolso curso', '2025-04-16 12:10:31', 99.99),
-(56, 32, 'O utilizador realizou uma compra no valor de 122.9877 €', 'Compra curso', '2025-05-06 12:38:59', 122.98769999999999);
+(56, 32, 'O utilizador realizou uma compra no valor de 122.9877 €', 'Compra curso', '2025-05-06 12:38:59', 122.98769999999999),
+(57, 32, 'O utilizador realizou uma compra no valor de 49.1877 €', 'Compra curso', '2025-05-23 11:27:39', 49.18770000000001),
+(58, 71, 'Foi criado um novo utilizador no sistema!', 'Novo Registo', '2025-05-30 16:20:16', NULL),
+(59, 72, 'Foi criado um novo utilizador no sistema!', 'Novo Registo', '2025-05-30 16:24:48', NULL),
+(60, 73, 'Foi criado um novo utilizador no sistema!', 'Novo Registo', '2025-05-30 16:25:38', NULL),
+(61, 74, 'Foi criado um novo utilizador no sistema!', 'Novo Registo', '2025-05-30 16:28:02', NULL),
+(62, 75, 'Foi criado um novo utilizador no sistema!', 'Novo Registo', '2025-05-30 16:29:16', NULL),
+(63, 76, 'Foi criado um novo utilizador no sistema!', 'Novo Registo', '2025-05-30 16:38:37', NULL);
 
 -- --------------------------------------------------------
 
@@ -361,7 +363,7 @@ CREATE TABLE `user` (
   `Password` varchar(64) NOT NULL,
   `Data_criacao` date NOT NULL,
   `Email` varchar(50) NOT NULL,
-  `Tipo_user` enum('Admin','Cliente') NOT NULL DEFAULT 'Cliente',
+  `Tipo_user` enum('Admin','Cliente','Main-admin') NOT NULL DEFAULT 'Cliente',
   `Carteira` decimal(10,2) DEFAULT 0.00,
   `URL_facebook` varchar(100) DEFAULT NULL,
   `URL_youtube` varchar(100) DEFAULT NULL,
@@ -374,8 +376,23 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`Id_user`, `PNome_user`, `SNome_user`, `Estado_conta`, `Biografia`, `Password`, `Data_criacao`, `Email`, `Tipo_user`, `Carteira`, `URL_facebook`, `URL_youtube`, `URL_linkedin`, `URL_foto_perfilUser`) VALUES
-(32, 'ruben', 'bras', 'Ativo', 'teste', '03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4', '2025-04-02', 'vb@gmail.com', 'Admin', 99999999.00, 'testeee', 'teste', 'test', 'fotoPerfil_32.jpg'),
-(39, 'teste', 'teste', 'Ativo', NULL, '6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b', '2025-04-15', 'teste@gmail.com', 'Cliente', 77.01, NULL, NULL, NULL, NULL);
+(32, 'Ruben', 'Bras', 'Ativo', 'teste', '03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4', '2025-04-02', 'vb@gmail.com', 'Main-admin', 99999949.81, 'testeee', 'teste', 'test', 'fotoPerfil_32.jpg'),
+(39, 'teste', 'teste', 'Ativo', NULL, '6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b', '2025-04-15', 'teste@gmail.com', 'Cliente', 77.01, NULL, NULL, NULL, NULL),
+(40, 'ana', 'gomes', 'Ativo', NULL, 'senha123', '2024-01-10', 'ana.gomes@example.com', 'Cliente', 0.00, NULL, NULL, NULL, NULL),
+(41, 'Bruno', 'Ferreiras', 'Ativo', NULL, '123bruno', '2024-02-15', 'bruno.ferreira@example.com', 'Admin', 0.00, NULL, NULL, NULL, NULL),
+(42, 'Carla', 'Santos', 'Eliminado', NULL, 'carlaPass', '2024-03-20', 'carla.santos@example.com', 'Admin', 0.00, NULL, NULL, NULL, NULL),
+(43, 'Daniel', 'Oliveira', 'Ativo', NULL, 'dan1234', '2024-01-05', 'daniel.oliveira@example.com', 'Admin', 0.00, NULL, NULL, NULL, NULL),
+(44, 'Eduarda', 'Martins', 'Ativo', NULL, 'edupass', '2024-02-22', 'eduarda.martins@example.com', 'Admin', 0.00, NULL, NULL, NULL, NULL),
+(45, 'Filipe', 'Costa', 'Ativo', NULL, 'filipeC0d3', '2024-04-01', 'filipe.costa@example.com', 'Admin', 0.00, NULL, NULL, NULL, NULL),
+(46, 'Gabriela', 'Rocha', 'Ativo', NULL, 'gabriela123', '2024-03-18', 'gabriela.rocha@example.com', 'Admin', 0.00, NULL, NULL, NULL, NULL),
+(47, 'Henrique', 'Lopes', 'Ativo', NULL, 'henriquePass', '2024-05-01', 'henrique.lopes@example.com', 'Admin', 0.00, NULL, NULL, NULL, NULL),
+(48, 'Inês', 'Pereira', 'Ativo', NULL, 'ines321', '2024-05-10', 'ines.pereira@example.com', 'Admin', 0.00, NULL, NULL, NULL, NULL),
+(49, 'João', 'Vieira', 'Ativo', NULL, 'joao_123', '2024-01-25', 'joao.vieira@example.com', 'Admin', 0.00, NULL, NULL, NULL, NULL),
+(50, 'Kátia', 'andrade', 'Ativo', NULL, 'katia456', '2024-04-12', 'katia.gomes@example.com', 'Admin', 0.00, NULL, NULL, NULL, NULL),
+(51, 'Lucas', 'Ribeiro', 'Ativo', NULL, 'lucasPass', '2024-03-05', 'lucas.ribeiro@example.com', 'Admin', 0.00, NULL, NULL, NULL, NULL),
+(52, 'Mariana', 'Carvalho', 'Ativo', NULL, 'mariC123', '2024-02-28', 'mariana.carvalho@example.com', 'Admin', 0.00, NULL, NULL, NULL, NULL),
+(53, 'Nuno', 'Teixeira', 'Eliminado', NULL, 'nuno777', '2024-01-17', 'nuno.teixeira@example.com', 'Admin', 0.00, NULL, NULL, NULL, NULL),
+(54, 'Olívia', 'Sousa', 'Eliminado', NULL, 'olivia999', '2024-03-30', 'olivia.sousa@example.com', 'Admin', 0.00, NULL, NULL, NULL, NULL);
 
 --
 -- Índices para tabelas despejadas
@@ -491,7 +508,8 @@ ALTER TABLE `ticket`
 -- Índices para tabela `user`
 --
 ALTER TABLE `user`
-  ADD PRIMARY KEY (`Id_user`);
+  ADD PRIMARY KEY (`Id_user`),
+  ADD UNIQUE KEY `unique_email` (`Email`);
 
 --
 -- AUTO_INCREMENT de tabelas despejadas
@@ -525,7 +543,7 @@ ALTER TABLE `curso`
 -- AUTO_INCREMENT de tabela `cursos_adquiridos`
 --
 ALTER TABLE `cursos_adquiridos`
-  MODIFY `Id_adquirido` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `Id_adquirido` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT de tabela `fase`
@@ -537,7 +555,7 @@ ALTER TABLE `fase`
 -- AUTO_INCREMENT de tabela `historico_compras`
 --
 ALTER TABLE `historico_compras`
-  MODIFY `Id_historicoCompras` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `Id_historicoCompras` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT de tabela `idioma`
@@ -549,7 +567,7 @@ ALTER TABLE `idioma`
 -- AUTO_INCREMENT de tabela `logs_sistema`
 --
 ALTER TABLE `logs_sistema`
-  MODIFY `Id_log` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=57;
+  MODIFY `Id_log` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=64;
 
 --
 -- AUTO_INCREMENT de tabela `midia`
@@ -585,7 +603,7 @@ ALTER TABLE `ticket`
 -- AUTO_INCREMENT de tabela `user`
 --
 ALTER TABLE `user`
-  MODIFY `Id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+  MODIFY `Id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=78;
 
 --
 -- Restrições para despejos de tabelas

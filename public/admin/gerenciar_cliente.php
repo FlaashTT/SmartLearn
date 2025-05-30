@@ -11,6 +11,7 @@ $idEditar = isset($_POST['idEditar']) ? $_POST['idEditar'] : null;
 ?>
 
 
+
 <!DOCTYPE html>
 <html lang="pt">
 
@@ -22,7 +23,7 @@ $idEditar = isset($_POST['idEditar']) ? $_POST['idEditar'] : null;
         rel="stylesheet"
         href="../../assets/fontawesome/fontawesome/css/all.min.css" />
     <link rel="stylesheet" href="../../assets/css/admin/style_admin.css" />
-    <link rel="stylesheet" href="../../assets/css/admin/style_utilizadores_admin_gerenciar.css" />
+    <link rel="stylesheet" href="../../assets/css/admin/style_utilizadores_cliente_gerenciar.css" />
 </head>
 
 <body>
@@ -43,7 +44,7 @@ $idEditar = isset($_POST['idEditar']) ? $_POST['idEditar'] : null;
             <main class="container-page">
                 <section class="main-content" style="display: flex; align-items: center; justify-content: space-between;">
                     <h1 style="display: flex; align-items: center;">
-                        <i style="font-size: 18px; margin-right: 10px;" class="fa-solid fa-users-gear"></i> Gerenciar admins
+                        <i style="font-size: 18px; margin-right: 10px;" class="fa-solid fa-users-gear"></i> Gerenciar clientes
                     </h1>
                 </section>
 
@@ -90,20 +91,13 @@ $idEditar = isset($_POST['idEditar']) ? $_POST['idEditar'] : null;
                             <?php
                             if ($textoPesquisa != '') {
                                 $query = "SELECT * FROM user
-                                            WHERE (Tipo_user = 'admin' OR Tipo_user = 'Main-admin')
+                                            WHERE (Tipo_user = 'Cliente' )
                                             AND (
                                                 PNome_user LIKE ? OR
                                                 SNome_user LIKE ? OR
                                                 Email LIKE ?
                                             )
                                             ORDER BY
-                                            -- Prioridade 1: Main-admin primeiro
-                                            CASE 
-                                                WHEN Tipo_user = 'Main-admin' THEN 0
-                                                WHEN Tipo_user = 'admin' AND Estado_conta = 'Ativo' THEN 1
-                                                WHEN Tipo_user = 'admin' AND Estado_conta = 'Eliminado' THEN 2
-                                                ELSE 3
-                                            END,
                                             -- Ordenar por nome (ou email) dentro de cada grupo
                                             Pnome_user ASC
                                             LIMIT ?, ?";
@@ -114,16 +108,9 @@ $idEditar = isset($_POST['idEditar']) ? $_POST['idEditar'] : null;
 
 
                                 $query = "SELECT * FROM user
-                                        WHERE Tipo_user = 'admin' OR Tipo_user = 'Main-admin'
+                                        WHERE Tipo_user = 'Cliente' 
                                         ORDER BY
-                                            -- Prioridade 1: Main-admin primeiro
-                                            CASE 
-                                                WHEN Tipo_user = 'Main-admin' THEN 0
-                                                WHEN Tipo_user = 'admin' AND Estado_conta = 'Ativo' THEN 1
-                                                WHEN Tipo_user = 'admin' AND Estado_conta = 'Eliminado' THEN 2
-                                                ELSE 3
-                                            END,
-                                            -- Ordenar por nome (ou email) dentro de cada grupo
+                                            
                                             Pnome_user ASC
                                         LIMIT ?, ?
                                         ";
@@ -150,12 +137,10 @@ $idEditar = isset($_POST['idEditar']) ? $_POST['idEditar'] : null;
                                     echo '
                                             <td>' . $row['PNome_user'] . ' ' . $row['SNome_user'] . '</td>
                                             <td>' . $row['Email'] . '</td>
-                                            ';
-                                    if ($row['Tipo_user'] === 'Main-admin') {
-                                        echo '<td><span class="tag-cargo root-admin">Main Admin</span></td>';
-                                    } else {
-                                        echo '<td><span class="tag-cargo admin">Admin</span></td>';
-                                    }
+                                            
+                                        <td><span class="tag-cargo admin">Cliente</span></td>
+                                        ';
+                                    
 
 
                                     if ($row['Estado_conta'] === "Eliminado") {
@@ -284,13 +269,13 @@ $idEditar = isset($_POST['idEditar']) ? $_POST['idEditar'] : null;
                     <?php
                     if ($textoPesquisa != '') {
                         $totalQuery = "SELECT COUNT(*) as total FROM user 
-                   WHERE (Tipo_user = 'admin' OR Tipo_user = 'Main-admin') 
+                   WHERE (Tipo_user = 'Cliente' ) 
                    AND (PNome_user LIKE ? OR SNome_user LIKE ? OR Email LIKE ?)";
                         $stmtTotal = $conn->prepare($totalQuery);
                         $stmtTotal->bind_param("sss", $pesquisaParam, $pesquisaParam, $pesquisaParam);
                     } else {
                         $totalQuery = "SELECT COUNT(*) as total FROM user 
-                   WHERE Tipo_user = 'admin' OR Tipo_user = 'Main-admin'";
+                   WHERE Tipo_user = 'Cliente'";
                         $stmtTotal = $conn->prepare($totalQuery);
                     }
 

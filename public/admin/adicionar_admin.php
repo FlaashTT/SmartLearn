@@ -30,9 +30,7 @@ include("segurançaAdmin.php");
     <!-- Secção Principal (Hero) -->
     <div class="container-admin">
         <main class="container">
-            <?php
-            include("../../src/views/utils/sidebarAdmin.html");
-            ?>
+            <?php include("../../src/views/utils/sidebarAdmin.html"); ?>
 
             <main class="container-page">
                 <section class="main-content" style="display: flex; align-items: center; justify-content: space-between;">
@@ -50,75 +48,179 @@ include("segurançaAdmin.php");
                         <button class="tab" data-tab="finalizar">Finalizar</button>
                     </div>
 
-
-                    <form method="POST" action="acoes/AdminAdicionaNovoUser.php">
+                    <form method="POST" action="acoes/AdminAdicionaNovoUser.php" enctype="multipart/form-data">
                         <input type="hidden" name="TipoAdd" value="Admin">
-                        <!-- CONTEÚDO DA ABA BÁSICO -->
+
+                        <!-- Aba BÁSICO -->
                         <div class="form-content tab-content active" data-content="basico">
-                            <form class="form-content">
-                                <div class="form-group">
-                                    <label for="Nome">Primeiro Nome</label>
-                                    <input type="text" name="PnomeUser" id="PNome" placeholder="Digite o nome do administrador" required />
-                                </div>
-                                <div class="form-group">
-                                    <label for="descricao-curta">Sobrenome</label>
-                                    <input type="text" name="Snomeuser" id="descricao-curta" placeholder="Digite um sobrenome do administrador" required />
-                                </div>
-                                <div class="form-group">
-                                    <label for="descricao">Biografia</label>
-                                    <textarea id="descricao" name="Biografia" placeholder="Escreve a biografia (opcional)"></textarea>
-                                </div>
-                                <div class="form-group">
-                                    <label for="categorias">Imagem</label>
-                                    <input type="file" name="FotoPerfil" id="ficheiro" accept="image/*" />
-                                </div>
-                            </form>
+                            <div class="form-group">
+                                <label for="Nome">Primeiro Nome</label>
+                                <input type="text" name="PnomeUser" id="PNome" placeholder="Digite o nome do administrador" required />
+                            </div>
+                            <div class="form-group">
+                                <label for="SNome">Sobrenome</label>
+                                <input type="text" name="Snomeuser" id="SNome" placeholder="Digite um sobrenome do administrador" required />
+                            </div>
+                            <div class="form-group">
+                                <label for="descricao">Biografia</label>
+                                <textarea id="descricao" name="Biografia" placeholder="Escreve a biografia (opcional)"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="categorias">Imagem</label>
+                                <input type="file" id="ficheiro" name="url_imagem" accept=".jpg, .jpeg, .png" />
+                            </div>
                         </div>
 
-                        <!-- CONTEÚDO DA ABA LOGIN -->
+                        <!-- Aba LOGIN -->
                         <div class="form-content tab-content" data-content="info">
-                            <form class="form-content">
-                                <div class="form-group">
-                                    <label for="email">Email</label>
-                                    <input type="email" name="Email" id="email" placeholder="Digite o email do administrador" required />
-                                </div>
-                                <div class="form-group">
-                                    <label for="password">Senha</label>
-                                    <input type="password" name="Password" id="password" placeholder="Digite a password do administrador" required />
-                                </div>
-                            </form>
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="email" name="Email" id="email" placeholder="Digite o email do administrador" required />
+                            </div>
+                            <div class="form-group">
+                                <label for="password">Senha</label>
+                                <input type="password" name="Password" id="password" placeholder="Digite a password do administrador" required />
+                            </div>
                         </div>
 
-
-                        <!-- CONTEÚDO DA ABA PREÇOS -->
+                        <!-- Aba SOCIAL -->
                         <div class="form-content tab-content" data-content="precos">
-                            <form class="form-content">
-                                <div class="form-group">
-                                    <label for="urlface">Facebook</label>
-                                    <input type="url" name="URLfacebook" id="urlface" placeholder="Digite o URL da plataforma" />
-                                </div>
-                                <div class="form-group">
-                                    <label for="URLlinkedin">Linkedin</label>
-                                    <input type="url" name="URLlinkedin" id="URLlinkedin" placeholder="Digite o URL da plataforma" />
-                                </div>
-                                <div class="form-group">
-                                    <label for="URLyoutube">Youtube</label>
-                                    <input type="url" name="URLyoutube" id="URLyoutube" placeholder="Digite o URL da plataforma" />
-                                </div>
-                            </form>
+                            <div class="form-group">
+                                <label for="urlface">Facebook</label>
+                                <input type="url" name="URLfacebook" id="urlface" placeholder="Digite o URL da plataforma" />
+                            </div>
+                            <div class="form-group">
+                                <label for="URLlinkedin">Linkedin</label>
+                                <input type="url" name="URLlinkedin" id="URLlinkedin" placeholder="Digite o URL da plataforma" />
+                            </div>
+                            <div class="form-group">
+                                <label for="URLyoutube">Youtube</label>
+                                <input type="url" name="URLyoutube" id="URLyoutube" placeholder="Digite o URL da plataforma" />
+                            </div>
                         </div>
 
-                        <!-- CONTEÚDO DA ABA Finalizar -->
+                        <!-- Aba FINALIZAR -->
                         <div class="form-content tab-content" data-content="finalizar">
-                            <form class="form-content">
-                                <div class="icone-container">
-                                    <i class="fa-solid fa-check-double"></i>
-                                    <h2 class="titulo">Obrigado !</h2>
-                                    <p class="paragrafo">Tu estás a apenas um clique de distância</p>
-                                    <button type="submit" class="btn-enviar">Enviar</button>
-                                </div>
-                            </form>
+                            <div class="icone-container">
+                                <i class="fa-solid fa-check-double"></i>
+                                <h2 class="titulo">Obrigado !</h2>
+                                <p class="paragrafo">Tu estás a apenas um clique de distância</p>
+                                <p id="paragrafo_erro" style="color: red;">teste</p>
+                                <button type="submit" id="butonSubmit" class="btn-enviar">Enviar</button>
+                            </div>
                         </div>
+                        <script>
+                            const camposObrigatorios = ["PNome", "SNome", "email", "password"];
+                            const paragrafo = document.getElementById("paragrafo_erro");
+
+                            function validaEmail(email) {
+                                const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                                return re.test(email);
+                            }
+
+                            function validaURL(url) {
+                                try {
+                                    new URL(url);
+                                    return true;
+                                } catch (_) {
+                                    return false;
+                                }
+                            }
+
+                            function verificaCampos() {
+                                let mensagensErro = [];
+
+                                // Verificar campos obrigatórios
+                                let camposNaoPreenchidos = [];
+                                camposObrigatorios.forEach(id => {
+                                    const elemento = document.getElementById(id);
+                                    if (elemento && elemento.value.trim() === '') {
+                                        let nomeCampo;
+                                        switch (id) {
+                                            case "PNome":
+                                                nomeCampo = "Primeiro Nome";
+                                                break;
+                                            case "SNome":
+                                                nomeCampo = "Sobrenome";
+                                                break;
+                                            case "email":
+                                                nomeCampo = "Email";
+                                                break;
+                                            case "password":
+                                                nomeCampo = "Senha";
+                                                break;
+                                        }
+                                        camposNaoPreenchidos.push(nomeCampo);
+                                    }
+                                });
+                                if (camposNaoPreenchidos.length > 0) {
+                                    mensagensErro.push("Campos obrigatórios não preenchidos: " + camposNaoPreenchidos.join(", "));
+                                }
+
+                                // Verificar email
+                                const emailInput = document.getElementById("email");
+                                if (emailInput && emailInput.value.trim() !== '' && !validaEmail(emailInput.value.trim())) {
+                                    mensagensErro.push("Email inválido");
+                                }
+
+                                // Verificar URLs (caso estejam preenchidas)
+                                const urls = [{
+                                        id: "urlface",
+                                        nome: "Facebook"
+                                    },
+                                    {
+                                        id: "URLlinkedin",
+                                        nome: "LinkedIn"
+                                    },
+                                    {
+                                        id: "URLyoutube",
+                                        nome: "YouTube"
+                                    }
+                                ];
+
+                                let urlsInvalidas = [];
+                                urls.forEach(({
+                                    id,
+                                    nome
+                                }) => {
+                                    const input = document.getElementById(id);
+                                    if (input && input.value.trim() !== '' && !validaURL(input.value.trim())) {
+                                        urlsInvalidas.push(nome);
+                                    }
+                                });
+                                if (urlsInvalidas.length > 0) {
+                                    mensagensErro.push("URLs inválidas: " + urlsInvalidas.join(", ") + " (ex:https://www.site.com)");
+                                }
+
+                                // Exibir mensagens de erro
+                                if (mensagensErro.length > 0) {
+                                    paragrafo.style.display = "block";
+                                    paragrafo.innerHTML = mensagensErro.join("<br>");
+                                } else {
+                                    paragrafo.style.display = "none";
+                                    paragrafo.innerHTML = "";
+                                }
+                            }
+
+                            // Adiciona os listeners para os campos obrigatórios
+                            camposObrigatorios.forEach(id => {
+                                const elemento = document.getElementById(id);
+                                if (elemento) {
+                                    elemento.addEventListener("change", verificaCampos);
+                                }
+                            });
+
+                            // Adiciona os listeners para os campos de URL
+                            ["urlface", "URLlinkedin", "URLyoutube"].forEach(id => {
+                                const elemento = document.getElementById(id);
+                                if (elemento) {
+                                    elemento.addEventListener("change", verificaCampos);
+                                }
+                            });
+
+                            // Verifica inicialmente ao carregar
+                            verificaCampos();
+                        </script>
 
 
                         <div class="form-navigation">
@@ -131,7 +233,6 @@ include("segurançaAdmin.php");
                         </div>
                     </form>
                 </section>
-                </form>
             </main>
         </main>
     </div>

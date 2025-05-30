@@ -48,6 +48,7 @@ em categoria_curso.php fazer o modal como fiz no gerenciar_admin.php na mesma pa
 
 
 ---
+ 
 ## 🐞 Bugs a Corrigir
 - 
 
@@ -64,7 +65,12 @@ sem classificacao
 categorias
 mais de 60 euros
 
-
+🟠-pagina feita e verificada de bugs
+🟢-verificar se nao ha bugs
+🟡-a ser trabalhado/incompleto
+🔴-nem comecei
+🔵-falta css
+🟣-com bugs
 
 
 ---
