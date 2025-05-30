@@ -17,69 +17,67 @@
   _Localização do ficheiro:_  
   - `src\views\layout\admin\layout.....`
 
- 
+
 ---
 ## 🔧 Em Progresso
-- **Criacão da pagina gerenciamento perfil**
-  _Localização do ficheiro:_  
-  - `src\views\layout\admin\layout.....`
 
-
+- NDA
 
 ## 📌 Para Fazer
-- [X] Sitio onde tem dados das respostas do forms de satisfação dos clientes
+- [X] Sitio onde tem dados das respostas dos forms de satisfação dos clientes
 
-- style do modalEditarCategoria.php
+- Estilo do `modalEditarCategoria.php`
 
+- Pensar em provedores possíveis:  
+  - pessoal (dado pelo próprio criador)  
+  - YouTube  
+  - Facebook  
+  - outros
 
-provedores possiveis(pensar mais)
-pessoal(dado pelo proprio criador)
-youtube
-facebook
-outros
+- Finalizar `relatorio_logs.php` com as ações completas
 
-
-
-
-relatorio_logs.php concluir as açoes
-
-
-em categoria_curso.php fazer o modal como fiz no gerenciar_admin.php na mesma pagina
+- Em `categoria_curso.php`, fazer o modal como no `gerenciar_admin.php` (na mesma página)
 
 
 ---
  
 ## 🐞 Bugs a Corrigir
-- 
 
+### Categorias
+  
+- Idioma "Curso em Inglês" não está a funcionar  
+- Sem desconto diz ter 2, mas só mostra 1  
+- Falta tratamento de níveis (avançado e iniciante)  
+- Falta tratamento de duração (de 1 a 3 horas)  
+- Filtros com 5 estrelas / sem classificação  
+- Filtros por categorias  
+- Filtros "mais de 60 euros"
+  
+### Erro Crítico ❗
+```txt
 Fatal error: Uncaught ArgumentCountError: The number of elements in the type definition string must match the number of bind variables in C:\xampp\htdocs\SmartLearn\public\perfil\perfil_carteira.php:36 Stack trace: #0 C:\xampp\htdocs\SmartLearn\public\perfil\perfil_carteira.php(36): mysqli_stmt->bind_param('issii', 32, '%cur%', '%cur%', '%cur%', 10, 0) #1 {main} thrown in C:\xampp\htdocs\SmartLearn\public\perfil\perfil_carteira.php on line 36
+```
 
-
-categoria.php:
-- idioma curso ingles a nao funcionar
--Sem desconto diz ter 2 mas so mostra 1
--avançado e iniciante
-- de 1 a 3 horas
-5 estrelas
-sem classificacao
-categorias
-mais de 60 euros
-
-🟠-pagina feita e verificada de bugs
-🟢-verificar se nao ha bugs
-🟡-a ser trabalhado/incompleto
-🔴-nem comecei
-🔵-falta css
-🟣-com bugs
 
 
 ---
-## 💡 Ideias Futuras
-- 
 
+## 🔍 Estado de Páginas
+
+- 🟠 Página feita e verificada de bugs  
+- 🟢 Verificar se não há bugs  
+- 🟡 A ser trabalhado / incompleto  
+- 🔴 Nem comecei  
+- 🔵 Falta CSS  
+- 🟣 Com bugs
+
+---
+## 💡 Ideias Futuras
+
+- *(Sem ideias listadas por agora)*
 
 ---
 ## Dificuldades no processo
 
-dificuldade a realizar os filtro da pagina geral de cursos
+- Dificuldade a realizar os filtros da página geral de cursos
 
