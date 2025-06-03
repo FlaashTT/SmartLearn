@@ -51,7 +51,7 @@ $idEditar = isset($_POST['idEditar']) ? $_POST['idEditar'] : null;
                 <section class="course-list">
                     <h2>Histórico</h2>
                     <div class="filters">
-                        <form method="GET" action="gerenciar_admin.php">
+                        <form method="GET" action="gerenciar_cliente.php">
                             <div class="search-container">
                                 <input type="text" name="pesquisa" id="searchInput" placeholder="Pesquisar...  (necessario clicar no botão filtrar)">
                                 <button type="submit">Filtrar</button>
