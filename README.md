@@ -34,18 +34,10 @@ Before starting, make sure you have the following requirements installed:
 ### 3️⃣ Configure the Database
 1. Create a database in MySQL:
    ```sql
-   CREATE DATABASE smartlearn;
+   CREATE DATABASE smartlearndb;
    ```
 2. Import the `database.sql` file available in the project.
-3. Configure the `config.php` file with MySQL credentials:
-   ```php
-   <?php
-   define('DB_HOST', 'localhost');
-   define('DB_NAME', 'smartlearn');
-   define('DB_USER', 'root');
-   define('DB_PASS', 'your_password');
-   ?>
-   ```
+
 
 ### 4️⃣ Set Up the Server
 If using PHP's built-in server for testing:
