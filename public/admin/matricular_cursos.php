@@ -194,7 +194,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </script>";
 
     include("../popup.php");
+    include("../logs.php");
     mostrarPopUp("Inscreveu " . $emailUtilizador . " no curso " . $nomeCurso);
-    //log de inscriçao no curso 
+    
+
+    //o curso tem de ir para a tabela de cursos adquiridos do utilizador
+    //mostrar log
 }
 ?>

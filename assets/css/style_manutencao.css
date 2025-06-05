@@ -1,3 +1,32 @@
+.cronometro-container {
+  display: flex;
+  gap: 8px;
+  font-family: monospace;
+  font-size: 1.5em;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.cronometro-item {
+  background: #222;
+  color: #fff;
+  padding: 10px 15px;
+  border-radius: 6px;
+  min-width: 50px;
+  text-align: center;
+  user-select: none;
+  box-shadow: 0 0 5px rgba(0,0,0,0.5);
+}
+
+.cronometro-label {
+  font-size: 0.8em;
+  display: block;
+  margin-top: 3px;
+  color: #bbb;
+}
+
+
+
 /* Reset e configurações básicas */
 * {
   margin: 0;

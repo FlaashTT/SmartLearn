@@ -9,7 +9,8 @@ mysqli_report(MYSQLI_REPORT_OFF);
 $conn = mysqli_connect($dbhost, $dbuser, $dbpass, $database);
 
 if(!$conn){
-    header("Location: ../public/paginaErro.php");
+    header("Location: ../htdocs/SmartLearn/public/paginaErro.php");
+
     exit();
 }
 
