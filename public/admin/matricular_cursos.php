@@ -13,7 +13,10 @@ if (!$conn->connect_error) {
             $nomeCompleto = $row['PNome_user'] . ' ' . $row['SNome_user'];
             $email = $row['email'];
 
-            $nomes[] = $email . ' / ' . $nomeCompleto; // string simples concatenada
+            $nomes[] = [
+                'id' => $row['Id_user'],
+                'nome' => $email . ' / ' . $nomeCompleto
+            ];
         }
     }
 
@@ -70,10 +73,11 @@ if (!$conn->connect_error) {
 
                 <section class="page">
                     <h2>Matricular</h2>
-                    <form class="form-content" action="" method="POST" id="form-matricular">
+                    <form class="form-content" action="acoes/realizaMatricular.php" method="POST" id="form-matricular">
                         <div class="form-group">
                             <label for="input-utilizador">Utilizador <span>*</span></label>
                             <input type="text" id="input-utilizador" name="utilizador" placeholder="Digite o email do utilizador" required onkeyup="mostrarSugestoes('input-utilizador', 'sugestoes-utilizador', listaUtilizadores)">
+                            <input type="hidden" id="input-utilizador-id" name="utilizador_id">
                             <ul id="sugestoes-utilizador" class="sugestoes"></ul>
                         </div>
                         <div class="form-group">
@@ -111,7 +115,6 @@ if (!$conn->connect_error) {
     </script>
     <script>
         const listaUtilizadores = <?php echo json_encode($nomes, JSON_UNESCAPED_UNICODE); ?>;
-
         const listaCursos = <?php echo json_encode($cursos, JSON_UNESCAPED_UNICODE); ?>;
 
         console.log(listaUtilizadores);
@@ -129,12 +132,13 @@ if (!$conn->connect_error) {
 
                 if (inputId === 'input-curso') {
                     document.getElementById('input-curso-id').value = "";
+                } else if (inputId === 'input-utilizador') {
+                    document.getElementById('input-utilizador-id').value = "";
                 }
 
                 return;
             }
 
-            // Ajusta o filtro conforme o tipo do dado (string ou objeto)
             const resultados = dados.filter(item => {
                 if (typeof item === 'string') {
                     return item.toLowerCase().startsWith(termo);
@@ -158,9 +162,13 @@ if (!$conn->connect_error) {
                         li.textContent = item.nome;
                         li.onclick = () => {
                             input.value = item.nome;
+
                             if (inputId === 'input-curso') {
                                 document.getElementById('input-curso-id').value = item.id;
+                            } else if (inputId === 'input-utilizador') {
+                                document.getElementById('input-utilizador-id').value = item.id;
                             }
+
                             lista.style.display = "none";
                         };
                     }
@@ -170,8 +178,11 @@ if (!$conn->connect_error) {
                 lista.style.display = "block";
             } else {
                 lista.style.display = "none";
+
                 if (inputId === 'input-curso') {
                     document.getElementById('input-curso-id').value = "";
+                } else if (inputId === 'input-utilizador') {
+                    document.getElementById('input-utilizador-id').value = "";
                 }
             }
         }
@@ -179,26 +190,3 @@ if (!$conn->connect_error) {
 </body>
 
 </html>
-
-<?php
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $emailUtilizador = $_POST['utilizador'];
-    $nomeCurso = $_POST['curso'];
-    $cursoId = $_POST['curso_id'];
-
-
-    echo "<script>
-    if (!confirm('Tem a certeza que deseja matricular o utilizador $emailUtilizador no curso $nomeCurso?')) {
-        window.location.href = document.referrer;
-    }
-    </script>";
-
-    include("../popup.php");
-    include("../logs.php");
-    mostrarPopUp("Inscreveu " . $emailUtilizador . " no curso " . $nomeCurso);
-    
-
-    //o curso tem de ir para a tabela de cursos adquiridos do utilizador
-    //mostrar log
-}
-?>
