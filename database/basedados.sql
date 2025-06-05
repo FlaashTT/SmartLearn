@@ -5,10 +5,12 @@ $dbhost = 'localhost';
 $dbuser = 'root';
 $dbpass = '';
 
+mysqli_report(MYSQLI_REPORT_OFF);
 $conn = mysqli_connect($dbhost, $dbuser, $dbpass, $database);
 
 if(!$conn){
-    die("Erro na ligação com a base de dados: ". mysqli_connect_error());
+    header("Location: ../public/paginaErro.php");
+    exit();
 }
 
 ?>

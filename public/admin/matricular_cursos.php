@@ -3,24 +3,33 @@ include("../../database/basedados.sql");
 include("segurançaAdmin.php");
 
 
-
+$nomes = [];
+$cursos = [];
 if (!$conn->connect_error) {
-    $sql = "SELECT PNome_user FROM user";
+    $sql = "SELECT Id_user, PNome_user, SNome_user, email FROM user";
     $resultado = $conn->query($sql);
     if ($resultado->num_rows > 0) {
         while ($row = $resultado->fetch_assoc()) {
-            $nomes[] = $row['PNome_user'];
+            $nomeCompleto = $row['PNome_user'] . ' ' . $row['SNome_user'];
+            $email = $row['email'];
+
+            $nomes[] = $email . ' / ' . $nomeCompleto; // string simples concatenada
         }
     }
 
-    $sql = "SELECT Nome_curso FROM curso";
+    $sql = "SELECT ID_curso, Nome_curso FROM curso";
     $resultado = $conn->query($sql);
     if ($resultado->num_rows > 0) {
         while ($row = $resultado->fetch_assoc()) {
-            $cursos[] = $row['Nome_curso'];
+            // Mantém o nome do campo 'id' para facilitar no JS
+            $cursos[] = [
+                'id' => $row['ID_curso'],
+                'nome' => $row['Nome_curso']
+            ];
         }
     }
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -61,15 +70,16 @@ if (!$conn->connect_error) {
 
                 <section class="page">
                     <h2>Matricular</h2>
-                    <form class="form-content">
+                    <form class="form-content" action="" method="POST" id="form-matricular">
                         <div class="form-group">
                             <label for="input-utilizador">Utilizador <span>*</span></label>
-                            <input type="text" id="input-utilizador" placeholder="Digite o nome do utilizador" required onkeyup="mostrarSugestoes('input-utilizador', 'sugestoes-utilizador', listaUtilizadores)">
+                            <input type="text" id="input-utilizador" name="utilizador" placeholder="Digite o email do utilizador" required onkeyup="mostrarSugestoes('input-utilizador', 'sugestoes-utilizador', listaUtilizadores)">
                             <ul id="sugestoes-utilizador" class="sugestoes"></ul>
                         </div>
                         <div class="form-group">
                             <label for="input-curso">Curso <span>*</span></label>
-                            <input type="text" id="input-curso" placeholder="Digite o nome do curso" required
+                            <input type="hidden" id="input-curso-id" name="curso_id">
+                            <input type="text" id="input-curso" name="curso" placeholder="Digite o nome do curso" required
                                 onkeyup="mostrarSugestoes('input-curso', 'sugestoes-curso', listaCursos)">
                             <ul id="sugestoes-curso" class="sugestoes"></ul>
                         </div>
@@ -104,7 +114,8 @@ if (!$conn->connect_error) {
 
         const listaCursos = <?php echo json_encode($cursos, JSON_UNESCAPED_UNICODE); ?>;
 
-
+        console.log(listaUtilizadores);
+        console.log(listaCursos);
 
         function mostrarSugestoes(inputId, listaId, dados) {
             const input = document.getElementById(inputId);
@@ -115,30 +126,75 @@ if (!$conn->connect_error) {
 
             if (termo === "") {
                 lista.style.display = "none";
+
+                if (inputId === 'input-curso') {
+                    document.getElementById('input-curso-id').value = "";
+                }
+
                 return;
             }
 
-            // Agora só mostra sugestões que comecem com o texto introduzido
-            const resultados = dados.filter(item =>
-                item.toLowerCase().startsWith(termo)
-            );
+            // Ajusta o filtro conforme o tipo do dado (string ou objeto)
+            const resultados = dados.filter(item => {
+                if (typeof item === 'string') {
+                    return item.toLowerCase().startsWith(termo);
+                } else if (typeof item === 'object' && item.nome) {
+                    return item.nome.toLowerCase().startsWith(termo);
+                }
+                return false;
+            });
 
             if (resultados.length > 0) {
                 resultados.forEach(item => {
                     const li = document.createElement("li");
-                    li.textContent = item;
-                    li.onclick = () => {
-                        input.value = item;
-                        lista.style.display = "none";
-                    };
+
+                    if (typeof item === 'string') {
+                        li.textContent = item;
+                        li.onclick = () => {
+                            input.value = item;
+                            lista.style.display = "none";
+                        };
+                    } else if (typeof item === 'object') {
+                        li.textContent = item.nome;
+                        li.onclick = () => {
+                            input.value = item.nome;
+                            if (inputId === 'input-curso') {
+                                document.getElementById('input-curso-id').value = item.id;
+                            }
+                            lista.style.display = "none";
+                        };
+                    }
+
                     lista.appendChild(li);
                 });
                 lista.style.display = "block";
             } else {
                 lista.style.display = "none";
+                if (inputId === 'input-curso') {
+                    document.getElementById('input-curso-id').value = "";
+                }
             }
         }
     </script>
 </body>
 
 </html>
+
+<?php
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $emailUtilizador = $_POST['utilizador'];
+    $nomeCurso = $_POST['curso'];
+    $cursoId = $_POST['curso_id'];
+
+
+    echo "<script>
+    if (!confirm('Tem a certeza que deseja matricular o utilizador $emailUtilizador no curso $nomeCurso?')) {
+        window.location.href = document.referrer;
+    }
+    </script>";
+
+    include("../popup.php");
+    mostrarPopUp("Inscreveu " . $emailUtilizador . " no curso " . $nomeCurso);
+    //log de inscriçao no curso 
+}
+?>
