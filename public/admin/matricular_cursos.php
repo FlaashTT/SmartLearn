@@ -3,6 +3,24 @@ include("../../database/basedados.sql");
 include("segurançaAdmin.php");
 
 
+
+if (!$conn->connect_error) {
+    $sql = "SELECT PNome_user FROM user";
+    $resultado = $conn->query($sql);
+    if ($resultado->num_rows > 0) {
+        while ($row = $resultado->fetch_assoc()) {
+            $nomes[] = $row['PNome_user'];
+        }
+    }
+
+    $sql = "SELECT Nome_curso FROM curso";
+    $resultado = $conn->query($sql);
+    if ($resultado->num_rows > 0) {
+        while ($row = $resultado->fetch_assoc()) {
+            $cursos[] = $row['Nome_curso'];
+        }
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -46,15 +64,15 @@ include("segurançaAdmin.php");
                     <form class="form-content">
                         <div class="form-group">
                             <label for="input-utilizador">Utilizador <span>*</span></label>
-                            <input type="text" id="input-utilizador" placeholder="Digite o nome do utilizador" required            onkeyup="mostrarSugestoes('input-utilizador', 'sugestoes-utilizador', listaUtilizadores)">
+                            <input type="text" id="input-utilizador" placeholder="Digite o nome do utilizador" required onkeyup="mostrarSugestoes('input-utilizador', 'sugestoes-utilizador', listaUtilizadores)">
                             <ul id="sugestoes-utilizador" class="sugestoes"></ul>
                         </div>
                         <div class="form-group">
                             <label for="input-curso">Curso <span>*</span></label>
-                            <input type="text" id="input-curso" placeholder="Digite o nome do curso" required 
+                            <input type="text" id="input-curso" placeholder="Digite o nome do curso" required
                                 onkeyup="mostrarSugestoes('input-curso', 'sugestoes-curso', listaCursos)">
                             <ul id="sugestoes-curso" class="sugestoes"></ul>
-                        </div>  
+                        </div>
                         <div class="form-buttons">
                             <button type="submit" class="btn-enviar">Matricular utilizador</button>
                         </div>
@@ -80,51 +98,45 @@ include("segurançaAdmin.php");
         });
 
         let utilizador = document.getElementById("titulo");
-
-
-        
     </script>
     <script>
-      const listaUtilizadores = [
-        "Ana Ferreira", "Bruno Costa", "Carla Dias", "Daniel Silva", "Eduardo Rocha", "Fátima Santos",
-        "Ana Almeida", "Helena Martins", "Isabel Oliveira", "João Pereira", "Luís Mendes", "Marta Ribeiro"
-        ];
+        const listaUtilizadores = <?php echo json_encode($nomes, JSON_UNESCAPED_UNICODE); ?>;
 
-        const listaCursos = [
-        "Engenharia Informática", "Design Gráfico", "Cibersegurança", "Programação Web", "Gestão Empresarial"
-        ];
+        const listaCursos = <?php echo json_encode($cursos, JSON_UNESCAPED_UNICODE); ?>;
+
+
 
         function mostrarSugestoes(inputId, listaId, dados) {
-        const input = document.getElementById(inputId);
-        const lista = document.getElementById(listaId);
-        const termo = input.value.toLowerCase().trim();
+            const input = document.getElementById(inputId);
+            const lista = document.getElementById(listaId);
+            const termo = input.value.toLowerCase().trim();
 
-        lista.innerHTML = "";
+            lista.innerHTML = "";
 
-        if (termo === "") {
-            lista.style.display = "none";
-            return;
-        }
-
-        // Agora só mostra sugestões que comecem com o texto introduzido
-        const resultados = dados.filter(item =>
-            item.toLowerCase().startsWith(termo)
-        );
-
-        if (resultados.length > 0) {
-            resultados.forEach(item => {
-            const li = document.createElement("li");
-            li.textContent = item;
-            li.onclick = () => {
-                input.value = item;
+            if (termo === "") {
                 lista.style.display = "none";
-            };
-            lista.appendChild(li);
-            });
-            lista.style.display = "block";
-        } else {
-            lista.style.display = "none";
-        }
+                return;
+            }
+
+            // Agora só mostra sugestões que comecem com o texto introduzido
+            const resultados = dados.filter(item =>
+                item.toLowerCase().startsWith(termo)
+            );
+
+            if (resultados.length > 0) {
+                resultados.forEach(item => {
+                    const li = document.createElement("li");
+                    li.textContent = item;
+                    li.onclick = () => {
+                        input.value = item;
+                        lista.style.display = "none";
+                    };
+                    lista.appendChild(li);
+                });
+                lista.style.display = "block";
+            } else {
+                lista.style.display = "none";
+            }
         }
     </script>
 </body>
