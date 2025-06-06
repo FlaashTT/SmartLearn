@@ -21,6 +21,12 @@
     margin-bottom: 20px;
 }
 
+.banner img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Garante que a imagem preencha o banner */
+}
+
 .sidebar{
     margin-top: 50px;
     height: 550px;
@@ -96,7 +102,7 @@
 }
 
 .logout:hover{
-    background-color: darkred;
+    background-color:  #ac0101;
 }
 
 .content{
@@ -109,7 +115,7 @@
     display: flex;
     align-items: center;
     gap: 10px;
-    background-color: #ddd;
+    background-color: #007bff;
     margin-bottom: 20px;
     padding: 20px;
     border-radius: 10px;
@@ -123,22 +129,34 @@
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    background-color: antiquewhite;
+    background-color: #f4f4f3;
     font-size: 14px;
     transition: background-color 0.3s;
 }
 
+
 .category-btn:hover, .reset-btn:hover{
-    background-color: #bbb;
+    background-color: #ddd;
 }
 
 .search-container{
     display: flex;
     align-items: center;
     flex: 1;
-    background-color: #ddd;
+    background-color: #f4f4f4;
     border-radius: 5px;
     overflow: hidden;
+}
+
+.search-container input {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    background-color: #f4f4f4;
+    font-size: 14px;
+    outline: none;
+    width: 100%; /* ou por exemplo 400px */
+    max-width: 700px;
 }
 
 .category-btn {
@@ -150,7 +168,7 @@
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    background-color: antiquewhite;
+    background-color: #f4f4f3;
     font-size: 14px;
     transition: background-color 0.3s;
 }
@@ -159,22 +177,24 @@
     flex: 1;
     padding: 10px;
     border: none;
-    background-color: #aaa;
+    background-color: #f4f4f4;
     font-size: 14px;
     outline: none;
 }
 
-.search-button{
+.search-button {
     padding: 10px;
-    background-color: #aaa;
+    background-color: #f4f4f4;
     border: none;
     cursor: pointer;
     font-size: 14px;
     transition: background-color 0.3s;
+    /* Para ficar no fim do container flex */
+    margin-left: 350px;
 }
 
 .search-button:hover{
-    background-color: #bbb;
+    background-color: #dadad9;
 }
 
 
@@ -192,8 +212,9 @@
 .course-card {
     display: flex;
     flex-direction: column;
-    background-color: #CCC;
+    background-color: #ffffff;
     padding: 20px;
+    border: 1px solid #d5e3f3;
     border-radius: 10px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     width: 100%; /* Permite que o card ocupe 100% da coluna no grid */
@@ -201,7 +222,7 @@
     margin: 0 auto; /* Centraliza o card dentro da coluna */
 }
 
-.course-image{
+.course-image img{
     width: 100%;
     height: 150px;
     background-color: #AAA;
@@ -218,7 +239,7 @@
 .progress-bar{
     width: 100%;
     height: 5px;
-    background-color: #EEE;
+    background-color: #f0f0f0;
     border-radius: 5px;
     margin: 10px 0;
     position: relative;
@@ -234,22 +255,23 @@
 
 .course-info p{
     font-size: 14px;
-    color: #AAA;
+    color: #000;
     margin: 5px 0;
     text-align: left;
 }
 
 .stars{
     font-size: 16px;
-    color: #AAA;
+    color: #000;
     text-align: left;
     margin: 10px 0;
 }
 
 .start-button{
     padding: 10px 20px;
-    background-color: #ddd;
+    background-color: #007bff;
     border: none;
+    color: white;
     border-radius: 5px;
     cursor: pointer;
     font-size: 14px;
@@ -257,7 +279,7 @@
 }
 
 .start-button:hover{
-    background-color: #bbb;
+    background-color: #0056b3;
 }
 
 .modal {
@@ -299,14 +321,15 @@
 .modal-content ul li {
     padding: 10px;
     margin: 5px 0;
-    background-color: #f4f4f4;
+    background-color: #007bff;
     border-radius: 8px;
     cursor: pointer;
+    color: white;
     transition: background-color 0.3s ease;
 }
 
 .modal-content ul li:hover {
-    background-color: #ddd;
+    background-color: #0056b3;
 }
 
 .close-btn {
@@ -333,4 +356,44 @@
         opacity: 1;
         transform: scale(1);
     }
+}
+
+.paginacao {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  gap: 20px;
+  margin: 20px 0;
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+  color: #333;
+  padding-left: 30px;
+}
+
+.paginacao a {
+  padding: 8px 15px;
+  background-color: #007bff;
+  color: white;
+  text-decoration: none;
+  border-radius: 6px;
+  transition: background-color 0.3s ease;
+  user-select: none;
+}
+
+.paginacao a:hover {
+  background-color: #0056b3;
+}
+
+.paginacao span {
+  font-weight: 600;
+  color: #555;
+}
+
+/* Se quiseres que o link que não existe pareça desativado (exemplo: anterior quando estás na 1ª página) */
+.paginacao a[disabled], 
+.paginacao a.disabled {
+  pointer-events: none;
+  background-color: #cccccc;
+  color: #666666;
+  cursor: default;
 }

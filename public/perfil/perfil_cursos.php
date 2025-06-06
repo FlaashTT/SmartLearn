@@ -76,13 +76,14 @@ $result = $stmt->get_result();
                     <input type="hidden" name="reset" value="1" />
                     <button class="reset-btn" type="submit">Reiniciar</button>
                 </form>
-                <div class="search-container">
                     <form method="POST" id="filterForm">
-                        <?php if ($category_id !== null) echo '<input type="hidden" name="category_id" value="' . $category_id . '">'; ?>
-                        <input type="text" name="search" placeholder="Pesquisar meus cursos" class="search-my-courses" value="<?php echo isset($_POST['search']) ? htmlspecialchars($_POST['search']) : ''; ?>" />
-                        <button class="search-button" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+                        <div class="search-container">
+                            
+                                <?php if ($category_id !== null) echo '<input type="hidden" name="category_id" value="' . $category_id . '">'; ?>
+                                <input type="text" name="search" placeholder="Pesquisar meus cursos" class="search-my-courses" value="<?php echo isset($_POST['search']) ? htmlspecialchars($_POST['search']) : ''; ?>" />
+                                <button class="search-button" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+                        </div>
                     </form>
-                </div>
             </div>
 
             <div class="content-card">
@@ -138,7 +139,7 @@ $result = $stmt->get_result();
                         </div>';
                     }
                 } else {
-                    echo "<p>Sem cursos disponíveis nesta categoria ou com esse termo.</p>";
+                    echo '<p style="margin-left: 10px;">Sem cursos disponíveis nesta categoria ou com esse termo.</p>';
                 }
                 ?>
             </div>

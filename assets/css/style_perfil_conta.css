@@ -96,7 +96,7 @@
 }
 
 .logout:hover{
-    background-color: darkred;
+    background-color:  #ac0101;
 }
 
 .content{
@@ -206,7 +206,7 @@
     align-items: center; 
     justify-content: center; 
     font-size: 18px; 
-    color: #666; 
+    color: #0464cb; 
 }
 
 .from-group-conta input[type="password"] {
@@ -225,7 +225,7 @@
 }
 
 .divider{
-    border-top: 1px solid #ddd;
+    border-top: 1px solid #000;
     margin: 20px 0;
 }
 
@@ -237,7 +237,7 @@
 
 .submit-button button{
     padding: 10px 20px;
-    background-color: #333;
+    background-color: #007bff;
     color: #fff;
     border: none;
     border-radius: 5px;

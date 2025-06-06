@@ -95,7 +95,7 @@
 }
 
 .logout:hover{
-    background-color: darkred;
+    background-color:  #ac0101;
 }
 
 .content{
@@ -108,7 +108,7 @@
     display: flex;
     align-items: center;
     gap: 10px;
-    background-color: #ddd;
+    background-color: #007bff;
     margin-bottom: 20px;
     padding: 20px;
     border-radius: 10px;
@@ -158,7 +158,7 @@
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    background-color: antiquewhite;
+    background-color: #f4f4f3;
     font-size: 14px;
     transition: background-color 0.3s;
 }
@@ -171,50 +171,79 @@
     display: flex;
     align-items: center;
     flex: 1;
-    background-color: #ddd;
+    background-color: #f4f4f4;
     border-radius: 5px;
     overflow: hidden;
+}
+
+.search-container input {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    background-color: #f4f4f4;
+    font-size: 14px;
+    outline: none;
+    width: 100%; /* ou por exemplo 400px */
+    max-width: 700px;
+}
+
+.category-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px; /* Aumenta o espaçamento entre o texto e o ícone */
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #f4f4f3;
+    font-size: 14px;
+    transition: background-color 0.3s;
 }
 
 .search-my-courses{
     flex: 1;
     padding: 10px;
     border: none;
-    background-color: #aaa;
+    background-color: #f4f4f4;
     font-size: 14px;
     outline: none;
 }
 
-.search-button{
+.search-button {
     padding: 10px;
-    background-color: #aaa;
+    background-color: #f4f4f4;
     border: none;
     cursor: pointer;
     font-size: 14px;
     transition: background-color 0.3s;
+    /* Para ficar no fim do container flex */
+    margin-left: 350px;
 }
 
-.search-button:hover{
-    background-color: #bbb;
-}
 
-.content-card{
+.content-card {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 20px;
+    grid-template-columns: repeat(3, 1fr); /* Sempre cria 3 colunas */
+    gap: 20px; /* Espaçamento entre os cards */
     padding: 20px;
-
+    justify-content: center; /* Centraliza os cards no contêiner */
+    align-items: start; /* Alinha os cards no topo */
+    max-width: 1000px; /* Limita a largura máxima do contêiner */
+    margin: 0 auto; /* Centraliza o contêiner horizontalmente */
 }
 
-.course-card{
+.course-card {
     display: flex;
     flex-direction: column;
-    background-color: #CCC;
+    background-color: #ffffff;
     padding: 20px;
+    border: 1px solid #d5e3f3;
     border-radius: 10px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    width: 250px;
-    margin-left: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    width: 100%; /* Permite que o card ocupe 100% da coluna no grid */
+    max-width: 250px; /* Limita a largura máxima do card */
+    margin: 0 auto; /* Centraliza o card dentro da coluna */
 }
 
 .course-info {
@@ -237,14 +266,14 @@
     padding: 5px 10px; /* Reduz o preenchimento interno */
     font-size: 12px; /* Reduz o tamanho da fonte */
     border-radius: 3px; /* Ajusta as bordas arredondadas */
-    background-color: #ddd;
+    background-color: #007bff;
     border: none;
     cursor: pointer;
     transition: background-color 0.3s;
 }
 
 .start-button:hover {
-    background-color: #bbb; /* Cor ao passar o mouse */
+    background-color: #0056b3; /* Cor ao passar o mouse */
 }
 
 .modal {
@@ -322,3 +351,42 @@
     }
 }
 
+.pagination {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  gap: 20px;
+  margin: 20px 0;
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+  color: #333;
+  padding-left: 20px;
+}
+
+.pagination a {
+  padding: 8px 15px;
+  background-color: #007bff;
+  color: white;
+  text-decoration: none;
+  border-radius: 6px;
+  transition: background-color 0.3s ease;
+  user-select: none;
+}
+
+.pagination a:hover {
+  background-color: #0056b3;
+}
+
+.pagination span {
+  font-weight: 600;
+  color: #555;
+}
+
+/* Se quiseres que o link que não existe pareça desativado (exemplo: anterior quando estás na 1ª página) */
+.pagination a[disabled], 
+.pagination a.disabled {
+  pointer-events: none;
+  background-color: #cccccc;
+  color: #666666;
+  cursor: default;
+}

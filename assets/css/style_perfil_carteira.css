@@ -96,7 +96,7 @@
 }
 
 .logout:hover{
-    background-color: darkred;
+    background-color:  #ac0101;
 }
 
 .content{
@@ -257,7 +257,23 @@
 .pagination{
     display: flex;
     justify-content: center;
-    margin-top: 20px;
+    align-items: center;
+    gap: 20px;
+    margin: 20px 0;
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    color: #333;
+    padding-left: 20px;
+}
+
+.pagination a {
+  padding: 8px 15px;
+  background-color: #007bff;
+  color: white;
+  text-decoration: none;
+  border-radius: 6px;
+  transition: background-color 0.3s ease;
+  user-select: none;
 }
 
 .pagination button {
@@ -269,12 +285,20 @@
     font-size: 14px;
     cursor: pointer;
     transition: background-color 0.2s ease, transform 0.2s ease;
-  }
+}
   
-  .pagination button:hover {
+.pagination button:hover {
     background-color: #0056b3;
     transform: scale(1.05);
-  }
+}
+
+.pagination a[disabled], 
+.pagination a.disabled {
+  pointer-events: none;
+  background-color: #cccccc;
+  color: #666666;
+  cursor: default;
+}
 
 
 
