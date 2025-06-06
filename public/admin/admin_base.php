@@ -132,6 +132,18 @@ include("../../database/basedados.php");
         </main>
     </div>
 
+    <?php
+    //select da quantidade utilizadores registados 
+    $sql = "SELECT count FROM user WHERE Id_user = ?";
+
+    //qunatidade de cursos
+
+
+    //quantidade de cursos comprados 
+
+    
+    ?>
+
     <script
         src="https://cdn.jsdelivr.net/npm/chart.js">
     </script>

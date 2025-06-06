@@ -2,6 +2,10 @@
 include("segurançaAdmin.php");
 include("../../database/basedados.php");
 
+$limite = 10; // cursos por página
+$paginaAtual = isset($_GET['pagina']) ? (int)$_GET['pagina'] : 1;
+$offset = ($paginaAtual - 1) * $limite;
+$totalPesquisa = '';
 
 
 $sqlCursos = "SELECT * FROM curso WHERE 1=1";
@@ -17,7 +21,7 @@ if (isset($_POST['FiltroCategoria'])) {
 if (isset($_POST['FiltroEstado'])) {
     $filtroEstado = $_POST['FiltroEstado'];
     if ($filtroEstado != 'Todos') {
-        $sqlCursos .= " AND Estado_curso = " . $filtroEstado;
+        $sqlCursos .= " AND Estado_curso = '" . $filtroEstado . "'";
     }
 }
 
@@ -31,6 +35,17 @@ if (isset($_POST['FiltroPreco'])) {
         }
     }
 }
+
+$resultTotal = $conn->query($sqlCursos);
+if ($resultTotal) {
+    $totalPesquisa = $resultTotal->num_rows;
+} else {
+    $totalPesquisa = 0;
+}
+
+// 2. Adicionar LIMIT e OFFSET para paginação
+$sqlCursosLimit = $sqlCursos . " LIMIT $limite OFFSET $offset";
+$resultLimit = $conn->query($sqlCursosLimit);
 ?>
 
 <!DOCTYPE html>
@@ -157,14 +172,14 @@ if (isset($_POST['FiltroPreco'])) {
                         </div>
                     </div>
                 </section>
+                <form method="POST" action="">
+                    <section class="course-list">
+                        <h2>Lista de cursos</h2>
+                        <div class="filters">
 
-                <section class="course-list">
-                    <h2>Lista de cursos</h2>
-                    <div class="filters">
+                            <label for="categories">Categorias</label>
+                            <div>
 
-                        <label for="categories">Categorias</label>
-                        <div>
-                            <form method="POST" action="">
                                 <select id="categories" name="FiltroCategoria">
                                     <option value="Todos" <?= (isset($_POST['FiltroCategoria']) && $_POST['FiltroCategoria'] == 'Todos') ? 'selected' : '' ?>>Todos</option>
                                     <?php
@@ -182,99 +197,94 @@ if (isset($_POST['FiltroPreco'])) {
                                     }
                                     ?>
                                 </select>
-                            </form>
-                        </div>
 
-                        <label for="estado">Estado</label>
-                        <div>
-                            <select id="estado" name="FiltroEstado">
-                                <?php
-                                $estados = ['Todos', 'ativo', 'pendente', 'inativo', 'Incompleto'];
-                                foreach ($estados as $estado) {
-                                    $selected = (isset($_POST['FiltroEstado']) && $_POST['FiltroEstado'] == $estado) ? 'selected' : '';
-                                    echo "<option value=\"$estado\" $selected>" . ucfirst($estado) . "</option>";
-                                }
-                                ?>
-                            </select>
-                        </div>
+                            </div>
 
-                        <label for="preco">Preço</label>
-                        <div>
-                            <select id="preco" name="FiltroPreco">
-                                <?php
-                                $precos = ['Todos', 'gratuito', 'pago'];
-                                foreach ($precos as $preco) {
-                                    $selected = (isset($_POST['FiltroPreco']) && $_POST['FiltroPreco'] == $preco) ? 'selected' : '';
-                                    echo "<option value=\"$preco\" $selected>" . ucfirst($preco) . "</option>";
-                                }
-                                ?>
-                            </select>
-                        </div>
-
-                        <button type="submit">Filtrar</button>
-
-                    </div>
-
-
-
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Título</th>
-                                <th>Categoria</th>
-                                <th>Utilizadores inscrito</th>
-                                <th>Status</th>
-                                <th>Preço</th>
-                                <th>Ações</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-
-
-                            <?php
-
-                            $stmt = $conn->prepare($sqlCursos);
-
-
-                            $stmt->execute();
-                            $result = $stmt->get_result();
-                            if ($result->num_rows > 0) {
-                                $total = 0;
-                                while ($row = $result->fetch_assoc()) {
-
-                                    //select da categoria
-                                    if (isset($row['Id_categoria']) && !empty($row['Id_categoria'])) {
-                                        $stmtCategoria = $conn->prepare("SELECT Nome_cat FROM categoria WHERE Id_categoria = ?");
-                                        $stmtCategoria->bind_param("i", $row['Id_categoria']);
-                                        $stmtCategoria->execute();
-                                        $resultCategoria = $stmtCategoria->get_result();
-
-                                        if ($resultCategoria->num_rows > 0) {
-                                            $rowCategoria = $resultCategoria->fetch_assoc();
-                                            $Categoria = $rowCategoria['Nome_cat'];
-                                        } else {
-                                            $Categoria = "Categoria não encontrada";
-                                        }
-                                    } else {
-                                        $Categoria = "Sem categoria";
+                            <label for="estado">Estado</label>
+                            <div>
+                                <select id="estado" name="FiltroEstado">
+                                    <?php
+                                    $estados = ['Todos', 'ativo', 'pendente', 'inativo', 'Incompleto'];
+                                    foreach ($estados as $estado) {
+                                        $selected = (isset($_POST['FiltroEstado']) && $_POST['FiltroEstado'] == $estado) ? 'selected' : '';
+                                        echo "<option value=\"$estado\" $selected>" . ucfirst($estado) . "</option>";
                                     }
+                                    ?>
+                                </select>
+                            </div>
+
+                            <label for="preco">Preço</label>
+                            <div>
+                                <select id="preco" name="FiltroPreco">
+                                    <?php
+                                    $precos = ['Todos', 'gratuito', 'pago'];
+                                    foreach ($precos as $preco) {
+                                        $selected = (isset($_POST['FiltroPreco']) && $_POST['FiltroPreco'] == $preco) ? 'selected' : '';
+                                        echo "<option value=\"$preco\" $selected>" . ucfirst($preco) . "</option>";
+                                    }
+                                    ?>
+                                </select>
+                            </div>
+
+                            <button type="submit">Filtrar</button>
+
+                        </div>
+                </form>
+
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Título</th>
+                            <th>Categoria</th>
+                            <th>Utilizadores inscrito</th>
+                            <th>Status</th>
+                            <th>Preço</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+
+                        <?php
+
+
+                        if ($resultLimit && $resultLimit->num_rows > 0) {
+                            while ($row = $resultLimit->fetch_assoc()) {
+
+                                //select da categoria
+                                if (isset($row['Id_categoria']) && !empty($row['Id_categoria'])) {
+                                    $stmtCategoria = $conn->prepare("SELECT Nome_cat FROM categoria WHERE Id_categoria = ?");
+                                    $stmtCategoria->bind_param("i", $row['Id_categoria']);
+                                    $stmtCategoria->execute();
+                                    $resultCategoria = $stmtCategoria->get_result();
+
+                                    if ($resultCategoria->num_rows > 0) {
+                                        $rowCategoria = $resultCategoria->fetch_assoc();
+                                        $Categoria = $rowCategoria['Nome_cat'];
+                                    } else {
+                                        $Categoria = "Categoria não encontrada";
+                                    }
+                                } else {
+                                    $Categoria = "Sem categoria";
+                                }
 
 
 
-                                    //para contagem o numero de utilizadores com curso comprado 
-                                    $stmtContagem = $conn->prepare("SELECT COUNT(*) AS total FROM cursos_adquiridos WHERE Id_curso = ?");
-                                    $stmtContagem->bind_param("i", $row['Id_curso']);
-                                    $stmtContagem->execute();
-                                    $resultContagem = $stmtContagem->get_result();
-                                    $rowContagem = $resultContagem->fetch_assoc();
+                                //para contagem o numero de utilizadores com curso comprado 
+                                $stmtContagem = $conn->prepare("SELECT COUNT(*) AS total FROM cursos_adquiridos WHERE Id_curso = ?");
+                                $stmtContagem->bind_param("i", $row['Id_curso']);
+                                $stmtContagem->execute();
+                                $resultContagem = $stmtContagem->get_result();
+                                $rowContagem = $resultContagem->fetch_assoc();
 
-                                    $total = $rowContagem['total'];
-
-
+                                $total = $rowContagem['total'];
 
 
-                                    echo '
+
+
+                                echo '
                                         <tr>
                                     <td>' . $row['Id_curso'] . '</td>
                                     <td>' . $row['Nome_curso'] . '</td>
@@ -282,30 +292,61 @@ if (isset($_POST['FiltroPreco'])) {
                                     <td>' . $total . '</td>
                                     <td>' . $row['Estado_curso'] . '</td>
                                     <td>' . (empty($row['Preco']) || $row['Preco'] == 0 ? 'Gratuito' : $row['Preco'] . '€') . '</td>
-                                    <td onclick="mostrarInfo(' . $row['Id_curso'] . ')" style="cursor: pointer;" >Ver detalhes curso</td>
+                                    <td onclick="mostrarInfo(' . $row['Id_curso'] . ')" style="cursor: pointer;">Ver detalhes curso</td>
+
                                     </tr>
                                 ';
-                                }
-                            } else {
+                            }
+                        } else {
 
-                                echo '
+                            echo '
                                     <tr>
                                     <td colspan="7">Nenhum dado inserido</td>
                                     </tr>';
-                            }
-                            ?>
+                        }
+
+
+                        echo '
+                                <form method="POST" action="acoes/eliminarUser.php" style="margin: 0;">
+                                <input type="hidden" name="idEliminar" id="idEliminar" value="">
+                                
+                                <div id="eliminarModal" class="modal">
+                                    <div class="modal-box">
+                                    <span class="close" onclick="fecharModal(\'eliminarModal\')">&times;</span>
+                                    <h3 class="modal-title">Tens a certeza?</h3>
+                                    <p class="modal-text">Queres mesmo eliminar <strong>Joana Silva</strong>?</p>
+                                    
+                                    <div class="modal-buttons">
+                                        <button type="button" onclick="fecharModal(\'eliminarModal\')">Cancelar</button>
+                                        <button type="submit" class="red">Eliminar</button>
+                                    </div>
+                                    </div>
+                                </div>
+                                </form>
+
+
+                                            ';
 
 
 
 
 
+                        $totalPaginas = ceil($totalPesquisa / $limite);
+                        ?>
+                    </tbody>
+                </table>
 
-                        </tbody>
-                    </table>
-                    <div class="pagination">
-                        <button>Anterior</button>
-                        <button>Próximo</button>
-                    </div>
+                <div class="pagination">
+                    <?php if ($paginaAtual > 1): ?>
+                        <a href="?pagina=<?= $paginaAtual - 1 ?>">Anterior</a>
+                    <?php endif; ?>
+
+                    <span>Página <?= $paginaAtual ?> de <?= $totalPaginas ?></span>
+
+                    <?php if ($paginaAtual < $totalPaginas): ?>
+                        <a href="?pagina=<?= $paginaAtual + 1 ?>">Próximo</a>
+                    <?php endif; ?>
+                </div>
                 </section>
             </main>
         </main>
@@ -325,7 +366,21 @@ if (isset($_POST['FiltroPreco'])) {
             });
         });
     </script>
-    </script>
+    <script>
+        function mostrarInfo(idCurso) {
+            const modal = document.getElementById('eliminarModal');
+            modal.style.display = 'block';
+
+            // Coloca o idCurso no input hidden
+            document.getElementById('idEliminar').value = idCurso;
+
+            // Se quiser mostrar o idCurso no texto do modal, por exemplo:
+            modal.querySelector('p.modal-text').innerHTML = `Tens a certeza que queres eliminar o curso com ID <strong>${idCurso}</strong>?`;
+        }
+
+        function fecharModal(idModal) {
+            document.getElementById(idModal).style.display = 'none';
+        }
     </script>
 </body>
 
