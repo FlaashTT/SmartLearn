@@ -1,5 +1,5 @@
 <?php
-include("../../database/basedados.sql");
+include("../../database/basedados.php");
 session_start();
 //evita que utilizador nao registados entrem nas paginas que necessitam login
 if ($_SESSION['utilizadorOn'] == null || !$_SESSION['utilizadorOn'] || ($_SESSION['utilizadorOn']['Tipo_user'] !== "Admin" && $_SESSION['utilizadorOn']['Tipo_user'] !== "Main-admin"))

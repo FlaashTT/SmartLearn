@@ -12,5 +12,5 @@
 
 <?php
 include("../public/popup.php");
-mostrarPopUp("Este some automaticamente");
+mostrarPopUp("Este desaparece automaticamente");
 ?>

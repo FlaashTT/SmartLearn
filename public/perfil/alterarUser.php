@@ -1,6 +1,6 @@
 <?php
 
-include("../../database/basedados.sql");
+include("../../database/basedados.php");
 include("../segurança.php");
 
 $erro = false;

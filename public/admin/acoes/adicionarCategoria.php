@@ -1,6 +1,6 @@
 <?php
 
-include("../../../database/basedados.sql");
+include("../../../database/basedados.php");
 include("inserirImagemCat.php");
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $erro = false;

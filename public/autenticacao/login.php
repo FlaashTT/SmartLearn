@@ -88,7 +88,7 @@
 
 <?php
 session_start();
-include('../../database/basedados.sql');
+include('../../database/basedados.php');
 
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {

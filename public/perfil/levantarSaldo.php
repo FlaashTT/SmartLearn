@@ -1,7 +1,7 @@
 <?php
 
 include("../segurança.php");
-include("../../database/basedados.sql");
+include("../../database/basedados.php");
 include("../logs.php");
 $erro = false;
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {

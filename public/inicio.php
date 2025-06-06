@@ -1,6 +1,6 @@
 <?php
 session_start();
-include("../database/basedados.sql");
+include("../database/basedados.php");
 
 ?>
 
