@@ -46,9 +46,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
     if (!$erro) {
+
+
+
+
         $sql = "INSERT INTO curso 
-            (Nome_curso, Id_categoria, Id_idioma, Criador_curso, Data_criacao, URL_foto_perfil_curso, Pequena_descricao, Descricao, Preco, Preco_antigo, Estado_curso, Tempo_estimado, Dificuldade, Requisitos, Provedor_geral_curso, Keywords) 
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            (Nome_curso, Id_categoria, Id_idioma, Criador_curso, Data_criacao, Pequena_descricao, Descricao, Preco, Preco_antigo, Estado_curso, Tempo_estimado, Dificuldade, Requisitos, Provedor_geral_curso, Keywords) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         $stmt = $conn->prepare($sql);
         if (!$stmt) {
@@ -58,13 +62,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $criadorCurso = $_SESSION['utilizadorOn']['Id_user'] ?? 1;
 
         $stmt->bind_param(
-            "siiissssddssssss",
+            "siiisssddssssss",
             $titulo,
             $id_categoria,
             $linguagem,
             $criadorCurso,
             $DataAtual,
-            $imagemNome,
             $peqDescricao,
             $descricao,
             $preco,
@@ -78,6 +81,51 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         );
 
         if ($stmt->execute()) {
+
+            // 🔹 Recuperar o ID do curso recém inserido
+            $Id_curso = $conn->insert_id;
+
+            if (!empty($_FILES['imagem_curso']['name'])) {
+
+                $extensao = strtolower(pathinfo($_FILES["imagem_curso"]["name"], PATHINFO_EXTENSION));
+                $extensoes_permitidas = ['jpg', 'jpeg', 'png'];
+                $tipo_mime = mime_content_type($_FILES["imagem_curso"]["tmp_name"]);
+                $mimes_permitidos = ['image/jpeg', 'image/png'];
+
+                if (in_array($extensao, $extensoes_permitidas) && in_array($tipo_mime, $mimes_permitidos)) {
+
+                    $diretorio = "../../../assets/image/curso/";
+                    $base_nome = "curso_id" . $Id_curso;
+                    $novo_nome = $base_nome . "." . $extensao;
+                    $destino = $diretorio . $novo_nome;
+
+                    foreach (['jpg', 'jpeg', 'png'] as $ext) {
+                        $possivel_arquivo = $diretorio . $base_nome . '.' . $ext;
+                        if (file_exists($possivel_arquivo)) {
+                            unlink($possivel_arquivo);
+                        }
+                    }
+
+                    if (move_uploaded_file($_FILES["imagem_curso"]["tmp_name"], $destino)) {
+
+                        $URL_foto = $novo_nome;
+                        $sql = "UPDATE curso SET URL_foto_perfil_curso = ? WHERE Id_curso = ?";
+                        $stmt = $conn->prepare($sql);
+                        $stmt->bind_param("si", $URL_foto, $Id_curso);
+
+                        if ($stmt->execute()) {
+                            $stmt->close();
+                        } else {
+                            echo "<script>alert('Erro ao atualizar o banco de dados!');</script>";
+                        }
+                    } else {
+                        echo "<script>alert('Erro ao mover a imagem!');</script>";
+                    }
+                } else {
+                    echo "<script>alert('Formato de imagem inválido. Apenas JPG, JPEG e PNG são permitidos.');</script>";
+                }
+            }
+
             echo "<script>alert('Curso adicionado com sucesso!'); window.location.href = '../adicionar_cursos.php';</script>";
             exit;
         } else {

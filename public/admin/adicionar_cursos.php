@@ -148,7 +148,7 @@ include("../../database/basedados.php");
                             </div>
                             <div class="form-group">
                                 <label for="desconto">Preço com desconto (€)</label>
-                                <input type="text" name="desconto" id="desconto" placeholder="Digite o preço com desconto" />
+                                <input type="text" disabled name="desconto" id="desconto" placeholder="Digite o preço com desconto"  />
                                 <div class="checkbox-curso">
                                     <input type="checkbox" name="tem_desconto" id="verificarDesconto" />
                                     <label class="label-btn" for="verificarDesconto">Verifique que este curso tem desconto</label>
@@ -412,6 +412,26 @@ include("../../database/basedados.php");
     </script>
 
     <script>
+        var desconto = document.getElementById("desconto");
+        desconto.disabled = true;
+
+        document.addEventListener('DOMContentLoaded', function() {
+            var verificarDesconto = document.getElementById("verificarDesconto");
+
+            verificarDesconto.addEventListener('change', function() {
+                if (!verificarDesconto.checked) {
+                    desconto.disabled = true;
+                } else {
+                    desconto.disabled = false;
+                }
+            });
+
+            if (!verificarDesconto.checked) {
+                desconto.disabled = true;
+            }
+        });
+
+
         const buttonSubmit = document.getElementById("buttonSubmit");
         const titulo = document.getElementById("titulo");
         const linguagem = document.getElementById("linguagem");
