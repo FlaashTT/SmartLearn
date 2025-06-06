@@ -52,6 +52,7 @@
 - Filtros com 5 estrelas / sem classificação  
 - Filtros por categorias  
 - Filtros "mais de 60 euros"
+- curso_capa.php
   
 ### Erro Crítico ❗
 ```txt

@@ -89,18 +89,114 @@ nav {
 
 
 
+
 /* ---------- Rodapé ---------- */
+/* Reset simples para ícones */
+.footer i {
+  color: #4a90e2;
+}
+
+/* Container geral */
 .footer {
-    background-color: #f0f0f0;
-    padding: 1rem 0;
-    margin-top: 2rem;
-    border-top: 1px solid #ccc;
-    text-align: center;
-  }
-  
-  .footer-content p {
-    font-size: 0.9rem;
-    color: #000000;
-    line-height: 1.4;
-    margin-bottom: 0.5rem;
-  }
+  background: #121426;
+  color: #ddd;
+  padding: 40px 20px 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  user-select: none;
+}
+
+/* Grid dos cartões */
+.footer-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit,minmax(220px,1fr));
+  gap: 25px;
+  max-width: 1100px;
+  margin: 0 auto 30px;
+}
+
+/* Cada cartão */
+.footer-card {
+  background: #1f2233;
+  padding: 25px 20px;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgb(74 144 226 / 0.15);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  cursor: default;
+  transition: transform 0.4s ease;
+}
+
+/* Animação - efeito hover com leve crescimento */
+.footer-card:hover {
+  transform: translateY(-8px);
+}
+
+/* Ícone com fundo animado */
+.icon-container {
+  width: 70px;
+  height: 70px;
+  margin: 0 auto 15px;
+  background: #2e314a;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  position: relative;
+  overflow: visible;
+  animation: rotateSquare 8s linear infinite;
+}
+
+/* Animação de rotação suave */
+@keyframes rotateSquare {
+  0%   { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Títulos */
+.footer-card h3 {
+  font-weight: 600;
+  margin-bottom: 10px;
+  font-size: 1.2rem;
+  color: #89c4f4;
+}
+
+/* Links estilizados */
+.footer-card a {
+  color: #79a9ff;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.footer-card a:hover {
+  color: #4a90e2;
+  text-decoration: underline;
+}
+
+/* Texto simples dentro dos cartões */
+.footer-card p {
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: #ccc;
+  margin: 0;
+}
+
+/* Rodapé inferior */
+.footer-bottom {
+  text-align: center;
+  border-top: 1px solid #33394a;
+  padding-top: 18px;
+  font-size: 0.85rem;
+  color: #666;
+  margin-top: 10px;
+  user-select: none;
+}
+
+.footer-bottom a {
+  color: #79a9ff;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+

@@ -1,0 +1,187 @@
+/* Container padrão */
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* ---------- Título da secção ---------- */
+.section-title {
+  text-align: center;
+}
+
+.section-title h1 {
+  font-size: 48px;
+  font-weight: 700;
+  margin: 50px 0 10px;
+  color: #0d47a1;
+}
+
+.section-title p {
+  font-size: 18px;
+  margin-bottom: 40px;
+  color: #666;
+}
+
+/* ---------- Secção de Capítulos ---------- */
+.capitulos-tutorial {
+  padding: 50px 30px;
+  text-align: center;
+  width: 80%;
+  border-radius: 12px;
+  box-shadow: 0 2px 4px rgba(25, 118, 210, 0.15);
+  margin: 40px auto;
+}
+
+.capitulos-tutorial h2 {
+  font-size: 36px;
+  margin-bottom: 30px;
+  color: #0d47a1;
+}
+
+.capitulos-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+.capitulo-btn {
+  background-color: #1976d2;
+  color: #fff;
+  padding: 14px 26px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 8px rgba(25, 118, 210, 0.3);
+}
+
+.capitulo-btn:hover {
+  background-color: #0d47a1;
+  transform: scale(1.05);
+}
+
+/* ---------- Acordeão ---------- */
+.accordion {
+  max-width: 1000px;
+  margin: 30px auto 80px;
+  padding: 0 20px;
+}
+
+.accordion-item {
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+  margin-bottom: 16px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  border-left: 6px solid #1976d2;
+}
+
+.accordion-header {
+  background-color: #f0f7ff;
+  color: #0d47a1;
+  cursor: pointer;
+  padding: 18px 24px;
+  font-size: 18px;
+  font-weight: 600;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: none;
+  width: 100%;
+  text-align: left;
+  transition: background-color 0.3s;
+}
+
+.accordion-header:hover {
+  background-color: #e3f2fd;
+}
+
+.accordion-header .arrow {
+  transition: transform 0.3s ease;
+  font-size: 18px;
+}
+
+.accordion-item.active .arrow {
+  transform: rotate(90deg);
+}
+
+.accordion-item {
+  scroll-margin-top: 80px; 
+}
+
+
+.accordion-content {
+  display: none;
+  padding: 0 24px 24px;
+  font-size: 16px;
+  color: #333;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.accordion-item.active .accordion-content {
+  display: block;
+}
+.suporte-lista {
+  list-style: none;
+  padding-left: 0;
+  animation: fadeUp 0.5s ease;
+}
+
+.suporte-lista li {
+  position: relative;
+  padding-left: 24px;
+  margin-bottom: 10px;
+  color: #444;
+}
+
+.suporte-lista li::before {
+  content: "💬";
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-size: 16px;
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Listas dentro dos capítulos */
+.accordion-content ul {
+  padding-left: 20px;
+  margin-top: 10px;
+}
+
+.accordion-content ul li {
+  margin-bottom: 8px;
+  list-style-type: disc;
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+  .capitulos-grid {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .capitulo-btn {
+    width: 100%;
+    max-width: 300px;
+  }
+}
