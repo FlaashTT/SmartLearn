@@ -11,15 +11,13 @@ if (isset($_POST['FiltroCategoria'])) {
     $filtroCategoria = $_POST['FiltroCategoria'];
     if ($filtroCategoria != 'Todos') {
         $sqlCursos .= " AND Id_categoria = " . $filtroCategoria;
-        
     }
 }
 
 if (isset($_POST['FiltroEstado'])) {
     $filtroEstado = $_POST['FiltroEstado'];
     if ($filtroEstado != 'Todos') {
-        $sqlCursos .= " AND Estado_curso = ".$filtroEstado;
-        
+        $sqlCursos .= " AND Estado_curso = " . $filtroEstado;
     }
 }
 
@@ -28,7 +26,7 @@ if (isset($_POST['FiltroPreco'])) {
     if ($filtroPreco != 'Todos') {
         if ($filtroPreco === 'gratuito') {
             $sqlCursos .= " AND Preco = 0 OR Preco is null";
-        } else if($filtroPreco === 'pago') {
+        } else if ($filtroPreco === 'pago') {
             $sqlCursos .= " AND Preco > 0";
         }
     }
@@ -162,10 +160,11 @@ if (isset($_POST['FiltroPreco'])) {
 
                 <section class="course-list">
                     <h2>Lista de cursos</h2>
-                    <form method="POST" action="">
-                        <div class="filters">
-                            <label for="categories">Categorias</label>
-                            <div>
+                    <div class="filters">
+
+                        <label for="categories">Categorias</label>
+                        <div>
+                            <form method="POST" action="">
                                 <select id="categories" name="FiltroCategoria">
                                     <option value="Todos" <?= (isset($_POST['FiltroCategoria']) && $_POST['FiltroCategoria'] == 'Todos') ? 'selected' : '' ?>>Todos</option>
                                     <?php
@@ -183,37 +182,39 @@ if (isset($_POST['FiltroPreco'])) {
                                     }
                                     ?>
                                 </select>
-                            </div>
-
-                            <label for="estado">Estado</label>
-                            <div>
-                                <select id="estado" name="FiltroEstado">
-                                    <?php
-                                    $estados = ['Todos', 'ativo', 'pendente', 'inativo', 'Incompleto'];
-                                    foreach ($estados as $estado) {
-                                        $selected = (isset($_POST['FiltroEstado']) && $_POST['FiltroEstado'] == $estado) ? 'selected' : '';
-                                        echo "<option value=\"$estado\" $selected>" . ucfirst($estado) . "</option>";
-                                    }
-                                    ?>
-                                </select>
-                            </div>
-
-                            <label for="preco">Preço</label>
-                            <div>
-                                <select id="preco" name="FiltroPreco">
-                                    <?php
-                                    $precos = ['Todos', 'gratuito', 'pago'];
-                                    foreach ($precos as $preco) {
-                                        $selected = (isset($_POST['FiltroPreco']) && $_POST['FiltroPreco'] == $preco) ? 'selected' : '';
-                                        echo "<option value=\"$preco\" $selected>" . ucfirst($preco) . "</option>";
-                                    }
-                                    ?>
-                                </select>
-                            </div>
-
-                            <button type="submit">Filtrar</button>
+                            </form>
                         </div>
-                    </form>
+
+                        <label for="estado">Estado</label>
+                        <div>
+                            <select id="estado" name="FiltroEstado">
+                                <?php
+                                $estados = ['Todos', 'ativo', 'pendente', 'inativo', 'Incompleto'];
+                                foreach ($estados as $estado) {
+                                    $selected = (isset($_POST['FiltroEstado']) && $_POST['FiltroEstado'] == $estado) ? 'selected' : '';
+                                    echo "<option value=\"$estado\" $selected>" . ucfirst($estado) . "</option>";
+                                }
+                                ?>
+                            </select>
+                        </div>
+
+                        <label for="preco">Preço</label>
+                        <div>
+                            <select id="preco" name="FiltroPreco">
+                                <?php
+                                $precos = ['Todos', 'gratuito', 'pago'];
+                                foreach ($precos as $preco) {
+                                    $selected = (isset($_POST['FiltroPreco']) && $_POST['FiltroPreco'] == $preco) ? 'selected' : '';
+                                    echo "<option value=\"$preco\" $selected>" . ucfirst($preco) . "</option>";
+                                }
+                                ?>
+                            </select>
+                        </div>
+
+                        <button type="submit">Filtrar</button>
+
+                    </div>
+
 
 
                     <table>
