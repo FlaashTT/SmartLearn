@@ -2,6 +2,37 @@
 include("segurançaAdmin.php");
 include("../../database/basedados.php");
 
+
+
+$sqlCursos = "SELECT * FROM curso WHERE 1=1";
+$params = []; // para parâmetros da query preparada, se usar
+
+if (isset($_POST['FiltroCategoria'])) {
+    $filtroCategoria = $_POST['FiltroCategoria'];
+    if ($filtroCategoria != 'Todos') {
+        $sqlCursos .= " AND Id_categoria = " . $filtroCategoria;
+        
+    }
+}
+
+if (isset($_POST['FiltroEstado'])) {
+    $filtroEstado = $_POST['FiltroEstado'];
+    if ($filtroEstado != 'Todos') {
+        $sqlCursos .= " AND Estado_curso = ".$filtroEstado;
+        
+    }
+}
+
+if (isset($_POST['FiltroPreco'])) {
+    $filtroPreco = $_POST['FiltroPreco'];
+    if ($filtroPreco != 'Todos') {
+        if ($filtroPreco === 'gratuito') {
+            $sqlCursos .= " AND Preco = 0 OR Preco is null";
+        } else if($filtroPreco === 'pago') {
+            $sqlCursos .= " AND Preco > 0";
+        }
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -71,7 +102,7 @@ include("../../database/basedados.php");
                             <span>
 
                                 <?php
-                                $query = "SELECT COUNT(*) AS total FROM curso WHERE Estado_curso != 'pendente'";
+                                $query = "SELECT COUNT(*) AS total FROM curso WHERE Estado_curso != 'ativo'";
                                 $result = $conn->query($query);
 
                                 if ($result) {
@@ -131,25 +162,60 @@ include("../../database/basedados.php");
 
                 <section class="course-list">
                     <h2>Lista de cursos</h2>
-                    <div class="filters">
-                        <label for="categories">Categorias</label>
-                        <div>
-                            <select id="categories">
-                                <option>Todos</option>
-                            </select>
+                    <form method="POST" action="">
+                        <div class="filters">
+                            <label for="categories">Categorias</label>
+                            <div>
+                                <select id="categories" name="FiltroCategoria">
+                                    <option value="Todos" <?= (isset($_POST['FiltroCategoria']) && $_POST['FiltroCategoria'] == 'Todos') ? 'selected' : '' ?>>Todos</option>
+                                    <?php
+                                    $query = "SELECT * FROM categoria";
+                                    $stmt = $conn->prepare($query);
+                                    $stmt->execute();
+                                    $result = $stmt->get_result();
+                                    if ($result->num_rows > 0) {
+                                        while ($row = $result->fetch_assoc()) {
+                                            $selected = (isset($_POST['FiltroCategoria']) && $_POST['FiltroCategoria'] == $row['Id_categoria']) ? 'selected' : '';
+                                            echo '<option value="' . $row['Id_categoria'] . '" ' . $selected . '>' . $row['Nome_cat'] . '</option>';
+                                        }
+                                    } else {
+                                        echo '<option disabled>Nenhuma categoria encontrada</option>';
+                                    }
+                                    ?>
+                                </select>
+                            </div>
+
+                            <label for="estado">Estado</label>
+                            <div>
+                                <select id="estado" name="FiltroEstado">
+                                    <?php
+                                    $estados = ['Todos', 'ativo', 'pendente', 'inativo', 'Incompleto'];
+                                    foreach ($estados as $estado) {
+                                        $selected = (isset($_POST['FiltroEstado']) && $_POST['FiltroEstado'] == $estado) ? 'selected' : '';
+                                        echo "<option value=\"$estado\" $selected>" . ucfirst($estado) . "</option>";
+                                    }
+                                    ?>
+                                </select>
+                            </div>
+
+                            <label for="preco">Preço</label>
+                            <div>
+                                <select id="preco" name="FiltroPreco">
+                                    <?php
+                                    $precos = ['Todos', 'gratuito', 'pago'];
+                                    foreach ($precos as $preco) {
+                                        $selected = (isset($_POST['FiltroPreco']) && $_POST['FiltroPreco'] == $preco) ? 'selected' : '';
+                                        echo "<option value=\"$preco\" $selected>" . ucfirst($preco) . "</option>";
+                                    }
+                                    ?>
+                                </select>
+                            </div>
+
+                            <button type="submit">Filtrar</button>
                         </div>
-                        <div>
-                            <select id="categories">
-                                <option>Todos</option>
-                            </select>
-                        </div>
-                        <div>
-                            <select id="categories">
-                                <option>Todos</option>
-                            </select>
-                        </div>
-                        <button>Filtrar</button>
-                    </div>
+                    </form>
+
+
                     <table>
                         <thead>
                             <tr>
@@ -166,8 +232,8 @@ include("../../database/basedados.php");
 
 
                             <?php
-                            $query = "SELECT * FROM curso";
-                            $stmt = $conn->prepare($query);
+
+                            $stmt = $conn->prepare($sqlCursos);
 
 
                             $stmt->execute();
@@ -191,8 +257,6 @@ include("../../database/basedados.php");
                                         }
                                     } else {
                                         $Categoria = "Sem categoria";
-
-
                                     }
 
 

@@ -41,9 +41,11 @@ include("../../database/basedados.php");
                     <h1 style="display: flex; align-items: center;">
                         <i style="font-size: 18px; margin-right: 10px;" class="fas fa-book"></i> Dashboard Cursos
                     </h1>
-                    <button style="padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">
-                        Adicionar Novo Curso
-                    </button>
+                    <form action="adicionar_cursos.php">
+                        <button type="submit" style="padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">
+                            Adicionar Novo Curso
+                        </button>
+                    </form>
                 </section>
 
                 <section class="card-container">
@@ -94,7 +96,7 @@ include("../../database/basedados.php");
                                     </div>
                                     <hr>
                                     <div class="card-sections">
-                                        <p>'.$secoesTexto.'</p>
+                                        <p>' . $secoesTexto . '</p>
                                         <div class="card-actions">
                                             <button class="edit-icon"><i class="fas fa-edit"></i></button>
                                             <button class="delete-icon"><i class="fas fa-trash"></i></button>

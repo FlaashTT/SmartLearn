@@ -110,14 +110,7 @@ include("../../database/basedados.php");
 
                         <!-- CONTEÚDO DA ABA INFORMAÇÕES -->
                         <div class="form-content tab-content" data-content="info">
-                            <div class="form-group">
-                                <label for="modulo">Módulo do Curso</label>
-                                <div class="modulo-input-container">
-                                    <input type="text" id="moduloInput" class="modulo-input" placeholder="Digite o nome do módulo" />
-                                    <button type="button" id="addModulo" class="modulo-btn-adicionar">+</button>
-                                </div>
-                                <ul id="modulosLista" class="modulos-lista"></ul>
-                            </div>
+                            
                             <div class="form-group">
                                 <label for="requisitos">Requisitos</label>
                                 <div class="modulo-input-container">
@@ -148,7 +141,7 @@ include("../../database/basedados.php");
                             </div>
                             <div class="form-group">
                                 <label for="desconto">Preço com desconto (€)</label>
-                                <input type="text" disabled name="desconto" id="desconto" placeholder="Digite o preço com desconto"  />
+                                <input type="text" disabled name="desconto" id="desconto" placeholder="Digite o preço com desconto" />
                                 <div class="checkbox-curso">
                                     <input type="checkbox" name="tem_desconto" id="verificarDesconto" />
                                     <label class="label-btn" for="verificarDesconto">Verifique que este curso tem desconto</label>
@@ -162,6 +155,10 @@ include("../../database/basedados.php");
                                 <label for="provedor">Provedor de visão geral do curso</label>
                                 <select name="provedor" id="provedor">
                                     <option disabled selected>Selecione</option>
+                                    <option value="youtube">YouTube</option>
+                                    <option value="facebook">Facebook</option>
+                                    <option value="conta_proria">Conta própria</option>
+                                    <option value="outro">Outro</option>
                                     <!-- Opções devem ser preenchidas aqui -->
                                 </select>
                             </div>
@@ -412,26 +409,6 @@ include("../../database/basedados.php");
     </script>
 
     <script>
-        var desconto = document.getElementById("desconto");
-        desconto.disabled = true;
-
-        document.addEventListener('DOMContentLoaded', function() {
-            var verificarDesconto = document.getElementById("verificarDesconto");
-
-            verificarDesconto.addEventListener('change', function() {
-                if (!verificarDesconto.checked) {
-                    desconto.disabled = true;
-                } else {
-                    desconto.disabled = false;
-                }
-            });
-
-            if (!verificarDesconto.checked) {
-                desconto.disabled = true;
-            }
-        });
-
-
         const buttonSubmit = document.getElementById("buttonSubmit");
         const titulo = document.getElementById("titulo");
         const linguagem = document.getElementById("linguagem");
