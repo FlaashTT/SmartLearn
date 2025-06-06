@@ -1,8 +1,8 @@
 <?php
-
+session_start();
 function criarLogs($tipoLog, $idUser, $saldo = null, $idCurso = null, $idCategoria = null)
 { //devemos por mais campos,ter de ver depois oq vai ser necesario
-    
+
     global $conn;
 
     date_default_timezone_set("Europe/Lisbon");
@@ -21,7 +21,7 @@ function criarLogs($tipoLog, $idUser, $saldo = null, $idCurso = null, $idCategor
 
         case "Deposito de saldo":
             $descricaoLog = "Foi depositado na conta o valor de " . $saldo . "€ euros";
-            
+
             break;
 
 
@@ -30,7 +30,7 @@ function criarLogs($tipoLog, $idUser, $saldo = null, $idCurso = null, $idCategor
             break;
 
         case "Compra curso":
-            $descricaoLog = "O utilizador realizou uma compra no valor de ".$saldo." €";
+            $descricaoLog = "O utilizador realizou uma compra no valor de " . $saldo . " €";
             break;
 
         case "Alteração de dados":
@@ -55,6 +55,9 @@ function criarLogs($tipoLog, $idUser, $saldo = null, $idCurso = null, $idCategor
 
         case "Categoria alterada":
             $descricaoLog = "A categoria " . $idCategoria . " foi alterada";
+            break;
+        case "Utilizador Matriculado":
+            $descricaoLog = "O utilizador com id " . $idUser . " foi matriculado no de id $idCurso pelo admin com id " . $_SESSION['utilizadorOn']['Id_user'];
             break;
     }
     $stmt = $conn->prepare("INSERT INTO logs_sistema (Id_user, Descricao_log, Tipo_log, Data_log, saldo) VALUES (?, ?, ?, ?, ?)");

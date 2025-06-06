@@ -8,7 +8,9 @@ $dbpass = '';
 $conn = mysqli_connect($dbhost, $dbuser, $dbpass, $database);
 
 if(!$conn){
-    die("Erro na ligação com a base de dados: ". mysqli_connect_error());
+    header("Location: ../htdocs/SmartLearn/public/paginaErro.php");
+
+    exit();
 }
 
 ?>

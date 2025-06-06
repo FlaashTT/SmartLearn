@@ -20,14 +20,33 @@ SET time_zone = "+00:00";
 --
 -- Banco de dados: `smartlearndb`
 --
+DROP DATABASE IF EXISTS smartlearndb;
 CREATE DATABASE IF NOT EXISTS `smartlearndb` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 USE `smartlearndb`;
 
 -- --------------------------------------------------------
 
+
+DROP TABLE IF EXISTS carrinho_compras;
+DROP TABLE IF EXISTS categoria;
+DROP TABLE IF EXISTS configuracoes_site;
+DROP TABLE IF EXISTS curso;
+DROP TABLE IF EXISTS cursos_adquiridos;
+DROP TABLE IF EXISTS cursos_favoritos;
+DROP TABLE IF EXISTS fase;
+DROP TABLE IF EXISTS historico_compras;
+DROP TABLE IF EXISTS idioma;
+DROP TABLE IF EXISTS logs_sistema;
+DROP TABLE IF EXISTS midia;
+DROP TABLE IF EXISTS perguntas_forms;
+
+DROP TABLE IF EXISTS resposta_forms;
+DROP TABLE IF EXISTS resposta_perguntas;
+DROP TABLE IF EXISTS ticket;
+DROP TABLE IF EXISTS user;
+-- --------------------------------------------------------
 --
--- Estrutura da tabela `carrinho_compras`
---
+
 
 CREATE TABLE `carrinho_compras` (
   `Id_carrinho` int(11) NOT NULL,

@@ -56,22 +56,20 @@ include("../../database/basedados.sql");
                         <button class="tab" data-tab="finalizar">Finalizar</button>
                     </div>
 
-
-
-                    <!-- CONTEÚDO DA ABA BÁSICO -->
-                    <div class="form-content tab-content active" data-content="basico">
-                        <form class="form-content">
+                    <form class="form-content" method="POST" action="acoes/adicionarCurso.php" enctype="multipart/form-data">
+                        <!-- CONTEÚDO DA ABA BÁSICO -->
+                        <div class="form-content tab-content active" data-content="basico">
                             <div class="form-group">
                                 <label for="titulo">Título do Curso</label>
                                 <input type="text" name="titulo" id="titulo" placeholder="Digite o título do curso" required />
                             </div>
                             <div class="form-group">
                                 <label for="descricao-curta">Pequena-descrição</label>
-                                <input type="text" name="peq_descricao" id="descricao-curta" placeholder="Digite uma pequena descrição" required />
+                                <input type="text" name="peq_descricao" id="descricao-curta" placeholder="Digite uma pequena descrição" />
                             </div>
                             <div class="form-group">
                                 <label for="descricao">Descrição</label>
-                                <input type="text" name="descricao" id="descricao" placeholder="Digite a descrição" required />
+                                <input type="text" name="descricao" id="descricao" placeholder="Digite a descrição" />
                             </div>
                             <div class="form-group">
                                 <label for="categorias">Categorias</label>
@@ -91,13 +89,13 @@ include("../../database/basedados.sql");
                                 <select name="dificuldade" id="nivel">
                                     <option disabled selected>Selecione</option>
                                     <option value="iniciante">Iniciante</option>
-                                    <option value="intermedio">Intermedio</option>
+                                    <option value="intermedio">Intermediário</option>
                                     <option value="avancado">Avançado</option>
                                 </select>
                             </div>
                             <div class="form-group">
                                 <label for="linguagem">Linguagem feita em</label>
-                                <select id="linguagem">
+                                <select name="idioma" id="linguagem">
                                     <option disabled selected>Selecione</option>
                                     <?php
                                     $query = "SELECT * FROM idioma";
@@ -108,12 +106,10 @@ include("../../database/basedados.sql");
                                     ?>
                                 </select>
                             </div>
-                        </form>
-                    </div>
+                        </div>
 
-                    <!-- CONTEÚDO DA ABA INFORMAÇÕES -->
-                    <div class="form-content tab-content" data-content="info">
-                        <form class="form-content">
+                        <!-- CONTEÚDO DA ABA INFORMAÇÕES -->
+                        <div class="form-content tab-content" data-content="info">
                             <div class="form-group">
                                 <label for="modulo">Módulo do Curso</label>
                                 <div class="modulo-input-container">
@@ -123,60 +119,55 @@ include("../../database/basedados.sql");
                                 <ul id="modulosLista" class="modulos-lista"></ul>
                             </div>
                             <div class="form-group">
-                                <label for="modulo">Requisitos</label>
+                                <label for="requisitos">Requisitos</label>
                                 <div class="modulo-input-container">
-                                    <input type="text" id="moduloInput" class="modulo-input" placeholder="Digite o nome do requisito" />
-                                    <button type="button" id="addModulo" class="modulo-btn-adicionar">+</button>
+                                    <input type="text" id="requisitosInput" class="modulo-input" placeholder="Digite o nome do requisito" />
+                                    <button type="button" id="addRequisito" class="modulo-btn-adicionar">+</button>
                                 </div>
-                                <ul id="modulosLista" class="modulos-lista"></ul>
+                                <ul id="requisitosLista" class="modulos-lista"></ul>
                             </div>
                             <div class="form-group">
-                                <label for="modulo">Resultados</label>
+                                <label for="resultados">Resultados</label>
                                 <div class="modulo-input-container">
-                                    <input type="text" id="moduloInput" class="modulo-input" placeholder="Digite o nome do resultado" />
-                                    <button type="button" id="addModulo" class="modulo-btn-adicionar">+</button>
+                                    <input type="text" id="resultadosInput" class="modulo-input" placeholder="Digite o nome do resultado" />
+                                    <button type="button" id="addResultado" class="modulo-btn-adicionar">+</button>
                                 </div>
-                                <ul id="modulosLista" class="modulos-lista"></ul>
+                                <ul id="resultadosLista" class="modulos-lista"></ul>
                             </div>
-                        </form>
-                    </div>
+                        </div>
 
-
-                    <!-- CONTEÚDO DA ABA PREÇOS -->
-                    <div class="form-content tab-content" data-content="precos">
-                        <form class="form-content">
+                        <!-- CONTEÚDO DA ABA PREÇOS -->
+                        <div class="form-content tab-content" data-content="precos">
                             <div class="form-group">
                                 <label for="preco">Preço do curso (€)</label>
-                                <input type="text" name="preco" id="preco" placeholder="Digite o preço do curso" required />
+                                <input type="text" name="preco" id="preco" placeholder="Digite o preço do curso" />
                                 <div class="checkbox-curso">
-                                    <input type="checkbox" id="verificarGratuito" />
+                                    <input type="checkbox" name="gratuito" id="verificarGratuito" />
                                     <label class="label-btn" for="verificarGratuito">Verifique que este é um curso gratuito</label>
                                 </div>
-
                             </div>
                             <div class="form-group">
                                 <label for="desconto">Preço com desconto (€)</label>
-                                <input type="text" id="desconto" placeholder="Digite uma pequena descrição" required />
+                                <input type="text" name="desconto" id="desconto" placeholder="Digite o preço com desconto" />
                                 <div class="checkbox-curso">
-                                    <input type="checkbox" id="verificarDesconto" />
-                                    <label class="label-btn" for="verificarCurso">Verifique que este curso tem desconto</label>
+                                    <input type="checkbox" name="tem_desconto" id="verificarDesconto" />
+                                    <label class="label-btn" for="verificarDesconto">Verifique que este curso tem desconto</label>
                                 </div>
                             </div>
-                        </form>
-                    </div>
+                        </div>
 
-                    <!-- CONTEÚDO DA ABA Mídia -->
-                    <div class="form-content tab-content" data-content="media">
-                        <form class="form-content">
+                        <!-- CONTEÚDO DA ABA MÍDIA -->
+                        <div class="form-content tab-content" data-content="media">
                             <div class="form-group">
-                                <label for="linguagem">Provedor de visão geral do curso</label>
-                                <select id="linguagem">
+                                <label for="provedor">Provedor de visão geral do curso</label>
+                                <select name="provedor" id="provedor">
                                     <option disabled selected>Selecione</option>
+                                    <!-- Opções devem ser preenchidas aqui -->
                                 </select>
                             </div>
                             <div class="form-group">
                                 <label for="ficheiro">Carregar imagem do curso</label>
-                                <input type="file" id="ficheiro" accept="image/*" required />
+                                <input type="file" name="imagem_curso" id="ficheiro" accept="image/*" />
                                 <div id="cardPreview" class="card-preview">
                                     <div class="card-content">
                                         <img id="cardImage" src="" alt="Imagem de pré-visualização" />
@@ -184,12 +175,10 @@ include("../../database/basedados.sql");
                                     </div>
                                 </div>
                             </div>
-                        </form>
-                    </div>
+                        </div>
 
-                    <!-- CONTEÚDO DA ABA Hastag -->
-                    <div class="form-content tab-content" data-content="hashtag">
-                        <form class="form-content">
+                        <!-- CONTEÚDO DA ABA HASHTAG -->
+                        <div class="form-content tab-content" data-content="hashtag">
                             <div class="form-group">
                                 <label for="hashtag">Hashtag do Curso</label>
                                 <div class="hashtag-input-container">
@@ -199,24 +188,22 @@ include("../../database/basedados.sql");
                                 <ul id="hashtagsLista" class="hashtags-lista"></ul>
                             </div>
                             <div class="form-group">
-                                <label for="descricao">Descrição</label>
-                                <input type="text" id="descricao" placeholder="Digite a descrição" required />
+                                <label for="descricao_hashtag">Descrição</label>
+                                <input type="text" id="descricao_hashtag" name="descricao_hashtag" placeholder="Digite a descrição" />
                             </div>
-                        </form>
-                    </div>
+                        </div>
 
-                    <!-- CONTEÚDO DA ABA Finalizar -->
-                    <div class="form-content tab-content" data-content="finalizar">
-                        <form class="form-content">
+                        <!-- CONTEÚDO DA ABA FINALIZAR -->
+                        <div class="form-content tab-content" data-content="finalizar">
                             <div class="icone-container">
                                 <i class="fa-solid fa-check-double"></i>
-                                <h2 class="titulo">Obrigado !</h2>
+                                <h2 class="titulo">Obrigado!</h2>
                                 <p class="paragrafo">Tu estás a apenas um clique de distância</p>
-                                <button type="submit" class="btn-enviar">Enviar</button>
+                                <p style="display: block; color: red;" id="paragrafoErro">Erro</p>
+                                <button type="submit" id="buttonSubmit" class="btn-enviar">Enviar</button>
                             </div>
-                        </form>
-                    </div>
-
+                        </div>
+                    </form>
 
                     <div class="form-navigation">
                         <button type="button" class="btn-button" id="prev-tab">
@@ -226,8 +213,8 @@ include("../../database/basedados.sql");
                             <i class="fas fa-arrow-right"></i>
                         </button>
                     </div>
-                    </form>
                 </section>
+
 
             </main>
         </main>
@@ -394,37 +381,84 @@ include("../../database/basedados.sql");
             }
         });
 
-        
-            // Executa depois que o DOM estiver pronto
-            window.addEventListener("DOMContentLoaded", function() {
-                const checkGratis = document.getElementById("verificarGratuito");
-                const inputPreco = document.getElementById("preco");
-                const inputDesconto = document.getElementById("desconto");
-                const verificarDesconto = document.getElementById("verificarDesconto");
 
-                function atualizarCampos() {
-                    if (checkGratis.checked) {
-                        inputPreco.disabled = true;
-                        inputPreco.value = ""; // limpa valor
-                        inputDesconto.disabled = true;
-                        inputDesconto.value = ""; // limpa valor
-                        verificarDesconto.disabled = true;
-                    } else {
-                        inputPreco.disabled = false;
-                        inputDesconto.disabled = false;
-                        verificarDesconto.disabled = false;
-                    }
+        // Executa depois que o DOM estiver pronto
+        window.addEventListener("DOMContentLoaded", function() {
+            const checkGratis = document.getElementById("verificarGratuito");
+            const inputPreco = document.getElementById("preco");
+            const inputDesconto = document.getElementById("desconto");
+            const verificarDesconto = document.getElementById("verificarDesconto");
+
+            function atualizarCampos() {
+                if (checkGratis.checked) {
+                    inputPreco.disabled = true;
+                    inputPreco.value = ""; // limpa valor
+                    inputDesconto.disabled = true;
+                    inputDesconto.value = ""; // limpa valor
+                    verificarDesconto.disabled = true;
+                } else {
+                    inputPreco.disabled = false;
+                    inputDesconto.disabled = false;
+                    verificarDesconto.disabled = false;
                 }
+            }
 
-                // Chama uma vez ao carregar
-                atualizarCampos();
+            // Chama uma vez ao carregar
+            atualizarCampos();
 
-                // Chama sempre que mudar o checkbox
-                checkGratis.addEventListener("change", atualizarCampos);
-            });
-    
-
+            // Chama sempre que mudar o checkbox
+            checkGratis.addEventListener("change", atualizarCampos);
+        });
     </script>
+
+    <script>
+        const buttonSubmit = document.getElementById("buttonSubmit");
+        const titulo = document.getElementById("titulo");
+        const linguagem = document.getElementById("linguagem");
+        const paragrafoErro = document.getElementById("paragrafoErro");
+
+        // Escutadores para verificar os campos ao digitar
+        titulo.addEventListener("input", verificarCampos);
+        linguagem.addEventListener("input", verificarCampos);
+
+        function verificarCampos() {
+            let mensagensErro = [];
+
+            // Verifica título
+            if (titulo.value.trim() === "") {
+                mensagensErro.push("Título é obrigatório!");
+                titulo.style.borderColor = "red";
+            } else {
+                titulo.style.borderColor = "";
+            }
+
+            // Verifica linguagem
+            if (linguagem.value.trim() === "" || linguagem.value === "Selecione") {
+                mensagensErro.push("Linguagem é obrigatória!");
+                linguagem.style.borderColor = "red";
+            } else {
+                linguagem.style.borderColor = "";
+            }
+
+            if (mensagensErro.length > 0) {
+                paragrafoErro.style.display = "block";
+                paragrafoErro.textContent = mensagensErro.join(" ");
+                buttonSubmit.disabled = true;
+                buttonSubmit.style.cursor = "not-allowed";
+                buttonSubmit.style.opacity = "0.5";
+            } else {
+                paragrafoErro.style.display = "none";
+                paragrafoErro.textContent = "";
+                buttonSubmit.disabled = false;
+                buttonSubmit.style.cursor = "pointer";
+                buttonSubmit.style.opacity = "1";
+            }
+        }
+
+        // Chama a função para validar ao carregar a página
+        verificarCampos();
+    </script>
+
 
 
 </body>
