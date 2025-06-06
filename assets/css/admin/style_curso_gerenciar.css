@@ -1,3 +1,124 @@
+/* Fundo escurecido do modal */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 999;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+/* Caixa branca central quadrada */
+.modal-box {
+  background-color: #fff;
+  width: 400px;
+  height: 300px;
+  margin: auto;
+  margin-top: 10%;
+  padding: 30px 20px;
+  border-radius: 12px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.25);
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+/* Animação suave ao abrir */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Botão de fechar (X) */
+.close {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 26px;
+  color: #999;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.close:hover {
+  color: #333;
+}
+
+/* Título centralizado no topo */
+.modal-title {
+  text-align: center;
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+/* Texto abaixo do título */
+.modal-text {
+  text-align: center;
+  font-size: 16px;
+  color: #444;
+  margin-top: 10px;
+  margin-bottom: 30px;
+}
+
+/* Botões alinhados em baixo */
+.modal-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+/* Botões */
+.modal-buttons button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 500;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.2s;
+}
+
+/* Cancelar */
+.modal-buttons button:first-child {
+  background-color: #e0e0e0;
+  color: #333;
+}
+
+.modal-buttons button:first-child:hover {
+  background-color: #cfcfcf;
+}
+
+/* Eliminar (vermelho) */
+.modal-buttons button.red {
+  background-color: #dc3545;
+  color: white;
+}
+
+.modal-buttons button.red:hover {
+  background-color: #c82333;
+}
+
+/* Responsivo */
+@media (max-width: 480px) {
+  .modal-box {
+    width: 90%;
+    height: auto;
+    padding: 25px 15px;
+  }
+
+  .modal-buttons {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .modal-buttons button {
+    width: 100%;
+  }
+}
+
+
 
 .container-admin {
     width: 100%;
@@ -314,6 +435,8 @@ table th{
     margin-top: 20px;
     transition: background-color 0.3s ease;
 }
+
+
 
 
 
