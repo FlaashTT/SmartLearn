@@ -1,304 +1,181 @@
-<?php
-include("segurançaAdmin.php");
-include("../../database/basedados.php");
+# Example MySQL config file for small systems.
+#
+# This is for a system with little memory (<= 64M) where MySQL is only used
+# from time to time and it's important that the mysqld daemon
+# doesn't use much resources.
+#
+# You can copy this file to
+# C:/xampp/mysql/bin/my.cnf to set global options,
+# mysql-data-dir/my.cnf to set server-specific options (in this
+# installation this directory is C:/xampp/mysql/data) or
+# ~/.my.cnf to set user-specific options.
+#
+# In this file, you can use all long options that a program supports.
+# If you want to know which options a program supports, run the program
+# with the "--help" option.
 
-$limite = 10; // cursos por página
-$paginaAtual = isset($_GET['pagina']) ? (int)$_GET['pagina'] : 1;
-$offset = ($paginaAtual - 1) * $limite;
+# The following options will be passed to all MySQL clients
+[client]
+# password       = your_password 
+port=3306
+socket="C:/xampp/mysql/mysql.sock"
 
-$sqlCursos = "SELECT * FROM curso WHERE 1=1";
 
-// Aplicar filtros se existirem
-if (isset($_POST['FiltroCategoria'])) {
-    $filtroCategoria = $_POST['FiltroCategoria'];
-    if ($filtroCategoria != 'Todos') {
-        $sqlCursos .= " AND Id_categoria = " . $filtroCategoria;
-    }
-}
+# Here follows entries for some specific programs 
 
-if (isset($_POST['FiltroEstado'])) {
-    $filtroEstado = $_POST['FiltroEstado'];
-    if ($filtroEstado != 'Todos') {
-        $sqlCursos .= " AND Estado_curso = '" . $filtroEstado . "'";
-    }
-}
+# The MySQL server
+default-character-set=utf8mb4
+[mysqld]
+port=3306
+socket="C:/xampp/mysql/mysql.sock"
+basedir="C:/xampp/mysql"
+tmpdir="C:/xampp/tmp"
+datadir="C:/xampp/mysql/data"
+pid_file="mysql.pid"
+# enable-named-pipe
+key_buffer=16M
+max_allowed_packet=1M
+sort_buffer_size=512K
+net_buffer_length=8K
+read_buffer_size=256K
+read_rnd_buffer_size=512K
+myisam_sort_buffer_size=8M
+log_error="mysql_error.log"
 
-if (isset($_POST['FiltroPreco'])) {
-    $filtroPreco = $_POST['FiltroPreco'];
-    if ($filtroPreco != 'Todos') {
-        if ($filtroPreco === 'gratuito') {
-            $sqlCursos .= " AND (Preco = 0 OR Preco IS NULL)";
-        } else if ($filtroPreco === 'pago') {
-            $sqlCursos .= " AND Preco > 0";
-        }
-    }
-}
+# Change here for bind listening
+# bind-address="127.0.0.1" 
+# bind-address = ::1          # for ipv6
 
-// 1. Obter o total de cursos filtrados (sem LIMIT)
-$resultTotal = $conn->query($sqlCursos);
-if ($resultTotal) {
-    $totalPesquisa = $resultTotal->num_rows;
-} else {
-    $totalPesquisa = 0;
-}
+# Where do all the plugins live
+plugin_dir="C:/xampp/mysql/lib/plugin/"
 
-// 2. Adicionar LIMIT e OFFSET para paginação
-$sqlCursosLimit = $sqlCursos . " LIMIT $limite OFFSET $offset";
-$resultLimit = $conn->query($sqlCursosLimit);
-?>
+# Don't listen on a TCP/IP port at all. This can be a security enhancement,
+# if all processes that need to connect to mysqld run on the same host.
+# All interaction with mysqld must be made via Unix sockets or named pipes.
+# Note that using this option without enabling named pipes on Windows
+# (via the "enable-named-pipe" option) will render mysqld useless!
+# 
+# commented in by lampp security
+#skip-networking
+#skip-federated
 
-<!DOCTYPE html>
-<html lang="pt">
+# Replication Master Server (default)
+# binary logging is required for replication
+# log-bin deactivated by default since XAMPP 1.4.11
+#log-bin=mysql-bin
 
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SmartLearn</title>
-    <link rel="stylesheet" href="../../assets/fontawesome/fontawesome/css/all.min.css" />
-    <link rel="stylesheet" href="../../assets/css/admin/style_admin.css" />
-    <link rel="stylesheet" href="../../assets/css/admin/style_curso_gerenciar.css" />
-</head>
+# required unique id between 1 and 2^32 - 1
+# defaults to 1 if master-host is not set
+# but will not function as a master if omitted
+server-id	=1
 
-<body>
-    <!-- Cabeçalho -->
-    <?php include("../../src/views/utils/cabecalhoAdmin.html"); ?>
+# Replication Slave (comment out master section to use this)
+#
+# To configure this host as a replication slave, you can choose between
+# two methods :
+#
+# 1) Use the CHANGE MASTER TO command (fully described in our manual) -
+#    the syntax is:
+#
+#    CHANGE MASTER TO MASTER_HOST=<host>, MASTER_PORT=<port>,
+#    MASTER_USER=<user>, MASTER_PASSWORD=<password> ;
+#
+#    where you replace <host>, <user>, <password> by quoted strings and
+#    <port> by the master's port number (3306 by default).
+#
+#    Example:
+#
+#    CHANGE MASTER TO MASTER_HOST='125.564.12.1', MASTER_PORT=3306,
+#    MASTER_USER='joe', MASTER_PASSWORD='secret';
+#
+# OR
+#
+# 2) Set the variables below. However, in case you choose this method, then
+#    start replication for the first time (even unsuccessfully, for example
+#    if you mistyped the password in master-password and the slave fails to
+#    connect), the slave will create a master.info file, and any later
+#    change in this file to the variables' values below will be ignored and
+#    overridden by the content of the master.info file, unless you shutdown
+#    the slave server, delete master.info and restart the slaver server.
+#    For that reason, you may want to leave the lines below untouched
+#    (commented) and instead use CHANGE MASTER TO (see above)
+#
+# required unique id between 2 and 2^32 - 1
+# (and different from the master)
+# defaults to 2 if master-host is set
+# but will not function as a slave if omitted
+#server-id       = 2
+#
+# The replication master for this slave - required
+#master-host     =   <hostname>
+#
+# The username the slave will use for authentication when connecting
+# to the master - required
+#master-user     =   <username>
+#
+# The password the slave will authenticate with when connecting to
+# the master - required
+#master-password =   <password>
+#
+# The port the master is listening on.
+# optional - defaults to 3306
+#master-port     =  <port>
+#
+# binary logging - not required for slaves, but recommended
+#log-bin=mysql-bin
 
-    <div class="container-admin">
-        <main class="container">
-            <?php include("../../src/views/utils/sidebarAdmin.html"); ?>
 
-            <main class="container-page">
-                <section class="main-content" style="display: flex; align-items: center; justify-content: space-between;">
-                    <h1 style="display: flex; align-items: center;">
-                        <i style="font-size: 18px; margin-right: 10px;" class="fas fa-tachometer-alt"></i> Gerenciar Cursos
-                    </h1>
-                    <button style="padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">
-                        Adicionar Novo Curso
-                    </button>
-                </section>
+# Point the following paths to different dedicated disks
+#tmpdir = "C:/xampp/tmp"
+#log-update = /path-to-dedicated-directory/hostname
 
-                <section class="page">
-                    <h1>Lista de Cursos</h1>
-                    <div class="stats">
-                        <div class="stat">
-                            <i class="fas fa-book"></i>
-                            <span>
-                                <?php
-                                $query = "SELECT COUNT(*) AS total FROM curso WHERE Estado_curso = 'ativo'";
-                                $result = $conn->query($query);
-                                if ($result) {
-                                    $row = $result->fetch_assoc();
-                                    echo $row['total'];
-                                } else {
-                                    echo "Erro ao contar cursos.";
-                                }
-                                ?>
-                            </span>
-                            <p>Cursos Ativos</p>
-                        </div>
-                        <div class="stat">
-                            <i class="fas fa-file-alt"></i>
-                            <span>
-                                <?php
-                                $query = "SELECT COUNT(*) AS total FROM curso WHERE Estado_curso != 'ativo'";
-                                $result = $conn->query($query);
-                                if ($result) {
-                                    $row = $result->fetch_assoc();
-                                    echo $row['total'];
-                                } else {
-                                    echo "Erro ao contar cursos.";
-                                }
-                                ?>
-                            </span>
-                            <p>Cursos pendentes</p>
-                        </div>
-                        <div class="stat">
-                            <i class="fas fa-user-check"></i>
-                            <span>
-                                <?php
-                                $query = "SELECT COUNT(*) AS total FROM curso WHERE Preco = 0 OR Preco IS NULL";
-                                $result = $conn->query($query);
-                                if ($result) {
-                                    $row = $result->fetch_assoc();
-                                    echo $row['total'];
-                                } else {
-                                    echo "Erro ao contar cursos.";
-                                }
-                                ?>
-                            </span>
-                            <p>Cursos gratuitos</p>
-                        </div>
-                        <div class="stat">
-                            <i class="fas fa-users"></i>
-                            <span>
-                                <?php
-                                $query = "SELECT COUNT(*) AS total FROM curso WHERE Preco > 0";
-                                $result = $conn->query($query);
-                                if ($result) {
-                                    $row = $result->fetch_assoc();
-                                    echo $row['total'];
-                                } else {
-                                    echo "Erro ao contar cursos.";
-                                }
-                                ?>
-                            </span>
-                            <p>Cursos Pagos</p>
-                        </div>
-                    </div>
-                </section>
+# Uncomment the following if you are using BDB tables
+#bdb_cache_size = 4M
+#bdb_max_lock = 10000
 
-                <form method="POST" action="">
-                    <section class="course-list">
-                        <h2>Lista de cursos</h2>
-                        <div class="filters">
+# Comment the following if you are using InnoDB tables
+#skip-innodb
+innodb_data_home_dir="C:/xampp/mysql/data"
+innodb_data_file_path=ibdata1:10M:autoextend
+innodb_log_group_home_dir="C:/xampp/mysql/data"
+#innodb_log_arch_dir = "C:/xampp/mysql/data"
+## You can set .._buffer_pool_size up to 50 - 80 %
+## of RAM but beware of setting memory usage too high
+innodb_buffer_pool_size=16M
+## Set .._log_file_size to 25 % of buffer pool size
+innodb_log_file_size=5M
+innodb_log_buffer_size=8M
+innodb_flush_log_at_trx_commit=1
+innodb_lock_wait_timeout=50
 
-                            <label for="categories">Categorias</label>
-                            <div>
-                                <select id="categories" name="FiltroCategoria">
-                                    <option value="Todos" <?= (isset($_POST['FiltroCategoria']) && $_POST['FiltroCategoria'] == 'Todos') ? 'selected' : '' ?>>Todos</option>
-                                    <?php
-                                    $query = "SELECT * FROM categoria";
-                                    $stmt = $conn->prepare($query);
-                                    $stmt->execute();
-                                    $result = $stmt->get_result();
-                                    if ($result->num_rows > 0) {
-                                        while ($row = $result->fetch_assoc()) {
-                                            $selected = (isset($_POST['FiltroCategoria']) && $_POST['FiltroCategoria'] == $row['Id_categoria']) ? 'selected' : '';
-                                            echo '<option value="' . $row['Id_categoria'] . '" ' . $selected . '>' . $row['Nome_cat'] . '</option>';
-                                        }
-                                    } else {
-                                        echo '<option disabled>Nenhuma categoria encontrada</option>';
-                                    }
-                                    ?>
-                                </select>
-                            </div>
+## UTF 8 Settings
+#init-connect=\'SET NAMES utf8\'
+#collation_server=utf8_unicode_ci
+#character_set_server=utf8
+#skip-character-set-client-handshake
+#character_sets-dir="C:/xampp/mysql/share/charsets"
+sql_mode=NO_ZERO_IN_DATE,NO_ZERO_DATE,NO_ENGINE_SUBSTITUTION
+log_bin_trust_function_creators=1
 
-                            <label for="estado">Estado</label>
-                            <div>
-                                <select id="estado" name="FiltroEstado">
-                                    <?php
-                                    $estados = ['Todos', 'ativo', 'pendente', 'inativo', 'Incompleto'];
-                                    foreach ($estados as $estado) {
-                                        $selected = (isset($_POST['FiltroEstado']) && $_POST['FiltroEstado'] == $estado) ? 'selected' : '';
-                                        echo "<option value=\"$estado\" $selected>" . ucfirst($estado) . "</option>";
-                                    }
-                                    ?>
-                                </select>
-                            </div>
+character-set-server=utf8mb4
+collation-server=utf8mb4_general_ci
+[mysqldump]
+max_allowed_packet=16M
 
-                            <label for="preco">Preço</label>
-                            <div>
-                                <select id="preco" name="FiltroPreco">
-                                    <?php
-                                    $precos = ['Todos', 'gratuito', 'pago'];
-                                    foreach ($precos as $preco) {
-                                        $selected = (isset($_POST['FiltroPreco']) && $_POST['FiltroPreco'] == $preco) ? 'selected' : '';
-                                        echo "<option value=\"$preco\" $selected>" . ucfirst($preco) . "</option>";
-                                    }
-                                    ?>
-                                </select>
-                            </div>
+[mysql]
+# Remove the next comment character if you are not familiar with SQL
+#safe-updates
 
-                            <button type="submit">Filtrar</button>
-                        </div>
+[isamchk]
+key_buffer=20M
+sort_buffer_size=20M
+read_buffer=2M
+write_buffer=2M
 
-                    </section>
-                </form>
+[myisamchk]
+key_buffer=20M
+sort_buffer_size=20M
+read_buffer=2M
+write_buffer=2M
 
-                <table>
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Título</th>
-                            <th>Categoria</th>
-                            <th>Utilizadores inscrito</th>
-                            <th>Status</th>
-                            <th>Preço</th>
-                            <th>Ações</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php
-                        if ($resultLimit && $resultLimit->num_rows > 0) {
-                            while ($row = $resultLimit->fetch_assoc()) {
-
-                                // Selecionar nome da categoria
-                                if (isset($row['Id_categoria']) && !empty($row['Id_categoria'])) {
-                                    $stmtCategoria = $conn->prepare("SELECT Nome_cat FROM categoria WHERE Id_categoria = ?");
-                                    $stmtCategoria->bind_param("i", $row['Id_categoria']);
-                                    $stmtCategoria->execute();
-                                    $resultCategoria = $stmtCategoria->get_result();
-
-                                    if ($resultCategoria->num_rows > 0) {
-                                        $rowCategoria = $resultCategoria->fetch_assoc();
-                                        $Categoria = $rowCategoria['Nome_cat'];
-                                    } else {
-                                        $Categoria = "Categoria não encontrada";
-                                    }
-                                } else {
-                                    $Categoria = "Sem categoria";
-                                }
-
-                                // Contar utilizadores inscritos no curso
-                                $stmtContagem = $conn->prepare("SELECT COUNT(*) AS total FROM cursos_adquiridos WHERE Id_curso = ?");
-                                $stmtContagem->bind_param("i", $row['Id_curso']);
-                                $stmtContagem->execute();
-                                $resultContagem = $stmtContagem->get_result();
-                                $rowContagem = $resultContagem->fetch_assoc();
-
-                                $totalInscritos = $rowContagem['total'];
-
-                                echo '
-                                    <tr>
-                                        <td>' . $row['Id_curso'] . '</td>
-                                        <td>' . htmlspecialchars($row['Nome_curso']) . '</td>
-                                        <td>' . htmlspecialchars($Categoria) . '</td>
-                                        <td>' . $totalInscritos . '</td>
-                                        <td>' . htmlspecialchars($row['Estado_curso']) . '</td>
-                                        <td>' . (empty($row['Preco']) || $row['Preco'] == 0 ? 'Gratuito' : htmlspecialchars($row['Preco']) . '€') . '</td>
-                                        <td onclick="mostrarInfo(' . $row['Id_curso'] . ')" style="cursor: pointer;">Ver detalhes curso</td>
-                                    </tr>
-                                ';
-                            }
-                        } else {
-                            echo '<tr><td colspan="7">Nenhum dado inserido</td></tr>';
-                        }
-
-                        // Calcular total de páginas para paginação
-                        $totalPaginas = ceil($totalPesquisa / $limite);
-                        ?>
-                    </tbody>
-                </table>
-
-                <div class="pagination">
-                    <?php if ($paginaAtual > 1): ?>
-                        <a href="?pagina=<?= $paginaAtual - 1 ?>">Anterior</a>
-                    <?php endif; ?>
-
-                    <span>Página <?= $paginaAtual ?> de <?= $totalPaginas ?></span>
-
-                    <?php if ($paginaAtual < $totalPaginas): ?>
-                        <a href="?pagina=<?= $paginaAtual + 1 ?>">Próximo</a>
-                    <?php endif; ?>
-                </div>
-
-            </main>
-        </main>
-    </div>
-
-    <script>
-        document.querySelectorAll('.has-submenu').forEach(item => {
-            item.addEventListener('click', () => {
-                item.classList.toggle('open');
-            });
-        });
-        document.querySelectorAll('.has-submenu-a').forEach(item => {
-            item.addEventListener('click', e => {
-                e.stopPropagation();
-                item.classList.toggle('open');
-            });
-        });
-    </script>
-</body>
-
-</html>
+[mysqlhotcopy]
