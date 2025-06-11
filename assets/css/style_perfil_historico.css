@@ -127,6 +127,14 @@
     border-collapse: collapse;
 }
 
+.table-container thead tr:first-child th {
+    border-left: 1px solid #000; 
+    border-right: 1px solid #000; 
+    border-top: 1px solid #000;;
+    border-bottom: 1px solid #000;;
+}
+
+
 .table-container table{
     width: 100%;
     border-collapse: collapse;
@@ -140,7 +148,7 @@
 }
 
 .table-container th{
-    background-color: #007bff;
+    background-color: #007bffd0 ;
     font-weight: bold;
 }
 
