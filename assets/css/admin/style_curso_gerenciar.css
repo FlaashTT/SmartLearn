@@ -11,7 +11,7 @@
 .modal-box {
   background-color: #fff;
   width: 400px;
-  height: 300px;
+  height: auto;
   margin: auto;
   margin-top: 10%;
   padding: 30px 20px;
@@ -439,6 +439,19 @@ table th{
 
 
 
+
+.logs_model {
+  max-height: 300px;
+  overflow-y: auto;
+  padding: 10px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+}
+#loadMoreBtn {
+  margin-top: 10px;
+  padding: 6px 12px;
+  cursor: pointer;
+}
 
 
 

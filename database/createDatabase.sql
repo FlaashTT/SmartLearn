@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 30-Maio-2025 às 17:42
+-- Tempo de geração: 09-Jun-2025 às 17:01
 -- Versão do servidor: 10.4.32-MariaDB
 -- versão do PHP: 8.2.12
 
@@ -20,39 +20,23 @@ SET time_zone = "+00:00";
 --
 -- Banco de dados: `smartlearndb`
 --
-DROP DATABASE IF EXISTS smartlearndb;
 CREATE DATABASE IF NOT EXISTS `smartlearndb` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 USE `smartlearndb`;
 
 -- --------------------------------------------------------
 
-
-DROP TABLE IF EXISTS carrinho_compras;
-DROP TABLE IF EXISTS categoria;
-DROP TABLE IF EXISTS configuracoes_site;
-DROP TABLE IF EXISTS curso;
-DROP TABLE IF EXISTS cursos_adquiridos;
-DROP TABLE IF EXISTS cursos_favoritos;
-DROP TABLE IF EXISTS fase;
-DROP TABLE IF EXISTS historico_compras;
-DROP TABLE IF EXISTS idioma;
-DROP TABLE IF EXISTS logs_sistema;
-DROP TABLE IF EXISTS midia;
-DROP TABLE IF EXISTS perguntas_forms;
-
-DROP TABLE IF EXISTS resposta_forms;
-DROP TABLE IF EXISTS resposta_perguntas;
-DROP TABLE IF EXISTS ticket;
-DROP TABLE IF EXISTS user;
--- --------------------------------------------------------
+--
+-- Estrutura da tabela `carrinho_compras`
 --
 
-
-CREATE TABLE `carrinho_compras` (
-  `Id_carrinho` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `carrinho_compras` (
+  `Id_carrinho` int(11) NOT NULL AUTO_INCREMENT,
   `Id_user` int(11) NOT NULL,
-  `Id_curso` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `Id_curso` int(11) NOT NULL,
+  PRIMARY KEY (`Id_carrinho`),
+  KEY `Id_user` (`Id_user`),
+  KEY `Id_curso` (`Id_curso`)
+) ENGINE=InnoDB AUTO_INCREMENT=65 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -60,13 +44,14 @@ CREATE TABLE `carrinho_compras` (
 -- Estrutura da tabela `categoria`
 --
 
-CREATE TABLE `categoria` (
-  `Id_categoria` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `categoria` (
+  `Id_categoria` int(11) NOT NULL AUTO_INCREMENT,
   `Nome_cat` varchar(50) NOT NULL,
   `Num_visitasCat` int(11) DEFAULT 0,
   `Quantidade_cursos` int(11) NOT NULL DEFAULT 0,
-  `Miniatura_cat` varchar(40) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `Miniatura_cat` varchar(40) NOT NULL,
+  PRIMARY KEY (`Id_categoria`)
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Extraindo dados da tabela `categoria`
@@ -81,12 +66,13 @@ INSERT INTO `categoria` (`Id_categoria`, `Nome_cat`, `Num_visitasCat`, `Quantida
 -- Estrutura da tabela `configuracoes_site`
 --
 
-CREATE TABLE `configuracoes_site` (
-  `Id_configuracao` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `configuracoes_site` (
+  `Id_configuracao` int(11) NOT NULL AUTO_INCREMENT,
   `Titulo_banner` varchar(100) NOT NULL,
   `Subtitulo_banner` varchar(100) NOT NULL,
   `Facebook` varchar(100) DEFAULT NULL,
-  `Linkedin` varchar(100) DEFAULT NULL
+  `Linkedin` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`Id_configuracao`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -95,29 +81,33 @@ CREATE TABLE `configuracoes_site` (
 -- Estrutura da tabela `curso`
 --
 
-CREATE TABLE `curso` (
-  `Id_curso` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `curso` (
+  `Id_curso` int(11) NOT NULL AUTO_INCREMENT,
   `Nome_curso` varchar(40) NOT NULL,
   `Id_categoria` int(11) DEFAULT NULL,
-  `Id_idioma` int(11) NOT NULL,
+  `Id_idioma` int(11) DEFAULT NULL,
   `Criador_curso` int(11) NOT NULL,
   `Data_criacao` date NOT NULL DEFAULT '2025-01-01',
   `URL_foto_perfil_curso` varchar(100) DEFAULT NULL,
   `Pequena_descricao` varchar(100) DEFAULT NULL,
-  `Descricao` varchar(1000) NOT NULL,
+  `Descricao` varchar(1000) DEFAULT NULL,
   `Preco` decimal(10,2) DEFAULT 0.00,
-  `Preco_antigo` decimal(10,2) NOT NULL,
-  `Estado_curso` enum('ativo','inativo','pendente') NOT NULL,
+  `Preco_antigo` decimal(10,2) DEFAULT NULL,
+  `Estado_curso` enum('Incompleto','ativo','inativo','pendente') NOT NULL,
   `Classificacao` int(11) DEFAULT 0,
   `Num_visitascurso` int(11) DEFAULT 0,
-  `Tempo_estimado` time NOT NULL,
-  `Dificuldade` enum('Iniciante','intermedio','avançado') NOT NULL,
-  `Quantidade_fases` int(11) NOT NULL DEFAULT 0,
-  `Requisitos` varchar(100) NOT NULL,
+  `Tempo_estimado` time DEFAULT NULL,
+  `Dificuldade` enum('Iniciante','intermedio','avançado') DEFAULT NULL,
+  `Quantidade_fases` int(11) DEFAULT 0,
+  `Requisitos` varchar(100) DEFAULT NULL,
   `Provedor_geral_curso` enum('youtube','tiktok','instagram','linkedin') DEFAULT NULL,
   `URL_geral_curso` varchar(100) DEFAULT NULL,
-  `Keywords` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `Keywords` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`Id_curso`),
+  KEY `Id_categoria` (`Id_categoria`),
+  KEY `Criador_curso` (`Criador_curso`),
+  KEY `fk_idioma` (`Id_idioma`)
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Extraindo dados da tabela `curso`
@@ -135,7 +125,9 @@ INSERT INTO `curso` (`Id_curso`, `Nome_curso`, `Id_categoria`, `Id_idioma`, `Cri
 (10, 'Curso 6', 1, 1, 32, '2025-05-22', '/imagens/curso6.jpg', 'Descrição curta do curso 6', 'Descrição completa do curso 6', 25.00, 30.00, 'ativo', 4, 70, '00:00:07', '', 4, 'Nenhum requisito', '', 'https://curso6.exemplo.com', 'curso, básico'),
 (11, 'Curso 7', 1, 1, 32, '2025-05-22', '/imagens/curso7.jpg', 'Descrição curta do curso 7', 'Descrição completa do curso 7', 44.99, 54.99, 'ativo', 5, 150, '00:00:13', '', 6, 'Conhecimentos intermediários', '', 'https://curso7.exemplo.com', 'curso, tecnologia'),
 (12, 'Curso 8', 1, 1, 32, '2025-05-22', '/imagens/curso8.jpg', 'Descrição curta do curso 8', 'Descrição completa do curso 8', 34.99, 44.99, 'ativo', 4, 90, '00:00:09', '', 5, 'Nenhum requisito', '', 'https://curso8.exemplo.com', 'curso, iniciantes'),
-(13, 'Curso 9', 1, 1, 32, '2025-05-22', '/imagens/curso9.jpg', 'Descrição curta do curso 9', 'Descrição completa do curso 9', 54.99, 64.99, 'ativo', 5, 180, '00:00:14', 'avançado', 7, 'Conhecimentos avançados', '', 'https://curso9.exemplo.com', 'curso, avançado');
+(13, 'Curso 9', 1, 1, 32, '2025-05-22', '/imagens/curso9.jpg', 'Descrição curta do curso 9', 'Descrição completa do curso 9', 54.99, 64.99, 'ativo', 5, 180, '00:00:14', 'avançado', 7, 'Conhecimentos avançados', '', 'https://curso9.exemplo.com', 'curso, avançado'),
+(21, 'teste', NULL, 2, 32, '2025-06-06', 'curso_id21.jpg', '', '', 0.00, 0.00, 'Incompleto', 0, 0, '00:00:00', '', 0, '', '', NULL, ''),
+(22, 'fgh', 1, 2, 32, '2025-06-06', 'curso_id22.png', 'fgh', 'fhg', 0.00, 0.00, '', 0, 0, '00:00:00', 'intermedio', 0, '', '', NULL, '');
 
 -- --------------------------------------------------------
 
@@ -143,15 +135,19 @@ INSERT INTO `curso` (`Id_curso`, `Nome_curso`, `Id_categoria`, `Id_idioma`, `Cri
 -- Estrutura da tabela `cursos_adquiridos`
 --
 
-CREATE TABLE `cursos_adquiridos` (
-  `Id_adquirido` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `cursos_adquiridos` (
+  `Id_adquirido` int(11) NOT NULL AUTO_INCREMENT,
   `Id_user` int(11) NOT NULL,
   `Id_curso` int(11) NOT NULL,
   `Data_compra` date NOT NULL,
-  `Progresso` enum('Iniciado','Concluido') DEFAULT 'Iniciado',
+  `Progresso` enum('Por Iniciar','Iniciado','Concluido') DEFAULT 'Iniciado',
   `Percentagem_progresso` int(11) NOT NULL DEFAULT 0,
-  `AdicionadoPor` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `AdicionadoPor` int(11) DEFAULT NULL,
+  PRIMARY KEY (`Id_adquirido`),
+  KEY `fk_curso` (`Id_curso`),
+  KEY `fk_user` (`Id_user`),
+  KEY `fk_addPor` (`AdicionadoPor`)
+) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Extraindo dados da tabela `cursos_adquiridos`
@@ -167,7 +163,17 @@ INSERT INTO `cursos_adquiridos` (`Id_adquirido`, `Id_user`, `Id_curso`, `Data_co
 (8, 39, 11, '0000-00-00', 'Iniciado', 0, 32),
 (9, 39, 12, '0000-00-00', 'Iniciado', 0, 32),
 (10, 32, 13, '0000-00-00', 'Iniciado', 0, 32),
-(12, 32, 9, '2025-05-23', 'Iniciado', 0, NULL);
+(20, 40, 2, '2025-06-05', 'Por Iniciar', 0, NULL),
+(21, 40, 2, '2025-06-05', 'Por Iniciar', 0, NULL),
+(22, 40, 2, '2025-06-05', 'Por Iniciar', 0, NULL),
+(23, 40, 2, '2025-06-05', 'Por Iniciar', 0, NULL),
+(24, 40, 2, '2025-06-05', 'Por Iniciar', 0, NULL),
+(25, 40, 2, '2025-06-05', 'Por Iniciar', 0, NULL),
+(26, 40, 2, '2025-06-05', 'Por Iniciar', 0, NULL),
+(27, 40, 2, '2025-06-05', 'Por Iniciar', 0, NULL),
+(28, 40, 2, '2025-06-05', 'Por Iniciar', 0, 32),
+(30, 40, 2, '2025-06-05', 'Por Iniciar', 0, 32),
+(31, 40, 5, '2025-06-05', 'Por Iniciar', 0, 32);
 
 -- --------------------------------------------------------
 
@@ -175,10 +181,12 @@ INSERT INTO `cursos_adquiridos` (`Id_adquirido`, `Id_user`, `Id_curso`, `Data_co
 -- Estrutura da tabela `cursos_favoritos`
 --
 
-CREATE TABLE `cursos_favoritos` (
+CREATE TABLE IF NOT EXISTS `cursos_favoritos` (
   `Id_user` int(11) NOT NULL,
   `Id_curso` int(11) NOT NULL,
-  `Data_favorito` date DEFAULT NULL
+  `Data_favorito` date DEFAULT NULL,
+  PRIMARY KEY (`Id_user`,`Id_curso`),
+  KEY `Id_curso` (`Id_curso`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -187,13 +195,15 @@ CREATE TABLE `cursos_favoritos` (
 -- Estrutura da tabela `fase`
 --
 
-CREATE TABLE `fase` (
-  `Id_fase` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `fase` (
+  `Id_fase` int(11) NOT NULL AUTO_INCREMENT,
   `Id_curso` int(11) NOT NULL,
   `Num_fase` int(11) DEFAULT NULL,
   `Titulo_fase` varchar(255) DEFAULT NULL,
-  `Conteudo_fase` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `Conteudo_fase` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`Id_fase`),
+  KEY `Id_curso` (`Id_curso`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Extraindo dados da tabela `fase`
@@ -217,13 +227,16 @@ INSERT INTO `fase` (`Id_fase`, `Id_curso`, `Num_fase`, `Titulo_fase`, `Conteudo_
 -- Estrutura da tabela `historico_compras`
 --
 
-CREATE TABLE `historico_compras` (
-  `Id_historicoCompras` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `historico_compras` (
+  `Id_historicoCompras` int(11) NOT NULL AUTO_INCREMENT,
   `Id_user` int(11) NOT NULL,
   `Data_compra` date DEFAULT NULL,
   `Tipo_pagamento` enum('carteira','outro','reembolsado') DEFAULT 'carteira',
-  `Id_curso` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `Id_curso` int(11) DEFAULT NULL,
+  PRIMARY KEY (`Id_historicoCompras`),
+  KEY `Id_user` (`Id_user`),
+  KEY `fk_id_curso` (`Id_curso`)
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Extraindo dados da tabela `historico_compras`
@@ -242,10 +255,11 @@ INSERT INTO `historico_compras` (`Id_historicoCompras`, `Id_user`, `Data_compra`
 -- Estrutura da tabela `idioma`
 --
 
-CREATE TABLE `idioma` (
-  `Id_idioma` int(11) NOT NULL,
-  `Nome_idioma` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+CREATE TABLE IF NOT EXISTS `idioma` (
+  `Id_idioma` int(11) NOT NULL AUTO_INCREMENT,
+  `Nome_idioma` varchar(50) NOT NULL,
+  PRIMARY KEY (`Id_idioma`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Extraindo dados da tabela `idioma`
@@ -262,50 +276,71 @@ INSERT INTO `idioma` (`Id_idioma`, `Nome_idioma`) VALUES
 -- Estrutura da tabela `logs_sistema`
 --
 
-CREATE TABLE `logs_sistema` (
-  `Id_log` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `logs_sistema` (
+  `Id_log` int(11) NOT NULL AUTO_INCREMENT,
   `Id_user` int(11) NOT NULL,
+  `Id_curso` int(11) DEFAULT NULL,
   `Descricao_log` varchar(100) NOT NULL,
-  `Tipo_log` enum('Informacional','Erro','Aviso','Novo Registo','Deposito de saldo','Levantamento de saldo','Compra curso','Reembolso curso') NOT NULL,
+  `Tipo_log` enum('Update Curso','Utilizador Matriculado','Informacional','Erro','Aviso','Novo Registo','Deposito de saldo','Levantamento de saldo','Compra curso','Reembolso curso') NOT NULL,
   `Data_log` datetime NOT NULL,
-  `saldo` double DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `saldo` double DEFAULT 0,
+  PRIMARY KEY (`Id_log`),
+  KEY `Id_user` (`Id_user`),
+  KEY `fk_logs_curso` (`Id_curso`)
+) ENGINE=InnoDB AUTO_INCREMENT=91 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Extraindo dados da tabela `logs_sistema`
 --
 
-INSERT INTO `logs_sistema` (`Id_log`, `Id_user`, `Descricao_log`, `Tipo_log`, `Data_log`, `saldo`) VALUES
-(34, 39, 'Foi criado um novo utilizador no sistema!', 'Novo Registo', '2025-04-15 11:06:42', 0),
-(35, 39, 'O utilizador realizou uma compra no valor de 122.9877 €', '', '2025-04-15 12:46:20', 0),
-(36, 32, 'Foi depositado na conta o valor de 10€euros', '', '2025-04-15 16:09:16', 0),
-(37, 32, 'Foi depositado na conta o valor de 10 €euros', '', '2025-04-15 16:12:33', 10),
-(38, 32, 'Foi depositado na conta o valor de 10 €euros', '', '2025-04-15 16:15:25', 10),
-(39, 32, 'Foi depositado na conta o valor de 10 €euros', '', '2025-04-15 16:18:00', 10),
-(40, 32, 'Foi depositado na conta o valor de 10 €euros', '', '2025-04-15 16:19:57', 10),
-(41, 32, 'Foi depositado na conta o valor de 10€ euros', '', '2025-04-15 16:22:34', 10),
-(42, 32, 'Foi depositado na conta o valor de 10€ euros', 'Deposito de saldo', '2025-04-15 16:23:54', 10),
-(43, 32, 'Foi depositado na conta o valor de 540€ euros', 'Deposito de saldo', '2025-04-15 17:20:26', 540),
-(44, 32, 'Foi depositado na conta o valor de 5€ euros', 'Deposito de saldo', '2025-04-15 17:21:54', 5),
-(45, 32, 'Foi depositado na conta o valor de 2€ euros', 'Deposito de saldo', '2025-04-15 17:32:51', 2),
-(46, 32, 'Foi levantado saldo no valor de 2 € euros', 'Levantamento de saldo', '2025-04-15 18:30:45', 2),
-(47, 32, 'Foi depositado na conta o valor de 200€ euros', 'Deposito de saldo', '2025-04-15 18:35:27', 200),
-(48, 32, 'Foi levantado saldo no valor de 100 € euros', 'Levantamento de saldo', '2025-04-15 18:35:34', 100),
-(49, 32, 'Foi depositado na conta o valor de 100€ euros', 'Deposito de saldo', '2025-04-15 18:35:38', 100),
-(50, 32, 'Foi depositado na conta o valor de 42€ euros', 'Deposito de saldo', '2025-04-15 18:45:55', 42),
-(51, 32, 'Foi depositado na conta o valor de 10€ euros', 'Deposito de saldo', '2025-04-15 18:46:01', 10),
-(52, 32, 'Foi levantado saldo no valor de 250 € euros', 'Levantamento de saldo', '2025-04-15 18:46:12', 250),
-(53, 32, 'Foi depositado na conta o valor de 500€ euros', 'Deposito de saldo', '2025-04-16 12:02:37', 500),
-(54, 32, 'O utilizador realizou uma compra no valor de 245.9754 €', 'Compra curso', '2025-04-16 12:06:07', 245.97539999999998),
-(55, 32, 'Foi solicitado reembolso do curso com id3', 'Reembolso curso', '2025-04-16 12:10:31', 99.99),
-(56, 32, 'O utilizador realizou uma compra no valor de 122.9877 €', 'Compra curso', '2025-05-06 12:38:59', 122.98769999999999),
-(57, 32, 'O utilizador realizou uma compra no valor de 49.1877 €', 'Compra curso', '2025-05-23 11:27:39', 49.18770000000001),
-(58, 71, 'Foi criado um novo utilizador no sistema!', 'Novo Registo', '2025-05-30 16:20:16', NULL),
-(59, 72, 'Foi criado um novo utilizador no sistema!', 'Novo Registo', '2025-05-30 16:24:48', NULL),
-(60, 73, 'Foi criado um novo utilizador no sistema!', 'Novo Registo', '2025-05-30 16:25:38', NULL),
-(61, 74, 'Foi criado um novo utilizador no sistema!', 'Novo Registo', '2025-05-30 16:28:02', NULL),
-(62, 75, 'Foi criado um novo utilizador no sistema!', 'Novo Registo', '2025-05-30 16:29:16', NULL),
-(63, 76, 'Foi criado um novo utilizador no sistema!', 'Novo Registo', '2025-05-30 16:38:37', NULL);
+INSERT INTO `logs_sistema` (`Id_log`, `Id_user`, `Id_curso`, `Descricao_log`, `Tipo_log`, `Data_log`, `saldo`) VALUES
+(34, 39, NULL, 'Foi criado um novo utilizador no sistema!', 'Novo Registo', '2025-04-15 11:06:42', 0),
+(35, 39, NULL, 'O utilizador realizou uma compra no valor de 122.9877 €', '', '2025-04-15 12:46:20', 0),
+(36, 32, NULL, 'Foi depositado na conta o valor de 10€euros', '', '2025-04-15 16:09:16', 0),
+(37, 32, NULL, 'Foi depositado na conta o valor de 10 €euros', '', '2025-04-15 16:12:33', 10),
+(38, 32, NULL, 'Foi depositado na conta o valor de 10 €euros', '', '2025-04-15 16:15:25', 10),
+(39, 32, NULL, 'Foi depositado na conta o valor de 10 €euros', '', '2025-04-15 16:18:00', 10),
+(40, 32, NULL, 'Foi depositado na conta o valor de 10 €euros', '', '2025-04-15 16:19:57', 10),
+(41, 32, NULL, 'Foi depositado na conta o valor de 10€ euros', '', '2025-04-15 16:22:34', 10),
+(42, 32, NULL, 'Foi depositado na conta o valor de 10€ euros', 'Deposito de saldo', '2025-04-15 16:23:54', 10),
+(43, 32, NULL, 'Foi depositado na conta o valor de 540€ euros', 'Deposito de saldo', '2025-04-15 17:20:26', 540),
+(44, 32, NULL, 'Foi depositado na conta o valor de 5€ euros', 'Deposito de saldo', '2025-04-15 17:21:54', 5),
+(45, 32, NULL, 'Foi depositado na conta o valor de 2€ euros', 'Deposito de saldo', '2025-04-15 17:32:51', 2),
+(46, 32, NULL, 'Foi levantado saldo no valor de 2 € euros', 'Levantamento de saldo', '2025-04-15 18:30:45', 2),
+(47, 32, NULL, 'Foi depositado na conta o valor de 200€ euros', 'Deposito de saldo', '2025-04-15 18:35:27', 200),
+(48, 32, NULL, 'Foi levantado saldo no valor de 100 € euros', 'Levantamento de saldo', '2025-04-15 18:35:34', 100),
+(49, 32, NULL, 'Foi depositado na conta o valor de 100€ euros', 'Deposito de saldo', '2025-04-15 18:35:38', 100),
+(50, 32, NULL, 'Foi depositado na conta o valor de 42€ euros', 'Deposito de saldo', '2025-04-15 18:45:55', 42),
+(51, 32, NULL, 'Foi depositado na conta o valor de 10€ euros', 'Deposito de saldo', '2025-04-15 18:46:01', 10),
+(52, 32, NULL, 'Foi levantado saldo no valor de 250 € euros', 'Levantamento de saldo', '2025-04-15 18:46:12', 250),
+(53, 32, NULL, 'Foi depositado na conta o valor de 500€ euros', 'Deposito de saldo', '2025-04-16 12:02:37', 500),
+(54, 32, NULL, 'O utilizador realizou uma compra no valor de 245.9754 €', 'Compra curso', '2025-04-16 12:06:07', 245.97539999999998),
+(55, 32, NULL, 'Foi solicitado reembolso do curso com id3', 'Reembolso curso', '2025-04-16 12:10:31', 99.99),
+(56, 32, NULL, 'O utilizador realizou uma compra no valor de 122.9877 €', 'Compra curso', '2025-05-06 12:38:59', 122.98769999999999),
+(57, 32, NULL, 'O utilizador realizou uma compra no valor de 49.1877 €', 'Compra curso', '2025-05-23 11:27:39', 49.18770000000001),
+(58, 71, NULL, 'Foi criado um novo utilizador no sistema!', 'Novo Registo', '2025-05-30 16:20:16', NULL),
+(59, 72, NULL, 'Foi criado um novo utilizador no sistema!', 'Novo Registo', '2025-05-30 16:24:48', NULL),
+(60, 73, NULL, 'Foi criado um novo utilizador no sistema!', 'Novo Registo', '2025-05-30 16:25:38', NULL),
+(61, 74, NULL, 'Foi criado um novo utilizador no sistema!', 'Novo Registo', '2025-05-30 16:28:02', NULL),
+(62, 75, NULL, 'Foi criado um novo utilizador no sistema!', 'Novo Registo', '2025-05-30 16:29:16', NULL),
+(73, 40, NULL, 'O utilizador com id 40 foi matriculado no de id 2 pelo admin com id 32', 'Utilizador Matriculado', '2025-06-05 15:46:58', NULL),
+(74, 40, NULL, 'O utilizador com id 40 foi matriculado no de id 5 pelo admin com id 32', 'Utilizador Matriculado', '2025-06-05 15:49:20', NULL),
+(75, 32, 2, 'Correção de erros na aula 1', '', '2024-12-15 10:30:00', 0),
+(76, 32, 2, 'Adicionado novo exercício prático na seção 2', '', '2025-01-10 14:45:00', 0),
+(77, 32, 2, 'Texto introdutório atualizado', '', '2025-03-05 09:15:00', 0),
+(78, 32, 2, 'Vídeo da aula 3 substituído por uma versão em HD', '', '2025-03-20 11:00:00', 0),
+(79, 32, 2, 'Atualização do material PDF da seção 4', '', '2025-04-02 08:30:00', 0),
+(80, 32, 2, 'Corrigido erro de formatação na descrição da aula 5', '', '2025-04-18 16:10:00', 0),
+(81, 32, 2, 'Adicionadas legendas em português na aula 6', '', '2025-05-25 12:45:00', 0),
+(82, 32, 2, 'Link externo corrigido na aula 7', '', '2025-06-08 17:25:00', 0),
+(83, 32, 2, 'Correção de erros na aula 1', 'Update Curso', '2024-12-15 10:30:00', 0),
+(84, 32, 2, 'Adicionado novo exercício prático na seção 2', 'Update Curso', '2025-01-10 14:45:00', 0),
+(85, 32, 2, 'Texto introdutório atualizado', 'Update Curso', '2025-03-05 09:15:00', 0),
+(86, 32, 2, 'Vídeo da aula 3 substituído por uma versão em HD', 'Update Curso', '2025-03-20 11:00:00', 0),
+(87, 32, 2, 'Atualização do material PDF da seção 4', 'Update Curso', '2025-04-02 08:30:00', 0),
+(88, 32, 2, 'Corrigido erro de formatação na descrição da aula 5', 'Update Curso', '2025-04-18 16:10:00', 0),
+(89, 32, 2, 'Adicionadas legendas em português na aula 6', 'Update Curso', '2025-05-25 12:45:00', 0),
+(90, 32, 2, 'Link externo corrigido na aula 7', 'Update Curso', '2025-06-08 17:25:00', 0);
 
 -- --------------------------------------------------------
 
@@ -313,10 +348,12 @@ INSERT INTO `logs_sistema` (`Id_log`, `Id_user`, `Descricao_log`, `Tipo_log`, `D
 -- Estrutura da tabela `midia`
 --
 
-CREATE TABLE `midia` (
-  `Id_midia` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `midia` (
+  `Id_midia` int(11) NOT NULL AUTO_INCREMENT,
   `Id_curso` int(11) NOT NULL,
-  `URL_midia` varchar(100) NOT NULL
+  `URL_midia` varchar(100) NOT NULL,
+  PRIMARY KEY (`Id_midia`),
+  KEY `Id_curso` (`Id_curso`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -325,9 +362,10 @@ CREATE TABLE `midia` (
 -- Estrutura da tabela `perguntas_forms`
 --
 
-CREATE TABLE `perguntas_forms` (
-  `Id_pergunta` int(11) NOT NULL,
-  `Texto_pergunta` varchar(200) NOT NULL
+CREATE TABLE IF NOT EXISTS `perguntas_forms` (
+  `Id_pergunta` int(11) NOT NULL AUTO_INCREMENT,
+  `Texto_pergunta` varchar(200) NOT NULL,
+  PRIMARY KEY (`Id_pergunta`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -336,9 +374,10 @@ CREATE TABLE `perguntas_forms` (
 -- Estrutura da tabela `resposta_forms`
 --
 
-CREATE TABLE `resposta_forms` (
-  `Id_resposta` int(11) NOT NULL,
-  `Data_submissao` datetime NOT NULL
+CREATE TABLE IF NOT EXISTS `resposta_forms` (
+  `Id_resposta` int(11) NOT NULL AUTO_INCREMENT,
+  `Data_submissao` datetime NOT NULL,
+  PRIMARY KEY (`Id_resposta`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -347,11 +386,14 @@ CREATE TABLE `resposta_forms` (
 -- Estrutura da tabela `resposta_perguntas`
 --
 
-CREATE TABLE `resposta_perguntas` (
-  `Id_perguntaRespondida` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `resposta_perguntas` (
+  `Id_perguntaRespondida` int(11) NOT NULL AUTO_INCREMENT,
   `Id_resposta` int(11) NOT NULL,
   `Id_pergunta` int(11) NOT NULL,
-  `Texto_resposta` varchar(255) DEFAULT NULL
+  `Texto_resposta` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`Id_perguntaRespondida`),
+  KEY `Id_resposta` (`Id_resposta`),
+  KEY `Id_pergunta` (`Id_pergunta`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -360,11 +402,12 @@ CREATE TABLE `resposta_perguntas` (
 -- Estrutura da tabela `ticket`
 --
 
-CREATE TABLE `ticket` (
-  `Id_ticket` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `ticket` (
+  `Id_ticket` int(11) NOT NULL AUTO_INCREMENT,
   `Email` varchar(50) NOT NULL,
   `Descricao` varchar(150) NOT NULL,
-  `Estado_ticket` enum('Por Responder','Respondido') DEFAULT 'Por Responder'
+  `Estado_ticket` enum('Por Responder','Respondido') DEFAULT 'Por Responder',
+  PRIMARY KEY (`Id_ticket`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -373,8 +416,8 @@ CREATE TABLE `ticket` (
 -- Estrutura da tabela `user`
 --
 
-CREATE TABLE `user` (
-  `Id_user` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `user` (
+  `Id_user` int(11) NOT NULL AUTO_INCREMENT,
   `PNome_user` varchar(20) NOT NULL,
   `SNome_user` varchar(20) DEFAULT NULL,
   `Estado_conta` enum('Ativo','Eliminado') NOT NULL DEFAULT 'Ativo',
@@ -387,8 +430,10 @@ CREATE TABLE `user` (
   `URL_facebook` varchar(100) DEFAULT NULL,
   `URL_youtube` varchar(100) DEFAULT NULL,
   `URL_linkedin` varchar(100) DEFAULT NULL,
-  `URL_foto_perfilUser` varchar(100) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `URL_foto_perfilUser` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`Id_user`),
+  UNIQUE KEY `unique_email` (`Email`)
+) ENGINE=InnoDB AUTO_INCREMENT=78 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Extraindo dados da tabela `user`
@@ -412,217 +457,6 @@ INSERT INTO `user` (`Id_user`, `PNome_user`, `SNome_user`, `Estado_conta`, `Biog
 (52, 'Mariana', 'Carvalho', 'Ativo', NULL, 'mariC123', '2024-02-28', 'mariana.carvalho@example.com', 'Admin', 0.00, NULL, NULL, NULL, NULL),
 (53, 'Nuno', 'Teixeira', 'Eliminado', NULL, 'nuno777', '2024-01-17', 'nuno.teixeira@example.com', 'Admin', 0.00, NULL, NULL, NULL, NULL),
 (54, 'Olívia', 'Sousa', 'Eliminado', NULL, 'olivia999', '2024-03-30', 'olivia.sousa@example.com', 'Admin', 0.00, NULL, NULL, NULL, NULL);
-
---
--- Índices para tabelas despejadas
---
-
---
--- Índices para tabela `carrinho_compras`
---
-ALTER TABLE `carrinho_compras`
-  ADD PRIMARY KEY (`Id_carrinho`),
-  ADD KEY `Id_user` (`Id_user`),
-  ADD KEY `Id_curso` (`Id_curso`);
-
---
--- Índices para tabela `categoria`
---
-ALTER TABLE `categoria`
-  ADD PRIMARY KEY (`Id_categoria`);
-
---
--- Índices para tabela `configuracoes_site`
---
-ALTER TABLE `configuracoes_site`
-  ADD PRIMARY KEY (`Id_configuracao`);
-
---
--- Índices para tabela `curso`
---
-ALTER TABLE `curso`
-  ADD PRIMARY KEY (`Id_curso`),
-  ADD KEY `Id_categoria` (`Id_categoria`),
-  ADD KEY `Criador_curso` (`Criador_curso`),
-  ADD KEY `fk_idioma` (`Id_idioma`);
-
---
--- Índices para tabela `cursos_adquiridos`
---
-ALTER TABLE `cursos_adquiridos`
-  ADD PRIMARY KEY (`Id_adquirido`),
-  ADD KEY `fk_curso` (`Id_curso`),
-  ADD KEY `fk_user` (`Id_user`),
-  ADD KEY `fk_addPor` (`AdicionadoPor`);
-
---
--- Índices para tabela `cursos_favoritos`
---
-ALTER TABLE `cursos_favoritos`
-  ADD PRIMARY KEY (`Id_user`,`Id_curso`),
-  ADD KEY `Id_curso` (`Id_curso`);
-
---
--- Índices para tabela `fase`
---
-ALTER TABLE `fase`
-  ADD PRIMARY KEY (`Id_fase`),
-  ADD KEY `Id_curso` (`Id_curso`);
-
---
--- Índices para tabela `historico_compras`
---
-ALTER TABLE `historico_compras`
-  ADD PRIMARY KEY (`Id_historicoCompras`),
-  ADD KEY `Id_user` (`Id_user`),
-  ADD KEY `fk_id_curso` (`Id_curso`);
-
---
--- Índices para tabela `idioma`
---
-ALTER TABLE `idioma`
-  ADD PRIMARY KEY (`Id_idioma`);
-
---
--- Índices para tabela `logs_sistema`
---
-ALTER TABLE `logs_sistema`
-  ADD PRIMARY KEY (`Id_log`),
-  ADD KEY `Id_user` (`Id_user`);
-
---
--- Índices para tabela `midia`
---
-ALTER TABLE `midia`
-  ADD PRIMARY KEY (`Id_midia`),
-  ADD KEY `Id_curso` (`Id_curso`);
-
---
--- Índices para tabela `perguntas_forms`
---
-ALTER TABLE `perguntas_forms`
-  ADD PRIMARY KEY (`Id_pergunta`);
-
---
--- Índices para tabela `resposta_forms`
---
-ALTER TABLE `resposta_forms`
-  ADD PRIMARY KEY (`Id_resposta`);
-
---
--- Índices para tabela `resposta_perguntas`
---
-ALTER TABLE `resposta_perguntas`
-  ADD PRIMARY KEY (`Id_perguntaRespondida`),
-  ADD KEY `Id_resposta` (`Id_resposta`),
-  ADD KEY `Id_pergunta` (`Id_pergunta`);
-
---
--- Índices para tabela `ticket`
---
-ALTER TABLE `ticket`
-  ADD PRIMARY KEY (`Id_ticket`);
-
---
--- Índices para tabela `user`
---
-ALTER TABLE `user`
-  ADD PRIMARY KEY (`Id_user`),
-  ADD UNIQUE KEY `unique_email` (`Email`);
-
---
--- AUTO_INCREMENT de tabelas despejadas
---
-
---
--- AUTO_INCREMENT de tabela `carrinho_compras`
---
-ALTER TABLE `carrinho_compras`
-  MODIFY `Id_carrinho` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=65;
-
---
--- AUTO_INCREMENT de tabela `categoria`
---
-ALTER TABLE `categoria`
-  MODIFY `Id_categoria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
-
---
--- AUTO_INCREMENT de tabela `configuracoes_site`
---
-ALTER TABLE `configuracoes_site`
-  MODIFY `Id_configuracao` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de tabela `curso`
---
-ALTER TABLE `curso`
-  MODIFY `Id_curso` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
-
---
--- AUTO_INCREMENT de tabela `cursos_adquiridos`
---
-ALTER TABLE `cursos_adquiridos`
-  MODIFY `Id_adquirido` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
-
---
--- AUTO_INCREMENT de tabela `fase`
---
-ALTER TABLE `fase`
-  MODIFY `Id_fase` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
-
---
--- AUTO_INCREMENT de tabela `historico_compras`
---
-ALTER TABLE `historico_compras`
-  MODIFY `Id_historicoCompras` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
-
---
--- AUTO_INCREMENT de tabela `idioma`
---
-ALTER TABLE `idioma`
-  MODIFY `Id_idioma` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
---
--- AUTO_INCREMENT de tabela `logs_sistema`
---
-ALTER TABLE `logs_sistema`
-  MODIFY `Id_log` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=64;
-
---
--- AUTO_INCREMENT de tabela `midia`
---
-ALTER TABLE `midia`
-  MODIFY `Id_midia` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de tabela `perguntas_forms`
---
-ALTER TABLE `perguntas_forms`
-  MODIFY `Id_pergunta` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de tabela `resposta_forms`
---
-ALTER TABLE `resposta_forms`
-  MODIFY `Id_resposta` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de tabela `resposta_perguntas`
---
-ALTER TABLE `resposta_perguntas`
-  MODIFY `Id_perguntaRespondida` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de tabela `ticket`
---
-ALTER TABLE `ticket`
-  MODIFY `Id_ticket` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de tabela `user`
---
-ALTER TABLE `user`
-  MODIFY `Id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=78;
 
 --
 -- Restrições para despejos de tabelas
@@ -652,6 +486,12 @@ ALTER TABLE `cursos_adquiridos`
   ADD CONSTRAINT `fk_adicionadoPor` FOREIGN KEY (`AdicionadoPor`) REFERENCES `user` (`Id_user`),
   ADD CONSTRAINT `fk_curso` FOREIGN KEY (`Id_curso`) REFERENCES `curso` (`Id_curso`),
   ADD CONSTRAINT `fk_user` FOREIGN KEY (`Id_user`) REFERENCES `user` (`Id_user`);
+
+--
+-- Limitadores para a tabela `logs_sistema`
+--
+ALTER TABLE `logs_sistema`
+  ADD CONSTRAINT `fk_logs_curso` FOREIGN KEY (`Id_curso`) REFERENCES `curso` (`Id_curso`) ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

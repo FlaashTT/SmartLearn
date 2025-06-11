@@ -252,6 +252,7 @@ $resultLimit = $conn->query($sqlCursosLimit);
 
                         if ($resultLimit && $resultLimit->num_rows > 0) {
                             while ($row = $resultLimit->fetch_assoc()) {
+                                $idCurso = $row['Id_curso'];
 
                                 //select da categoria
                                 if (isset($row['Id_categoria']) && !empty($row['Id_categoria'])) {
@@ -292,10 +293,142 @@ $resultLimit = $conn->query($sqlCursosLimit);
                                     <td>' . $total . '</td>
                                     <td>' . $row['Estado_curso'] . '</td>
                                     <td>' . (empty($row['Preco']) || $row['Preco'] == 0 ? 'Gratuito' : $row['Preco'] . '€') . '</td>
-                                    <td onclick="mostrarInfo(' . $row['Id_curso'] . ')" style="cursor: pointer;">Ver detalhes curso</td>
+                                    <td onclick="mostrarInfo(' . $idCurso . ')" style="cursor: pointer;">Ver detalhes curso</td>
 
                                     </tr>
                                 ';
+
+
+                                $idCriador = (int)$row['Criador_curso'];
+                                $sqlCriador = "SELECT PNome_user,SNome_user FROM user WHERE Id_user = $idCriador";
+                                $resultCriador = $conn->query($sqlCriador);
+
+                                if ($resultCriador && $resultCriador->num_rows > 0) {
+                                    $rowCriador = $resultCriador->fetch_assoc();
+                                    $nomeCriador = $rowCriador['PNome_user'] . ' ' . $rowCriador['SNome_user'] . ' (' . $idCriador . ')';
+                                } else {
+                                    $nomeCriador = "Utilizador não encontrado";
+                                }
+
+
+                                echo '
+                                    
+                                    <div id="eliminarModal_' . $idCurso . '" class="modal">
+                                        <div class="modal-box">
+                                            <span class="close" onclick="fecharModal(\'eliminarModal_' . $idCurso . '\'); resetarQuantidadeMaxima(); resetarQuantidadeMaximaUtilizadores()">&times;</span>
+                                            <h3 class="modal-title">' . $row['Nome_curso'] . '</h3>
+                                            <div>
+                                                <p class="modal-text">Criação do curso</strong></p>
+                                                Criado em: ' . $row['Data_criacao'] . '<br>
+                                                Criado por: ' . $nomeCriador  . '<br>
+
+                                            </div>                                               
+                                                ';
+                                echo '<p class="modal-text">ultimos updates <br><span id="aMostrar"> A mostrar 5 resultados</span></p>
+                                                    <div class="logs_model" id="logsContainer">';
+
+
+                                $selectUpdates = "
+                                                                SELECT logs_sistema.*, user.PNome_user AS Nome, user.SNome_user AS SNome
+                                                                FROM logs_sistema 
+                                                                INNER JOIN user ON logs_sistema.Id_user = user.Id_user 
+                                                                WHERE logs_sistema.Id_curso = $idCurso AND logs_sistema.Tipo_log = 'Update Curso' 
+                                                                ORDER BY logs_sistema.Data_log DESC 
+                                                            ";
+                                $resultUpdates = $conn->query($selectUpdates);
+                                if ($resultUpdates && $resultUpdates->num_rows > 0) {
+                                    $quantidadeExibida = 1;
+                                    $totalUpdates = $resultUpdates->num_rows;
+                                    echo '<input type="hidden" id="totalUpdates" value="' . $totalUpdates . '">';
+                                    while ($rowUpdate = $resultUpdates->fetch_assoc()) {
+                                        echo '<div class="lastUpdates" data-quantidade="' . $quantidadeExibida . '" data-total="' . $totalUpdates . '" style="margin-bottom: 10px;">' . $rowUpdate['Descricao_log'] . ' - ' . $rowUpdate['Data_log'] . '<br>
+                                                                        Realizado por: ' . $rowUpdate['Nome'] . ' ' . $rowUpdate['SNome'] . ' <span style="background-color: #007bff; color: white; padding: 2px 6px; border-radius: 4px;">ID: ' . $rowUpdate['Id_user'] . '</span>
+                                                                        
+                                                                        <hr style="margin-bottom: 10px; margin-top: 10px;">
+                                                                        </div>';
+
+                                        $quantidadeExibida++;
+                                    }
+                                    echo '<button 
+                                                            id="verMaisUpdates" 
+                                                            type="button" 
+                                                            onclick="vermais()" 
+                                                            style="display: none; margin-top: 10px; padding: 5px 10px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">
+                                                            Ver +
+                                                        </button>
+                                                            ';
+                                } else {
+                                    echo '<p class="modal-text">Nenhum update encontrado</p>';
+                                }
+                                echo '</div>';
+
+
+
+                                $result = $conn->query("SELECT COUNT(*) AS total FROM cursos_adquiridos WHERE Id_curso = $idCurso");
+                                $totalInscritos = 0;
+                                if ($result && $row = $result->fetch_assoc()) {
+                                    $totalInscritos = $row['total'];
+                                }
+
+
+
+
+                                echo '
+                                    <p class="modal-text">listagem dos utilizadores<br> <span>A mostrar <span id="quantidadeInscritosMostar">5</span> de ' . $totalInscritos . ' utilizadores </span></p>
+                                    <div class="logs_model" id="listagemUtilizadores">';
+
+                                if ($totalInscritos > 0) {
+                                    $stmtUtilizadores = $conn->prepare("SELECT user.PNome_user, user.SNome_user, cursos_adquiridos.Data_compra, cursos_adquiridos.Progresso, cursos_adquiridos.Id_user 
+                                                                            FROM cursos_adquiridos 
+                                                                            INNER JOIN user ON cursos_adquiridos.Id_user = user.Id_user
+                                                                            WHERE cursos_adquiridos.Id_curso = ?
+                                                                            ORDER BY cursos_adquiridos.Data_compra DESC");
+                                    $stmtUtilizadores->bind_param("i", $idCurso);
+                                    $stmtUtilizadores->execute();
+                                    $resultUtilizadores = $stmtUtilizadores->get_result();
+
+                                    if ($resultUtilizadores && $resultUtilizadores->num_rows > 0) {
+                                        echo '<input type="hidden" id="totalUtilizadores" data-total="' . $totalInscritos . '">';
+                                        $count = 0;
+                                        while ($rowUtilizador = $resultUtilizadores->fetch_assoc()) {
+                                            $count++;
+                                            echo '<div data-contagem="' . $count . '" class="MostrarUtilizadores" style="margin-bottom: 10px;"> 
+                                                        #' . $count . ' - Nome: ' . htmlspecialchars($rowUtilizador['PNome_user']) . ' ' . htmlspecialchars($rowUtilizador['SNome_user']) . ' 
+                                                        ID:<span style="background-color: #007bff; color: white; padding: 2px 6px; border-radius: 4px;">' . htmlspecialchars($rowUtilizador['Id_user']) . '</span><br>
+                                                        <strong>Data de compra:</strong> ' . htmlspecialchars($rowUtilizador['Data_compra']) . '<br>
+                                                        <strong>Progresso :</strong> ' . htmlspecialchars($rowUtilizador['Progresso']) . '
+                                                        <hr style="margin-bottom: 10px; margin-top: 10px;">
+                                                    </div>';
+                                        }
+                                        echo '<button 
+                                                    id="verMaisUtilizadores" 
+                                                    type="button" 
+                                                    onclick="vermaisUtilizadores()" 
+                                                    style="display:none; margin-top: 10px; padding: 5px 10px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">
+                                                    Ver +
+                                                </button>';
+                                    } else {
+                                        echo '<p class="modal-text">Nenhum utilizador inscrito encontrado</p>';
+                                    }
+                                } else {
+                                    echo '<p class="modal-text">Nenhum utilizador inscrito encontrado</p>';
+                                }
+                                echo '</div>';
+                                echo '
+                                            </div>
+
+                                            <div>
+                                                <p class="modal-text">sobre o curso</strong></p>
+
+                                            </div>
+                                            
+                                            
+                                        </div>
+                                    </div>
+                               
+
+
+                                            ';
                             }
                         } else {
 
@@ -306,37 +439,13 @@ $resultLimit = $conn->query($sqlCursosLimit);
                         }
 
 
-                        echo '
-                                <form method="POST" action="acoes/eliminarUser.php" style="margin: 0;">
-                                <input type="hidden" name="idEliminar" id="idEliminar" value="">
-                                
-                                <div id="eliminarModal" class="modal">
-                                    <div class="modal-box">
-                                    <span class="close" onclick="fecharModal(\'eliminarModal\')">&times;</span>
-                                    <h3 class="modal-title">Tens a certeza?</h3>
-                                    <p class="modal-text">Queres mesmo eliminar <strong>Joana Silva</strong>?</p>
-                                    
-                                    <div class="modal-buttons">
-                                        <button type="button" onclick="fecharModal(\'eliminarModal\')">Cancelar</button>
-                                        <button type="submit" class="red">Eliminar</button>
-                                    </div>
-                                    </div>
-                                </div>
-                                </form>
-
-
-                                            ';
-
-
-
-
 
                         $totalPaginas = ceil($totalPesquisa / $limite);
                         ?>
                     </tbody>
                 </table>
 
-                <div class="pagination">
+                <div class="pagination" style="margin-top: 20px;">
                     <?php if ($paginaAtual > 1): ?>
                         <a href="?pagina=<?= $paginaAtual - 1 ?>">Anterior</a>
                     <?php endif; ?>
@@ -368,19 +477,141 @@ $resultLimit = $conn->query($sqlCursosLimit);
     </script>
     <script>
         function mostrarInfo(idCurso) {
-            const modal = document.getElementById('eliminarModal');
+            const modal = document.getElementById('eliminarModal_' + idCurso);
             modal.style.display = 'block';
 
-            // Coloca o idCurso no input hidden
-            document.getElementById('idEliminar').value = idCurso;
-
-            // Se quiser mostrar o idCurso no texto do modal, por exemplo:
-            modal.querySelector('p.modal-text').innerHTML = `Tens a certeza que queres eliminar o curso com ID <strong>${idCurso}</strong>?`;
         }
+
 
         function fecharModal(idModal) {
             document.getElementById(idModal).style.display = 'none';
         }
+    </script>
+
+
+    <script>
+        let quantidadeMaxima = 5; // controla quantos mostrar inicialmente
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const totalElement = document.getElementById('totalUpdates');
+            const total = totalElement ? Number(totalElement.value || totalElement.getAttribute('data-total')) : 0;
+            const BtnVerMaisUpdates = document.getElementById('verMaisUpdates');
+            const paragrafos = document.querySelectorAll('div.lastUpdates[data-quantidade]');
+
+            mostrarParagrafos(paragrafos, quantidadeMaxima);
+
+            if (total > quantidadeMaxima) {
+                BtnVerMaisUpdates.style.display = 'inline-block';
+            } else {
+                BtnVerMaisUpdates.style.display = 'none';
+            }
+        });
+
+        function mostrarParagrafos(paragrafos, limite) {
+            paragrafos.forEach(p => {
+                const quantidade = Number(p.getAttribute('data-quantidade'));
+                p.style.display = (quantidade <= limite) ? 'block' : 'none';
+            });
+        }
+
+        function vermais() {
+            const totalElement = document.getElementById('totalUpdates');
+            const total = totalElement ? Number(totalElement.value || totalElement.getAttribute('data-total')) : 0;
+            const BtnVerMaisUpdates = document.getElementById('verMaisUpdates');
+            const paragrafos = document.querySelectorAll('div.lastUpdates[data-quantidade]');
+
+            quantidadeMaxima += 5;
+
+            mostrarParagrafos(paragrafos, quantidadeMaxima);
+            document.getElementById('aMostrar').innerText = 'A mostrar ' + Math.min(quantidadeMaxima, total) + ' resultados';
+
+            if (quantidadeMaxima >= total) {
+                BtnVerMaisUpdates.style.display = 'none';
+            }
+        }
+
+        function resetarQuantidadeMaxima() {
+            quantidadeMaxima = 5;
+
+            const totalElement = document.getElementById('totalUpdates');
+            const total = totalElement ? Number(totalElement.value || totalElement.getAttribute('data-total')) : 0;
+            const BtnVerMaisUpdates = document.getElementById('verMaisUpdates');
+            const paragrafos = document.querySelectorAll('div.lastUpdates[data-quantidade]');
+
+            mostrarParagrafos(paragrafos, quantidadeMaxima);
+
+            if (total > quantidadeMaxima) {
+                BtnVerMaisUpdates.style.display = 'inline-block';
+            } else {
+                BtnVerMaisUpdates.style.display = 'none';
+            }
+
+            document.getElementById('aMostrar').innerText = 'A mostrar ' + quantidadeMaxima + ' resultados';
+        }
+    </script>
+
+    <script>
+        let quantidadeMaximaUtilizadores = 5;
+
+        function mostrarUtilizadores(paragrafos, limite) {
+            paragrafos.forEach(p => {
+                const contagem = Number(p.getAttribute('data-contagem'));
+                p.style.display = (contagem <= limite) ? 'block' : 'none';
+            });
+            document.getElementById('quantidadeInscritosMostar').innerText = Math.min(limite, paragrafos.length);
+        }
+
+        function vermaisUtilizadores() {
+            const totalElement = document.getElementById('totalUtilizadores');
+            const total = totalElement ? Number(totalElement.getAttribute('data-total')) : 0;
+            const btn = document.getElementById('verMaisUtilizadores');
+            const paragrafos = document.querySelectorAll('#listagemUtilizadores div.MostrarUtilizadores');
+
+            quantidadeMaximaUtilizadores += 5;
+
+            mostrarUtilizadores(paragrafos, quantidadeMaximaUtilizadores);
+
+            if (quantidadeMaximaUtilizadores >= total) {
+                btn.style.display = 'none';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const totalElement = document.getElementById('totalUtilizadores');
+            const total = totalElement ? Number(totalElement.getAttribute('data-total')) : 0;
+            const btn = document.getElementById('verMaisUtilizadores');
+            const paragrafos = document.querySelectorAll('#listagemUtilizadores div.MostrarUtilizadores');
+
+            mostrarUtilizadores(paragrafos, quantidadeMaximaUtilizadores);
+
+            if (total > quantidadeMaximaUtilizadores) {
+                btn.style.display = 'inline-block';
+            } else {
+                btn.style.display = 'none';
+            }
+        });
+
+        function resetarQuantidadeMaximaUtilizadores() {
+            quantidadeMaximaUtilizadores = 5;
+
+            const totalElement = document.getElementById('totalUtilizadores');
+            const total = totalElement ? Number(totalElement.getAttribute('data-total')) : 0;
+            const btn = document.getElementById('verMaisUtilizadores');
+            const paragrafos = document.querySelectorAll('#listagemUtilizadores div.MostrarUtilizadores');
+
+            mostrarUtilizadores(paragrafos, quantidadeMaximaUtilizadores);
+
+            if (total > quantidadeMaximaUtilizadores) {
+                btn.style.display = 'inline-block';
+            } else {
+                btn.style.display = 'none';
+            }
+
+            document.getElementById('quantidadeInscritosMostar').innerText = quantidadeMaximaUtilizadores;
+        }
+    </script>
+
+
     </script>
 </body>
 
