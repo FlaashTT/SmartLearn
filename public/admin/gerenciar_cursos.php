@@ -312,29 +312,31 @@ $resultLimit = $conn->query($sqlCursosLimit);
 
 
                                 echo '
-                                    
-                                    <div id="eliminarModal_' . $idCurso . '" class="modal">
-                                        <div class="modal-box">
-                                            <span class="close" onclick="fecharModal(\'eliminarModal_' . $idCurso . '\'); resetarQuantidadeMaxima(); resetarQuantidadeMaximaUtilizadores()">&times;</span>
-                                            <h3 class="modal-title">' . $row['Nome_curso'] . '</h3>
-                                            <div>
-                                                <p class="modal-text">Criação do curso</strong></p>
-                                                Criado em: ' . $row['Data_criacao'] . '<br>
-                                                Criado por: ' . $nomeCriador  . '<br>
+                                        <div id="eliminarModal_' . $idCurso . '" class="modal" style="overflow-y: auto;">
+                                            <div class="modal-box">
+                                                <span class="close" onclick="fecharModal(\'eliminarModal_' . $idCurso . '\'); resetarQuantidadeMaxima(); resetarQuantidadeMaximaUtilizadores()">&times;</span>
+                                                <h3 class="modal-title">' . $row['Nome_curso'] . '</h3>
+                                                
+                                                <div class="criacao_curso">
+                                                    <p class="modal-text">Criação do curso</p>
+                                                    Criado em: ' . $row['Data_criacao'] . '<br>
+                                                    Criado por: ' . $nomeCriador  . '<br>
+                                                </div>  
+                                                                                           
+                                    ';
 
-                                            </div>                                               
-                                                ';
-                                echo '<p class="modal-text">ultimos updates <br><span id="aMostrar"> A mostrar 5 resultados</span></p>
-                                                    <div class="logs_model" id="logsContainer">';
-
+                                echo '<div class="section-modal">
+                                <div class="updates" >                                             
+                                        <p class="modal-text">Últimos updates <br><span id="aMostrar"> A mostrar 5  resultados</span></p>
+                                        <div class="logs_model" id="logsContainer">';
 
                                 $selectUpdates = "
-                                                                SELECT logs_sistema.*, user.PNome_user AS Nome, user.SNome_user AS SNome
-                                                                FROM logs_sistema 
-                                                                INNER JOIN user ON logs_sistema.Id_user = user.Id_user 
-                                                                WHERE logs_sistema.Id_curso = $idCurso AND logs_sistema.Tipo_log = 'Update Curso' 
-                                                                ORDER BY logs_sistema.Data_log DESC 
-                                                            ";
+                                        SELECT logs_sistema.*, user.PNome_user AS Nome, user.SNome_user AS SNome
+                                        FROM logs_sistema 
+                                        INNER JOIN user ON logs_sistema.Id_user = user.Id_user 
+                                        WHERE logs_sistema.Id_curso = $idCurso AND logs_sistema.Tipo_log = 'Update Curso' 
+                                        ORDER BY logs_sistema.Data_log DESC 
+                                    ";
                                 $resultUpdates = $conn->query($selectUpdates);
                                 if ($resultUpdates && $resultUpdates->num_rows > 0) {
                                     $quantidadeExibida = 1;
@@ -342,27 +344,17 @@ $resultLimit = $conn->query($sqlCursosLimit);
                                     echo '<input type="hidden" id="totalUpdates" value="' . $totalUpdates . '">';
                                     while ($rowUpdate = $resultUpdates->fetch_assoc()) {
                                         echo '<div class="lastUpdates" data-quantidade="' . $quantidadeExibida . '" data-total="' . $totalUpdates . '" style="margin-bottom: 10px;">' . $rowUpdate['Descricao_log'] . ' - ' . $rowUpdate['Data_log'] . '<br>
-                                                                        Realizado por: ' . $rowUpdate['Nome'] . ' ' . $rowUpdate['SNome'] . ' <span style="background-color: #007bff; color: white; padding: 2px 6px; border-radius: 4px;">ID: ' . $rowUpdate['Id_user'] . '</span>
-                                                                        
-                                                                        <hr style="margin-bottom: 10px; margin-top: 10px;">
-                                                                        </div>';
-
+                                            Realizado por: ' . $rowUpdate['Nome'] . ' ' . $rowUpdate['SNome'] . ' <span style="background-color: #007bff; color: white; padding: 2px 6px; border-radius: 4px;">ID: ' . $rowUpdate['Id_user'] . '</span>
+                                            <hr style="margin-bottom: 10px; margin-top: 10px;">
+                                            </div>';
                                         $quantidadeExibida++;
                                     }
-                                    echo '<button 
-                                                            id="verMaisUpdates" 
-                                                            type="button" 
-                                                            onclick="vermais()" 
-                                                            style="display: none; margin-top: 10px; padding: 5px 10px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">
-                                                            Ver +
-                                                        </button>
-                                                            ';
+                                    echo '<button id="verMaisUpdates" type="button" onclick="vermais()" style="display: none; margin-top: 10px; padding: 5px 10px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;"> Ver + </button> ';
                                 } else {
                                     echo '<p class="modal-text">Nenhum update encontrado</p>';
                                 }
                                 echo '</div>';
-
-
+                                echo '</div>';
 
                                 $result = $conn->query("SELECT COUNT(*) AS total FROM cursos_adquiridos WHERE Id_curso = $idCurso");
                                 $totalInscritos = 0;
@@ -370,12 +362,10 @@ $resultLimit = $conn->query($sqlCursosLimit);
                                     $totalInscritos = $row['total'];
                                 }
 
-
-
-
                                 echo '
-                                    <p class="modal-text">listagem dos utilizadores<br> <span>A mostrar <span id="quantidadeInscritosMostar">5</span> de ' . $totalInscritos . ' utilizadores </span></p>
-                                    <div class="logs_model" id="listagemUtilizadores">';
+                                <div class="inscritos" >
+                                        <p class="modal-text">Listagem dos utilizadores<br> <span>A mostrar <span id="quantidadeInscritosMostar">5</span> de ' . $totalInscritos . ' utilizadores </span></p>
+                                        <div class="logs_model" id="listagemUtilizadores">';
 
                                 if ($totalInscritos > 0) {
                                     $stmtUtilizadores = $conn->prepare("SELECT user.PNome_user, user.SNome_user, cursos_adquiridos.Data_compra, cursos_adquiridos.Progresso, cursos_adquiridos.Id_user 
@@ -393,42 +383,89 @@ $resultLimit = $conn->query($sqlCursosLimit);
                                         while ($rowUtilizador = $resultUtilizadores->fetch_assoc()) {
                                             $count++;
                                             echo '<div data-contagem="' . $count . '" class="MostrarUtilizadores" style="margin-bottom: 10px;"> 
-                                                        #' . $count . ' - Nome: ' . htmlspecialchars($rowUtilizador['PNome_user']) . ' ' . htmlspecialchars($rowUtilizador['SNome_user']) . ' 
-                                                        ID:<span style="background-color: #007bff; color: white; padding: 2px 6px; border-radius: 4px;">' . htmlspecialchars($rowUtilizador['Id_user']) . '</span><br>
-                                                        <strong>Data de compra:</strong> ' . htmlspecialchars($rowUtilizador['Data_compra']) . '<br>
-                                                        <strong>Progresso :</strong> ' . htmlspecialchars($rowUtilizador['Progresso']) . '
-                                                        <hr style="margin-bottom: 10px; margin-top: 10px;">
-                                                    </div>';
+                                                            #' . $count . ' - Nome: ' . htmlspecialchars($rowUtilizador['PNome_user']) . ' ' . htmlspecialchars($rowUtilizador['SNome_user']) . ' 
+                                                            ID:<span style="background-color: #007bff; color: white; padding: 2px 6px; border-radius: 4px;">' . htmlspecialchars($rowUtilizador['Id_user']) . '</span><br>
+                                                            <strong>Data de compra:</strong> ' . htmlspecialchars($rowUtilizador['Data_compra']) . '<br>
+                                                            <strong>Progresso :</strong> ' . htmlspecialchars($rowUtilizador['Progresso']) . '
+                                                            <hr style="margin-bottom: 10px; margin-top: 10px;">
+                                                        </div>';
                                         }
                                         echo '<button 
-                                                    id="verMaisUtilizadores" 
-                                                    type="button" 
-                                                    onclick="vermaisUtilizadores()" 
-                                                    style="display:none; margin-top: 10px; padding: 5px 10px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">
-                                                    Ver +
-                                                </button>';
+                                                        id="verMaisUtilizadores" 
+                                                        type="button" 
+                                                        onclick="vermaisUtilizadores()" 
+                                                        style="display:none; margin-top: 10px; padding: 5px 10px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">
+                                                        Ver +
+                                                    </button>';
                                     } else {
                                         echo '<p class="modal-text">Nenhum utilizador inscrito encontrado</p>';
                                     }
+                                    echo '</div>';
                                 } else {
                                     echo '<p class="modal-text">Nenhum utilizador inscrito encontrado</p>';
                                 }
-                                echo '</div>';
-                                echo '
-                                            </div>
 
-                                            <div>
-                                                <p class="modal-text">sobre o curso</strong></p>
+                                $selectInfoCurso = "
+                                    SELECT 
+                                        curso.*,
+                                        idioma.Nome_idioma as idioma
+                                    FROM curso
+                                    INNER JOIN idioma ON curso.Id_idioma = idioma.Id_idioma
+                                    WHERE curso.Id_curso = ?
+                                ";
+                                $stmtInfoCurso = $conn->prepare($selectInfoCurso);
+                                $stmtInfoCurso->bind_param("i", $idCurso);
+                                $stmtInfoCurso->execute();
+                                $resultInfoCurso = $stmtInfoCurso->get_result();
+                                $rowInfoCurso = $resultInfoCurso->fetch_assoc();
 
-                                            </div>
-                                            
-                                            
-                                        </div>
+                                echo '</div>
+                                </div>
+    
+                                    <div class="info-curso">
+                                        <p class="modal-text">Informações do curso</p>
+
+                                        <label>Título:</label>
+                                        <input type="text" value="' . $rowInfoCurso['Nome_curso'] . '" disabled><br>
+
+                                        <label>Descrição:</label>
+                                        <textarea disabled>' . $rowInfoCurso['Descricao'] . '</textarea><br>
+
+                                        <label>Estado:</label>
+                                        <input type="text" value="' . $rowInfoCurso['Estado_curso'] . '" disabled><br>
+
+                                        <label>Preço atual:</label>
+                                        <input type="text" value="' . (empty($rowInfoCurso['Preco']) || $rowInfoCurso['Preco'] == 0 ? 'Gratuito' : $rowInfoCurso['Preco'] . '€') . '" disabled><br>
+
+                                        <label>Preço antigo:</label>
+                                        <input type="text" value="' . (empty($rowInfoCurso['Preco_antigo']) || $rowInfoCurso['Preco_antigo'] == 0 ? 'Sem preço anterior' : $rowInfoCurso['Preco_antigo'] . '€') . '" disabled><br>
+
+                                        <label>Idioma:</label>
+                                        <input type="text" value="' . $rowInfoCurso['idioma'] . '" disabled><br>
+
+                                        <label>Estado do curso:</label>
+                                        <input type="text" value="' . $rowInfoCurso['Estado_curso'] . '" disabled><br>
+
+                                        <label>Número de visitas:</label>
+                                        <input type="text" value="' . $rowInfoCurso['Num_visitascurso'] . '" disabled><br>
+
+                                        <label>Classificação:</label>
+                                        <input type="text" value="' . $rowInfoCurso['Classificacao'] . '" disabled><br>
+
+                                        <label>Dificuldade:</label>
+                                        <input type="text" value="' . $rowInfoCurso['Dificuldade'] . '" disabled><br>
+
+                                        <label>Requisitos:</label>
+                                        <textarea disabled>' . $rowInfoCurso['Requisitos'] . '</textarea><br>
+
+                                        <label>Provedor de curso:</label>
+                                        <input type="text" value="' . $rowInfoCurso['Provedor_geral_curso'] . '" disabled><br>
+
+                                        <label>Tempo estimado:</label>
+                                        <input type="text" value="' . $rowInfoCurso['Tempo_estimado'] . '" disabled><br>
                                     </div>
-                               
-
-
-                                            ';
+                                        </div>
+                                    </div>';
                             }
                         } else {
 
@@ -505,6 +542,8 @@ $resultLimit = $conn->query($sqlCursosLimit);
             } else {
                 BtnVerMaisUpdates.style.display = 'none';
             }
+
+            document.getElementById('aMostrar').innerText = 'A mostrar ' + Math.min(quantidadeMaxima, total) + ' de ' + total + ' resultados';
         });
 
         function mostrarParagrafos(paragrafos, limite) {
@@ -523,7 +562,7 @@ $resultLimit = $conn->query($sqlCursosLimit);
             quantidadeMaxima += 5;
 
             mostrarParagrafos(paragrafos, quantidadeMaxima);
-            document.getElementById('aMostrar').innerText = 'A mostrar ' + Math.min(quantidadeMaxima, total) + ' resultados';
+            document.getElementById('aMostrar').innerText = 'A mostrar ' + Math.min(quantidadeMaxima, total) + ' de ' + total + ' resultados';
 
             if (quantidadeMaxima >= total) {
                 BtnVerMaisUpdates.style.display = 'none';
@@ -546,7 +585,7 @@ $resultLimit = $conn->query($sqlCursosLimit);
                 BtnVerMaisUpdates.style.display = 'none';
             }
 
-            document.getElementById('aMostrar').innerText = 'A mostrar ' + quantidadeMaxima + ' resultados';
+            document.getElementById('aMostrar').innerText = 'A mostrar ' + Math.min(quantidadeMaxima, total) + ' de ' + total + ' resultados';
         }
     </script>
 

@@ -29,4 +29,7 @@ define('LOGS_PATH', __DIR__ . 'logs/'); // Mantido como diretório interno
 // 🛠 Configuração de Erros (Ativar apenas em ambiente de desenvolvimento)
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
+
+
+
 ?>
