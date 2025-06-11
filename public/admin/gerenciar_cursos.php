@@ -318,10 +318,20 @@ $resultLimit = $conn->query($sqlCursosLimit);
                                                 <h3 class="modal-title">' . $row['Nome_curso'] . '</h3>
                                                 
                                                 <div class="criacao_curso">
-                                                    <p class="modal-text">Criação do curso</p>
-                                                    Criado em: ' . $row['Data_criacao'] . '<br>
-                                                    Criado por: ' . $nomeCriador  . '<br>
-                                                </div>  
+                                                <p class="modal-text">Criação do curso</p>
+
+                                                <p>
+                                                    Criado em: <span class="azul-texto">' . $row['Data_criacao'] . '</span><br>
+                                                    ';
+                                                    if($nomeCriador === "Utilizador não encontrado") {
+                                                        echo 'Criado por: <span class="vermelho-texto">Criador não encontrado</span><br>';
+                                                    } else {
+                                                        echo 'Criado por: <span class="azul-texto">' . $nomeCriador  . '</span><br>';
+                                                    }
+                                                    echo '
+                                                </p>
+                                            </div>
+
                                                                                            
                                     ';
 
@@ -351,7 +361,7 @@ $resultLimit = $conn->query($sqlCursosLimit);
                                     }
                                     echo '<button id="verMaisUpdates" type="button" onclick="vermais()" style="display: none; margin-top: 10px; padding: 5px 10px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;"> Ver + </button> ';
                                 } else {
-                                    echo '<p class="modal-text">Nenhum update encontrado</p>';
+                                    echo '<p class="modal-text" style="font-weight: bold;">Nenhum update encontrado</p>';
                                 }
                                 echo '</div>';
                                 echo '</div>';
