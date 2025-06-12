@@ -22,7 +22,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $erro = true;
     }
 
+    $titulos = $_POST['titulo'] ?? [];
+    $conteudos = $_POST['conteudo'] ?? [];
+    $fases = $_POST['fase'] ?? [];
+    $videos = $_FILES['video']['name'] ?? [];
+    $imagens = $_FILES['imagem']['name'] ?? [];
 
+    $totalFases = count($fases); // Todas arrays devem ter o mesmo length
+
+    for ($i = 0; $i < $totalFases; $i++) {
+        echo "<h3>Fase " . htmlspecialchars($fases[$i]) . "</h3>";
+
+        echo "Título: " . htmlspecialchars($titulos[$i] ?? '') . "<br>";
+        echo "Conteúdo: " . nl2br(htmlspecialchars($conteudos[$i] ?? '')) . "<br>";
+
+        if (!empty($videos[$i])) {
+            echo "Vídeo: " . htmlspecialchars($videos[$i]) . "<br>";
+        } else {
+            echo "Vídeo: Nenhum vídeo enviado<br>";
+        }
+
+        if (!empty($imagens[$i])) {
+            echo "Imagem: " . htmlspecialchars($imagens[$i]) . "<br>";
+        } else {
+            echo "Imagem: Nenhuma imagem enviada<br>";
+        }
+        echo "<hr>";
+    }
+
+    /*
     if (isset($_FILES['video']['name']) && !empty($_FILES['video']['name'])) {
         // verificar se já existe imagem na base de dados
         if (empty($row['Miniatura_cat'])) {
@@ -40,7 +68,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
                 $diretorio = "../../../assets/video/conteudosCursos/";
-                $base_nome = "video" . $idcursoAtual;
+                $base_nome = "video_" . $idcursoAtual;
                 $novo_nome = $base_nome . "." . $extensao;
                 $destino = $diretorio . $novo_nome;
 
@@ -55,7 +83,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
                     $URL_foto = $novo_nome;
-                    $sql = "UPDATE  SET Miniatura_cat = ? WHERE Id_categoria = ?";
+                    $sql = "UPDATE fase SET Miniatura_cat = ? WHERE Id_categoria = ?";
                     $stmt = $conn->prepare($sql);
                     $stmt->bind_param("si", $URL_foto, $idCategoria);
 
@@ -157,7 +185,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         $alteracaoFeita = true;
-    }
+    }*/
 } else {
     caminho();
 }

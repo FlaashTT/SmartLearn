@@ -2,7 +2,7 @@
 include("../../database/basedados.php");
 include("segurançaAdmin.php");
 
-
+$fasesCursos = [];
 $cursos = [];
 if (!$conn->connect_error) {
 
@@ -14,6 +14,29 @@ if (!$conn->connect_error) {
             $cursos[] = [
                 'id' => $row['ID_curso'],
                 'nome' => $row['Nome_curso']
+            ];
+        }
+    }
+
+    $sql = "SELECT * FROM fase ";
+    $resultado = $conn->query($sql);
+    if ($resultado->num_rows > 0) {
+        while ($row = $resultado->fetch_assoc()) {
+            $idCurso = $row['Id_curso'];
+
+            // Agrupa as fases por ID do curso
+            if (!isset($fasesCursos[$idCurso])) {
+                $fasesCursos[$idCurso] = [];
+            }
+
+            $fasesCursos[$idCurso][] = [
+                'id_curso' => $row['Id_curso'],
+                'Numero_fase' => $row['Num_fase'],
+                'titulo' => $row['Titulo_fase'],
+                'video' => $row['video'],
+                'imagem' => $row['Imagem'],
+                'conteudo' => $row['Conteudo_fase']
+
             ];
         }
     }
@@ -63,29 +86,60 @@ if (!$conn->connect_error) {
                     <h2>Formulário de Adição de um Curso</h2>
                     <!-- Formulário de Administração -->
                     <form class="form-group" action="acoes/adicionar_alterar_conteudo.php" method="POST" enctype="multipart/form-data">
-                        <label for="titulo">Título do Curso:</label>
-                        <input type="text" id="input-curso" name="titulo" required onkeyup="mostrarSugestoes('input-curso', 'sugestoes-curso', listaCursos)" />
-                        <ul id="sugestoes-curso" style="display:none; border:1px solid #ccc; max-width:300px; padding:0; margin:0; list-style:none;"></ul>
-                        <input type="hidden" id="input-curso-id" class="sugestoes" name="input-curso-id" />
+                        <!-- Título e sugestões -->
+                        <div class="form-group">
+                            <label for="titulo">Título do Curso:</label>
+                            <input type="text" id="input-curso" name="titulo" required onkeyup="mostrarSugestoes('input-curso', 'sugestoes-curso', listaCursos)" class="form-control" />
+                            <ul id="sugestoes-curso" style="display:none; border:1px solid #ccc; max-width:300px; padding:0; margin:0; list-style:none;"></ul>
+                            <input type="hidden" id="input-curso-id" class="sugestoes" name="input-curso-id" />
+                        </div>
 
-                        <label for="video">Vídeo do Curso:</label>
-                        <input type="file" id="video" name="video" accept="video/mp4" />
+                        <!-- Área de fases -->
+                        <div id="fases-container">
+                            <div class="fase card" style="padding: 15px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 5px;">
+                                <h4>Fase 1</h4>
 
-                        <label for="imagem">Imagem do Curso:</label>
-                        <input type="file" id="imagem" name="imagem" accept="image/*" />
+                                <div class="form-group">
+                                    <label for="titulo0">Titulo da fase:</label>
+                                    <input type="text" id="titulo0" name="titulo[]" class="form-control" />
+                                </div>
 
-                        <label for="conteudo">Conteúdo do Curso (Texto ou Imagem):</label>
-                        <textarea id="conteudo" name="conteudo"></textarea>
+                                <div class="form-group">
+                                    <label for="video0">Vídeo do Curso:</label>
+                                    <input type="file" id="video0" name="video[]" accept="video/mp4" class="form-control" />
 
-                        <label for="fase">Fase do Curso:</label>
-                        <select id="fase" name="fase">
-                            <option value="1">Fase 1</option>
-                            <option value="2">Fase 2</option>
-                            <option value="3">Fase 3</option>
-                            <!-- Adicionar mais opções conforme necessário -->
-                        </select>
-                        <p id="TextoErro" display="none" style="color: red;">Erro: Por favor, volte a inserir o curso pretendido.</p>
-                        <button id="confirmButton" class="btn-button" type="submit">Adicionar Conteúdo</button>
+                                </div>
+                                <div id="oldVideo0" style="margin-bottom: 10px;" hidden>
+                                    <!-- Aqui será exibido o vídeo atual, se existir -->
+                                    <p>Vídeo atual: Nenhum vídeo enviado.</p>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="imagem0">Imagem do Curso:</label>
+                                    <input type="file" id="imagem0" name="imagem[]" accept="image/*" class="form-control" />
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="conteudo0">Conteúdo do Curso (Texto ou Imagem):</label>
+                                    <textarea id="conteudo0" name="conteudo[]" class="form-control"></textarea>
+                                </div>
+
+                                <input type="hidden" name="fase[]" value="1" />
+                            </div>
+                        </div>
+
+                        <!-- Botão para adicionar mais fases -->
+                        <div class="form-group">
+                            <button type="button" onclick="adicionarFase()" class="btn-button">Adicionar nova fase</button>
+                        </div>
+
+                        <!-- Mensagem de erro -->
+                        <p id="TextoErro" style="display:none; color: red;">Erro: Por favor, volte a inserir o curso pretendido.</p>
+
+                        <!-- Botão de envio -->
+                        <div class="form-group">
+                            <button id="confirmButton" class="btn-button" type="submit">Adicionar/alterar Conteúdo</button>
+                        </div>
                     </form>
     </div>
     </section>
@@ -93,6 +147,9 @@ if (!$conn->connect_error) {
     </main>
     </main>
     </div>
+
+
+    </script>
 
     <script>
         document.querySelectorAll('.has-submenu').forEach(item => {
@@ -110,156 +167,41 @@ if (!$conn->connect_error) {
     </script>
 
 
+
+
+
+
     <script>
-        document.querySelectorAll('.tab').forEach(tab => {
-            tab.addEventListener('click', () => {
-                activateTab(tab);
-            });
-        });
+        const confirmButton = document.getElementById('confirmButton');
+        const inputCursoId = document.getElementById('input-curso-id');
+        const textoErro = document.getElementById('TextoErro');
 
-        function activateTab(tab) {
-            const target = tab.getAttribute('data-tab');
-
-            // Remove active de todas as tabs e conteúdos
-            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-
-            // Ativa tab e conteúdo correspondente
-            tab.classList.add('active');
-            document.querySelector(`.tab-content[data-content="${target}"]`).classList.add('active');
+        function validar() {
+            if (inputCursoId.value.trim() === "") {
+                confirmButton.disabled = true;
+                textoErro.style.display = 'block';
+                confirmButton.style.opacity = '0.5';
+                confirmButton.style.cursor = 'not-allowed';
+            } else {
+                confirmButton.disabled = false;
+                textoErro.style.display = 'none';
+                confirmButton.style.opacity = '1';
+                confirmButton.style.cursor = 'pointer';
+            }
         }
 
-        // Navegação com setas
-        const tabs = Array.from(document.querySelectorAll('.tab'));
-        let currentIndex = tabs.findIndex(t => t.classList.contains('active'));
+        // Verifica ao carregar a página
+        window.addEventListener('DOMContentLoaded', validar);
 
-        document.getElementById('next-tab').addEventListener('click', () => {
-            currentIndex = (currentIndex + 1) % tabs.length;
-            activateTab(tabs[currentIndex]);
-        });
-
-        document.getElementById('prev-tab').addEventListener('click', () => {
-            currentIndex = (currentIndex - 1 + tabs.length) % tabs.length;
-            activateTab(tabs[currentIndex]);
-        });
-
-        // Atualiza o índice actual sempre que clicas numa tab manualmente
-        tabs.forEach((tab, index) => {
-            tab.addEventListener('click', () => {
-                currentIndex = index;
-            });
-        });
-    </script>
-    <script>
-        // Para Módulo do Curso
-        const botaoAdicionarModulo = document.getElementById("addModulo");
-        const inputModulo = document.getElementById("moduloInput");
-        const listaModulos = document.getElementById("modulosLista");
-
-        botaoAdicionarModulo.addEventListener("click", () => {
-            const textoModulo = inputModulo.value.trim();
-            if (textoModulo !== "") {
-                const itemModulo = document.createElement("li");
-
-                const spanTextoModulo = document.createElement("span");
-                spanTextoModulo.textContent = textoModulo;
-
-                const botaoRemoverModulo = document.createElement("button");
-                botaoRemoverModulo.textContent = "−";
-                botaoRemoverModulo.className = "modulo-btn-remover";
-                botaoRemoverModulo.addEventListener("click", () => {
-                    itemModulo.remove();
-                });
-
-                itemModulo.appendChild(spanTextoModulo);
-                itemModulo.appendChild(botaoRemoverModulo);
-                listaModulos.appendChild(itemModulo);
-
-                inputModulo.value = ""; // Limpa o campo de input
-            }
-        });
-
-        // Para Hashtag do Curso
-        const botaoAdicionarHashtag = document.getElementById("addHashtag");
-        const inputHashtag = document.getElementById("hashtagInput");
-        const listaHashtags = document.getElementById("hashtagsLista");
-
-        botaoAdicionarHashtag.addEventListener("click", () => {
-            const textoHashtag = inputHashtag.value.trim();
-            if (textoHashtag !== "") {
-                const itemHashtag = document.createElement("li");
-
-                const spanTextoHashtag = document.createElement("span");
-                spanTextoHashtag.textContent = textoHashtag;
-
-                const botaoRemoverHashtag = document.createElement("button");
-                botaoRemoverHashtag.textContent = "−";
-                botaoRemoverHashtag.className = "hashtag-btn-remover";
-                botaoRemoverHashtag.addEventListener("click", () => {
-                    itemHashtag.remove();
-                });
-
-                itemHashtag.appendChild(spanTextoHashtag);
-                itemHashtag.appendChild(botaoRemoverHashtag);
-                listaHashtags.appendChild(itemHashtag);
-
-                inputHashtag.value = ""; // Limpa o campo de input
-            }
-        });
-    </script>
-    <script>
-        document.getElementById('ficheiro').addEventListener('change', function(event) {
-            var file = event.target.files[0];
-            var cardPreview = document.getElementById('cardPreview');
-            var cardImage = document.getElementById('cardImage');
-            var cardText = document.getElementById('cardText');
-
-            // Reset do conteúdo anterior
-            cardImage.src = '';
-            cardImage.style.display = 'none';
-            cardText.textContent = '';
-            cardText.style.display = 'none';
-            cardText.classList.remove('error');
-
-            // Exibe o card
-            cardPreview.style.display = 'block';
-            cardPreview.style.opacity = 1;
-
-            if (file && file.type.startsWith('image/')) {
-                var reader = new FileReader();
-
-                reader.onload = function(e) {
-                    cardImage.src = e.target.result;
-                    cardImage.style.display = 'block';
-                    cardText.style.display = 'none';
-                };
-
-                reader.onerror = function() {
-                    cardText.textContent = "Erro: Não foi possível carregar o ficheiro.";
-                    cardText.style.display = 'block';
-                    cardImage.style.display = 'none';
-                };
-
-                reader.readAsDataURL(file);
-            } else {
-                cardImage.style.display = 'none';
-                cardText.textContent = "Inválido: Por favor, selecione uma imagem válida.";
-                cardText.style.display = 'block';
-                cardText.classList.add('error');
-
-                // Esconde o card após erro
-                setTimeout(function() {
-                    cardPreview.style.opacity = 0;
-                    setTimeout(function() {
-                        cardPreview.style.display = 'none';
-                    }, 1000);
-                }, 1000);
-            }
-        });
+        // Verifica a cada 300ms
+        setInterval(validar, 300);
     </script>
 
     <script>
         const listaCursos = <?php echo json_encode($cursos, JSON_UNESCAPED_UNICODE); ?>;
+
+
+
 
         function mostrarSugestoes(inputId, listaId, dados) {
             const input = document.getElementById(inputId);
@@ -298,6 +240,7 @@ if (!$conn->connect_error) {
                         li.onclick = () => {
                             input.value = item.nome;
                             document.getElementById('input-curso-id').value = item.id;
+                            document.getElementById('input-curso-id').dispatchEvent(new Event('change'));
                             lista.style.display = "none";
                         };
                     }
@@ -312,30 +255,242 @@ if (!$conn->connect_error) {
         }
     </script>
 
-    <script>
-        const confirmButton = document.getElementById('confirmButton');
-        const inputCursoId = document.getElementById('input-curso-id');
-        const textoErro = document.getElementById('TextoErro');
 
-        function validar() {
-            if (inputCursoId.value.trim() === "") {
-                confirmButton.disabled = true;
-                textoErro.style.display = 'block';
-                confirmButton.style.opacity = '0.5';
-                confirmButton.style.cursor = 'not-allowed';
-            } else {
-                confirmButton.disabled = false;
-                textoErro.style.display = 'none';
-                confirmButton.style.opacity = '1';
-                confirmButton.style.cursor = 'pointer';
-            }
+
+    <script>
+        let contadorFases = 1;
+
+        function adicionarFase() {
+            const container = document.getElementById('fases-container');
+
+            const novaFase = document.createElement('div');
+            novaFase.classList.add('fase', 'card');
+            novaFase.style.padding = '15px';
+            novaFase.style.marginBottom = '15px';
+            novaFase.style.border = '1px solid #ccc';
+            novaFase.style.borderRadius = '5px';
+
+            const faseNumero = contadorFases + 1;
+
+            novaFase.innerHTML = `
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+        <h4 style="margin: 0;">Fase ${faseNumero}</h4>
+        <button type="button" class="btn-button btn-remover" onclick="removerFase(this)">Remover Fase</button>
+    </div>
+
+    <div class="form-group">
+        <label for="titulo${contadorFases}">Titulo da fase:</label>
+        <input type="text" id="titulo${contadorFases}" name="titulo[]"  class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label for="video${contadorFases}">Vídeo do Curso:</label>
+        <input type="file" id="video${contadorFases}" name="video[]" accept="video/mp4" class="form-control" />
+        
+    </div>
+
+    <div class="form-group">
+        <label for="imagem${contadorFases}">Imagem do Curso:</label>
+        <input type="file" id="imagem${contadorFases}" name="imagem[]" accept="image/*" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label for="conteudo${contadorFases}">Conteúdo do Curso (Texto ou Imagem):</label>
+        <textarea id="conteudo${contadorFases}" name="conteudo[]" class="form-control"></textarea>
+    </div>
+
+    <input type="hidden" name="fase[]" value="${faseNumero}" />
+`;
+
+            container.appendChild(novaFase);
+            contadorFases++;
         }
 
-        // Verifica ao carregar a página
-        window.addEventListener('DOMContentLoaded', validar);
+        function removerFase(botao) {
+            const fase = botao.closest('.fase');
+            fase.remove();
+            atualizarFases();
+        }
 
-        // Verifica a cada 300ms
-        setInterval(validar, 300);
+        function atualizarFases() {
+            const fases = document.querySelectorAll('#fases-container .fase');
+            contadorFases = fases.length;
+
+            fases.forEach((faseDiv, index) => {
+                const numFase = index + 1;
+
+                // Atualiza o título da fase
+                const titulo = faseDiv.querySelector('h4');
+                titulo.textContent = `Fase ${numFase}`;
+
+                // Atualiza o input hidden com a fase correta
+                const inputFase = faseDiv.querySelector('input[name="fase[]"]');
+                if (inputFase) inputFase.value = numFase;
+
+                // Atualiza os ids e for dos inputs para manter a consistência (opcional, mas recomendado)
+                const videoInput = faseDiv.querySelector('input[type="file"][accept="video/mp4"]');
+                if (videoInput) {
+                    videoInput.id = `video${index}`;
+                    const videoLabel = faseDiv.querySelector(`label[for^="video"]`);
+                    if (videoLabel) videoLabel.setAttribute('for', videoInput.id);
+                }
+
+                const imagemInput = faseDiv.querySelector('input[type="file"][accept^="image"]');
+                if (imagemInput) {
+                    imagemInput.id = `imagem${index}`;
+                    const imagemLabel = faseDiv.querySelector(`label[for^="imagem"]`);
+                    if (imagemLabel) imagemLabel.setAttribute('for', imagemInput.id);
+                }
+
+                const conteudoTextarea = faseDiv.querySelector('textarea');
+                if (conteudoTextarea) {
+                    conteudoTextarea.id = `conteudo${index}`;
+                    const conteudoLabel = faseDiv.querySelector(`label[for^="conteudo"]`);
+                    if (conteudoLabel) conteudoLabel.setAttribute('for', conteudoTextarea.id);
+                }
+            });
+        }
+    </script>
+
+    <script>
+        const container = document.getElementById('fases-container');
+        const fasesCursos = <?php echo json_encode($fasesCursos, JSON_UNESCAPED_UNICODE); ?>;
+        //console.log('fasesCursos:', fasesCursos);
+
+
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('input-curso').addEventListener('change', () => {
+
+                const cursoId = document.getElementById('input-curso-id').value = "";
+                const container = document.getElementById('fases-container');
+
+                // Limpa fases anteriores (se quiser)
+                container.innerHTML = '';
+
+                const novaFase = document.createElement('div');
+                novaFase.classList.add('fase', 'card');
+                novaFase.setAttribute('style', 'padding: 15px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 5px;');
+
+                novaFase.innerHTML = `
+            <h4>Fase 1</h4>
+
+            <div class="form-group">
+                <label for="titulo0">Titulo da fase:</label>
+                <input type="text" id="titulo0" name="titulo[]" class="form-control" />
+            </div>
+
+            <div class="form-group">
+                <label for="video0">Vídeo do Curso:</label>
+                <input type="file" id="video0" name="video[]" accept="video/mp4" class="form-control" />
+            </div>
+
+            <div id="oldVideo0" style="margin-bottom: 10px;" hidden>
+                <p>Vídeo atual: Nenhum vídeo enviado.</p>
+            </div>
+
+            <div class="form-group">
+                <label for="imagem0">Imagem do Curso:</label>
+                <input type="file" id="imagem0" name="imagem[]" accept="image/*" class="form-control" />
+            </div>
+
+            <div class="form-group">
+                <label for="conteudo0">Conteúdo do Curso (Texto ou Imagem):</label>
+                <textarea id="conteudo0" name="conteudo[]" class="form-control"></textarea>
+            </div>
+
+            <input type="hidden" name="fase[]" value="1" />
+        `;
+
+                container.appendChild(novaFase);
+            });
+
+
+            document.getElementById('input-curso-id').addEventListener('change', () => {
+                console.log("ola");
+
+                const cursoId = document.getElementById('input-curso-id').value.trim();
+                console.log("Curso ID:", cursoId);
+
+                if (cursoId !== '' && fasesCursos[cursoId] != null) {
+                    carregarFasesExistentes(fasesCursos[cursoId]);
+                }
+
+            });
+        });
+
+        function carregarFasesExistentes(fases) {
+            const cursoId = document.getElementById('input-curso-id').value.trim();
+
+
+            // Limpa o container SEMPRE
+            container.innerHTML = "";
+
+            fases.forEach((fase, i) => {
+                const numeroFase = fase.Numero_fase ?? (i + 1);
+                const novaFase = document.createElement('div');
+                novaFase.classList.add('fase', 'card');
+                novaFase.setAttribute('style', 'padding: 15px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 5px;');
+                novaFase.innerHTML = `
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                <h4 style="margin: 0;">Fase ${numeroFase}</h4>
+                <form action="acoes/remover_fase.php" method="POST" style="display:inline;">
+
+                    <input type="hidden" name="NomeImagem" value="${fase.imagem}" />
+                    <input type="hidden" name="NomeVideo" value="${fase.video}" />
+                    <input type="hidden" name="Id_fase" value="${numeroFase}" />
+                    <input type="hidden" name="Id_curso" value="${cursoId}" />
+                    <button type="submit" class="btn-button btn-remover">Remover Fase</button>
+                </form>
+            </div>
+            <div class="form-group">
+                <label for="titulo${numeroFase}">Titulo da fase:</label>
+                <input type="text" id="titulo${numeroFase}" name="titulo[]" value="${fase.titulo || ''}" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label for="video${numeroFase}">Vídeo do Curso:</label>
+                <input type="file" id="video${numeroFase}" name="video[]" accept="video/mp4" class="form-control" />
+            </div>
+
+            <div id="oldVideo${numeroFase}" style="margin-bottom: 10px;" ${fase.video ? '' : 'hidden'}>
+                <p>${fase.video ? `Vídeo atual: <a href="../../assets/conteudosCursos/videos/${fase.video}" target="_blank">Ver vídeo</a>` : 'Vídeo atual: Nenhum vídeo enviado.'}   Nome do arquivo:${fase.video}
+                <form action="acoes/remover_midia.php" method="POST" style="display:inline;">
+                
+                    <input type="hidden" name="Nome" value="${fase.video}" />
+                    <input type="hidden" name="midia" value="videos" />
+                    <input type="hidden" name="fase" value="${numeroFase}" />
+                    <input type="hidden" name="idCurso" value="${cursoId}" />
+                    <button type="submit" class="btn-button btn-remover-video">Remover Vídeo</button>
+                </form>
+                </p>
+            </div>
+            
+            <div class="form-group">
+                <label for="imagem${numeroFase}">Imagem do Curso:</label>
+                <input type="file" id="imagem${numeroFase}" name="imagem[]" accept="image/*" class="form-control" />
+            </div>
+            <div id="oldImagem${numeroFase}" style="margin-bottom: 10px;" ${fase.imagem ? '' : 'hidden'}>
+                <p>${fase.imagem ? `Imagem atual: <a href="../../assets/conteudosCursos/imagens/${fase.imagem}" target="_blank">Ver imagem</a>` : 'Imagem atual: Nenhuma imagem enviada.'} Nome do arquivo:${fase.imagem}
+                <form action="acoes/remover_midia.php" method="POST" style="display:inline;">
+                    <input type="hidden" name="Nome" value="${fase.imagem}" />
+                    <input type="hidden" name="midia" value="imagens" />
+                    <input type="hidden" name="fase" value="${numeroFase}" />
+                    <input type="hidden" name="idCurso" value="${cursoId}" />
+                    <button type="submit" class="btn-button btn-remover-imagem">Remover Imagem</button>
+                </form>
+                </p>
+            </div>
+
+            <div class="form-group">
+                <label for="conteudo${numeroFase}">Conteúdo do Curso (Texto ou Imagem):</label>
+                <textarea id="conteudo${numeroFase}" name="conteudo[]" class="form-control">${fase.conteudo || ''}</textarea>
+            </div>
+            <input type="hidden" name="fase[]" value="${numeroFase}" />
+        `;
+                container.appendChild(novaFase);
+            });
+
+            contadorFases = fases.length;
+        }
     </script>
 
 
