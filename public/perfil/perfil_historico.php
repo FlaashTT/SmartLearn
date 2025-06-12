@@ -74,16 +74,20 @@ $total_paginas = ceil($total_registos / $quantidadePorPagina);
                                     <td>' . $row['Nome_curso'] . '</td>
                                     <td>' . $row['Data_compra'] . '</td>
                                     <td>' . $row['Preco'] . '€</td>
-                                    <td>' . $row['Tipo_pagamento'] . '</td>';
+                                    <td>' . $row['Tipo_pagamento'] . '</td>
+                                    <td>';
                                 if ($row['Tipo_pagamento'] !== "reembolsado") {
                                     echo '
-                                    <td>
+                                    
                                         <form action="Processo_reembolso.php" method="POST">
                                             <button class="category-btn" type="submit" name="idCurso" value="' . $row['Id_curso'] . '">Reembolso</button>
-                                        </form>
-                                    </td>
-                                </tr>';
+                                        </form> 
+                                ';
                                 }
+                                echo '
+                                    </td>
+                                    </tr>
+                                ';
                             }
                         } else {
                             echo '<tr><td colspan="5" class="no-records">Sem registos encontrados.</td></tr>';

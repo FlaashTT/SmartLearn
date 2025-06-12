@@ -97,6 +97,11 @@ nav {
 
 
 
+.category:hover {
+    transform: translateY(1.05);
+    transition: transform 0.3s ease;
+}
+
 
 /* ---------- Rodapé ---------- */
 /* Reset simples para ícones */
@@ -191,6 +196,7 @@ nav {
   margin: 0;
 }
 
+
 /* Rodapé inferior */
 .footer-bottom {
   text-align: center;
@@ -207,4 +213,6 @@ nav {
   text-decoration: none;
   transition: color 0.3s ease;
 }
+
+
 

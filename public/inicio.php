@@ -145,14 +145,14 @@ include("../database/basedados.php");
 
 
         <section class="section-title">
-            <h1>10 Últimos cursos</h1>
+            <h1>Seis cursos mais recentes</h1>
             <hr>
         </section>
 
         <section class="course-card">
             <?php
 
-            $stmt = $conn->prepare("SELECT * FROM curso ORDER BY Data_criacao DESC LIMIT 10 ");
+            $stmt = $conn->prepare("SELECT * FROM curso ORDER BY Data_criacao DESC LIMIT 6 ");
             $stmt->execute();
             $result = $stmt->get_result();
 
@@ -192,8 +192,9 @@ include("../database/basedados.php");
                         <span>' . $row["Tempo_estimado"] . '</span>
                     </div>
                 </div>
+                
             </div>
-        
+            
         
         ';
                 }
@@ -206,10 +207,15 @@ include("../database/basedados.php");
        
        ';
             }
-
+            
             ?>
 
         </section>
+            <section class="cursos-geral-section">
+                <div class="cursos-geral">
+                    <button class="btn-geral" onclick="window.location.href='categorias.php'">Ver todos os cursos</button>
+                </div>
+            </section>
         <section class="section-title">
             <h1>Instrutor em destaque</h1>
             <hr>
