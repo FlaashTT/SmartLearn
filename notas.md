@@ -37,6 +37,8 @@
 - Finalizar `relatorio_logs.php` com as ações completas
 
 - Em `categoria_curso.php`, fazer o modal como no `gerenciar_admin.php` (na mesma página)
+  
+- No inicio.php tem de se por limite aos cursos (6)
 
 
 ---

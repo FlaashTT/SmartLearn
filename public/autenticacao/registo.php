@@ -22,7 +22,7 @@
       <nav>
         <div class="nav-left">
           <div class="logo">
-            <a href="../public/inicio.php"><img src="../../assets/image/Logo.png" alt="Logo" /></a>
+            <a href="../inicio.php"><img src="../../assets/image/Logo.png" alt="Logo" /></a>
             <span class="brand-name">SmartLearn</span>
           </div>
 
