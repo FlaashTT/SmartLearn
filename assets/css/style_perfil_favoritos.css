@@ -315,14 +315,15 @@
 .modal-content ul li {
     padding: 10px;
     margin: 5px 0;
-    background-color: #f4f4f4;
+    background-color: #007bff;
     border-radius: 8px;
     cursor: pointer;
+    color: white;
     transition: background-color 0.3s ease;
 }
 
 .modal-content ul li:hover {
-    background-color: #ddd;
+    background-color: #0056b3;
 }
 
 .close-btn {
