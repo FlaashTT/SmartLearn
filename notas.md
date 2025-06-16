@@ -73,6 +73,7 @@ Fatal error: Uncaught ArgumentCountError: The number of elements in the type def
 - 🔴 Nem comecei  
 - 🔵 Falta CSS  
 - 🟣 Com bugs
+- 🩷 ja tem logs feitas
 
 ---
 ## 💡 Ideias Futuras

@@ -85,7 +85,7 @@ if (!$conn->connect_error) {
                 <section class="page">
                     <h2>Formulário de Adição de um Curso</h2>
                     <!-- Formulário de Administração -->
-                    <form class="form-group" action="acoes/adicionar_alterar_conteudo.php" method="POST" enctype="multipart/form-data">
+                    <form class="form-group" action="acoes/adicionar_alterar_conteudo.php" id="uploadForm" method="POST" enctype="multipart/form-data">
                         <!-- Título e sugestões -->
                         <div class="form-group">
                             <label for="titulo">Título do Curso:</label>
@@ -101,12 +101,12 @@ if (!$conn->connect_error) {
 
                                 <div class="form-group">
                                     <label for="titulo0">Titulo da fase:</label>
-                                    <input type="text" id="titulo0" name="titulo[]" class="form-control" />
+                                    <input type="text" id="titulo0" name="titulo[1]" class="form-control" />
                                 </div>
 
                                 <div class="form-group">
                                     <label for="video0">Vídeo do Curso:</label>
-                                    <input type="file" id="video0" name="video[]" accept="video/mp4" class="form-control" />
+                                    <input type="file" id="video0" name="video[1]" accept="video/mp4" class="form-control" />
 
                                 </div>
                                 <div id="oldVideo0" style="margin-bottom: 10px;" hidden>
@@ -116,12 +116,12 @@ if (!$conn->connect_error) {
 
                                 <div class="form-group">
                                     <label for="imagem0">Imagem do Curso:</label>
-                                    <input type="file" id="imagem0" name="imagem[]" accept="image/*" class="form-control" />
+                                    <input type="file" id="imagem0" name="imagem[1]" accept="image/*" class="form-control" />
                                 </div>
 
                                 <div class="form-group">
                                     <label for="conteudo0">Conteúdo do Curso (Texto ou Imagem):</label>
-                                    <textarea id="conteudo0" name="conteudo[]" class="form-control"></textarea>
+                                    <textarea id="conteudo0" name="conteudo[1]" class="form-control"></textarea>
                                 </div>
 
                                 <input type="hidden" name="fase[]" value="1" />
@@ -280,23 +280,23 @@ if (!$conn->connect_error) {
 
     <div class="form-group">
         <label for="titulo${contadorFases}">Titulo da fase:</label>
-        <input type="text" id="titulo${contadorFases}" name="titulo[]"  class="form-control" />
+        <input type="text" id="titulo${contadorFases}" name="titulo[${contadorFases}]"  class="form-control" />
     </div>
 
     <div class="form-group">
         <label for="video${contadorFases}">Vídeo do Curso:</label>
-        <input type="file" id="video${contadorFases}" name="video[]" accept="video/mp4" class="form-control" />
+        <input type="file" id="video${contadorFases}" name="video[${contadorFases}]" accept="video/mp4" class="form-control" />
         
     </div>
 
     <div class="form-group">
         <label for="imagem${contadorFases}">Imagem do Curso:</label>
-        <input type="file" id="imagem${contadorFases}" name="imagem[]" accept="image/*" class="form-control" />
+        <input type="file" id="imagem${contadorFases}" name="imagem[${contadorFases}]" accept="image/*" class="form-control" />
     </div>
 
     <div class="form-group">
         <label for="conteudo${contadorFases}">Conteúdo do Curso (Texto ou Imagem):</label>
-        <textarea id="conteudo${contadorFases}" name="conteudo[]" class="form-control"></textarea>
+        <textarea id="conteudo${contadorFases}" name="conteudo[${contadorFases}]" class="form-control"></textarea>
     </div>
 
     <input type="hidden" name="fase[]" value="${faseNumero}" />
@@ -376,12 +376,12 @@ if (!$conn->connect_error) {
 
             <div class="form-group">
                 <label for="titulo0">Titulo da fase:</label>
-                <input type="text" id="titulo0" name="titulo[]" class="form-control" />
+                <input type="text" id="titulo0" name="titulo[1]" class="form-control" />
             </div>
 
             <div class="form-group">
                 <label for="video0">Vídeo do Curso:</label>
-                <input type="file" id="video0" name="video[]" accept="video/mp4" class="form-control" />
+                <input type="file" id="video0" name="video[1]" accept="video/mp4" class="form-control" />
             </div>
 
             <div id="oldVideo0" style="margin-bottom: 10px;" hidden>
@@ -390,12 +390,12 @@ if (!$conn->connect_error) {
 
             <div class="form-group">
                 <label for="imagem0">Imagem do Curso:</label>
-                <input type="file" id="imagem0" name="imagem[]" accept="image/*" class="form-control" />
+                <input type="file" id="imagem0" name="imagem[1]" accept="image/*" class="form-control" />
             </div>
 
             <div class="form-group">
                 <label for="conteudo0">Conteúdo do Curso (Texto ou Imagem):</label>
-                <textarea id="conteudo0" name="conteudo[]" class="form-control"></textarea>
+                <textarea id="conteudo0" name="conteudo[1]" class="form-control"></textarea>
             </div>
 
             <input type="hidden" name="fase[]" value="1" />
@@ -406,10 +406,10 @@ if (!$conn->connect_error) {
 
 
             document.getElementById('input-curso-id').addEventListener('change', () => {
-                console.log("ola");
+                
 
                 const cursoId = document.getElementById('input-curso-id').value.trim();
-                console.log("Curso ID:", cursoId);
+                
 
                 if (cursoId !== '' && fasesCursos[cursoId] != null) {
                     carregarFasesExistentes(fasesCursos[cursoId]);
@@ -444,11 +444,11 @@ if (!$conn->connect_error) {
             </div>
             <div class="form-group">
                 <label for="titulo${numeroFase}">Titulo da fase:</label>
-                <input type="text" id="titulo${numeroFase}" name="titulo[]" value="${fase.titulo || ''}" class="form-control" />
+                <input type="text" id="titulo${numeroFase}" name="titulo[${numeroFase}]" value="${fase.titulo || ''}" class="form-control" />
             </div>
             <div class="form-group">
                 <label for="video${numeroFase}">Vídeo do Curso:</label>
-                <input type="file" id="video${numeroFase}" name="video[]" accept="video/mp4" class="form-control" />
+                <input type="file" id="video${numeroFase}" name="video[${numeroFase}]" accept="video/mp4" class="form-control" />
             </div>
 
             <div id="oldVideo${numeroFase}" style="margin-bottom: 10px;" ${fase.video ? '' : 'hidden'}>
@@ -466,7 +466,7 @@ if (!$conn->connect_error) {
             
             <div class="form-group">
                 <label for="imagem${numeroFase}">Imagem do Curso:</label>
-                <input type="file" id="imagem${numeroFase}" name="imagem[]" accept="image/*" class="form-control" />
+                <input type="file" id="imagem${numeroFase}" name="imagem[${numeroFase}]" accept="image/*" class="form-control" />
             </div>
             <div id="oldImagem${numeroFase}" style="margin-bottom: 10px;" ${fase.imagem ? '' : 'hidden'}>
                 <p>${fase.imagem ? `Imagem atual: <a href="../../assets/conteudosCursos/imagens/${fase.imagem}" target="_blank">Ver imagem</a>` : 'Imagem atual: Nenhuma imagem enviada.'} Nome do arquivo:${fase.imagem}
@@ -482,7 +482,7 @@ if (!$conn->connect_error) {
 
             <div class="form-group">
                 <label for="conteudo${numeroFase}">Conteúdo do Curso (Texto ou Imagem):</label>
-                <textarea id="conteudo${numeroFase}" name="conteudo[]" class="form-control">${fase.conteudo || ''}</textarea>
+                <textarea id="conteudo${numeroFase}" name="conteudo[${numeroFase}]" class="form-control">${fase.conteudo || ''}</textarea>
             </div>
             <input type="hidden" name="fase[]" value="${numeroFase}" />
         `;

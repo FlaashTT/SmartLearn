@@ -1,6 +1,6 @@
 <?php
 session_start();
-function criarLogs($tipoLog, $idUser, $saldo = null, $idCurso = null, $idCategoria = null)
+function criarLogs($tipoLog, $idUser = null, $saldo = null, $idCurso = null, $idCategoria = null,$tipoErro = null,$ficheiro = null)
 { //devemos por mais campos,ter de ver depois oq vai ser necesario
 
     global $conn;
@@ -59,6 +59,12 @@ function criarLogs($tipoLog, $idUser, $saldo = null, $idCurso = null, $idCategor
         case "Utilizador Matriculado":
             $descricaoLog = "O utilizador com id " . $idUser . " foi matriculado no de id $idCurso pelo admin com id " . $_SESSION['utilizadorOn']['Id_user'];
             break;
+        case "Conteudo curso alterado":
+            $descricaoLog = "O administrador com id " . $idUser . " alterou o conteúdo do curso " . $idCurso;
+            break;
+        case "Erro":
+            $descricaoLog = "Ocorreu um erro: ".$tipoErro ." no ficheiro :".$ficheiro;
+            break;  
     }
     $stmt = $conn->prepare("INSERT INTO logs_sistema (Id_user, Descricao_log, Tipo_log, Data_log, saldo) VALUES (?, ?, ?, ?, ?)");
     $stmt->bind_param("isssd", $idUser, $descricaoLog, $tipoLog, $DataAtual, $saldo);

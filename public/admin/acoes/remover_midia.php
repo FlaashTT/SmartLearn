@@ -1,6 +1,7 @@
 <?php
 include("../../../database/basedados.php");
 include("../../popup.php");
+include("../../logs.php");
 $erro = false;
 $textoErro = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -36,6 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt = $conn->prepare($query);
             $stmt->bind_param("sii", $nome, $fase, $idCurso);
             if ($stmt->execute()) {
+                criarLogs("Conteudo curso alterado", $_SESSION['utilizadorOn']['Id_user'], null, $idCurso);
                 mostrarPopUp("Mídia removida com sucesso!");
                 
             } else {
@@ -58,6 +60,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
 if ($erro) {
+    criarLogs("Erro", $_SESSION['utilizadorOn']['Id_user'],  null,  null,  null, $textoErro ,__FILE__);
     mostrarPopUp($textoErro);
 }
 function caminho()

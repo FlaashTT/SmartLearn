@@ -87,7 +87,17 @@ include("../../database/basedados.php");
                             echo '
                             <div class="card">
                                 <div class="card-image">
-                                    <img src="../../assets/image/curso/' . $row['URL_foto_perfil_curso'] . '" alt="Curso" />
+                                ';
+                            $sitioImagem = $row['URL_foto_perfil_curso'];
+                            $caminhoImagem = "../../assets/image/curso/" . $sitioImagem;
+
+                            if (!empty($sitioImagem) && file_exists($caminhoImagem)) {
+                                echo '<img src="../../assets/image/curso/' . $sitioImagem . '" alt="Erro">';
+                            } else {
+                                echo '<img src="../../assets/image/curso/capa_curso.png" alt="Erro">';
+                            }
+
+                            echo '
                                 </div>
                                 <div class="card-content">
                                     <div class="card-header">
