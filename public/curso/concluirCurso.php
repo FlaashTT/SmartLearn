@@ -9,6 +9,7 @@ if($_SERVER['REQUEST_METHOD'] === "POST"){
         $erro = true;
         exit;
     }
+    //por codigo que faz update na bd para colocar como 100% e concluido o curso
 }else{
     echo "<script>window.history.back();</script>";
 
