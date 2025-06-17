@@ -141,7 +141,7 @@ include("../../database/basedados.php");
 
     //quantidade de cursos comprados 
 
-    
+
     ?>
 
     <script
@@ -149,45 +149,85 @@ include("../../database/basedados.php");
     </script>
     <script>
         document.querySelectorAll('.has-submenu').forEach(item => {
-        item.addEventListener('click', () => {
-            item.classList.toggle('open');
-        });
+            item.addEventListener('click', () => {
+                item.classList.toggle('open');
+            });
         });
 
         document.querySelectorAll('.has-submenu-a').forEach(item => {
-        item.addEventListener('click', (e) => {
-            e.stopPropagation(); // Impede o clique de subir
-            item.classList.toggle('open');
-        });
+            item.addEventListener('click', (e) => {
+                e.stopPropagation(); // Impede o clique de subir
+                item.classList.toggle('open');
+            });
         });
 
 
         // Dados do gráfico
+        // Dados fictícios por agora — podes substituí-los por dados reais vindos do PHP se quiseres
         const data = {
             labels: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
             datasets: [{
-                label: 'Atividades Mensais',
-                data: [40, 19, 3, 5, 2, 3, 7, 10, 15, 8, 6, 9], // Dados do gráfico
-                backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                borderColor: 'rgba(75, 192, 192, 1)',
-                borderWidth: 1
-            }]
+                    label: 'Cursos',
+                    data: [3, 5, 6, 8, 10, 9, 7, 6, 9, 11, 12, 14],
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderWidth: 2,
+                    tension: 0.4
+                },
+                {
+                    label: 'Capítulos',
+                    data: [10, 12, 14, 18, 20, 22, 24, 26, 28, 30, 32, 35],
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    borderWidth: 2,
+                    tension: 0.4
+                },
+                {
+                    label: 'Inscrições',
+                    data: [8, 12, 15, 17, 20, 23, 26, 30, 34, 37, 40, 45],
+                    borderColor: 'rgba(255, 206, 86, 1)',
+                    backgroundColor: 'rgba(255, 206, 86, 0.2)',
+                    borderWidth: 2,
+                    tension: 0.4
+                },
+                {
+                    label: 'Utilizadores',
+                    data: [5, 7, 10, 13, 15, 18, 22, 25, 28, 30, 32, 35],
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    borderWidth: 2,
+                    tension: 0.4
+                }
+            ]
         };
 
-        // Renderizar o gráfico
         const ctx = document.getElementById('monthlyChart').getContext('2d');
         const monthlyChart = new Chart(ctx, {
             type: 'line',
             data: data,
             options: {
                 responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'bottom'
+                    },
+                    title: {
+                        display: true,
+                        text: 'Atividade Mensal por Categoria'
+                    }
+                },
                 scales: {
                     y: {
-                        beginAtZero: true
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Total por mês'
+                        }
                     }
                 }
             }
         });
+
         /*
                // Atualizar os números nos spans
                document.getElementById('numCursos').textContent = data.datasets[0].data.reduce((a, b) => a + b, 0); // Soma total dos dados
