@@ -54,13 +54,17 @@ $cursoComprado = false;
     SELECT * 
     FROM cursos_adquiridos ca
     INNER JOIN curso c ON ca.Id_curso = c.Id_curso
-    WHERE ca.Id_user = ? AND c.Id_curso = ?;
+    INNER JOIN idioma i ON c.Id_idioma = i.Id_idioma
+    WHERE ca.Id_user = ? 
+      AND c.Id_curso = ? ;
     ");
     $stmt->bind_param("ii", $_SESSION['utilizadorOn']['Id_user'], $idCurso);
   } else {
     $stmt = $conn->prepare("
                 SELECT * 
-                FROM curso WHERE Id_curso = ?;
+                FROM curso c
+                INNER JOIN idioma i ON c.Id_idioma = i.Id_idioma
+                WHERE c.Id_curso = ?;
             ");
     $stmt->bind_param("i", $idCurso);
   }
@@ -84,10 +88,20 @@ $cursoComprado = false;
           if ($cursoComprado === true) {
             echo '<p>' . $row['Percentagem_progresso'] . '% Concluído</p>';
           }
-          echo '
-        <div class="content">
+
+          echo '<div class="content">
           <div class="imagem">
-            <img src="../../assets/image/curso/' . $row['URL_foto_perfil_curso'] . '" alt="Imagem nao encontrada" />
+          ';
+          $sitioImagem = $row['URL_foto_perfil_curso'];
+          $caminhoImagem = "../../assets/image/curso/" . $sitioImagem;
+
+          if (!empty($sitioImagem) && file_exists($caminhoImagem)) {
+            echo '<img src="../../assets/image/curso/' . $row['URL_foto_perfil_curso'] . '" alt="Imagem nao encontrada" />';
+          } else {
+            echo '<img src="../../assets/image/curso/capa_curso.png" alt="Erro">';
+          }
+          echo '
+        
           </div>
         ';
 
@@ -143,7 +157,7 @@ $cursoComprado = false;
               $quantidadeFase = $totalFase['total'];
               echo '
             <li><strong>Tempo estimado:</strong> ' . $row['Tempo_estimado'] . '</li>
-            <li><strong>Idioma:</strong> ' . $row['Idioma_principal'] . '</li>
+            <li><strong>Idioma:</strong> ' . $row['Nome_idioma'] . '</li>
             <li><strong>Fases do Curso:</strong> ' . $quantidadeFase . '</li>
             <li><strong>Classificação:
 
@@ -172,8 +186,8 @@ $cursoComprado = false;
             </form>
           </footer>
           ';
-        }else{
-          echo'
+        } else {
+          echo '
           <footer class="footer-c">
             <form action="../carrinho/adicionarAocarrinho.php" method="POST">
               <button name="IdCurso" value=" ' . $idCurso . '" class="avançar">

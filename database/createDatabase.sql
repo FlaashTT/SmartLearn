@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 09-Jun-2025 às 17:01
+-- Tempo de geração: 17-Jun-2025 às 18:19
 -- Versão do servidor: 10.4.32-MariaDB
 -- versão do PHP: 8.2.12
 
@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS `carrinho_compras` (
   PRIMARY KEY (`Id_carrinho`),
   KEY `Id_user` (`Id_user`),
   KEY `Id_curso` (`Id_curso`)
-) ENGINE=InnoDB AUTO_INCREMENT=65 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=67 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -114,7 +114,7 @@ CREATE TABLE IF NOT EXISTS `curso` (
 --
 
 INSERT INTO `curso` (`Id_curso`, `Nome_curso`, `Id_categoria`, `Id_idioma`, `Criador_curso`, `Data_criacao`, `URL_foto_perfil_curso`, `Pequena_descricao`, `Descricao`, `Preco`, `Preco_antigo`, `Estado_curso`, `Classificacao`, `Num_visitascurso`, `Tempo_estimado`, `Dificuldade`, `Quantidade_fases`, `Requisitos`, `Provedor_geral_curso`, `URL_geral_curso`, `Keywords`) VALUES
-(2, 'Curso de Programação', NULL, 2, 14, '2025-04-01', 'capa_curso.png', 'Curso básico de programação', 'Aprenda os fundamentos da programação', NULL, 25.00, 'ativo', 0, 100, '01:30:00', 'Iniciante', 10, 'Nenhum', 'youtube', NULL, 'programação, iniciante, código'),
+(2, 'Curso de Programação', 1, 2, 32, '2025-04-01', 'capa_curso.png', 'Curso básico de programação', 'Aprenda os fundamentos da programação', NULL, 25.00, 'ativo', 0, 100, '01:30:00', 'Iniciante', 10, 'Nenhum', 'youtube', NULL, 'programação, iniciante, código'),
 (3, 'Nome do Curso ', 1, 1, 32, '2025-04-08', 'capa_curso.png', 'Pequena descrição do curso', 'Descrição completa do curso com todos os detalhes.', 99.99, 0.00, 'ativo', 1, 150, '17:00:10', 'intermedio', 5, 'Requisitos básicos de informática', '', 'http://exemplo.com/curso', 'exemplo, curso, online'),
 (4, 'teste ', NULL, 2, 32, '2025-04-08', 'capa_curso.png', 'Pequena descrição do cursoPequena descrição do cursoPequena descrição do cursoPequena descrição do c', 'Este curso fornece uma introdução abrangente aos princípios da cibersegurança. Os formandos irão aprender sobre ameaças, vulnerabilidades, e mecanismos de defesa. A formação também aborda práticas de segurança pessoal e empresarial, políticas de segurança, e muito mais. Ideal para quem pretende iniciar carreira na área ou reforçar conhecimentos existentes. A conclusão bem-sucedida deste curso confere um certificado de participação.', 99.99, 0.00, 'ativo', 5, 150, '00:00:10', 'avançado', 5, 'Requisitos básicos de informática', '', 'http://exemplo.com/curso', 'exemplo, curso, online'),
 (5, 'Curso 1', 1, 1, 32, '2025-05-22', 'curso1.jpg', 'Descrição curta do curso 1', 'Descrição completa do curso 1', 49.99, 59.99, 'ativo', 5, 120, '00:00:10', '', 5, 'Noções básicas de informática', '', 'https://curso1.exemplo.com', 'curso, informática'),
@@ -127,7 +127,7 @@ INSERT INTO `curso` (`Id_curso`, `Nome_curso`, `Id_categoria`, `Id_idioma`, `Cri
 (12, 'Curso 8', 1, 1, 32, '2025-05-22', '/imagens/curso8.jpg', 'Descrição curta do curso 8', 'Descrição completa do curso 8', 34.99, 44.99, 'ativo', 4, 90, '00:00:09', '', 5, 'Nenhum requisito', '', 'https://curso8.exemplo.com', 'curso, iniciantes'),
 (13, 'Curso 9', 1, 1, 32, '2025-05-22', '/imagens/curso9.jpg', 'Descrição curta do curso 9', 'Descrição completa do curso 9', 54.99, 64.99, 'ativo', 5, 180, '00:00:14', 'avançado', 7, 'Conhecimentos avançados', '', 'https://curso9.exemplo.com', 'curso, avançado'),
 (21, 'teste', NULL, 2, 32, '2025-06-06', 'curso_id21.jpg', '', '', 0.00, 0.00, 'Incompleto', 0, 0, '00:00:00', '', 0, '', '', NULL, ''),
-(22, 'fgh', 1, 2, 32, '2025-06-06', 'curso_id22.png', 'fgh', 'fhg', 0.00, 0.00, '', 0, 0, '00:00:00', 'intermedio', 0, '', '', NULL, '');
+(22, 'fgh', 1, 1, 32, '2025-06-06', 'curso_id22.png', 'fgh', 'fhg', 0.00, 0.00, '', 0, 0, '00:00:00', 'intermedio', 0, '', '', NULL, '');
 
 -- --------------------------------------------------------
 
@@ -143,37 +143,40 @@ CREATE TABLE IF NOT EXISTS `cursos_adquiridos` (
   `Progresso` enum('Por Iniciar','Iniciado','Concluido') DEFAULT 'Iniciado',
   `Percentagem_progresso` int(11) NOT NULL DEFAULT 0,
   `AdicionadoPor` int(11) DEFAULT NULL,
+  `Notas` text DEFAULT NULL,
   PRIMARY KEY (`Id_adquirido`),
   KEY `fk_curso` (`Id_curso`),
   KEY `fk_user` (`Id_user`),
   KEY `fk_addPor` (`AdicionadoPor`)
-) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Extraindo dados da tabela `cursos_adquiridos`
 --
 
-INSERT INTO `cursos_adquiridos` (`Id_adquirido`, `Id_user`, `Id_curso`, `Data_compra`, `Progresso`, `Percentagem_progresso`, `AdicionadoPor`) VALUES
-(2, 39, 5, '0000-00-00', 'Iniciado', 0, 39),
-(3, 39, 6, '0000-00-00', 'Iniciado', 0, 32),
-(4, 39, 7, '0000-00-00', 'Iniciado', 0, 32),
-(5, 39, 8, '0000-00-00', 'Iniciado', 0, 32),
-(6, 39, 9, '0000-00-00', 'Iniciado', 0, 32),
-(7, 39, 10, '0000-00-00', 'Iniciado', 0, 39),
-(8, 39, 11, '0000-00-00', 'Iniciado', 0, 32),
-(9, 39, 12, '0000-00-00', 'Iniciado', 0, 32),
-(10, 32, 13, '0000-00-00', 'Iniciado', 0, 32),
-(20, 40, 2, '2025-06-05', 'Por Iniciar', 0, NULL),
-(21, 40, 2, '2025-06-05', 'Por Iniciar', 0, NULL),
-(22, 40, 2, '2025-06-05', 'Por Iniciar', 0, NULL),
-(23, 40, 2, '2025-06-05', 'Por Iniciar', 0, NULL),
-(24, 40, 2, '2025-06-05', 'Por Iniciar', 0, NULL),
-(25, 40, 2, '2025-06-05', 'Por Iniciar', 0, NULL),
-(26, 40, 2, '2025-06-05', 'Por Iniciar', 0, NULL),
-(27, 40, 2, '2025-06-05', 'Por Iniciar', 0, NULL),
-(28, 40, 2, '2025-06-05', 'Por Iniciar', 0, 32),
-(30, 40, 2, '2025-06-05', 'Por Iniciar', 0, 32),
-(31, 40, 5, '2025-06-05', 'Por Iniciar', 0, 32);
+INSERT INTO `cursos_adquiridos` (`Id_adquirido`, `Id_user`, `Id_curso`, `Data_compra`, `Progresso`, `Percentagem_progresso`, `AdicionadoPor`, `Notas`) VALUES
+(2, 39, 5, '0000-00-00', 'Iniciado', 0, 39, NULL),
+(3, 39, 6, '0000-00-00', 'Iniciado', 0, 32, NULL),
+(4, 39, 7, '0000-00-00', 'Iniciado', 0, 32, NULL),
+(5, 39, 8, '0000-00-00', 'Iniciado', 0, 32, NULL),
+(6, 39, 9, '0000-00-00', 'Iniciado', 0, 32, NULL),
+(7, 39, 10, '0000-00-00', 'Iniciado', 0, 39, NULL),
+(8, 39, 11, '0000-00-00', 'Iniciado', 0, 32, NULL),
+(9, 39, 12, '0000-00-00', 'Iniciado', 0, 32, NULL),
+(10, 32, 13, '0000-00-00', 'Iniciado', 0, 32, 'isto é um teste'),
+(20, 32, 2, '2025-06-05', 'Por Iniciar', 0, NULL, NULL),
+(21, 40, 2, '2025-06-05', 'Por Iniciar', 0, NULL, NULL),
+(22, 39, 2, '2025-06-05', 'Por Iniciar', 0, NULL, NULL),
+(23, 41, 2, '2025-06-05', 'Por Iniciar', 0, NULL, NULL),
+(24, 42, 2, '2025-06-05', 'Por Iniciar', 0, NULL, NULL),
+(25, 43, 2, '2025-06-05', 'Por Iniciar', 0, NULL, NULL),
+(26, 44, 2, '2025-06-05', 'Por Iniciar', 0, NULL, NULL),
+(27, 45, 2, '2025-06-05', 'Por Iniciar', 0, NULL, NULL),
+(28, 46, 2, '2025-06-05', 'Por Iniciar', 0, 32, NULL),
+(30, 47, 2, '2025-06-05', 'Por Iniciar', 0, 32, NULL),
+(31, 40, 5, '2025-06-05', 'Por Iniciar', 0, 32, NULL),
+(32, 32, 22, '2025-06-17', 'Iniciado', 0, NULL, NULL),
+(33, 32, 5, '2025-06-17', 'Iniciado', 0, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -201,25 +204,22 @@ CREATE TABLE IF NOT EXISTS `fase` (
   `Num_fase` int(11) DEFAULT NULL,
   `Titulo_fase` varchar(255) DEFAULT NULL,
   `Conteudo_fase` varchar(255) DEFAULT NULL,
+  `Imagem` varchar(100) DEFAULT NULL,
+  `video` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`Id_fase`),
   KEY `Id_curso` (`Id_curso`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Extraindo dados da tabela `fase`
 --
 
-INSERT INTO `fase` (`Id_fase`, `Id_curso`, `Num_fase`, `Titulo_fase`, `Conteudo_fase`) VALUES
-(1, 4, 1, 'Introdução ao Curso', NULL),
-(2, 4, 2, 'Fundamentos Básicos', NULL),
-(3, 4, 3, 'Desenvolvimento Intermediário', NULL),
-(4, 4, 4, 'Técnicas Avançadas', NULL),
-(5, 4, 5, 'Projeto Final', NULL),
-(6, 4, 6, 'Revisão de Conteúdos', NULL),
-(7, 4, 7, 'Preparação para Avaliação', NULL),
-(8, 4, 8, 'Avaliação Final', NULL),
-(9, 4, 9, 'Análise de Resultados', NULL),
-(10, 4, 10, 'Encerramento do Curso', NULL);
+INSERT INTO `fase` (`Id_fase`, `Id_curso`, `Num_fase`, `Titulo_fase`, `Conteudo_fase`, `Imagem`, `video`) VALUES
+(6, 13, 1, 'fase fase 1', 'fase 2', 'Imagem_fase1_curso2.png', 'video_fase1_curso2.mp4'),
+(12, 13, 2, 'Introdução ao Curso', 'Neste módulo, vamos apresentar os objetivos e a estrutura do curso.', 'intro.jpg', 'intro.mp4'),
+(13, 13, 3, 'Fundamentos Básicos', 'Aqui exploramos os conceitos fundamentais necessários para avançar.', 'fundamentos.jpg', 'fundamentos.mp4'),
+(14, 13, 4, 'Aplicações Práticas', 'Vamos aplicar os conceitos em exemplos reais e exercícios.', 'aplicacoes.jpg', 'aplicacoes.mp4'),
+(15, 13, 5, 'Conclusão e Avaliação', 'Encerramos o curso com uma avaliação e reflexões finais.', 'conclusao.jpg', 'avaliacao.mp4');
 
 -- --------------------------------------------------------
 
@@ -236,7 +236,7 @@ CREATE TABLE IF NOT EXISTS `historico_compras` (
   PRIMARY KEY (`Id_historicoCompras`),
   KEY `Id_user` (`Id_user`),
   KEY `fk_id_curso` (`Id_curso`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Extraindo dados da tabela `historico_compras`
@@ -247,7 +247,9 @@ INSERT INTO `historico_compras` (`Id_historicoCompras`, `Id_user`, `Data_compra`
 (9, 32, '2025-04-16', 'reembolsado', 3),
 (10, 32, '2025-04-16', 'carteira', 4),
 (11, 32, '2025-05-06', 'carteira', 3),
-(12, 32, '2025-05-23', 'carteira', 9);
+(12, 32, '2025-05-23', 'carteira', 9),
+(13, 32, '2025-06-17', 'carteira', 22),
+(14, 32, '2025-06-17', 'carteira', 5);
 
 -- --------------------------------------------------------
 
@@ -280,14 +282,14 @@ CREATE TABLE IF NOT EXISTS `logs_sistema` (
   `Id_log` int(11) NOT NULL AUTO_INCREMENT,
   `Id_user` int(11) NOT NULL,
   `Id_curso` int(11) DEFAULT NULL,
-  `Descricao_log` varchar(100) NOT NULL,
-  `Tipo_log` enum('Update Curso','Utilizador Matriculado','Informacional','Erro','Aviso','Novo Registo','Deposito de saldo','Levantamento de saldo','Compra curso','Reembolso curso') NOT NULL,
+  `Descricao_log` text NOT NULL,
+  `Tipo_log` enum('Update Curso','Utilizador Matriculado','Informacional','Erro','Aviso','Novo Registo','Deposito de saldo','Levantamento de saldo','Compra curso','Reembolso curso','Conteudo curso alterado') NOT NULL,
   `Data_log` datetime NOT NULL,
   `saldo` double DEFAULT 0,
   PRIMARY KEY (`Id_log`),
   KEY `Id_user` (`Id_user`),
   KEY `fk_logs_curso` (`Id_curso`)
-) ENGINE=InnoDB AUTO_INCREMENT=91 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=104 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Extraindo dados da tabela `logs_sistema`
@@ -340,7 +342,20 @@ INSERT INTO `logs_sistema` (`Id_log`, `Id_user`, `Id_curso`, `Descricao_log`, `T
 (87, 32, 2, 'Atualização do material PDF da seção 4', 'Update Curso', '2025-04-02 08:30:00', 0),
 (88, 32, 2, 'Corrigido erro de formatação na descrição da aula 5', 'Update Curso', '2025-04-18 16:10:00', 0),
 (89, 32, 2, 'Adicionadas legendas em português na aula 6', 'Update Curso', '2025-05-25 12:45:00', 0),
-(90, 32, 2, 'Link externo corrigido na aula 7', 'Update Curso', '2025-06-08 17:25:00', 0);
+(90, 32, 2, 'Link externo corrigido na aula 7', 'Update Curso', '2025-06-08 17:25:00', 0),
+(91, 32, 2, 'Atualização do material didático da aula 3', 'Update Curso', '2025-03-20 11:00:00', 0),
+(92, 32, 2, 'Correção de erros na avaliação final', 'Update Curso', '2025-04-02 15:30:00', 0),
+(93, 32, 2, 'Inclusão de vídeo explicativo na aula 4', 'Update Curso', '2025-04-15 09:45:00', 0),
+(94, 32, 2, 'Revisão do conteúdo da seção 5', 'Update Curso', '2025-04-28 14:20:00', 0),
+(95, 32, 2, 'Atualização do cronograma do curso', 'Update Curso', '2025-05-05 10:10:00', 0),
+(96, 32, 2, 'Melhoria no design dos slides', 'Update Curso', '2025-05-15 13:55:00', 0),
+(97, 32, 2, 'Adicionado quiz interativo na aula 6', 'Update Curso', '2025-05-25 16:40:00', 0),
+(98, 32, 2, 'Correção de links quebrados nas referências', 'Update Curso', '2025-06-01 08:30:00', 0),
+(99, 32, 2, 'Atualização dos exemplos práticos da aula 7', 'Update Curso', '2025-06-10 12:15:00', 0),
+(100, 32, 2, 'Inclusão de nota de rodapé em material suplementar', 'Update Curso', '2025-06-20 17:50:00', 0),
+(101, 32, NULL, 'Ocorreu um erro: ERRO ao atualizar a imagem,tente mais tarde! no ficheiro :C:\\xampp\\htdocs\\SmartLear', 'Erro', '2025-06-16 17:52:28', NULL),
+(102, 32, NULL, 'Ocorreu um erro: ERRO ao atualizar a imagem,tente mais tarde! no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\admin\\acoes\\adicionar_alterar_conteudo.php', 'Erro', '2025-06-16 17:54:44', NULL),
+(103, 32, NULL, 'O utilizador realizou uma compra no valor de 61.4877 €', 'Compra curso', '2025-06-17 15:04:57', 61.487700000000004);
 
 -- --------------------------------------------------------
 
@@ -440,7 +455,7 @@ CREATE TABLE IF NOT EXISTS `user` (
 --
 
 INSERT INTO `user` (`Id_user`, `PNome_user`, `SNome_user`, `Estado_conta`, `Biografia`, `Password`, `Data_criacao`, `Email`, `Tipo_user`, `Carteira`, `URL_facebook`, `URL_youtube`, `URL_linkedin`, `URL_foto_perfilUser`) VALUES
-(32, 'Ruben', 'Bras', 'Ativo', 'teste', '03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4', '2025-04-02', 'vb@gmail.com', 'Main-admin', 99999949.81, 'testeee', 'teste', 'test', 'fotoPerfil_32.jpg'),
+(32, 'Ruben', 'Bras', 'Ativo', 'teste', '03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4', '2025-04-02', 'vb@gmail.com', 'Main-admin', 99999888.32, 'testeee', 'teste', 'test', 'fotoPerfil_32.jpg'),
 (39, 'teste', 'teste', 'Ativo', NULL, '6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b', '2025-04-15', 'teste@gmail.com', 'Cliente', 77.01, NULL, NULL, NULL, NULL),
 (40, 'ana', 'gomes', 'Ativo', NULL, 'senha123', '2024-01-10', 'ana.gomes@example.com', 'Cliente', 0.00, NULL, NULL, NULL, NULL),
 (41, 'Bruno', 'Ferreiras', 'Ativo', NULL, '123bruno', '2024-02-15', 'bruno.ferreira@example.com', 'Admin', 0.00, NULL, NULL, NULL, NULL),
@@ -486,6 +501,12 @@ ALTER TABLE `cursos_adquiridos`
   ADD CONSTRAINT `fk_adicionadoPor` FOREIGN KEY (`AdicionadoPor`) REFERENCES `user` (`Id_user`),
   ADD CONSTRAINT `fk_curso` FOREIGN KEY (`Id_curso`) REFERENCES `curso` (`Id_curso`),
   ADD CONSTRAINT `fk_user` FOREIGN KEY (`Id_user`) REFERENCES `user` (`Id_user`);
+
+--
+-- Limitadores para a tabela `fase`
+--
+ALTER TABLE `fase`
+  ADD CONSTRAINT `fk_fase_curso` FOREIGN KEY (`Id_curso`) REFERENCES `curso` (`Id_curso`);
 
 --
 -- Limitadores para a tabela `logs_sistema`

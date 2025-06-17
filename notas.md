@@ -45,6 +45,8 @@
  
 ## 🐞 Bugs a Corrigir
 
+-no carrinho de compras se tiver apenas um curso de valor 0 o botao de compra nao funciona
+
 ### Categorias
   
 - Idioma "Curso em Inglês" não está a funcionar  
