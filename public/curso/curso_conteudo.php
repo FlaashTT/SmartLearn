@@ -46,6 +46,7 @@ $notas = "";
     $result = $stmt->get_result();
 
     if ($result->num_rows > 0) {
+        $numeroDeLinhas = $result->num_rows + 1;
         $row = $result->fetch_assoc();
         $stmt->close();
         $notas = $row['Notas'];
@@ -59,11 +60,12 @@ $notas = "";
                     echo '
                     <h1>' . $row['Nome_curso'] . '</h1>
                     <p>' . $row['Percentagem_progresso'] . '% Concluído</p>
-                    <input type="hidden" id="ValorPercentagem" value="'.$row['Percentagem_progresso'].'">
+                    <input type="hidden" id="ValorPercentagem" value="' . $row['Percentagem_progresso'] . '">
+                    <input type="hidden" id="totalFases" value="' . $numeroDeLinhas . '">
                     ';
-                    
+
                     ?>
-                    
+
                     <div class="content">
                         <?php
                         $selectFases = $conn->prepare("SELECT * FROM fase WHERE Id_curso = ?");
@@ -92,11 +94,20 @@ $notas = "";
 
                                         $row = $resultContent->fetch_assoc();
                                         if ($row['Imagem'] != null) {
-                                            echo '
-                                                <div class="media">
+                                            echo '<div class="media">';
+                                            $sitioImagem = $row['Imagem'];
+                                            $caminhoImagem = "../../assets/conteudosCursos/imagens/" . $sitioImagem;
+
+                                            if (!empty($sitioImagem) && file_exists($caminhoImagem)) {
+                                                echo '
+                                                
                                                     <img src="../../assets/conteudosCursos/imagens/' . $row['Imagem'] . '" alt="Imagem do Conteúdo" >
-                                                </div>
+                                                
                                                 ';
+                                            } else {
+                                                echo 'Erro ao carregar imagem';
+                                            }
+                                            echo '</div>';
                                         }
                                     ?>
 
@@ -111,15 +122,27 @@ $notas = "";
                                         </p>
                                             ';
 
+
+
                                         if ($row['video'] != null) {
-                                            echo '
-                                                <h3>Video explicativo</h3>
-                                                <div class="media">
+                                            echo '<h3>Video explicativo</h3>
+                                            <div class="media">';
+                                            $sitioImagem = $row['video'];
+                                            $caminhoImagem = "../../assets/conteudosCursos/videos/" . $sitioImagem;
+
+                                            if (!empty($sitioImagem) && file_exists($caminhoImagem)) {
+                                                echo '
+                                                
+                                                
                                                     <video controls>
                                                         <source src="../../assets/conteudosCursos/videos/' . $row['video'] . '" type="video/mp4" />
                                                         Seu navegador não suporta o elemento de vídeo.
                                                     </video>
-                                                </div>';
+                                                ';
+                                            } else {
+                                                echo "Erro ao carregar o video";
+                                            }
+                                            echo '</div>';
                                         }
                                         ?>
 
@@ -165,8 +188,8 @@ $notas = "";
                     <p id="char-count">0/2500 caracteres</p>
                 </div>
 
-                <footer class="footer-c">
-                    <button id="btnAvançar" class="avançar" onclick="avançarFase()">Concluir</button>
+                <footer id="footer" class="footer-c">
+                    <button id="btnAvançar" class="avançar" onclick="verFase(2)">Proxima fase</button>
                 </footer>
             </main>
         </main>
@@ -201,16 +224,12 @@ $notas = "";
             }
             charCount.textContent = `${words.length}/${maxWords} palavras`;
         });
-
-       
     </script>
     <script>
-        const botao = document.getElementById("btnAvançar")
-        botao.setAttribute('onclick', 'novaFuncao()');
+        const botao = document.getElementById("btnAvançar");
+        const totalFases = document.getElementById("totalFases");
 
-         function verFase(NumFase) {
-            
-
+        function verFase(NumFase) {
             const todasFases = document.querySelectorAll('[id^="FaseNum_"]');
 
             todasFases.forEach(div => {
@@ -220,8 +239,24 @@ $notas = "";
                     div.style.display = 'none';
                 }
             });
+
+            const total = parseInt(totalFases.value || totalFases.innerText || totalFases.textContent);
+            const proximaFase = NumFase + 1;
+
+            if (proximaFase <= total) {
+                botao.setAttribute('onclick', `verFase(${proximaFase})`);
+            } else {
+                const idCurso = <?= json_encode($idCurso); ?>;
+                document.getElementById("footer").innerHTML = `
+                    <form action="submit.php" method="post">
+                        <input type="hidden" name="cursoAtual" value="${idCurso}">
+                        <button type="submit" id="btnAvançar" class="avançar">Concluir</button>
+                    </form>
+                `;
+            }
         }
     </script>
+
 
 </body>
 
