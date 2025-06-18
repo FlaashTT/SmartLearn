@@ -108,4 +108,19 @@ include("../logs.php");
 
 </body>
 
+ <script>
+        document.querySelectorAll('.has-submenu').forEach(item => {
+            item.addEventListener('click', () => {
+                // Alterna a classe "open" no item clicado
+                item.classList.toggle('open');
+            });
+        });
+        document.querySelectorAll('.has-submenu-a').forEach(item => {
+            item.addEventListener('click', e => {
+                e.stopPropagation(); // Impede que o clique propague para outros menus
+                item.classList.toggle('open');
+            });
+        });
+    </script>
+
 </html>
