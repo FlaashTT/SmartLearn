@@ -1,0 +1,130 @@
+/* Container padrão */
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* ---------- Título da secção ---------- */
+.section-title {
+  text-align: center;
+}
+
+.section-title h1 {
+  font-size: 48px;
+  font-weight: 700;
+  margin: 50px 0 10px;
+  color: #0d47a1;
+}
+
+.section-title p {
+  font-size: 18px;
+  margin-bottom: 40px;
+  color: #666;
+}
+
+/* ---------- Título da secção secundária ---------- */
+.ativo {
+  color: green;
+  font-weight: bold;
+}
+
+
+.politica-container {
+  max-width: 1000px;
+  margin: 40px auto;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+}
+
+.banner {
+  background-color: #2d6cdf; /* Cor azul do banner */
+  color: white;              /* Cor do texto */
+  padding: 40px 30px;        /* Espaçamento interno */
+  text-align: center;        /* Alinha o texto ao centro */
+}
+
+.banner h1 {
+  margin: 0;
+  font-size: 32px;
+}
+
+.banner .subtitulo {
+  font-size: 18px;
+  margin-top: 10px;
+}
+
+
+.conteudo {
+  padding: 30px;
+}
+
+.conteudo h2 {
+  font-size: 20px;
+  margin-top: 25px;
+  color: #2d6cdf;
+}
+
+.conteudo p,
+.conteudo li {
+  font-size: 16px;
+  line-height: 1.6;
+  margin-bottom: 10px;
+}
+
+.conteudo ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.conteudo a {
+  color: #2d6cdf;
+  text-decoration: none;
+}
+.cookie-notice {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  right: 20px;
+  background: #222;
+  color: #eee;
+  padding: 15px 20px;
+  border-radius: 8px;
+  font-size: 14px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.5);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 9999;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.cookie-notice p {
+  margin: 0;
+  flex: 1;
+}
+
+.cookie-notice a {
+  color: #4caf50;
+  text-decoration: underline;
+}
+
+.cookie-notice button {
+  background-color: #4caf50;
+  border: none;
+  color: white;
+  padding: 8px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: 600;
+  margin-left: 15px;
+  transition: background-color 0.3s ease;
+}
+
+.cookie-notice button:hover {
+  background-color: #45a049;
+}
+
