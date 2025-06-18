@@ -28,6 +28,8 @@ include("../database/basedados.php");
         ';
     }
 
+
+
     ?>
 
 </head>
@@ -166,7 +168,17 @@ include("../database/basedados.php");
 
             <div class="card" >
                 <div class="card-image" onclick="document.getElementById(\'formCurso' . $row['Id_curso'] . '\').submit();" style="cursor: pointer;">
-                    <img src=../assets/image/curso/' . $row['URL_foto_perfil_curso'] . ' alt=" erro ao carregar imagem">
+                ';
+                    $sitioImagem = $row['URL_foto_perfil_curso'];
+                    $caminhoImagem = "../assets/image/curso/" . $sitioImagem;
+
+                    if (!empty($sitioImagem) && file_exists($caminhoImagem)) {
+                        echo ' <img src=../assets/image/curso/' . $row['URL_foto_perfil_curso'] . ' alt=" erro ao carregar imagem">';
+                    } else {
+                        echo '<img src="../assets/image/curso.png" alt="Erro">';
+                    }
+                    echo '
+                   
                 </div>
                 <div class="card-content">
                     <span class="badge">' . $row["Dificuldade"] . '</span>
@@ -207,15 +219,15 @@ include("../database/basedados.php");
        
        ';
             }
-            
+
             ?>
 
         </section>
-            <section class="cursos-geral-section">
-                <div class="cursos-geral">
-                    <button class="btn-geral" onclick="window.location.href='categorias.php'">Ver todos os cursos</button>
-                </div>
-            </section>
+        <section class="cursos-geral-section">
+            <div class="cursos-geral">
+                <button class="btn-geral" onclick="window.location.href='categorias.php'">Ver todos os cursos</button>
+            </div>
+        </section>
         <section class="section-title">
             <h1>Instrutor em destaque</h1>
             <hr>

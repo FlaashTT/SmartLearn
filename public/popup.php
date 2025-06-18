@@ -7,6 +7,7 @@ function mostrarPopUp($mensagem, $tempo = null, $caminho = null)
     echo <<<HTML
     <div id="popup" class="popup">
         <div class="popup-content">
+            <input type="hidden" id="caminho" value=" $caminho ">
             <span class="close-btn" onclick="fecharPopup()">&times;</span>
             <p>{$mensagem}</p>
             <button onclick="fecharPopup()" style="margin-top: 15px; padding: 10px 20px; border: none; background-color: #007bff; color: white; border-radius: 6px; cursor: pointer;">Fechar</button>
@@ -14,6 +15,7 @@ function mostrarPopUp($mensagem, $tempo = null, $caminho = null)
     </div>
 
     <script>
+        var enderecoCaminho = document.getElementById("caminho").value;
         function mostrarPopup(tempo = 0) {
             const popup = document.getElementById('popup');
             popup.style.display = 'block';
@@ -34,11 +36,15 @@ function mostrarPopUp($mensagem, $tempo = null, $caminho = null)
 
 
         function ircaminho() {
-        var caminho = "<?php echo $caminho; ?>"; // passar a variável PHP para JS
+        var caminho = document.getElementById("caminho").value; 
+        console.log(caminho);
 
-        if (caminho) {
+
+        if (caminho != "") {
+            window.location.href = caminho;
+        }else{
             window.location.href = document.referrer;
-        } 
+        }
     }
     </script>
 HTML;

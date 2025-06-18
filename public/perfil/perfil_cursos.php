@@ -120,7 +120,7 @@ $result = $stmt->get_result();
                             echo "Sem classificação";
                         } else {
                             for ($i = 0; $i < $row['Classificacao']; $i++) {
-                                echo ' <i class="fa-regular fa-star"></i>';
+                                echo ' <i class="fas fa-star" style="color: gold;"></i>';
                             }
                         }
                         echo '

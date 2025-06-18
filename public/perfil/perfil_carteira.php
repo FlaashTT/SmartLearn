@@ -76,7 +76,7 @@ $result = $stmt->get_result();
                 <div class="wallet-header">Carteira</div>
                 <!-- Saldo Atual -->
                 <div id="saldo" class="wallet-balance">
-                    Saldo disponível: <strong><?php echo number_format($_SESSION['utilizadorOn']['Carteira'], 2, ',', ''); ?></strong>
+                    Saldo disponível: <strong><?php echo number_format($_SESSION['utilizadorOn']['Carteira'], 2, ',', ''); ?></strong>€
                 </div>
                 <div class="wallet-actions">
 
