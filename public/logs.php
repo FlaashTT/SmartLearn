@@ -1,5 +1,4 @@
 <?php
-session_start();
 function criarLogs($tipoLog, $idUser = null, $saldo = null, $idCurso = null, $idCategoria = null,$tipoErro = null,$ficheiro = null)
 { //devemos por mais campos,ter de ver depois oq vai ser necesario
 

@@ -16,10 +16,26 @@ if (empty($idCurso)) {
     $erro = true;
 }
 $notas = "";
+$numeroFaseExibida = "";
 ?>
 
 <!DOCTYPE html>
 <html lang="pt">
+<style>
+    .stars {
+        display: inline-block;
+    }
+
+    .star {
+        font-size: 40px;
+        color: gray;
+        cursor: pointer;
+    }
+
+    .star.filled {
+        color: gold;
+    }
+</style>
 
 <head>
     <meta charset="UTF-8" />
@@ -39,14 +55,25 @@ $notas = "";
         SELECT * 
         FROM cursos_adquiridos ca
         INNER JOIN curso c ON ca.Id_curso = c.Id_curso
-        WHERE ca.Id_user = ?;
+        WHERE ca.Id_user = ? AND ca.Id_curso = ?;
     ");
-    $stmt->bind_param("i", $_SESSION['utilizadorOn']['Id_user']);
+    $stmt->bind_param("ii", $_SESSION['utilizadorOn']['Id_user'], $idCurso);
     $stmt->execute();
     $result = $stmt->get_result();
 
     if ($result->num_rows > 0) {
-        $numeroDeLinhas = $result->num_rows + 1;
+        $countFases = $conn->prepare("SELECT COUNT(*) AS total FROM fase WHERE Id_curso = ?");
+        $countFases->bind_param("i", $idCurso);
+        $countFases->execute();
+        $resultadoContagem = $countFases->get_result();
+
+        if ($rowCount = $resultadoContagem->fetch_assoc()) {
+            $NumeroTotal = $rowCount['total'];
+        } else {
+            $NumeroTotal = 0;
+        }
+
+
         $row = $result->fetch_assoc();
         $stmt->close();
         $notas = $row['Notas'];
@@ -59,15 +86,17 @@ $notas = "";
                     <?php
                     echo '
                     <h1>' . $row['Nome_curso'] . '</h1>
-                    <p>' . $row['Percentagem_progresso'] . '% Concluído</p>
+                    <p><span id="percentagem">' . $row['Percentagem_progresso'] . '</span>% Concluído</p>
                     <input type="hidden" id="ValorPercentagem" value="' . $row['Percentagem_progresso'] . '">
-                    <input type="hidden" id="totalFases" value="' . $numeroDeLinhas . '">
+                    <input type="hidden" id="totalFases" value="' . $NumeroTotal . '">
                     ';
 
                     ?>
 
                     <div class="content">
                         <?php
+
+
                         $selectFases = $conn->prepare("SELECT * FROM fase WHERE Id_curso = ?");
                         $selectFases->bind_param("i", $idCurso);
                         $selectFases->execute();
@@ -75,6 +104,7 @@ $notas = "";
 
                         if ($result->num_rows > 0) {
                             $numeroFaseExibida = 1;
+                            echo "<script>console.log('quantidade:" . $NumeroTotal . ")</script>";
                             while ($row = $result->fetch_assoc()) {
                                 if ($numeroFaseExibida === 1) {
                                     echo '<div id="FaseNum_' . $numeroFaseExibida . '" class="scrollable-content">';
@@ -158,6 +188,7 @@ $notas = "";
                             } else {
                                 echo "<li>Não há fases cadastradas para este curso.</li>";
                             }
+
         ?>
 
         <div class="sidebar">
@@ -187,9 +218,40 @@ $notas = "";
                     <textarea id="notes" maxlength="500" placeholder="Escreva suas notas aqui..."><?php echo $notas; ?></textarea>
                     <p id="char-count">0/2500 caracteres</p>
                 </div>
+                
+                <div class="stars" id="avaliacao" style="margin-top: 40px; display: flex; flex-direction: column; justify-content: center; align-items: center; height: 50px;">
+                    <span style="margin-bottom: 5px;">Avalie o curso aqui</span>
+                    <div>
+                        <span class="star" data-value="1">&#9734;</span>
+                        <span class="star" data-value="2">&#9734;</span>
+                        <span class="star" data-value="3">&#9734;</span>
+                        <span class="star" data-value="4">&#9734;</span>
+                        <span class="star" data-value="5">&#9734;</span>
+                    </div>
+                </div>
 
                 <footer id="footer" class="footer-c">
-                    <button id="btnAvançar" class="avançar" onclick="verFase(2)">Proxima fase</button>
+
+                    <br>
+                    <?php
+                    if ($NumeroTotal != 0) {
+                        echo '<button id="btnAvançar" class="avançar" onclick="verFase(2)">Proxima fase</button>';
+                    } else if ($NumeroTotal === 1) {
+                        echo '
+                        <form action="concluirCurso.php" method="post">
+                            <input type="hidden" name="cursoAtual" value="' . $idCurso . '">
+                            <button type="submit" id="btnAvançar" class="avançar">Concluir</button>
+                        </form>
+                    ';
+                    } else {
+                        echo '
+                        <form action="../perfil/perfil_cursos.php" method="post">
+                            <button type="submit" id="btnAvançar" class="avançar">Voltar aos meus cursos</button>
+                        </form>
+                    ';
+                    }
+                    ?>
+
                 </footer>
             </main>
         </main>
@@ -226,34 +288,151 @@ $notas = "";
         });
     </script>
     <script>
+        const notesTextarea = document.getElementById("notes");
         const botao = document.getElementById("btnAvançar");
-        const totalFases = document.getElementById("totalFases");
+        const totalFases = parseInt(document.getElementById("totalFases").value); // converter para número
+        let txtpercentagem = document.getElementById("percentagem");
+        let valorAtual = parseInt(txtpercentagem.textContent); // valor atual em número
+
+        // Calcula quanto vale cada fase
+        let percentagemPorFase = 100 / totalFases;
 
         function verFase(NumFase) {
-            const todasFases = document.querySelectorAll('[id^="FaseNum_"]');
+            // Atualiza percentagem
+            let percentagemPorFase = 100 / totalFases;
+            let novaPercentagem = percentagemPorFase * (NumFase - 1);
 
+            if (novaPercentagem > valorAtual) {
+                valorAtual = novaPercentagem;
+
+                let valorInteiro = Math.floor(valorAtual);
+                let valorStr = valorInteiro.toString().slice(0, 2);
+
+                txtpercentagem.textContent = valorStr;
+            }
+
+            // Mostra apenas a fase atual
+            const todasFases = document.querySelectorAll('[id^="FaseNum_"]');
             todasFases.forEach(div => {
-                if (div.id === 'FaseNum_' + NumFase) {
-                    div.style.display = 'block';
-                } else {
-                    div.style.display = 'none';
-                }
+                div.style.display = div.id === 'FaseNum_' + NumFase ? 'block' : 'none';
             });
 
-            const total = parseInt(totalFases.value || totalFases.innerText || totalFases.textContent);
             const proximaFase = NumFase + 1;
+            if (NumFase < totalFases) {
+                document.getElementById("footer").innerHTML = `
+            <button id="btnAvançar" class="avançar" onclick="verFase(${proximaFase})">Proxima fase</button>
+        `;
+            }
 
-            if (proximaFase <= total) {
+            if (proximaFase <= totalFases) {
                 botao.setAttribute('onclick', `verFase(${proximaFase})`);
             } else {
                 const idCurso = <?= json_encode($idCurso); ?>;
                 document.getElementById("footer").innerHTML = `
-                    <form action="submit.php" method="post">
-                        <input type="hidden" name="cursoAtual" value="${idCurso}">
-                        <button type="submit" id="btnAvançar" class="avançar">Concluir</button>
-                    </form>
-                `;
+            <form action="concluirCurso.php" method="post">
+                <input type="hidden" name="cursoAtual" value="${idCurso}">
+                <button type="submit" id="btnAvançar" class="avançar">Concluir</button>
+            </form>
+        `;
             }
+            alterarEstadoVisualizacao(
+                parseFloat(document.getElementById("percentagem").textContent),
+                notesTextarea.value
+            );
+
+
+        }
+
+        notesTextarea.addEventListener("input", () => {
+            const length = notesTextarea.value.length;
+            document.getElementById("char-count").textContent = `${length}/500 caracteres`;
+
+            // Chama a função com apenas os dois parâmetros atualizados
+            alterarEstadoVisualizacao(
+                parseFloat(document.getElementById("percentagem").textContent),
+                notesTextarea.value
+            );
+        });
+
+
+        const estrelas = document.querySelectorAll('#avaliacao .star');
+        let notaSelecionada = 0;
+
+        estrelas.forEach(estrela => {
+            estrela.addEventListener('click', () => {
+                notaSelecionada = parseInt(estrela.getAttribute('data-value'));
+                atualizarEstrelas(notaSelecionada);
+                alterarClassificacao(notaSelecionada)
+                // Aqui você pode fazer um fetch ou outro processo para enviar a avaliação ao servidor
+            });
+        });
+
+        function atualizarEstrelas(nota) {
+            estrelas.forEach(estrela => {
+                if (parseInt(estrela.getAttribute('data-value')) <= nota) {
+                    estrela.classList.add('filled');
+                    estrela.textContent = '★'; // estrela cheia
+                } else {
+                    estrela.classList.remove('filled');
+                    estrela.textContent = '☆'; // estrela vazia
+                }
+            });
+        }
+
+
+
+
+        function alterarEstadoVisualizacao(percentagem, notas) {
+            const dados = {
+                percentagem: percentagem,
+                notas: notas ?? null,
+                idCurso: <?= json_encode($idCurso) ?>,
+                idUser: <?= json_encode($_SESSION['utilizadorOn']['Id_user']) ?>
+            };
+
+            fetch('atualizarDadosConteudo.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(dados)
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.sucesso) {} else {
+                        console.log("Erro ao atualizar: " + data.erro);
+                    }
+                })
+                .catch(error => {
+                    console.error('Erro na requisição:', error);
+                });
+        }
+
+        function alterarClassificacao(classificacao) {
+            const dados = {
+                classificacao: classificacao,
+                idCurso: <?= json_encode($idCurso) ?>,
+                idUser: <?= json_encode($_SESSION['utilizadorOn']['Id_user']) ?>
+            };
+
+            fetch('atualizarClassificacaoCurso.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(dados)
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.sucesso) {
+                        alert("Obrigado pela sua avaliacão!")
+                    } else {
+                        console.log("Erro ao atualizar: " + data.erro);
+                    }
+                })
+                .catch(error => {
+                    console.error('Erro na requisição:', error);
+                });
         }
     </script>
 

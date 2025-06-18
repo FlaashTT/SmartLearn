@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 17-Jun-2025 às 18:19
+-- Tempo de geração: 18-Jun-2025 às 17:24
 -- Versão do servidor: 10.4.32-MariaDB
 -- versão do PHP: 8.2.12
 
@@ -72,8 +72,21 @@ CREATE TABLE IF NOT EXISTS `configuracoes_site` (
   `Subtitulo_banner` varchar(100) NOT NULL,
   `Facebook` varchar(100) DEFAULT NULL,
   `Linkedin` varchar(100) DEFAULT NULL,
-  PRIMARY KEY (`Id_configuracao`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `Id_utilizador_Ultimo_update` int(11) DEFAULT NULL,
+  `Cookies_status` varchar(200) DEFAULT NULL,
+  `cookie_note` varchar(200) DEFAULT NULL,
+  `politica_cookies` text DEFAULT NULL,
+  `data_update` datetime DEFAULT NULL,
+  PRIMARY KEY (`Id_configuracao`),
+  KEY `fk_idUpdater` (`Id_utilizador_Ultimo_update`)
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Extraindo dados da tabela `configuracoes_site`
+--
+
+INSERT INTO `configuracoes_site` (`Id_configuracao`, `Titulo_banner`, `Subtitulo_banner`, `Facebook`, `Linkedin`, `Id_utilizador_Ultimo_update`, `Cookies_status`, `cookie_note`, `politica_cookies`, `data_update`) VALUES
+(1, 'Título exemplo', 'Subtítulo exemplo', 'https://facebook.com/seuPerfil', 'https://linkedin.com/in/seuPerfil', 32, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -115,17 +128,17 @@ CREATE TABLE IF NOT EXISTS `curso` (
 
 INSERT INTO `curso` (`Id_curso`, `Nome_curso`, `Id_categoria`, `Id_idioma`, `Criador_curso`, `Data_criacao`, `URL_foto_perfil_curso`, `Pequena_descricao`, `Descricao`, `Preco`, `Preco_antigo`, `Estado_curso`, `Classificacao`, `Num_visitascurso`, `Tempo_estimado`, `Dificuldade`, `Quantidade_fases`, `Requisitos`, `Provedor_geral_curso`, `URL_geral_curso`, `Keywords`) VALUES
 (2, 'Curso de Programação', 1, 2, 32, '2025-04-01', 'capa_curso.png', 'Curso básico de programação', 'Aprenda os fundamentos da programação', NULL, 25.00, 'ativo', 0, 100, '01:30:00', 'Iniciante', 10, 'Nenhum', 'youtube', NULL, 'programação, iniciante, código'),
-(3, 'Nome do Curso ', 1, 1, 32, '2025-04-08', 'capa_curso.png', 'Pequena descrição do curso', 'Descrição completa do curso com todos os detalhes.', 99.99, 0.00, 'ativo', 1, 150, '17:00:10', 'intermedio', 5, 'Requisitos básicos de informática', '', 'http://exemplo.com/curso', 'exemplo, curso, online'),
-(4, 'teste ', NULL, 2, 32, '2025-04-08', 'capa_curso.png', 'Pequena descrição do cursoPequena descrição do cursoPequena descrição do cursoPequena descrição do c', 'Este curso fornece uma introdução abrangente aos princípios da cibersegurança. Os formandos irão aprender sobre ameaças, vulnerabilidades, e mecanismos de defesa. A formação também aborda práticas de segurança pessoal e empresarial, políticas de segurança, e muito mais. Ideal para quem pretende iniciar carreira na área ou reforçar conhecimentos existentes. A conclusão bem-sucedida deste curso confere um certificado de participação.', 99.99, 0.00, 'ativo', 5, 150, '00:00:10', 'avançado', 5, 'Requisitos básicos de informática', '', 'http://exemplo.com/curso', 'exemplo, curso, online'),
-(5, 'Curso 1', 1, 1, 32, '2025-05-22', 'curso1.jpg', 'Descrição curta do curso 1', 'Descrição completa do curso 1', 49.99, 59.99, 'ativo', 5, 120, '00:00:10', '', 5, 'Noções básicas de informática', '', 'https://curso1.exemplo.com', 'curso, informática'),
-(6, 'Curso 2', 1, 1, 32, '2025-05-22', '/imagens/curso2.jpg', 'Descrição curta do curso 2', 'Descrição completa do curso 2', 29.99, 39.99, 'ativo', 4, 80, '00:00:08', '', 4, 'Nenhum requisito', '', 'https://curso2.exemplo.com', 'curso, básico'),
-(7, 'Curso 3', 1, 1, 32, '2025-05-22', '/imagens/curso3.jpg', 'Descrição curta do curso 3', 'Descrição completa do curso 3', 59.99, 69.99, 'ativo', 5, 200, '00:00:15', 'avançado', 7, 'Conhecimentos intermediários', '', 'https://curso3.exemplo.com', 'curso, avançado'),
-(8, 'Curso 4', 1, 1, 32, '2025-05-22', '/imagens/curso4.jpg', 'Descrição curta do curso 4', 'Descrição completa do curso 4', 19.99, 24.99, 'ativo', 4, 50, '00:00:06', '', 3, 'Nenhum requisito', '', 'https://curso4.exemplo.com', 'curso, iniciante'),
-(9, 'Curso 5', 1, 1, 32, '2025-05-22', '/imagens/curso5.jpg', 'Descrição curta do curso 5', 'Descrição completa do curso 5', 39.99, 49.99, 'ativo', 4, 110, '00:00:12', '', 6, 'Conhecimentos básicos', '', 'https://curso5.exemplo.com', 'curso, intermediário'),
-(10, 'Curso 6', 1, 1, 32, '2025-05-22', '/imagens/curso6.jpg', 'Descrição curta do curso 6', 'Descrição completa do curso 6', 25.00, 30.00, 'ativo', 4, 70, '00:00:07', '', 4, 'Nenhum requisito', '', 'https://curso6.exemplo.com', 'curso, básico'),
-(11, 'Curso 7', 1, 1, 32, '2025-05-22', '/imagens/curso7.jpg', 'Descrição curta do curso 7', 'Descrição completa do curso 7', 44.99, 54.99, 'ativo', 5, 150, '00:00:13', '', 6, 'Conhecimentos intermediários', '', 'https://curso7.exemplo.com', 'curso, tecnologia'),
-(12, 'Curso 8', 1, 1, 32, '2025-05-22', '/imagens/curso8.jpg', 'Descrição curta do curso 8', 'Descrição completa do curso 8', 34.99, 44.99, 'ativo', 4, 90, '00:00:09', '', 5, 'Nenhum requisito', '', 'https://curso8.exemplo.com', 'curso, iniciantes'),
-(13, 'Curso 9', 1, 1, 32, '2025-05-22', '/imagens/curso9.jpg', 'Descrição curta do curso 9', 'Descrição completa do curso 9', 54.99, 64.99, 'ativo', 5, 180, '00:00:14', 'avançado', 7, 'Conhecimentos avançados', '', 'https://curso9.exemplo.com', 'curso, avançado'),
+(3, 'Nome do Curso ', 1, 1, 32, '2025-04-08', 'capa_curso.png', 'Pequena descrição do curso', 'Descrição completa do curso com todos os detalhes.', 99.99, 0.00, 'ativo', 0, 150, '17:00:10', 'intermedio', 5, 'Requisitos básicos de informática', '', 'http://exemplo.com/curso', 'exemplo, curso, online'),
+(4, 'teste ', NULL, 2, 32, '2025-04-08', 'capa_curso.png', 'Pequena descrição do cursoPequena descrição do cursoPequena descrição do cursoPequena descrição do c', 'Este curso fornece uma introdução abrangente aos princípios da cibersegurança. Os formandos irão aprender sobre ameaças, vulnerabilidades, e mecanismos de defesa. A formação também aborda práticas de segurança pessoal e empresarial, políticas de segurança, e muito mais. Ideal para quem pretende iniciar carreira na área ou reforçar conhecimentos existentes. A conclusão bem-sucedida deste curso confere um certificado de participação.', 99.99, 0.00, 'ativo', 0, 150, '00:00:10', 'avançado', 5, 'Requisitos básicos de informática', '', 'http://exemplo.com/curso', 'exemplo, curso, online'),
+(5, 'Curso 1', 1, 1, 32, '2025-05-22', 'curso1.jpg', 'Descrição curta do curso 1', 'Descrição completa do curso 1', 49.99, 59.99, 'ativo', 0, 120, '00:00:10', '', 5, 'Noções básicas de informática', '', 'https://curso1.exemplo.com', 'curso, informática'),
+(6, 'Curso 2', 1, 1, 32, '2025-05-22', '/imagens/curso2.jpg', 'Descrição curta do curso 2', 'Descrição completa do curso 2', 29.99, 39.99, 'ativo', 0, 80, '00:00:08', '', 4, 'Nenhum requisito', '', 'https://curso2.exemplo.com', 'curso, básico'),
+(7, 'Curso 3', 1, 1, 32, '2025-05-22', '/imagens/curso3.jpg', 'Descrição curta do curso 3', 'Descrição completa do curso 3', 59.99, 69.99, 'ativo', 0, 200, '00:00:15', 'avançado', 7, 'Conhecimentos intermediários', '', 'https://curso3.exemplo.com', 'curso, avançado'),
+(8, 'Curso 4', 1, 1, 32, '2025-05-22', '/imagens/curso4.jpg', 'Descrição curta do curso 4', 'Descrição completa do curso 4', 19.99, 24.99, 'ativo', 0, 50, '00:00:06', '', 3, 'Nenhum requisito', '', 'https://curso4.exemplo.com', 'curso, iniciante'),
+(9, 'Curso 5', 1, 1, 32, '2025-05-22', '/imagens/curso5.jpg', 'Descrição curta do curso 5', 'Descrição completa do curso 5', 39.99, 49.99, 'ativo', 0, 110, '00:00:12', '', 6, 'Conhecimentos básicos', '', 'https://curso5.exemplo.com', 'curso, intermediário'),
+(10, 'Curso 6', 1, 1, 32, '2025-05-22', '/imagens/curso6.jpg', 'Descrição curta do curso 6', 'Descrição completa do curso 6', 25.00, 30.00, 'ativo', 0, 70, '00:00:07', '', 4, 'Nenhum requisito', '', 'https://curso6.exemplo.com', 'curso, básico'),
+(11, 'Curso 7', 1, 1, 32, '2025-05-22', '/imagens/curso7.jpg', 'Descrição curta do curso 7', 'Descrição completa do curso 7', 44.99, 54.99, 'ativo', 0, 150, '00:00:13', '', 6, 'Conhecimentos intermediários', '', 'https://curso7.exemplo.com', 'curso, tecnologia'),
+(12, 'Curso 8', 1, 1, 32, '2025-05-22', '/imagens/curso8.jpg', 'Descrição curta do curso 8', 'Descrição completa do curso 8', 34.99, 44.99, 'ativo', 0, 90, '00:00:09', '', 5, 'Nenhum requisito', '', 'https://curso8.exemplo.com', 'curso, iniciantes'),
+(13, 'Curso 9', 1, 1, 32, '2025-05-22', '/imagens/curso9.jpg', 'Descrição curta do curso 9', 'Descrição completa do curso 9', 54.99, 64.99, 'ativo', 2, 180, '00:00:14', 'avançado', 7, 'Conhecimentos avançados', '', 'https://curso9.exemplo.com', 'curso, avançado'),
 (21, 'teste', NULL, 2, 32, '2025-06-06', 'curso_id21.jpg', '', '', 0.00, 0.00, 'Incompleto', 0, 0, '00:00:00', '', 0, '', '', NULL, ''),
 (22, 'fgh', 1, 1, 32, '2025-06-06', 'curso_id22.png', 'fgh', 'fhg', 0.00, 0.00, '', 0, 0, '00:00:00', 'intermedio', 0, '', '', NULL, '');
 
@@ -144,6 +157,7 @@ CREATE TABLE IF NOT EXISTS `cursos_adquiridos` (
   `Percentagem_progresso` int(11) NOT NULL DEFAULT 0,
   `AdicionadoPor` int(11) DEFAULT NULL,
   `Notas` text DEFAULT NULL,
+  `Avaliacao` int(11) DEFAULT NULL,
   PRIMARY KEY (`Id_adquirido`),
   KEY `fk_curso` (`Id_curso`),
   KEY `fk_user` (`Id_user`),
@@ -154,29 +168,29 @@ CREATE TABLE IF NOT EXISTS `cursos_adquiridos` (
 -- Extraindo dados da tabela `cursos_adquiridos`
 --
 
-INSERT INTO `cursos_adquiridos` (`Id_adquirido`, `Id_user`, `Id_curso`, `Data_compra`, `Progresso`, `Percentagem_progresso`, `AdicionadoPor`, `Notas`) VALUES
-(2, 39, 5, '0000-00-00', 'Iniciado', 0, 39, NULL),
-(3, 39, 6, '0000-00-00', 'Iniciado', 0, 32, NULL),
-(4, 39, 7, '0000-00-00', 'Iniciado', 0, 32, NULL),
-(5, 39, 8, '0000-00-00', 'Iniciado', 0, 32, NULL),
-(6, 39, 9, '0000-00-00', 'Iniciado', 0, 32, NULL),
-(7, 39, 10, '0000-00-00', 'Iniciado', 0, 39, NULL),
-(8, 39, 11, '0000-00-00', 'Iniciado', 0, 32, NULL),
-(9, 39, 12, '0000-00-00', 'Iniciado', 0, 32, NULL),
-(10, 32, 13, '0000-00-00', 'Iniciado', 0, 32, 'isto é um teste'),
-(20, 32, 2, '2025-06-05', 'Por Iniciar', 0, NULL, NULL),
-(21, 40, 2, '2025-06-05', 'Por Iniciar', 0, NULL, NULL),
-(22, 39, 2, '2025-06-05', 'Por Iniciar', 0, NULL, NULL),
-(23, 41, 2, '2025-06-05', 'Por Iniciar', 0, NULL, NULL),
-(24, 42, 2, '2025-06-05', 'Por Iniciar', 0, NULL, NULL),
-(25, 43, 2, '2025-06-05', 'Por Iniciar', 0, NULL, NULL),
-(26, 44, 2, '2025-06-05', 'Por Iniciar', 0, NULL, NULL),
-(27, 45, 2, '2025-06-05', 'Por Iniciar', 0, NULL, NULL),
-(28, 46, 2, '2025-06-05', 'Por Iniciar', 0, 32, NULL),
-(30, 47, 2, '2025-06-05', 'Por Iniciar', 0, 32, NULL),
-(31, 40, 5, '2025-06-05', 'Por Iniciar', 0, 32, NULL),
-(32, 32, 22, '2025-06-17', 'Iniciado', 0, NULL, NULL),
-(33, 32, 5, '2025-06-17', 'Iniciado', 0, NULL, NULL);
+INSERT INTO `cursos_adquiridos` (`Id_adquirido`, `Id_user`, `Id_curso`, `Data_compra`, `Progresso`, `Percentagem_progresso`, `AdicionadoPor`, `Notas`, `Avaliacao`) VALUES
+(2, 39, 5, '0000-00-00', 'Iniciado', 0, 39, NULL, NULL),
+(3, 39, 6, '0000-00-00', 'Iniciado', 0, 32, NULL, NULL),
+(4, 39, 7, '0000-00-00', 'Iniciado', 0, 32, NULL, NULL),
+(5, 39, 8, '0000-00-00', 'Iniciado', 0, 32, NULL, NULL),
+(6, 39, 9, '0000-00-00', 'Iniciado', 0, 32, NULL, NULL),
+(7, 39, 10, '0000-00-00', 'Iniciado', 0, 39, NULL, NULL),
+(8, 39, 11, '0000-00-00', 'Iniciado', 0, 32, NULL, NULL),
+(9, 39, 13, '0000-00-00', 'Iniciado', 0, 32, NULL, 2),
+(10, 32, 13, '0000-00-00', 'Concluido', 80, 32, 'mas este nao', 3),
+(20, 32, 2, '2025-06-05', 'Concluido', 100, NULL, NULL, NULL),
+(21, 40, 2, '2025-06-05', 'Por Iniciar', 0, NULL, NULL, NULL),
+(22, 39, 2, '2025-06-05', 'Por Iniciar', 0, NULL, NULL, NULL),
+(23, 41, 2, '2025-06-05', 'Por Iniciar', 0, NULL, NULL, NULL),
+(24, 42, 2, '2025-06-05', 'Por Iniciar', 0, NULL, NULL, NULL),
+(25, 43, 2, '2025-06-05', 'Por Iniciar', 0, NULL, NULL, NULL),
+(26, 44, 2, '2025-06-05', 'Por Iniciar', 0, NULL, NULL, NULL),
+(27, 45, 2, '2025-06-05', 'Por Iniciar', 0, NULL, NULL, NULL),
+(28, 46, 2, '2025-06-05', 'Por Iniciar', 0, 32, NULL, NULL),
+(30, 47, 2, '2025-06-05', 'Por Iniciar', 0, 32, NULL, NULL),
+(31, 40, 5, '2025-06-05', 'Por Iniciar', 0, 32, NULL, NULL),
+(32, 32, 22, '2025-06-17', 'Concluido', 100, NULL, NULL, NULL),
+(33, 32, 5, '2025-06-17', 'Concluido', 100, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -289,7 +303,7 @@ CREATE TABLE IF NOT EXISTS `logs_sistema` (
   PRIMARY KEY (`Id_log`),
   KEY `Id_user` (`Id_user`),
   KEY `fk_logs_curso` (`Id_curso`)
-) ENGINE=InnoDB AUTO_INCREMENT=104 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=142 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Extraindo dados da tabela `logs_sistema`
@@ -355,7 +369,45 @@ INSERT INTO `logs_sistema` (`Id_log`, `Id_user`, `Id_curso`, `Descricao_log`, `T
 (100, 32, 2, 'Inclusão de nota de rodapé em material suplementar', 'Update Curso', '2025-06-20 17:50:00', 0),
 (101, 32, NULL, 'Ocorreu um erro: ERRO ao atualizar a imagem,tente mais tarde! no ficheiro :C:\\xampp\\htdocs\\SmartLear', 'Erro', '2025-06-16 17:52:28', NULL),
 (102, 32, NULL, 'Ocorreu um erro: ERRO ao atualizar a imagem,tente mais tarde! no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\admin\\acoes\\adicionar_alterar_conteudo.php', 'Erro', '2025-06-16 17:54:44', NULL),
-(103, 32, NULL, 'O utilizador realizou uma compra no valor de 61.4877 €', 'Compra curso', '2025-06-17 15:04:57', 61.487700000000004);
+(103, 32, NULL, 'O utilizador realizou uma compra no valor de 61.4877 €', 'Compra curso', '2025-06-17 15:04:57', 61.487700000000004),
+(104, 32, NULL, 'Ocorreu um erro: Erro ao realizar o update,tente mais tarde no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\curso\\concluirCurso.php', 'Erro', '2025-06-18 11:46:38', NULL),
+(105, 32, NULL, 'Ocorreu um erro: Erro ao realizar o update,tente mais tarde no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\curso\\concluirCurso.php', 'Erro', '2025-06-18 11:48:14', NULL),
+(106, 32, NULL, 'Ocorreu um erro: Erro ao realizar o update,tente mais tarde no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\curso\\concluirCurso.php', 'Erro', '2025-06-18 11:49:56', NULL),
+(107, 32, NULL, 'Ocorreu um erro: Erro ao realizar o update,tente mais tarde no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\curso\\concluirCurso.php', 'Erro', '2025-06-18 11:49:57', NULL),
+(108, 32, NULL, 'Ocorreu um erro: Erro ao realizar o update,tente mais tarde no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\curso\\concluirCurso.php', 'Erro', '2025-06-18 11:49:57', NULL),
+(109, 32, NULL, 'Ocorreu um erro: Erro ao realizar o update,tente mais tarde no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\curso\\concluirCurso.php', 'Erro', '2025-06-18 11:50:14', NULL),
+(110, 32, NULL, 'Ocorreu um erro: Erro ao realizar o update,tente mais tarde no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\curso\\concluirCurso.php', 'Erro', '2025-06-18 11:51:16', NULL),
+(111, 32, NULL, 'Ocorreu um erro: Erro ao realizar o update,tente mais tarde no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\curso\\concluirCurso.php', 'Erro', '2025-06-18 11:51:34', NULL),
+(112, 32, NULL, 'Ocorreu um erro: Erro ao realizar o update,tente mais tarde no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\curso\\concluirCurso.php', 'Erro', '2025-06-18 11:51:39', NULL),
+(113, 32, NULL, 'Ocorreu um erro: Erro ao realizar o update,tente mais tarde no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\curso\\concluirCurso.php', 'Erro', '2025-06-18 11:52:31', NULL),
+(114, 32, NULL, 'Ocorreu um erro: Erro ao realizar o update,tente mais tarde no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\curso\\concluirCurso.php', 'Erro', '2025-06-18 11:54:02', NULL),
+(115, 32, NULL, 'Ocorreu um erro: Erro ao realizar o update,tente mais tarde no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\curso\\concluirCurso.php', 'Erro', '2025-06-18 11:55:25', NULL),
+(116, 32, NULL, 'Ocorreu um erro: Erro ao realizar o update,tente mais tarde no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\curso\\concluirCurso.php', 'Erro', '2025-06-18 12:00:29', NULL),
+(117, 32, NULL, 'Ocorreu um erro: Erro ao realizar o update,tente mais tarde no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\curso\\concluirCurso.php', 'Erro', '2025-06-18 12:04:41', NULL),
+(118, 32, NULL, 'Ocorreu um erro: Erro ao realizar o update,tente mais tarde no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\curso\\concluirCurso.php', 'Erro', '2025-06-18 12:05:47', NULL),
+(119, 32, NULL, 'Ocorreu um erro: Erro ao realizar o update,tente mais tarde no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\curso\\concluirCurso.php', 'Erro', '2025-06-18 12:06:11', NULL),
+(120, 32, NULL, 'Ocorreu um erro: Erro ao realizar o update,tente mais tarde no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\curso\\concluirCurso.php', 'Erro', '2025-06-18 12:07:17', NULL),
+(121, 32, NULL, 'Ocorreu um erro: Erro ao realizar o update,tente mais tarde no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\curso\\concluirCurso.php', 'Erro', '2025-06-18 12:19:10', NULL),
+(122, 32, NULL, 'Ocorreu um erro: Erro ao realizar o update,tente mais tarde no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\curso\\concluirCurso.php', 'Erro', '2025-06-18 12:38:32', NULL),
+(123, 32, NULL, 'Ocorreu um erro: Erro ao realizar o update,tente mais tarde no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\curso\\concluirCurso.php', 'Erro', '2025-06-18 12:38:49', NULL),
+(124, 32, NULL, 'Ocorreu um erro: Erro ao realizar o update,tente mais tarde no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\curso\\concluirCurso.php', 'Erro', '2025-06-18 12:39:18', NULL),
+(125, 32, NULL, 'Ocorreu um erro: Erro ao realizar o update,tente mais tarde no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\curso\\concluirCurso.php', 'Erro', '2025-06-18 13:01:30', NULL),
+(126, 32, NULL, 'Ocorreu um erro: Erro ao carregar configurações do sistema no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\admin\\configuracoes_sistema.php', 'Erro', '2025-06-18 15:58:55', NULL),
+(127, 32, NULL, 'Ocorreu um erro: Erro ao carregar configurações do sistema no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\admin\\configuracoes_sistema.php', 'Erro', '2025-06-18 15:58:57', NULL),
+(128, 32, NULL, 'Ocorreu um erro: Erro ao carregar configurações do sistema no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\admin\\configuracoes_sistema.php', 'Erro', '2025-06-18 15:58:58', NULL),
+(129, 32, NULL, 'Ocorreu um erro: Erro ao carregar configurações do sistema no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\admin\\configuracoes_sistema.php', 'Erro', '2025-06-18 15:58:58', NULL),
+(130, 32, NULL, 'Ocorreu um erro: Erro ao carregar configurações do sistema no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\admin\\configuracoes_sistema.php', 'Erro', '2025-06-18 15:58:59', NULL),
+(131, 32, NULL, 'Ocorreu um erro: Erro ao carregar configurações do sistema no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\admin\\configuracoes_sistema.php', 'Erro', '2025-06-18 15:59:00', NULL),
+(132, 32, NULL, 'Ocorreu um erro: Erro ao carregar configurações do sistema no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\admin\\configuracoes_sistema.php', 'Erro', '2025-06-18 15:59:11', NULL),
+(133, 32, NULL, 'Ocorreu um erro: Erro ao carregar configurações do sistema no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\admin\\configuracoes_sistema.php', 'Erro', '2025-06-18 15:59:12', NULL),
+(134, 32, NULL, 'Ocorreu um erro: Erro ao carregar configurações do sistema no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\admin\\configuracoes_sistema.php', 'Erro', '2025-06-18 15:59:12', NULL),
+(135, 32, NULL, 'Ocorreu um erro: Erro ao carregar configurações do sistema no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\admin\\configuracoes_sistema.php', 'Erro', '2025-06-18 15:59:13', NULL),
+(136, 32, NULL, 'Ocorreu um erro: Erro ao carregar configurações do sistema no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\admin\\configuracoes_sistema.php', 'Erro', '2025-06-18 15:59:13', NULL),
+(137, 32, NULL, 'Ocorreu um erro: Erro ao carregar configurações do sistema no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\admin\\configuracoes_sistema.php', 'Erro', '2025-06-18 15:59:14', NULL),
+(138, 32, NULL, 'Ocorreu um erro: Erro ao carregar configurações do sistema no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\admin\\configuracoes_sistema.php', 'Erro', '2025-06-18 15:59:15', NULL),
+(139, 32, NULL, 'Ocorreu um erro: Erro ao carregar configurações do sistema no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\admin\\configuracoes_sistema.php', 'Erro', '2025-06-18 15:59:37', NULL),
+(140, 32, NULL, 'Ocorreu um erro: Erro ao carregar configurações do sistema no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\admin\\configuracoes_sistema.php', 'Erro', '2025-06-18 15:59:39', NULL),
+(141, 32, NULL, 'Ocorreu um erro: Erro ao carregar configurações do sistema no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\admin\\configuracoes_sistema.php', 'Erro', '2025-06-18 16:06:13', NULL);
 
 -- --------------------------------------------------------
 
@@ -483,6 +535,12 @@ INSERT INTO `user` (`Id_user`, `PNome_user`, `SNome_user`, `Estado_conta`, `Biog
 ALTER TABLE `carrinho_compras`
   ADD CONSTRAINT `carrinho_compras_ibfk_1` FOREIGN KEY (`Id_user`) REFERENCES `user` (`Id_user`),
   ADD CONSTRAINT `carrinho_compras_ibfk_2` FOREIGN KEY (`Id_curso`) REFERENCES `curso` (`Id_curso`);
+
+--
+-- Limitadores para a tabela `configuracoes_site`
+--
+ALTER TABLE `configuracoes_site`
+  ADD CONSTRAINT `fk_idUpdater` FOREIGN KEY (`Id_utilizador_Ultimo_update`) REFERENCES `user` (`Id_user`);
 
 --
 -- Limitadores para a tabela `curso`
