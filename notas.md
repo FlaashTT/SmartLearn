@@ -47,16 +47,7 @@
 
 -no carrinho de compras se tiver apenas um curso de valor 0 o botao de compra nao funciona
 
-### Categorias
-  
-- Idioma "Curso em Inglês" não está a funcionar  
-- Sem desconto diz ter 2, mas só mostra 1  
-- Falta tratamento de níveis (avançado e iniciante)  
-- Falta tratamento de duração (de 1 a 3 horas)  
-- Filtros com 5 estrelas / sem classificação  
-- Filtros por categorias  
-- Filtros "mais de 60 euros"
-- curso_capa.php
+
   
 ### Erro Crítico ❗
 ```txt
