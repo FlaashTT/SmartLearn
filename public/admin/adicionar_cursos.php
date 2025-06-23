@@ -196,7 +196,7 @@ include("../../database/basedados.php");
                                 <i class="fa-solid fa-check-double"></i>
                                 <h2 class="titulo">Obrigado!</h2>
                                 <p class="paragrafo">Tu estás a apenas um clique de distância</p>
-                                <p style="display: block; color: red;" id="paragrafoErro">Erro</p>
+                                <p class="mensagem-erro" style="display: block; color: red;" id="paragrafoErro">Erro</p>
                                 <button type="submit" id="buttonSubmit" class="btn-enviar">Enviar</button>
                             </div>
                         </div>
@@ -232,45 +232,66 @@ include("../../database/basedados.php");
         });
     </script>
     <script>
-        document.querySelectorAll('.tab').forEach(tab => {
-            tab.addEventListener('click', () => {
-                activateTab(tab);
-            });
+    document.querySelectorAll('.tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+            activateTab(tab);
         });
+    });
 
-        function activateTab(tab) {
-            const target = tab.getAttribute('data-tab');
+    function activateTab(tab) {
+        const target = tab.getAttribute('data-tab');
 
-            // Remove active de todas as tabs e conteúdos
-            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+        // Remove active de todas as tabs e conteúdos
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
 
-            // Ativa tab e conteúdo correspondente
-            tab.classList.add('active');
-            document.querySelector(`.tab-content[data-content="${target}"]`).classList.add('active');
+        // Ativa tab e conteúdo correspondente
+        tab.classList.add('active');
+        document.querySelector(`.tab-content[data-content="${target}"]`).classList.add('active');
+
+        // Actualiza o índice e visibilidade das setas
+        currentIndex = tabs.findIndex(t => t === tab);
+        updateArrowsVisibility();
+    }
+
+    // Navegação com setas
+    const tabs = Array.from(document.querySelectorAll('.tab'));
+    let currentIndex = tabs.findIndex(t => t.classList.contains('active'));
+
+    document.getElementById('next-tab').addEventListener('click', () => {
+        if (currentIndex < tabs.length - 1) {
+            currentIndex++;
+            activateTab(tabs[currentIndex]);
         }
+    });
 
-        // Navegação com setas
-        const tabs = Array.from(document.querySelectorAll('.tab'));
-        let currentIndex = tabs.findIndex(t => t.classList.contains('active'));
-
-        document.getElementById('next-tab').addEventListener('click', () => {
-            currentIndex = (currentIndex + 1) % tabs.length;
+    document.getElementById('prev-tab').addEventListener('click', () => {
+        if (currentIndex > 0) {
+            currentIndex--;
             activateTab(tabs[currentIndex]);
-        });
+        }
+    });
 
-        document.getElementById('prev-tab').addEventListener('click', () => {
-            currentIndex = (currentIndex - 1 + tabs.length) % tabs.length;
-            activateTab(tabs[currentIndex]);
+    // Atualiza o índice actual sempre que clicas numa tab manualmente
+    tabs.forEach((tab, index) => {
+        tab.addEventListener('click', () => {
+            currentIndex = index;
+            updateArrowsVisibility();
         });
+    });
 
-        // Atualiza o índice actual sempre que clicas numa tab manualmente
-        tabs.forEach((tab, index) => {
-            tab.addEventListener('click', () => {
-                currentIndex = index;
-            });
-        });
-    </script>
+    function updateArrowsVisibility() {
+        const prevBtn = document.getElementById('prev-tab');
+        const nextBtn = document.getElementById('next-tab');
+
+        prevBtn.style.display = currentIndex === 0 ? 'none' : 'inline-block';
+        nextBtn.style.display = currentIndex === tabs.length - 1 ? 'none' : 'inline-block';
+    }
+
+    // Chamada inicial
+    updateArrowsVisibility();
+</script>
+
     <script>
         // Para Módulo do Curso
         const botaoAdicionarModulo = document.getElementById("addModulo");
@@ -456,7 +477,9 @@ include("../../database/basedados.php");
         verificarCampos();
     </script>
 
-
+    <script>
+        
+    </script>
 
 </body>
 

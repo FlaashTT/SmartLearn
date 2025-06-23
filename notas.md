@@ -31,6 +31,7 @@
 ## 📌 Para Fazer
 - Sitio onde tem dados das respostas dos forms de satisfação dos clientes
 
+- Meter rodapé na politica e tutorial
 
 - Pensar em provedores possíveis:  
   - pessoal (dado pelo próprio criador)  
@@ -48,6 +49,9 @@
 ---
  
 ## 🐞 Bugs a Corrigir
+
+```txtFatal error: Cannot redeclare mostrarPopUp() (previously declared in C:\xampp\htdocs\SmartLearn\public\popup.php:7) in C:\xampp\htdocs\SmartLearn\public\popup.php on line 40
+```
 
 - no carrinho de compras se tiver apenas um curso de valor 0 o botao de compra nao funciona
 
