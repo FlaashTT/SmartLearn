@@ -1,4 +1,8 @@
 <?php
+include("../../popup.php");
+include("../../logs.php");
+$textoErro = "";
+$erro = false;
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     http_response_code(403); // Código de status HTTP 403 (Proibido)
     echo "<script>
@@ -41,12 +45,18 @@ function inserirImagem($conn, $idCategoria)
             if ($stmt->execute()) {
                 $stmt->close();
             } else {
-                echo "<script>alert('Erro ao atualizar o banco de dados!');</script>";
+                $textoErro = "Erro ao atualizar o banco de dados!";
+                $erro = true;
             }
         } else {
-            echo "<script>alert('Erro ao mover a imagem!');</script>";
+            $textoErro = "Erro ao mover a imagem!";
+            $erro = true;
         }
     } else {
-        echo "<script>alert('Formato de imagem inválido. Apenas JPG, JPEG e PNG são permitidos.');</script>";
+        $textoErro = "Formato de imagem inválido. Apenas JPG, JPEG e PNG são permitidos.";
+        $erro = true;
+    }
+    if ($erro) {
+        mostrarPopUp($textoErro);
     }
 }

@@ -2,6 +2,7 @@
 include("../../../database/basedados.php");
 
 include("../../popup.php");
+include("../../logs.php");
 
 $efetuadaTroca = false;
 $erro = false;
@@ -31,8 +32,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 
 if (!$erro && $efetuadaTroca) {
+    criarLogs("Conta eliminada", $_SESSION['utilizadorOn']['Id_user'], null, null, null, null, null, $id);
     mostrarPopUp("Utilizador atualizado com sucesso!");
 } else if ($erro) {
+    criarLogs("Erro",$_SESSION['utilizadorOn']['Id_user'],null,null,$novoId,$textoErro,__FILE__);
     mostrarPopUp($textoErro);
 }
 

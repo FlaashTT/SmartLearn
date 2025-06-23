@@ -2,6 +2,12 @@
 ini_set('log_errors', 1);          // Ativa o registro de erros
 
 include("../../database/basedados.php");
+
+// BLOQUEAR ACESSO DIRETO POR URL (sem navegação interna)
+if (!isset($_SERVER['HTTP_REFERER']) || empty($_SERVER['HTTP_REFERER'])) {
+    header("Location:../public/inicio.php");
+    exit();
+}
 session_start();
 //evita que utilizador nao registados entrem nas paginas que necessitam login
 if ($_SESSION['utilizadorOn'] == null || !$_SESSION['utilizadorOn']) {

@@ -1,6 +1,7 @@
 <?php
 include("../../../database/basedados.php");
 include("../../popup.php");
+include("../../logs.php");
 $erro = false;
 $textoErro = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -16,12 +17,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 } else {
                     $textoErro = "Erro ao remover o arquivo.";
                     $erro = true;
-                    
                 }
             } else {
                 $textoErro = "O arquivo não existe.";
                 $erro = true;
-                
             }
         }
 
@@ -32,12 +31,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 } else {
                     $textoErro = "Erro ao remover o arquivo.";
                     $erro = true;
-                    
                 }
             } else {
                 $textoErro = "O arquivo não existe.";
                 $erro = true;
-                
             }
         }
 
@@ -46,6 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->bind_param("ii", $idCurso, $idfase);
         if ($stmt->execute()) {
             mostrarPopUp("Fase removida com sucesso!");
+            criarLogs("Fase removida", $_SESSION['utilizadorOn']['Id_user'], null, $idCurso);
         } else {
             $textoErro = "Erro ao remover a fase. Tente novamente.";
             $erro = true;
@@ -56,10 +54,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 } else {
     caminho();
-    
 }
 
 if ($erro) {
+    criarLogs("Erro", $_SESSION['utilizadorOn']['Id_user'], null, $idCurso, null, $textoErro, __FILE__);
     mostrarPopUp($textoErro);
     exit;
 }

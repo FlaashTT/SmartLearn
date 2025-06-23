@@ -69,7 +69,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt->bind_param("ssssssssss", $primeiroNome, $sobreNome, $passwordHash, $email, $DataAtual, $biografia, $urlFacebook, $urllinkedin, $urlyoutube, $TipoAdd);
 
         if ($stmt->execute()) {
-            mostrarPopUp("Adicionou com sucesso um novo administrador!");
+            mostrarPopUp("Adicionou com sucesso um novo " . $tipoAdd . "!");
+
+
 
 
 
@@ -78,10 +80,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             if (!empty($_FILES['url_imagem']['name'])) {
 
-                inserirImagem($conn, $userID);
+                $imagemOk = inserirImagem($conn, $userID);
+                if (!$imagemOk) {
+                    $textoErro = "Erro ao inserir a imagem do utilizador";
+                    $erro = true;
+                }
             }
             criarLogs("Novo Registo", $userID);
-            
         }
     }
 } else {
@@ -90,13 +95,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 if ($erro) {
     mostrarPopUp($textoErro);
-    
+    criarLogs("Erro", $_SESSION['utilizadorOn']['Id_user'], null, null, null, $textoErro, __FILE__);
 }
 
 function caminho()
 {
     // Redireciona para a página de administração
-    
+
     echo '
     <script>
     window.location.href = document.referrer;
@@ -105,25 +110,20 @@ function caminho()
     exit();
 }
 
-
 function inserirImagem($conn, $idUser)
 {
-    //guarada o nome da imagem
     $extensao = strtolower(pathinfo($_FILES["url_imagem"]["name"], PATHINFO_EXTENSION));
-
-    //para garantir que apenas sao permitidos jpg,jpeg e png
     $extensoes_permitidas = ['jpg', 'jpeg', 'png'];
     $tipo_mime = mime_content_type($_FILES["url_imagem"]["tmp_name"]);
     $mimes_permitidos = ['image/jpeg', 'image/png'];
 
     if (in_array($extensao, $extensoes_permitidas) && in_array($tipo_mime, $mimes_permitidos)) {
-
         $diretorio = "../../../assets/image/fotosPerfil/";
         $base_nome = "fotoPerfil_" . $idUser;
         $novo_nome = $base_nome . "." . $extensao;
         $destino = $diretorio . $novo_nome;
 
-        // verifica se exite alguma imagem com tipo diferente e elimina
+        // Remove imagens antigas
         foreach (['jpg', 'jpeg', 'png'] as $ext) {
             $possivel_arquivo = $diretorio . $base_nome . '.' . $ext;
             if (file_exists($possivel_arquivo)) {
@@ -131,24 +131,17 @@ function inserirImagem($conn, $idUser)
             }
         }
 
-        //copia para o destino final(pasta de imagens)
+        // Copia para o destino final
         if (move_uploaded_file($_FILES["url_imagem"]["tmp_name"], $destino)) {
             $URL_foto = $novo_nome;
-
             $sql = "UPDATE user SET URL_foto_perfilUser = ? WHERE Id_user = ?";
             $stmt = $conn->prepare($sql);
             $stmt->bind_param("si", $URL_foto, $idUser);
             if ($stmt->execute()) {
-
                 $_SESSION['utilizadorOn']['URL_foto_perfilUser'] = $novo_nome;
-                echo "<br>Imagem atualizada com sucesso!";
-            } else {
-                echo "<br>Erro ao atualizar o banco de dados!";
+                return true;
             }
-        } else {
-            echo "<br>Erro ao mover a imagem!";
         }
-    } else {
-        echo "<br>Formato de imagem inválido. Apenas JPG, JPEG e PNG são permitidos.";
     }
+    return false;
 }

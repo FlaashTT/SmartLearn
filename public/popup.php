@@ -1,4 +1,9 @@
 <?php
+// BLOQUEAR ACESSO DIRETO POR URL (sem navegação interna)
+if (!isset($_SERVER['HTTP_REFERER']) || empty($_SERVER['HTTP_REFERER'])) {
+    header("Location:../public/inicio.php");
+    exit();
+}
 function mostrarPopUp($mensagem, $tempo = null, $caminho = null)
 {
     // Define tempo padrão se for true

@@ -1,10 +1,11 @@
 <?php
+include("../popup.php");
 session_start();
 
 unset($_SESSION['utilizadorOn']);
-echo"<script>alert('Sessão terminada,volte sempre!') 
-window.location.href = '../inicio.php';
-</script>";
+
+mostrarPopUp("Sessão terminada,volte sempre!",null,"../inicio.php");
+
 
 session_destroy();
 

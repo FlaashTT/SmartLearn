@@ -2,6 +2,8 @@
 <?php
 include("../../../database/basedados.php");
 include("inserirImagemCat.php");
+include("../../popup.php");
+include("../../logs.php");
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $erro = false;
     $textoErro = "";
@@ -42,7 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $textoErro = "Erro ao atualizar o nome da categoria!";
                 $erro = true;
             }
-        } 
+        }
     }
 
     if (!empty($_FILES['url_imagem']['name'])) {
@@ -62,7 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     inserirImagem($conn, $idCategoria);
                     $alteracaoFeita = true;
                 } else {
-                    echo "<script>alert('Erro ao remover a imagem antiga!');</script>";
+                    criarLogs("Erro", $_SESSION['utilizadorOn']['Id_user'], null, null, $idCategoria, "Erro ao remover a imagem antiga da categoria", __FILE__);
                 }
             } else {
                 $textoErro = "Imagem antiga não encontrada.";
@@ -79,19 +81,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 if (!$erro && $alteracaoFeita) {
 
-    echo "<script>alert('Alteração feita com sucesso!');</script>";
-
-
-    caminho();
+    mostrarPopUp('Alteração feita com sucesso!');
+    criarLogs("Categoria alterada", $_SESSION['utilizadorOn']['Id_user'], null, null, $idCategoria);
 } elseif (!$alteracaoFeita) {
 
-    echo "<script>alert('Nenhuma alteração foi feita!');</script>";
-    caminho();
+    mostrarPopUp('Nenhuma alteração foi feita!');
 }
 
 if ($erro) {
-    echo "<script>alert('" . $textoErro . "');</script>";
-    caminho();
+    mostrarPopUp($textoErro);
+    criarLogs("Erro", $_SESSION['utilizadorOn']['Id_user'], null, null, $idCategoria, $textoErro, __FILE__);
 }
 
 function caminho()

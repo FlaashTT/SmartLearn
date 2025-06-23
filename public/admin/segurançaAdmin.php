@@ -1,4 +1,10 @@
 <?php
+
+// BLOQUEAR ACESSO DIRETO POR URL (sem navegação interna)
+if (!isset($_SERVER['HTTP_REFERER']) || empty($_SERVER['HTTP_REFERER'])) {
+    header("Location:../inicio.php");
+    exit();
+}
 include("../../database/basedados.php");
 session_start();
 //evita que utilizador nao registados entrem nas paginas que necessitam login

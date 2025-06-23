@@ -1,6 +1,8 @@
 <?php
 include('../segurança.php');
 include('../../database/basedados.php');
+include("../popup.php");
+include("../logs.php");
 
 $erro = false;
 
@@ -85,15 +87,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     if ($stmt->execute()) {
                         $_SESSION['utilizadorOn']['Carteira'] = $saldoFinal;
 
-                        include('../logs.php');
+                        
                         criarLogs("Compra curso", $_SESSION['utilizadorOn']['Id_user'], $preco);
-
-                        echo '
-                        <script>
-                            alert("Pagamento realizado com sucesso!");
-                            window.location.href = "carrinho.php";
-                        </script>
-                        ';
+                        mostrarPopUp("Pagamento realizado com sucesso!",null,"carrinho.php");
+                        
                         exit;
                     } else {
                         $erro = true;
@@ -107,11 +104,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 if ($erro) {
-    echo "
-    <script>
-        alert('Ocorreu um erro, tente mais tarde.');
-        window.history.back();
-    </script>
-    ";
+    criarLogs("Erro",$_SESSION['utilizadorOn']['Id_user'],null,null,null,"Erro ao finalizar compra",__FILE__);
+    mostrarPopUp("Ocorreu um erro, tente mais tarde.");
+
+    
     exit;
 }

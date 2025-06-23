@@ -2,6 +2,7 @@
 include("../../../database/basedados.php");
 
 include("../../popup.php");
+include("../../logs.php");
 
 $efetuadaTroca = false;
 $erro = false;
@@ -131,8 +132,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 
 if (!$erro && $efetuadaTroca) {
+    criarLogs("Utilizador Alterado por admin", $_SESSION['utilizadorOn']['Id_user'], null, null, null, null, null, $idEditar);
     mostrarPopUp("Utilizador atualizado com sucesso!");
 } else if ($erro) {
+    criarLogs("Erro", $_SESSION['utilizadorOn']['Id_user'], null, null, null, $textoErro, __FILE__);
     mostrarPopUp($textoErro);
 }
 

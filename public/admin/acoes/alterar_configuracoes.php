@@ -2,6 +2,7 @@
 include("../../../database/basedados.php");
 include("inserirImagemCat.php");
 include("../../popup.php");
+include("../../logs.php");
 session_start();
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $erro = false;
@@ -128,8 +129,10 @@ if (!$erro && $alteracaoFeita) {
 
 
     mostrarPopUp("Configurações atualizadas com sucesso!");
+    criarLogs("Configurações alteradas",$_SESSION['utilizadorOn']['Id_user']);
 } else if ($erro) {
     mostrarPopUp($textoErro);
+    criarLogs("Erro",$_SESSION['utilizadorOn']['Id_user'],null,null,$novoId,$textoErro,__FILE__);
 }
 
 function caminho()

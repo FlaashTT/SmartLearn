@@ -234,16 +234,17 @@ function processarImagem($conn, $idcursoAtual, $NumFase)
             $stmt->bind_param("sii", $novo_nome, $idcursoAtual, $NumFase);
 
             if ($stmt->execute()) {
-                echo "<script>alert('Imagem atualizada com sucesso.');</script>";
+                mostrarPopUp('Imagem atualizada com sucesso.');
+                
             } else {
-                echo "<script>alert('Erro ao atualizar o banco de dados.');</script>";
+                 mostrarPopUp('Erro ao atualizar o banco de dados.');
             }
 
             $stmt->close();
         } else {
-            echo "<script>alert('Erro ao mover a nova imagem.');</script>";
+             mostrarPopUp('Erro ao mover a nova imagem.');
         }
     } else {
-        echo "<script>alert('Formato de imagem inválido. Apenas JPG, JPEG e PNG são permitidos.');</script>";
+         mostrarPopUp('Formato de imagem inválido. Apenas JPG, JPEG e PNG são permitidos.');
     }
 }

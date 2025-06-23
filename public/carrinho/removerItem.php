@@ -1,6 +1,8 @@
 <?php
 include("../segurança.php");
 include("../../database/basedados.php");
+include("../popup.php");
+include("../logs.php");
 
 $erro = false;
 
@@ -15,13 +17,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $result = $stmt->get_result();
 
         if ($stmt->execute() && $stmt->affected_rows > 0) {
-
-            echo"
-            <script>
-                alert('Curso removido do carrinho com sucesso!');
-                window.location.href = document.referrer;
-            </script>
-            ";
+            mostrarPopUp("Curso removido do carrinho com sucesso!");
+            
         }else{
             $erro = true;
         }
@@ -31,11 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 if ($erro) {
-    echo "
-    <script>
-    alert('Ocorreu um erro ,tente mais tarde');
-    window.history.back();
-    </script>
-    ";
+    mostrarPopUp("Ocorreu um erro ,tente mais tarde");
+    
     exit;
 }
