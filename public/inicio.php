@@ -28,8 +28,6 @@ include("../database/basedados.php");
         ';
     }
 
-
-
     ?>
 
 </head>
@@ -252,7 +250,7 @@ include("../database/basedados.php");
           Ainda não preenches-te o nosso formulário de satisfação. Gostaríamos
           de ouvir a tua opinião.
         </p>
-        <a href="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3055.2436822254486!2d-7.494457084645095!3d39.82325817944533!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd1ebd8dd4637c0f%3A0x4e054bf8c8ec9d71!2sCastelo%20Branco!5e0!3m2!1spt-PT!2spt!4v1686012345678!5m2!1spt-PT!2spt" class="btn">Preencher agora</a>
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSeQm_121Zk7IyPpWnUztOW0Pc7ERAEn1jIlXMpNkv36eWB2og/viewform?usp=pp_url" class="btn">Preencher agora</a>
       </div>
     </div>
 
