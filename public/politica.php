@@ -42,22 +42,46 @@ if ($result && $result->num_rows > 0) {
             <h2>Estado dos Cookies</h2>
             <p><strong>Status:</strong>
                 <?php
-                if ($config['Cookies_status'] === "Ativo") {
+                if ($config['Cookies_status'] === "Aceite") {
                     echo '<span class="ativo">Ativo</span></p>';
                 } else {
                     echo '<span class="inativo">Inativo</span></p>';
                 }
 
+
+                if (isset($_SESSION['utilizadorOn']['Id_user'])) {
+                    $sql = "SELECT Estado_cookies_user FROM user WHERE Id_user = ?";
+                    $stmt = $conn->prepare($sql);
+
+                    if ($stmt) {
+                        $stmt->bind_param("i", $_SESSION['utilizadorOn']['Id_user']);
+                        $stmt->execute();
+                        $stmt->bind_result($estadoCookies);
+
+                        if ($stmt->fetch()) {
+                            if ($estadoCookies === "Nao aceite") {
+                                echo '
+                                    <form action="verificarCookies.php" method="POST">
+                                        <div class="cookie-notice">
+                                            <p>
+                                                <strong>Nota sobre os Cookies:</strong> Utilizamos cookies para
+                                                garantir uma melhor experiência, personalizar conteúdo e analisar o
+                                                tráfego.
+                                                <a href="politicaCookies.php" target="_blank" rel="noopener noreferrer">Saber mais</a>
+                                            </p>
+                                            <button class="cookie-btn" id="aceitar">Aceitar</button>
+                                        </div>
+                                    </form>';
+                            }
+                        }
+
+                        $stmt->close();
+                    }
+                }
+
                 ?>
-            <div class="cookie-notice">
-                <p>
-                    <strong>Nota sobre os Cookies:</strong> Utilizamos cookies para
-                    garantir uma melhor experiência, personalizar conteúdo e analisar o
-                    tráfego.
-                    <a href="politicaCookies.php" target="_blank" rel="noopener noreferrer">Saber mais</a>
-                </p>
-                <button class="cookie-btn">Aceitar</button>
-            </div>
+
+
 
             <h2>Redes Sociais</h2>
             <ul>
@@ -89,5 +113,8 @@ if ($result && $result->num_rows > 0) {
     include("../src/views/utils/rodape.html");
     ?>
 </body>
+<script>
+
+</script>
 
 </html>
