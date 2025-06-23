@@ -31,6 +31,7 @@
 ## 📌 Para Fazer
 - Sitio onde tem dados das respostas dos forms de satisfação dos clientes
 
+- Meter rodapé na politica e tutorial
 
 - Pensar em provedores possíveis:  
   - pessoal (dado pelo próprio criador)  
