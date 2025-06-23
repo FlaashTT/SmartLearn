@@ -435,6 +435,10 @@
   text-decoration: none;
 }
 
+.popup-content .btn:hover {
+  background: #004494;
+}
+
 .close-btn {
   position: absolute;
   top: 10px;
@@ -442,5 +446,6 @@
   font-size: 24px;
   cursor: pointer;
 }
+
 
 
