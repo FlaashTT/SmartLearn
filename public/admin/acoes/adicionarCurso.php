@@ -116,17 +116,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         if ($stmt->execute()) {
                             $stmt->close();
                         } else {
-                            echo "<script>alert('Erro ao atualizar o banco de dados!');</script>";
+                            $textoErro = 'Erro ao atualizar o banco de dados!';
                         }
                     } else {
-                        echo "<script>alert('Erro ao mover a imagem!');</script>";
+                        $textoErro = 'Erro ao mover a imagem!';
                     }
                 } else {
-                    echo "<script>alert('Formato de imagem inválido. Apenas JPG, JPEG e PNG são permitidos.');</script>";
+                    $textoErro = 'Formato de imagem inválido. Apenas JPG, JPEG e PNG são permitidos.';
                 }
             }
 
-            echo "<script>alert('Curso adicionado com sucesso!'); window.location.href = '../adicionar_cursos.php';</script>";
+            mostrarPopUp('Curso adicionado com sucesso!');
+            criarLogs("Novo curso", $_SESSION['utilizadorOn']['Id_user'], null, $Id_curso);
+
             exit;
         } else {
             $textoErro = 'Erro ao adicionar o curso: ' . $stmt->error;
@@ -135,7 +137,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     if ($erro) {
-        echo "<script>alert('$textoErro'); window.location.href = '../adicionar_cursos.php';</script>";
+        $textoErro = '$textoErro';
+        criarLogs("Erro",$_SESSION['utilizadorOn']['Id_user'],null,$Id_curso,$null,$textoErro,__FILE__);
         exit;
     }
 }

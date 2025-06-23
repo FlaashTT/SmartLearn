@@ -1,5 +1,6 @@
 <?php
 include("../../../database/basedados.php");
+include("../../popup.php");
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $erro = false;
     $textoErro = "";
@@ -20,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $result = $stmt->get_result();
     if ($result->num_rows > 0) {
         $row = $result->fetch_assoc();
-        
+
 
         echo '
             <head>
@@ -78,8 +79,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 ?>
 <?php
 if ($erro) {
-    echo "<script>alert('" . $textoErro . "');</script>";
-    caminho();
+    mostrarPopUp($textoErro);
 }
 function caminho()
 {
@@ -95,14 +95,14 @@ function caminho()
         if (elemento.style.display == 'block') {
             elemento.style.display = 'none';
             addSubcategoryBtn.innerHTML = "Alterar imagem";
-            
+
 
         } else {
             elemento.style.display = 'block';
             addSubcategoryBtn.innerHTML = "cancelar troca de imagem";
         }
 
-        
+
 
     }
 </script>

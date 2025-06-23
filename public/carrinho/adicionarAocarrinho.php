@@ -1,6 +1,8 @@
 <?php
 include('../segurança.php');
 include('../../database/basedados.php');
+include("../popup.php");
+include("../logs.php");
 
 $erro = false;
 
@@ -19,12 +21,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $result = $stmt->get_result();
 
         if ($result->num_rows > 0) {
-            echo "
-            <script>
-                alert('Já tem este curso adquirido no seu perfil');
-                window.location.href = '../categorias.php';
-            </script>
-            ";
+            mostrarPopUp("Já tem este curso adquirido no seu perfil",NULL,"../categorias.php");
+            
             exit;
         }
 
@@ -35,12 +33,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $result = $stmt->get_result();
 
         if ($result->num_rows > 0) {
-            echo "
-            <script>
-                alert('Já tem este curso adicionado ao seu carrinho');
-                window.location.href = '../categorias.php';
-            </script>
-            ";
+            mostrarPopUp("Já tem este curso adicionado ao seu carrinho",NULL,"../categorias.php");
+            
             exit;
         }
 
@@ -68,12 +62,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 if ($erro) {
-    echo "
-    <script>
-        alert('Ocorreu um erro, tente mais tarde');
-        window.location.href = '../categorias.php';
-    </script>
-    ";
+    criarLogs("Erro",$_SESSION['utilizadorOn']['Id_user'],null,$idCurso,null,"Ocorreu um erro ao adicionar o curso no carrinho",__FILE__);
+    mostrarPopUp("Ocorreu um erro, tente mais tarde",NULL,"../categorias.php");
+    
     exit;
 }
 ?>

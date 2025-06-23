@@ -1,6 +1,8 @@
 <?php
 
 include("../../../database/basedados.php");
+include("../../popup.php");
+include("../../logs.php");
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $erro = false;
@@ -48,21 +50,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->bind_param("i", $id_categoria);
         $stmt->execute();
         if ($stmt->affected_rows > 0) {
-
-            echo "<script>alert('Categoria eliminada com sucesso!');</script>";
-            caminho();
+            criarLogs("Categoria eliminada",$_SESSION['utilizadorOn']['Id_user']);
+            mostrarPopUp('Categoria eliminada com sucesso!');
         } else {
             $textoErro = "Erro ao eliminar categoria!";
             $erro = true;
         }
     }
 } else {
-    echo "<script>alert('Método de requisição inválido!');</script>";
+    caminho();
 }
 
 if ($erro) {
-    caminho();
-    echo "<script>alert('" . $textoErro . "');</script>";
+    criarLogs("Erro", $_SESSION['utilizadorOn']['Id_user'], null, null, $novoId, $textoErro, __FILE__);
+    mostrarPopUp($textoErro);
+
     exit;
 }
 

@@ -1,6 +1,7 @@
 <?php
 include("../../../database/basedados.php");
-
+include("../../popup.php");
+include("../../logs.php");
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $erro = false;
@@ -16,8 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
     </script>";
 
-    include("../../popup.php");
-    include("../../logs.php");
+
 
     $sql = "SELECT * FROM cursos_adquiridos WHERE Id_user = ? AND Id_curso = ?";
     $stmt = $conn->prepare($sql);
@@ -41,16 +41,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if (!$stmtInsert->execute()) {
             $textoErro = "Erro ao matricular o utilizador no curso: " . $stmtInsert->error;
             $erro = true;
-        } else {
-            criarLogs("Utilizador Matriculado", $idUtilizador, null, $cursoId, null);
         }
     }
 }
 if ($erro) {
+    criarLogs("Erro", $_SESSION['utilizadorOn']['Id_user'], null, null, $novoId, $textoErro, __FILE__);
     mostrarPopUp($textoErro);
 
     exit();
 } else {
+    criarLogs("Utilizador Matriculado", $_SESSION['utilizadorOn']['Id_user'], null, $cursoId, null, null, null, $idUtilizador);
     mostrarPopUp("Inscreveu " . $emailUtilizador . " no curso " . $nomeCurso);
 
     exit();

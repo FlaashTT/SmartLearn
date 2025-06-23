@@ -2,11 +2,13 @@
 
 include("../../../database/basedados.php");
 include("inserirImagemCat.php");
+include("../../popup.php");
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $erro = false;
+    $textoErro = "";
 
     if (!isset($_POST['nome_categoria']) || empty(trim($_POST['nome_categoria']))) {
-        echo "<script>alert('Nome da categoria é obrigatório!');</script>";
+        $textoErro = 'Nome da categoria é obrigatório!';
         $erro = true;
     }
 
@@ -18,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $query->execute();
     $resultado = $query->get_result();
     if ($resultado->num_rows > 0) {
-        echo "<script>alert('Categoria com esse nome já existe!');</script>";
+        $textoErro = 'Categoria com esse nome já existe!';
         $erro = true;
     }
     $query->close();
@@ -31,43 +33,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($stmt->affected_rows > 0) {
             $novoId = $conn->insert_id;
             // Se foi enviada uma imagem válida
-
-
-
-
             if (!empty($_FILES['url_imagem']['name'])) {
 
-                // verificar se já existe imagem na base de dados
-                if (empty($row['URL_imagem_perfilUser'])) {
-                    inserirImagem($conn, $novoId);
 
-                    caminho();
-                } else {
 
-                    $file = "../../../assets/image/miniatura_cat/" . $novoId;
-
-                    if (file_exists($file)) {
-
-                        if (unlink($file)) {
-                            echo "<script>alert('Imagem antiga removida com sucesso.');</script>";
-                            inserirImagem($conn, $novoId);
-
-                            caminho();
-                        } else {
-                            echo "<script>alert('Erro ao remover a imagem antiga!');</script>";
-                        }
-                    } else {
-                        echo "<script>alert('Imagem antiga não encontrada.');</script>";
-                        $erro = true;
-                    }
-                }
-
-                $alteracaoFeita = true;
+                inserirImagem($conn, $novoId);
             } else {
                 caminho();
             }
         } else {
-            echo "<script>alert('Erro ao criar categoria.');</script>";
+            $textoErro = 'Erro ao criar categoria.';
             $erro = true;
         }
 
@@ -75,14 +50,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     if ($erro) {
-        caminho();
+        criarLogs("Erro", $_SESSION['utilizadorOn']['Id_user'], null, null, $novoId, $textoErro, __FILE__);
+        mostrarPopUp($textoErro);
+    } else {
+        mostrarPopUp("Categoria adicionada com sucesso!");
+        criarLogs("Nova categoria", $_SESSION['utilizadorOn']['Id_user'], null, null, $novoId);
     }
 } else {
-    echo "<script>alert('Requisição inválida!'); 
-    
-    </script>";
     caminho();
-    exit;
 }
 
 function caminho()

@@ -10,7 +10,7 @@
     href="../../assets/fontawesome/fontawesome/css/all.min.css" />
   <link rel="stylesheet" href="../../assets/css/style.css" />
   <link rel="stylesheet" href="../../assets/css/style_registro.css" />
-<!--
+  <!--
   <script src="../../assets/js/registo.js"></script>
 -->
 </head>
@@ -75,10 +75,10 @@
   <!-- Rodapé -->
   <footer class="footer">
     <div class="footer-map">
-       Aqui podes adicionar um iframe com o Google Maps 
-        <iframe src=""
-                width="100%" height="300" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
-                
+      Aqui podes adicionar um iframe com o Google Maps
+      <iframe src=""
+        width="100%" height="300" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
+
     </div>
     <div class="container footer-content">
       <p>2025 Copyright by Leando Pinto e Ruben Pinheiro</p>
@@ -102,11 +102,12 @@
 session_start();
 include("../../database/basedados.php");
 include("../logs.php");
+include("../popup.php");
 
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   if (empty($_POST["primeiroNome"]) || empty($_POST["sobreNome"]) || empty($_POST["email"]) || empty($_POST["senha"])) {
-    echo "<script>alert('Tem de preencher todos os campos necessários para continuar!'); </script>";
+    mostrarPopUp('Tem de preencher todos os campos necessários para continuar!');
     exit;
   }
 
@@ -117,10 +118,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $passwordHash = hash('sha256', htmlspecialchars(trim($_POST['senha']), ENT_QUOTES, 'UTF-8'));
 
 
-  
+
 
   if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-    echo "<script>alert('O email inserido é invalido!');  </script>";
+    mostrarPopUp('O email inserido é invalido!');
     exit;
   }
 
@@ -132,7 +133,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $result = $stmt->get_result();
 
   if ($result->num_rows > 0) {
-    echo "<script>alert('Este endereço de e-mail ja esta a ser usado');  </script>";
+    mostrarPopUp('Este endereço de e-mail ja esta a ser usado');
     exit;
   }
 
@@ -146,21 +147,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $stmt->bind_param("sssss", $primeiroNome, $sobreNome, $passwordHash, $email, $DataAtual);
 
   if ($stmt->execute()) {
-    echo "
-        <script>
-            alert('Conta criada com sucesso. Bem-vindo, " . addslashes($primeiroNome) . "!');
-            window.location.href = 'login.php';
-        </script>
-    ";
-    
+
+    mostrarPopUp("Conta criada com sucesso. Bem-vindo, " . addslashes($primeiroNome) . "!", null, "login.php");
+
     $userID = $conn->insert_id;
     criarLogs("Novo Registo", $userID);
-} else {
-    echo "<script>alert('Erro ao criar utilizador.Tente mais tarde') </script>";
+  } else {
+    mostrarPopUp('Erro ao criar utilizador.Tente mais tarde');
   }
 
   $stmt->close();
   $conn->close();
-} 
+}
 
 ?>

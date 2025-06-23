@@ -89,11 +89,12 @@
 <?php
 session_start();
 include('../../database/basedados.php');
+include("../popup.php");
 
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   if (empty($_POST["email"]) || empty($_POST["senha"])) {
-    echo "<script>alert('Tem de preencher todos os campos necessários para continuar!'); </script>";
+    mostrarPopUp('Tem de preencher todos os campos necessários para continuar!');
     exit;
   }
 
@@ -112,16 +113,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($user['Estado_conta'] === 'Ativo') {
 
       $_SESSION['utilizadorOn'] = $user;
-      echo "<script>
-              alert('Bem-vindo de volta, " . addslashes($user['PNome_user']) . "!');
-              window.location.href = '../inicio.php';
-          </script>";
+      mostrarPopUp("Bem-vindo de volta, " . addslashes($user['PNome_user']) . "!", null, "../inicio.php");
+
       exit;
     } else {
-      echo "<script>alert('Conta inativa/eliminada')</script>";
+      mostrarPopUp('Esta conta encontra-se inativa ou eliminada');
     }
   } else {
-    echo "<script>alert('Credenciais invalidas!')</script>";
+    mostrarPopUp('Credenciais invalidas!');
   }
 }
 ?>
