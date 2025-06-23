@@ -22,8 +22,8 @@
   _Localização do ficheiro:_  
   - `src\views\layout\admin\layout.....`
 
-
 ---
+
 ## 🔧 Em Progresso
 
 - Finalizar `relatorio_logs.php` com as ações completas
