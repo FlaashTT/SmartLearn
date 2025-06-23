@@ -31,7 +31,6 @@
 ## 📌 Para Fazer
 - Sitio onde tem dados das respostas dos forms de satisfação dos clientes
 
-- Estilo do `modalEditarCategoria.php`
 
 - Pensar em provedores possíveis:  
   - pessoal (dado pelo próprio criador)  
