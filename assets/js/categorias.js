@@ -137,7 +137,6 @@ window.efetuarPesquisa = function (el, tipo) {
 
 
             case "dificuldade":
-                console.log(" entrou dificuldade")
 
                 if (dificuldadeSelecionado.includes(dificuldade)) {
                     produto.style.display = "block";
@@ -148,7 +147,6 @@ window.efetuarPesquisa = function (el, tipo) {
                 break;
 
             case "tempo":
-                console.log(" entrou tempo")
 
                 const [horas, minutos, segundos] = duracao.split(":").map(Number);
                 const tempoSegundos = horas * 3600 + minutos * 60 + segundos;

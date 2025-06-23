@@ -122,12 +122,12 @@ include("../database/basedados.php");
                             echo '<p id="mensagemErro" style="display: none; color: red;">Nome inválido</p>';
 
                             while ($row = $result->fetch_assoc()) {
-                                $total = contarValores($conn, "curso", "Id_idioma = '" . $row['Id_idioma'] . "'");
+                                $total = contarValores($conn, "curso", "Id_idioma = '" . $row['Id_idioma'] . "' AND Estado_curso = 'ativo'");
                                 $desabilitar = ($total == 0 || empty($total)) ? 'disabled' : '';
 
                                 echo '
                                     <label>
-                                        <input type="checkbox" name="idioma[]" value="' . $row['Nome_idioma'] . '" onchange="efetuarPesquisa(this,\'idioma_'.$row['Nome_idioma'].'\')" ' . $desabilitar . ' />
+                                        <input type="checkbox" name="idioma[]" value="' . $row['Nome_idioma'] . '" onchange="efetuarPesquisa(this,\'idioma_' . $row['Nome_idioma'] . '\')" ' . $desabilitar . ' />
                                         ' . $row['Nome_idioma'] . '
                                         <span>(' . (($total == 0 || empty($total)) ? '0' : $total) . ')</span>
                                     </label>
@@ -160,7 +160,7 @@ include("../database/basedados.php");
                         <form method="GET" id="filtroForm">
                             <label>
                                 <?php
-                                $total = contarValores($conn, "curso", "Preco_antigo IS NOT NULL AND Preco_antigo <> 0 AND Preco_antigo > Preco");
+                                $total = contarValores($conn, "curso", "Preco_antigo IS NOT NULL AND Preco_antigo <> 0 AND Preco_antigo > Preco AND Estado_curso = 'ativo'");
                                 $desabilitar = ($total == 0 || empty($total)) ? 'disabled' : '';
                                 ?>
                                 <input type="checkbox" name="desconto[]" value="comDesconto" onchange="efetuarPesquisa(this, 'desconto_comDesconto')"
@@ -170,7 +170,8 @@ include("../database/basedados.php");
 
                             <label>
                                 <?php
-                                $total = contarValores($conn, 'curso', 'Preco_antigo IS NULL OR Preco_antigo = 0 OR Preco_antigo < Preco');
+                                $total = contarValores($conn, 'curso', "Preco_antigo IS NULL OR Preco_antigo = 0 OR Preco_antigo < Preco AND Estado_curso = 'ativo'");
+
                                 $desabilitar = ($total == 0 || empty($total)) ? 'disabled' : '';
                                 ?>
                                 <input type="checkbox" name="desconto[]" value="semDesconto" onchange="efetuarPesquisa(this, 'desconto_semDesconto')"
@@ -181,7 +182,7 @@ include("../database/basedados.php");
                             <label>
                                 <?php
 
-                                $total = contarValores($conn, 'curso');
+                                $total = contarValores($conn, 'curso ', " Estado_curso = 'ativo'");
                                 $desabilitar = ($total == 0 || empty($total)) ? 'disabled' : '';
                                 ?>
                                 <input type="checkbox" name="desconto[]" value="ambos" onchange="efetuarPesquisa(this, 'desconto_semSelecao')"
@@ -541,10 +542,11 @@ include("../database/basedados.php");
 
                     if (isset($_GET['search']) && $_GET['search'] != '') {
                         $search = htmlspecialchars($_GET['search']);
-                        $query = "SELECT curso.*, categoria.* 
-                                    FROM curso 
-                                    INNER JOIN categoria ON curso.Id_categoria = categoria.Id_categoria 
-                                    WHERE curso.Nome_curso LIKE ? 
+                        $query = "SELECT curso.*, categoria.*, idioma.Nome_idioma
+                                    FROM curso
+                                    LEFT JOIN categoria ON curso.Id_categoria = categoria.Id_categoria
+                                    INNER JOIN idioma ON curso.Id_idioma = idioma.Id_idioma
+                                    WHERE curso.Nome_curso LIKE ? AND curso.Estado_curso = 'ativo'
                                     ORDER BY $orderBy";
                         $stmt = $conn->prepare($query);
                         $searchParam = "%" . $search . "%";
@@ -552,10 +554,11 @@ include("../database/basedados.php");
                     } else {
 
                         $query = "SELECT curso.*, categoria.*, idioma.Nome_idioma 
-                                    FROM curso 
-                                    INNER JOIN categoria ON curso.Id_categoria = categoria.Id_categoria 
-                                    INNER JOIN idioma ON curso.Id_idioma = idioma.Id_idioma 
-                                    ORDER BY $orderBy";
+                                FROM curso 
+                                LEFT JOIN categoria ON curso.Id_categoria = categoria.Id_categoria 
+                                INNER JOIN idioma ON curso.Id_idioma = idioma.Id_idioma 
+                                WHERE Estado_curso = 'ativo'
+                                ORDER BY $orderBy";
                         $stmt = $conn->prepare($query);
                     }
 
@@ -564,6 +567,7 @@ include("../database/basedados.php");
                     if ($result->num_rows > 0) {
                         echo '<p id="mensagemErroPreco" style="display: none; color: red;">Nenhum curso encontrado nesses valores</p>';
                         while ($row = $result->fetch_assoc()) {
+
 
                             echo '
                                     <div class="course-card produto"
@@ -576,21 +580,21 @@ include("../database/basedados.php");
                                         data-dificuldade="' . $row['Dificuldade'] . '"
                                         data-duracao="' . $row['Tempo_estimado'] . '"
                                         data-avaliacao="' . $row['Classificacao'] . '"
-                                        data-categoria="' . $row['Nome_cat'] . '" 
+                                        data-categoria="' .  (!empty($row['Nome_cat']) ? htmlspecialchars($row['Nome_cat']) : 'Sem categoria') . '" 
                                         data-preco="' . $row['Preco'] . '"
                                     >
                                     <div class="course-image">';
 
-                                    $sitioImagem = $row['URL_foto_perfil_curso'];
-                                    $caminhoImagem = "../assets/image/curso/" . $sitioImagem;
+                            $sitioImagem = $row['URL_foto_perfil_curso'];
+                            $caminhoImagem = "../assets/image/curso/" . $sitioImagem;
 
-                                    if (!empty($sitioImagem) && file_exists($caminhoImagem)) {
-                                        echo '<img src="' . $caminhoImagem . '" alt="Imagem da categoria">';
-                                    } else {
-                                        echo '<img src="../assets/image/curso/capa_curso.png" alt="Imagem padrão">';
-                                    }
+                            if (!empty($sitioImagem) && file_exists($caminhoImagem)) {
+                                echo '<img src="' . $caminhoImagem . '" alt="Imagem da categoria">';
+                            } else {
+                                echo '<img src="../assets/image/curso/capa_curso.png" alt="Imagem padrão">';
+                            }
 
-                                        echo'
+                            echo '
                                     </div>
                                     <div class="course-info">
                                         <h3>' . $row['Nome_curso'] . '</h3>
@@ -661,7 +665,7 @@ include("../database/basedados.php");
                                         </div>
                                         
                                         <div class="course-price ">
-                                            <span class="price">' . $row['Preco'] . '€</span>
+                                            <span class="price">' . (($row['Preco'] === null || $row['Preco'] == 0) ? 'Gratuito' : $row['Preco'] . '€') . '</span>
                                             ';
                             if ($row['Preco_antigo'] !== null && $row['Preco_antigo'] != 0.00) {
                                 echo '<span class="original-price">' . $row['Preco_antigo'] . '€</span> <!-- Preço original sem desconto -->';
