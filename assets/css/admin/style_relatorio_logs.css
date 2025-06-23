@@ -60,6 +60,7 @@
   border-radius: 50%;
 }
 
+
 .user-details p{
   margin: 0;
 }
@@ -220,13 +221,7 @@ tbody td {
     border-top: 1px solid #ddd;
 }
 
-.avatar {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 1px solid #ccc;
-}
+
 
 /* Estilo do botão */
 button.ver {

@@ -22,12 +22,9 @@ $idCategoriaGlobal = "";
 
 <body>
     <!-- Cabeçalho -->
-    <header>
         <?php
         include("../../src/views/utils/cabecalhoAdmin.html");
         ?>
-
-
 
         <!-- Secção Principal (Hero) -->
         <div class="container-admin">

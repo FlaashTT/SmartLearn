@@ -50,6 +50,9 @@
  
 ## 🐞 Bugs a Corrigir
 
+```txtFatal error: Cannot redeclare mostrarPopUp() (previously declared in C:\xampp\htdocs\SmartLearn\public\popup.php:7) in C:\xampp\htdocs\SmartLearn\public\popup.php on line 40
+```
+
 - no carrinho de compras se tiver apenas um curso de valor 0 o botao de compra nao funciona
 
 ### Categorias

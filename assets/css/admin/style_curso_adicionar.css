@@ -539,9 +539,7 @@ textarea{
 /* Estilos para o conteúdo da aba Hashtag */
 .tab-content[data-content="hashtag"] {
     padding: 20px;
-    background-color: #f9f9f9;
     border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 .tab-content[data-content="hashtag"] .form-content {
@@ -675,8 +673,20 @@ textarea{
   background-color: #0056b3;
 }
 
-  
-
+.mensagem-erro {
+    display: block;             /* Mantém como bloco */
+    color: #d93025;             /* Vermelho forte para erro */
+    background-color: #fce8e6;  /* Fundo vermelho clarinho */
+    border: 1px solid #d93025; /* Borda vermelha */
+    padding: 8px 12px;          /* Espaçamento confortável */
+    border-radius: 5px;         /* Cantos arredondados */
+    font-weight: 600;           /* Texto com negrito */
+    font-size: 0.95rem;         /* Tamanho um pouco maior */
+    margin-top: 10px;           /* Espaço acima para separar do texto anterior */
+    margin: 15px 0; /* mais espaço em cima e em baixo */
+    max-width: 300px;           /* Limita largura para não esticar muito */
+    box-shadow: 0 1px 4px rgba(217, 48, 37, 0.3); /* Sombra leve para destacar */
+}
 
   
 

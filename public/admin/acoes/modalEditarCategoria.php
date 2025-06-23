@@ -30,14 +30,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <title>SmartLearn</title>
                 <link rel="stylesheet" href="../../../assets/fontawesome/fontawesome/css/all.min.css" />
                 <link rel="stylesheet" href="../../../assets/css/admin/style_admin.css" />
-                <link rel="stylesheet" href="../../../assets/css/admin/style_curso_categoria.css" />
+                <link rel="stylesheet" href="../../../assets/css/admin/style_curso_adicionar.css" />
+                <link rel="stylesheet" href="../../../assets/css/admin/style_modal.css" />
             </head>
 
             <!-- Modal para Editar -->
+            
             <div id="editModal" class="modal">
                 <div class="modal-content">
                     <h2>Editar Curso</h2>
-                    <form class="form-content" method="POST" action="alterarCategoria.php" enctype="multipart/form-data">
+                        <form class="form-content" method="POST" action="alterarCategoria.php" enctype="multipart/form-data">
                         <label for="novoNomeCat">Título da categoria:</label>
 
                         <input type="text" id="editTitle" name="novoNomeCat" value="' . $row['Nome_cat'] . '" required>
