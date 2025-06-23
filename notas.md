@@ -1,6 +1,11 @@
 # Notas do Projeto FelixBus
 --- 
 ## ✅ Concluído
+
+- **Layouts Finalizados**
+  _Localização do ficheiro:_  
+  - `\src\views\layout`
+
 - **Criação de cursos gerais**
   _Localização do ficheiro:_
   - `\src\vies\layout\admin\layout_categorias.html`
@@ -21,10 +26,10 @@
 ---
 ## 🔧 Em Progresso
 
-- NDA
+- Finalizar `relatorio_logs.php` com as ações completas
 
 ## 📌 Para Fazer
-- [X] Sitio onde tem dados das respostas dos forms de satisfação dos clientes
+- Sitio onde tem dados das respostas dos forms de satisfação dos clientes
 
 - Estilo do `modalEditarCategoria.php`
 
@@ -34,7 +39,7 @@
   - Facebook  
   - outros
 
-- Finalizar `relatorio_logs.php` com as ações completas
+
 
 - Em `categoria_curso.php`, fazer o modal como no `gerenciar_admin.php` (na mesma página)
   
@@ -45,7 +50,7 @@
  
 ## 🐞 Bugs a Corrigir
 
--no carrinho de compras se tiver apenas um curso de valor 0 o botao de compra nao funciona
+- no carrinho de compras se tiver apenas um curso de valor 0 o botao de compra nao funciona
 
 ### Categorias
   
