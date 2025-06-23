@@ -304,180 +304,162 @@ table th{
 
 .card-container {
     display: grid;
-    grid-template-columns: auto auto auto; /* Três colunas */
-    width: 100%;
-    gap: 20px; /* Espaçamento entre os cards */
-    margin-top: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 20px;
+    padding: 20px 0;
 }
 
 .card {
     background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    height: 100%;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.card-image{
-    width: 100%;
-    height: 200px;
-    flex: 1;
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
 }
 
 .card-image img {
     width: 100%;
-    height: 100%;
+    height: 180px;
     object-fit: cover;
+    border-bottom: 1px solid #eee;
 }
 
-.card-content{
-    display: grid;
-    padding: 15px;
-    gap: 10px;
-    grid-template-rows: auto auto;
+.card-content {
+    padding: 20px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .card-header h3 {
-    display: flex; 
-    align-items: center; 
-    gap: 8px;
-    font-size: 18px; 
-    margin: 0; 
-    color: #333; 
-}
-
-.card-header h3 i {
-    font-size: 14px; 
-    color: #000000; 
-}
-
-.card-header p{
-    margin: 0;
-    font-size: 14px;
-    color: #666;
-}
-
-.card-sections{
-    display: grid;
-    grid-template-columns: 1fr auto;
+    font-size: 20px;
+    margin: 0 0 10px;
+    color: #333;
+    display: flex;
     align-items: center;
+    gap: 8px;
+}
+
+.card-header p {
+    font-size: 14px;
+    color: #777;
+}
+
+.card-sections {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #555;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.card-actions {
+    display: flex;
     gap: 10px;
 }
 
-.card-sections p{
-    margin: 0;
-    font-size: 14px;
-}
-
-.card-sections hr {
-    border: none;
-    border-top: 1px solid #ccc; /* Linha cinza clara */
-    margin: 10px 0; /* Espaçamento acima e abaixo da linha */
-}
-
-.card-actions{
-    display: flex;
-    gap: 5px;
-}
-
-.edit-icon, .delete-icon{
+.card-actions button {
     background: none;
     border: none;
+    color: #555;
     cursor: pointer;
-    font-size: 10px;
+    font-size: 16px;
+    transition: color 0.2s ease;
 }
 
-.card-footer{
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 100px;
-    padding: 10px;
-    background-color: #fff;
+.card-actions button:hover {
+    color: #007bff;
 }
 
-.btn{
-    border-radius: 5px;
+.card-footer {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px 20px;
+    border-top: 1px solid #eee;
+    background-color: #f9f9f9;
+}
+
+.card-footer .btn {
+    padding: 8px 15px;
     border: none;
+    border-radius: 8px;
     cursor: pointer;
-    font-size: 10px;
-    padding: 10px;
-    transition: background-color 0.3s ease;
+    font-weight: 500;
+    transition: background-color 0.2s ease;
 }
 
-.edit-btn{
+.card-footer .edit-btn {
     background-color: #007bff;
+    color: #fff;
 }
 
-.delete-btn{
+.card-footer .edit-btn:hover {
+    background-color: #0056b3;
+}
+
+.card-footer .delete-btn {
     background-color: #dc3545;
+    color: #fff;
 }
 
+.card-footer .delete-btn:hover {
+    background-color: #b02a37;
+}
 
 .modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
-  backdrop-filter: blur(4px);
-  animation: fadeIn 0.3s ease-in-out;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
 }
 
 .modal-content {
-  background: #ffffff;
-  border-radius: 16px;
-  padding: 40px 30px;
-  width: 100%;
-  max-width: 500px;
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
-  animation: slideIn 0.4s ease-in-out;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
+    background: #fff;
+    padding: 30px;
+    border-radius: 12px;
+    width: 100%;
+    max-width: 400px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 }
 
-
-
 .modal-content h2 {
-  margin-bottom: 20px;
-  font-size: 24px;
-  color: #333;
-  font-weight: bold;
+    margin-bottom: 20px;
+    font-size: 22px;
 }
 
 .modal-content label {
-  font-size: 16px;
-  color: #444;
-  margin-bottom: 8px;
-  text-align: left;
-  display: block;
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 600;
+    color: #444;
 }
 
-.modal-content input[type="text"] {
-  width: 100%;
-  padding: 10px 15px;
-  margin-bottom: 15px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  font-size: 14px;
-  color: #333;
-  background-color: #f9f9f9;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+.modal-content input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
 }
 
-.modal-content input[type="text"]:focus {
-  border-color: #007bff;
-  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-  outline: none;
-  background-color: #fff;
+.modal-content .btn {
+    width: 100%;
+    margin-top: 10px;
 }
 
 #subcategoriesContainer {
