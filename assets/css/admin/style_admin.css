@@ -125,6 +125,11 @@ nav {
     cursor: pointer;
 }
 
+.back-button:hover {
+    background-color: #3a7ac9; /* Cor mais escura ao passar o mouse */
+    color: #333; /* Cor do texto ao passar o mouse */
+}
+
 .nav-right {
     display: flex;
     align-items: center;

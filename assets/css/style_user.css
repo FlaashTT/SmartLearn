@@ -58,6 +58,7 @@ nav {
     align-items: center;
 }
 
+
 .nav-item {
     display: inline-block; /* Torna o link um bloco clicável */
     text-decoration: none;
