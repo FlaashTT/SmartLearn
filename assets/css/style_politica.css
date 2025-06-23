@@ -29,6 +29,11 @@
   font-weight: bold;
 }
 
+.inativo {
+  color: red;
+  font-weight: bold;
+}
+
 
 .politica-container {
   max-width: 1000px;
