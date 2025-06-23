@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 18-Jun-2025 às 17:24
+-- Tempo de geração: 23-Jun-2025 às 15:54
 -- Versão do servidor: 10.4.32-MariaDB
 -- versão do PHP: 8.2.12
 
@@ -51,14 +51,14 @@ CREATE TABLE IF NOT EXISTS `categoria` (
   `Quantidade_cursos` int(11) NOT NULL DEFAULT 0,
   `Miniatura_cat` varchar(40) NOT NULL,
   PRIMARY KEY (`Id_categoria`)
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Extraindo dados da tabela `categoria`
 --
 
 INSERT INTO `categoria` (`Id_categoria`, `Nome_cat`, `Num_visitasCat`, `Quantidade_cursos`, `Miniatura_cat`) VALUES
-(1, 'tecnologia', 0, 1, '');
+(1, 'tecnologia', 0, 1, 'miniatura_cat1.jpg');
 
 -- --------------------------------------------------------
 
@@ -79,7 +79,7 @@ CREATE TABLE IF NOT EXISTS `configuracoes_site` (
   `data_update` datetime DEFAULT NULL,
   PRIMARY KEY (`Id_configuracao`),
   KEY `fk_idUpdater` (`Id_utilizador_Ultimo_update`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Extraindo dados da tabela `configuracoes_site`
@@ -297,7 +297,7 @@ CREATE TABLE IF NOT EXISTS `logs_sistema` (
   `Id_user` int(11) NOT NULL,
   `Id_curso` int(11) DEFAULT NULL,
   `Descricao_log` text NOT NULL,
-  `Tipo_log` enum('Update Curso','Utilizador Matriculado','Informacional','Erro','Aviso','Novo Registo','Deposito de saldo','Levantamento de saldo','Compra curso','Reembolso curso','Conteudo curso alterado') NOT NULL,
+  `Tipo_log` enum('Update Curso','Utilizador Matriculado','Informacional','Erro','Aviso','Novo Registo','Deposito de saldo','Levantamento de saldo','Compra curso','Reembolso curso','Conteudo curso alterado','Configurações alteradas','Utilizador Alterado por admin') NOT NULL,
   `Data_log` datetime NOT NULL,
   `saldo` double DEFAULT 0,
   PRIMARY KEY (`Id_log`),
@@ -443,6 +443,7 @@ CREATE TABLE IF NOT EXISTS `perguntas_forms` (
 
 CREATE TABLE IF NOT EXISTS `resposta_forms` (
   `Id_resposta` int(11) NOT NULL AUTO_INCREMENT,
+  `Id_user` int(11) DEFAULT NULL,
   `Data_submissao` datetime NOT NULL,
   PRIMARY KEY (`Id_resposta`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;

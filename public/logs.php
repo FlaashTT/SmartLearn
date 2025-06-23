@@ -1,4 +1,9 @@
 <?php
+// BLOQUEAR ACESSO DIRETO POR URL (sem navegação interna)
+if (!isset($_SERVER['HTTP_REFERER']) || empty($_SERVER['HTTP_REFERER'])) {
+    header("Location:../public/inicio.php");
+    exit();
+}
 function criarLogs($tipoLog, $idUser = null, $saldo = null, $idCurso = null, $idCategoria = null, $tipoErro = null, $ficheiro = null, $idUserAlterado = null)
 { //devemos por mais campos,ter de ver depois oq vai ser necesario
 
