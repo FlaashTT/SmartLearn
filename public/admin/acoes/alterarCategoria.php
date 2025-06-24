@@ -2,8 +2,8 @@
 <?php
 include("../../../database/basedados.php");
 include("inserirImagemCat.php");
-include("../../popup.php");
-include("../../logs.php");
+require_once("../../popup.php");
+require_once("../../logs.php");
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $erro = false;
     $textoErro = "";
@@ -81,15 +81,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 if (!$erro && $alteracaoFeita) {
 
-    mostrarPopUp('Alteração feita com sucesso!');
+    # mostrarPopUp('Alteração feita com sucesso!');
     criarLogs("Categoria alterada", $_SESSION['utilizadorOn']['Id_user'], null, null, $idCategoria);
 } elseif (!$alteracaoFeita) {
 
-    mostrarPopUp('Nenhuma alteração foi feita!');
+    # mostrarPopUp('Nenhuma alteração foi feita!');
 }
 
 if ($erro) {
-    mostrarPopUp($textoErro);
+    # mostrarPopUp($textoErro);
     criarLogs("Erro", $_SESSION['utilizadorOn']['Id_user'], null, null, $idCategoria, $textoErro, __FILE__);
 }
 

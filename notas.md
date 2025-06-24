@@ -31,15 +31,6 @@
 ## 📌 Para Fazer
 - Sitio onde tem dados das respostas dos forms de satisfação dos clientes
 
-- Meter rodapé na politica e tutorial
-
-- Pensar em provedores possíveis:  
-  - pessoal (dado pelo próprio criador)  
-  - YouTube  
-  - Facebook  
-  - outros
-
-
 
 - Em `categoria_curso.php`, fazer o modal como no `gerenciar_admin.php` (na mesma página)
   
@@ -50,19 +41,11 @@
  
 ## 🐞 Bugs a Corrigir
 
-```txtFatal error: Cannot redeclare mostrarPopUp() (previously declared in C:\xampp\htdocs\SmartLearn\public\popup.php:7) in C:\xampp\htdocs\SmartLearn\public\popup.php on line 40
-```
-
 - no carrinho de compras se tiver apenas um curso de valor 0 o botao de compra nao funciona
 
 
   
 ### Erro Crítico ❗
-```txt
-Fatal error: Uncaught ArgumentCountError: The number of elements in the type definition string must match the number of bind variables in C:\xampp\htdocs\SmartLearn\public\perfil\perfil_carteira.php:36 Stack trace: #0 C:\xampp\htdocs\SmartLearn\public\perfil\perfil_carteira.php(36): mysqli_stmt->bind_param('issii', 32, '%cur%', '%cur%', '%cur%', 10, 0) #1 {main} thrown in C:\xampp\htdocs\SmartLearn\public\perfil\perfil_carteira.php on line 36
-```
-
-
 
 ---
 

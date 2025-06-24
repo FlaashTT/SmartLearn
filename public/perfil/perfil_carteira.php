@@ -33,7 +33,7 @@ $sql .= " LIMIT ? OFFSET ?";  // Limitar os resultados com base na página atual
 $stmt = $conn->prepare($sql);
 
 if ($textoPesquisa !== null) {
-    $stmt->bind_param("issii", $_SESSION['utilizadorOn']['Id_user'], $textoPesquisa, $textoPesquisa, $textoPesquisa, $por_pagina, $offset);
+    $stmt->bind_param("issiii", $_SESSION['utilizadorOn']['Id_user'], $textoPesquisa, $textoPesquisa, $textoPesquisa, $por_pagina, $offset);
 } else {
     $stmt->bind_param("iii", $_SESSION['utilizadorOn']['Id_user'], $por_pagina, $offset);
 }
@@ -84,7 +84,7 @@ $result = $stmt->get_result();
                     <div class="action">
                         <form action="adicionarSaldo.php" method="post">
                             <h3>Adicionar Saldo</h3>
-                            <input name="adicionarSaldo" type="number" id="adicionarSaldo" min="5" placeholder="Valor a adicionar (€)" />
+                            <input name="adicionarSaldo" type="number" id="adicionarSaldo" min="5.00" step="0.01" placeholder="Valor a adicionar (€)" />
                             <button id="btnAdicionarSaldo">Adicionar</button>
                         </form>
                     </div>
@@ -94,7 +94,7 @@ $result = $stmt->get_result();
                     <div class="action">
                         <form action="levantarSaldo.php" method="post">
                             <h3>Levantar Saldo</h3>
-                            <input type="number" name="levantarSaldo" id="levantarSaldo" min="1" placeholder="Valor a levantar (€)" />
+                            <input type="number" name="levantarSaldo" id="levantarSaldo" min="0.01" step="0.01" placeholder="Valor a levantar (€)" />
                             <button id="btnLevantarSaldo">Levantar</button>
                         </form>
                     </div>

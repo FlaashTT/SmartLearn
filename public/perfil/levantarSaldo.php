@@ -8,7 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (!empty($_POST['levantarSaldo']) && $_POST['levantarSaldo'] > 0) {
 
-        if ($_POST['levantarSaldo'] < $_SESSION['utilizadorOn']['Carteira']) {
+        if ($_POST['levantarSaldo'] <= $_SESSION['utilizadorOn']['Carteira']) {
 
             $novoSaldo = $_SESSION['utilizadorOn']['Carteira'] - $_POST['levantarSaldo'];
 
@@ -18,10 +18,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt->execute();
             $result = $stmt->get_result();
             if ($stmt->affected_rows > 0) {
+                $_SESSION['utilizadorOn']['Carteira'] = $novoSaldo; // Atualizar sessão
                 criarLogs("Levantamento de saldo", $_SESSION['utilizadorOn']['Id_user'], $_POST['levantarSaldo']);
                 echo '
             <script>
-                alert("Foi retirado ' . $_POST['levantarSaldo'] . '€ da sua conta");
+                alert("Foi retirado ' . number_format($_POST['levantarSaldo'], 2, ',', ' ') . '€ da sua conta");
                 window.location.href = document.referrer;
             </script>
             ';

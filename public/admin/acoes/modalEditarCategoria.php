@@ -30,8 +30,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <title>SmartLearn</title>
                 <link rel="stylesheet" href="../../../assets/fontawesome/fontawesome/css/all.min.css" />
                 <link rel="stylesheet" href="../../../assets/css/admin/style_admin.css" />
-                <link rel="stylesheet" href="../../../assets/css/admin/style_curso_adicionar.css" />
                 <link rel="stylesheet" href="../../../assets/css/admin/style_modal.css" />
+                <link rel="stylesheet" href="../../../assets/css/admin/style_curso_adicionar.css" />
+                
             </head>
 
             <!-- Modal para Editar -->
