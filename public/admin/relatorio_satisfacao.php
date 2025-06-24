@@ -120,14 +120,14 @@ $offset = ($pagina - 1) * $limite;
 
 
                             <tr>
-                                <td>1</td>
+                                <td class="coluna-id"><span> <?php echo $row['Id_user']; ?></span></td>
                                 <td>Joana Silva<br><small>joana@email.com</small></td>
                                 <td>
                                     Texto livre deixado pelo utilizador com a sua opinião
                                     <a href="#" class="ver-mais-link" onclick="abrirDescricaoModal('Joana Silva', 'Responsável pela gestão dos cursos e conteúdos da plataforma, incluindo organização, monitorização de progresso, e suporte a formadores e alunos.')"
                                         style="color: #007bff; text-decoration: none;">Ver mais</a>
                                 </td>
-                                <td>2025-04-14 15:23</td>
+                                <td><?php echo $row['Data_submissao']; ?></td>
                                 <td><span class="tag tag-excelente">Excelente</span></td>
                                 <td style="text-align: center;">
                                     <a href="#" style="color: #80e73c; font-size: 14px; text-decoration: none;">

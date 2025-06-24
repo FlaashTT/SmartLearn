@@ -287,7 +287,7 @@ $resultLimit = $conn->query($sqlCursosLimit);
 
                                 echo '
                                         <tr>
-                                    <td>' . $row['Id_curso'] . '</td>
+                                    <td class="coluna-id"> <span>' . $row['Id_curso'] . '</span></td>
                                     <td>' . $row['Nome_curso'] . '</td>
                                     <td>' . $Categoria . '</td>
                                     <td>' . $total . '</td>
