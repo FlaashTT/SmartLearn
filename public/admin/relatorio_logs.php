@@ -118,14 +118,45 @@ $totalEntradas = 0;
                                     $totalEntradas++;
                                     echo '
                                     <tr>
-                                        <td>' . $row['Id_user'] . '</td>
+                                        <td class="coluna-id"> <span>'  . $row['Id_user'] . '</span></td>
                                         <td>' . $row['PNome_user'] . ' ' . $row['SNome_user'] . ' <br><small>' . $row['Email'] . '</small></td>
-                                        <td>
-                                            Responsável pela gestão dos cursos...
-                                            <a href="#" class="ver-mais-link" onclick="abrirDescricaoModal("Joana Silva", "Responsável pela gestão dos cursos e conteúdos da plataforma, incluindo organização, monitorização de progresso, e suporte a formadores e alunos.")"
-                                                style="color: #007bff; text-decoration: none;">Ver mais</a>
-                                        </td>
-                                        <td>2025-04-14 15:23</td>
+                                        <td>';
+                                    $descricao = $row['Descricao_log'];
+                                    $limite = 40;
+                                    $proximoLimite = $limite + 20;
+                                    $descricao_curta = '';
+                                    $descricao_completa = '';
+
+                                    if (strlen($descricao) <= $limite) {
+                                        $descricao_curta = $descricao;
+                                        $mostrarBotaoVerMais = false;
+                                    } else {
+                                        $descricaoParte = substr($descricao, $limite, 20);
+                                        $posPontoDepois = strpos($descricaoParte, '.');
+
+                                        if ($posPontoDepois !== false) {
+                                            $posPontoDepois += $limite;
+                                            $descricao_curta = substr($descricao, 0, $posPontoDepois + 1);
+                                        } else {
+                                            $descricao_curta = substr($descricao, 0, $proximoLimite);
+                                        }
+
+                                        $descricao_completa = substr($descricao, strlen($descricao_curta));
+                                        $mostrarBotaoVerMais = true;
+                                    }
+                                    echo '
+                                    <span class="descricao-curta">' . htmlspecialchars($descricao_curta) . ' </span>';
+
+                                    if ($mostrarBotaoVerMais) {
+                                        echo '
+                                        <span class="descricao-completa" style="display: none;">' . htmlspecialchars($descricao_completa) . '</span>
+                                       <a style="color: #007bff; text-decoration: none; cursor: pointer;" class="ver-mais-btn" onclick="toggleDescription(this)">Ver mais</a>
+                                        ';
+                                    }
+                                    echo '
+                                    </td>
+
+                                        <td>' . $row['Data_log'] . '</td>
                                         <td>' . $row['Tipo_log'] . '</td>
                                         <td style="text-align: center;">
                                             <a href="#" style="color: #e74c3c; font-size: 14px; text-decoration: none;">
@@ -210,6 +241,21 @@ $totalEntradas = 0;
                 fecharModal();
             }
         }
+
+        function toggleDescription(btn) {
+            const td = btn.closest('td');
+            const curta = td.querySelector('.descricao-curta');
+            const completa = td.querySelector('.descricao-completa');
+
+            if (completa.style.display === "none" || completa.style.display === "") {
+                completa.style.display = "inline";
+                btn.textContent = "Ver menos";
+            } else {
+                completa.style.display = "none";
+                btn.textContent = "Ver mais";
+            }
+        }
+
     </script>
 
 

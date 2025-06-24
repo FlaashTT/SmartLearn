@@ -583,3 +583,36 @@ table th{
   background-color: #0056b3;
 }
 
+
+td.coluna-id {
+  text-align: center;
+  width: 1%;
+}
+
+td.coluna-id span {
+  display: inline-block;
+  background-color: #007bff; /* Azul */
+  color: white;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  line-height: 28px;
+  font-size: 14px;
+  font-weight: bold;
+  transform-origin: 50% 50%;
+  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.4);
+}
+
+td.coluna-id span:hover {
+  transform: scale(1.15);
+  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.4);
+}
+
+@keyframes rodar {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

@@ -127,7 +127,7 @@ $idEditar = isset($_POST['idEditar']) ? $_POST['idEditar'] : null;
 
                                     echo '
                                         <tr data-id="' . $row['Id_user'] . '">
-                                            <td>' . $row['Id_user'] . '</td>
+                                            <td class="coluna-id"> <span> ' . $row['Id_user'] . ' </span> </td>
                                             ';
                                     if (!empty($row['URL_foto_perfilUser']) && file_exists($caminhoImagem)) {
                                         echo '<td><img  class="avatar" src="../../assets/image/fotosPerfil/' . $row['URL_foto_perfilUser'] . '" alt="Erro"></td>';

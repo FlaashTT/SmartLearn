@@ -20,7 +20,7 @@ if ($result && $result->num_rows > 0) {
     <link
         rel="stylesheet"
         href="../assets/fontawesome/fontawesome/css/all.min.css" />
-    <link rel="stylesheet" href="../assets/css/style_user.css" />
+    <link rel="stylesheet" href="../assets/css/style.css" />
     <link rel="stylesheet" href="../assets/css/style_politica.css" />
 </head>
 

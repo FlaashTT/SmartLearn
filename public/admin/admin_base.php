@@ -49,7 +49,6 @@ include("../../database/basedados.php");
                         <div class="stat">
                             <i class="fas fa-book"></i>
                             <span id="numCursos">
-
                                 <?php
                                 $query = "SELECT COUNT(*) AS total FROM curso";
                                 $result = $conn->query($query);
@@ -57,15 +56,15 @@ include("../../database/basedados.php");
                                 if ($result) {
                                     $row = $result->fetch_assoc();
                                     $total = $row['total'];
-                                    echo $total;
+                                    echo '<span class="coluna-id"><span>' . $total . '</span></span>';
                                 } else {
-                                    echo "Erro ao contar cursos.";
+                                    echo '<span class="coluna-id"><span>Erro</span></span>';
                                 }
                                 ?>
-
                             </span>
                             <p>Número de cursos</p>
                         </div>
+
                         <div class="stat">
                             <i class="fas fa-file-alt"></i>
                             <span id="numCapitulos">
@@ -77,9 +76,9 @@ include("../../database/basedados.php");
                                 if ($result) {
                                     $row = $result->fetch_assoc();
                                     $total = $row['total'];
-                                    echo $total;
+                                    echo '<span class="coluna-id"><span>' . $total . '</span></span>';
                                 } else {
-                                    echo "Erro ao contar capitulos.";
+                                    echo '<span class="coluna-id"><span>Erro</span></span>';
                                 }
                                 ?>
 
@@ -97,9 +96,9 @@ include("../../database/basedados.php");
                                 if ($result) {
                                     $row = $result->fetch_assoc();
                                     $total = $row['total'];
-                                    echo $total;
+                                    echo '<span class="coluna-id"><span>' . $total . '</span></span>';
                                 } else {
-                                    echo "Erro ao contar inscrições.";
+                                    echo '<span class="coluna-id"><span>Erro</span></span>';
                                 }
                                 ?>
 
@@ -117,9 +116,9 @@ include("../../database/basedados.php");
                                 if ($result) {
                                     $row = $result->fetch_assoc();
                                     $total = $row['total'];
-                                    echo $total;
+                                    echo '<span class="coluna-id"><span>' . $total . '</span></span>';
                                 } else {
-                                    echo "Erro ao contar utilizadores.";
+                                    echo '<span class="coluna-id"><span>Erro</span></span>';
                                 }
                                 ?>
 
