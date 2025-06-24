@@ -73,16 +73,7 @@ include("../../database/basedados.php");
                             // Buscar até 4 nomes de fases (seções)
                             $querySecoes = "SELECT Titulo_fase FROM fase WHERE Id_curso = $id_curso LIMIT 2";
                             $resultSecoes = $conn->query($querySecoes);
-                            $listaSecoes = [];
-
-                            while ($secao = $resultSecoes->fetch_assoc()) {
-                                $listaSecoes[] = $secao['Titulo_fase'];
-                            }
-
-                            $secoesTexto = implode(', ', $listaSecoes);
-                            if (count($listaSecoes) === 2) {
-                                $secoesTexto .= ',...';
-                            }
+                            
 
                             echo '
                             <div class="card">
@@ -106,7 +97,7 @@ include("../../database/basedados.php");
                                     </div>
                                     <hr>
                                     <div class="card-sections">
-                                        <p>' . $secoesTexto . '</p>
+                                        <p>'..'</p>
                                         <div class="card-actions">
                                             <button class="edit-icon"><i class="fas fa-edit"></i></button>
                                             <button class="delete-icon"><i class="fas fa-trash"></i></button>

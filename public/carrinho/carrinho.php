@@ -86,7 +86,7 @@ include('../../database/basedados.php');
             ?>
 
 
-            <a href="inicio.php" class="continue">Continuar a comprar</a>
+            <a href="../inicio.php" class="continue">Continuar a comprar</a>
         </section>
 
         <aside class="carrinho">
