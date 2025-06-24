@@ -1,6 +1,7 @@
 <?php
 include('../segurança.php');
 include("../../database/basedados.php");
+include("../popup.php");
 $erro = false;
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -221,11 +222,8 @@ $cursoComprado = false;
 <?php
 
 if ($erro) {
-  echo "
-    <script>
-        window.history.back();
-    </script>
-    ";
+  mostrarPopUp("ERRO");
+  
   exit();
 }
 ?>
