@@ -1,5 +1,6 @@
 
 <?php
+session_start();
 include("../../../database/basedados.php");
 include("inserirImagemCat.php");
 require_once("../../popup.php");
@@ -60,7 +61,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (file_exists($file)) {
 
                 if (unlink($file)) {
-                    echo "<script>alert('Imagem antiga removida com sucesso.');</script>";
                     inserirImagem($conn, $idCategoria);
                     $alteracaoFeita = true;
                 } else {
@@ -81,15 +81,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 if (!$erro && $alteracaoFeita) {
 
-    # mostrarPopUp('Alteração feita com sucesso!');
+    mostrarPopUp('Alteração feita com sucesso!');
     criarLogs("Categoria alterada", $_SESSION['utilizadorOn']['Id_user'], null, null, $idCategoria);
 } elseif (!$alteracaoFeita) {
 
-    # mostrarPopUp('Nenhuma alteração foi feita!');
+    mostrarPopUp('Nenhuma alteração foi feita!');
 }
 
 if ($erro) {
-    # mostrarPopUp($textoErro);
+    mostrarPopUp($textoErro);
     criarLogs("Erro", $_SESSION['utilizadorOn']['Id_user'], null, null, $idCategoria, $textoErro, __FILE__);
 }
 

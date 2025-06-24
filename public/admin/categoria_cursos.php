@@ -119,37 +119,20 @@ $idCategoriaGlobal = "";
                                             break;
                                     }
                                     echo '
-                                        </div>
-                                    </div>
-                                    <div class="card-footer">
-                                        <button class="btn edit-btn" 
-                                            type="button" 
-                                            onclick="abrirModalEditar(' . $row['Id_categoria'] . ', \'' . addslashes($row['Nome_cat']) . '\', \'' . $row['Miniatura_cat'] . '\')">Editar</button>
-
-                                        <button class="btn delete-btn" type="submit">Apagar</button>
-                                    </div>
-                                    </div>
-
-                                    <!-- Modal de edição -->
-                                    <div id="editModal" class="modal" style="display:none;">
-                                        <div class="modal-content">
-                                            <h2>Editar Categoria</h2>
-                                            <form method="POST" action="acoes/alterarCategoria.php" enctype="multipart/form-data">
-                                                <input type="hidden" name="Id_catEditar" id="Id_catEditar" value="">
-                                                <label for="novoNomeCat">Título da categoria:</label>
-                                                <input type="text" id="novoNomeCat" name="novoNomeCat" value="" required>
-                                                <label for="miniatura">Miniatura da categoria <span>(400x255)</span></label>
-                                                <img id="miniaturaPreview" src="" alt="Miniatura atual" style="max-width:200px; display:block; margin-bottom:10px;">
-                                                <input type="file" name="url_imagem" id="miniatura" accept=".jpg, .jpeg, .png">
-                                                <div style="margin-top: 10px;">
-                                                    <button type="submit" class="btn">Salvar</button>
-                                                    <button type="button" class="btn cancel-btn" onclick="fecharModal(\'editModal\')">Cancelar</button>
                                                 </div>
+                                            </div>
+                                            <div class="card-footer">
+                                            <form action="acoes/modalEditarCategoria.php" method="POST">
+                                            
+                                                <button class="btn edit-btn" type="submit" name="Id_catEditar" value = "' . $row['Id_categoria'] . '">Editar</button>
                                             </form>
+                                            
+
+                                                <button class="btn delete-btn" type="submit">Apagar</button>
+                                            
+                                            </div>
                                         </div>
-                                    </div>
                                     ';
-                                    ;
                                 }
                             } else {
                                 echo "<p>Nenhuma categoria encontrada.</p>";
@@ -162,23 +145,6 @@ $idCategoriaGlobal = "";
                         </section>
                     </section>
 
-                    <div id="editModal" class="modal" style="display:none;">
-                    <div class="modal-content">
-                        <h2>Editar Categoria</h2>
-                        <form method="POST" action="acoes/alterarCategoria.php" enctype="multipart/form-data">
-                            <input type="hidden" name="Id_catEditar" id="Id_catEditar" value="">
-                            <label for="novoNomeCat">Título da categoria:</label>
-                            <input type="text" id="novoNomeCat" name="novoNomeCat" value="" required>
-                            <label for="miniatura">Miniatura da categoria <span>(400x255)</span></label>
-                            <img id="miniaturaPreview" src="" alt="Miniatura atual" style="max-width:200px; display:block; margin-bottom:10px;">
-                            <input type="file" name="url_imagem" id="miniatura" accept=".jpg, .jpeg, .png">
-                            <div style="margin-top: 10px;">
-                                <button type="submit" class="btn">Salvar</button>
-                                <button type="button" class="btn cancel-btn" onclick="fecharModal('editModal')">Cancelar</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
 
 
                     <!-- Modal para Confirmar Exclusão -->
@@ -271,34 +237,6 @@ $idCategoriaGlobal = "";
             }
         </script>
 
-
-        <script>
-            const editModal = document.getElementById('editModal');
-
-document.querySelectorAll('.edit-btn').forEach(button => {
-    button.addEventListener('click', () => {
-        // Pega os dados do botão
-        const id = button.getAttribute('data-id');
-        const nome = button.getAttribute('data-nome');
-        const miniatura = button.getAttribute('data-miniatura');
-
-        // Preenche o formulário no modal
-        document.getElementById('Id_catEditar').value = id;
-        document.getElementById('novoNomeCat').value = nome;
-
-        const imgSrc = miniatura ? `../../assets/image/miniatura_cat/${miniatura}` : '../../assets/image/miniatura_cat/miniatura_default.png';
-        document.getElementById('miniaturaPreview').src = imgSrc;
-
-        // Mostra o modal
-        editModal.style.display = 'flex';
-    });
-});
-
-function fecharModal(idModal) {
-    document.getElementById(idModal).style.display = 'none';
-}
-
-        </script>
 
 </body>
 

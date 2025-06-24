@@ -2,7 +2,7 @@
 
 include("../../../database/basedados.php");
 include("inserirImagemCat.php");
-include("../../popup.php");
+require_once("../../popup.php");
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $erro = false;
     $textoErro = "";

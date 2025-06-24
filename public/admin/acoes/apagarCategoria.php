@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 include("../../../database/basedados.php");
 include("../../popup.php");
 include("../../logs.php");
@@ -21,21 +21,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($result->num_rows > 0) {
         $row = $result->fetch_assoc();
         $urlMiniaturaAntiga = $row['Miniatura_cat'];
+        $imagem = "../../../assets/image/miniatura_cat/" . $urlMiniaturaAntiga;
+
+        if (!empty($urlMiniaturaAntiga)) {
+            if (file_exists($imagem)) {
+                if (!unlink($imagem)) {
+                    echo "<script>alert('Erro ao eliminar a imagem antiga!');</script>";
+                }
+            } else {
+                echo "<script>alert('Imagem não encontrada no servidor.');</script>";
+            }
+        }
     } else {
         $textoErro = "Erro ao coletar a imagem da categoria!";
         $erro = true;
     }
 
 
-    $imagem = "../../../assets/image/miniatura_cat/" . $urlMiniaturaAntiga;
-    if (!empty($urlMiniaturaAntiga)) {
-        if (file_exists($imagem)) {
-            if (!unlink($imagem)) {
-                $textoErro = "Erro ao remover a imagem da categoria!";
-                $erro = true;
-            }
-        }
-    }
+
     //remover a categoria dos cursos associado ha mesma
     $sql = "UPDATE curso SET Id_categoria = Null WHERE Id_categoria = ?";
     $stmt = $conn->prepare($sql);
@@ -50,7 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->bind_param("i", $id_categoria);
         $stmt->execute();
         if ($stmt->affected_rows > 0) {
-            criarLogs("Categoria eliminada",$_SESSION['utilizadorOn']['Id_user']);
+            criarLogs("Categoria eliminada", $_SESSION['utilizadorOn']['Id_user']);
             mostrarPopUp('Categoria eliminada com sucesso!');
         } else {
             $textoErro = "Erro ao eliminar categoria!";
