@@ -10,9 +10,9 @@
     href="../../assets/fontawesome/fontawesome/css/all.min.css" />
   <link rel="stylesheet" href="../../assets/css/style.css" />
   <link rel="stylesheet" href="../../assets/css/style_registro.css" />
-  <!--
+  
   <script src="../../assets/js/registo.js"></script>
--->
+
 </head>
 
 <body>
@@ -73,20 +73,9 @@
   </main>
 
   <!-- Rodapé -->
-  <footer class="footer">
-    <div class="footer-map">
-      Aqui podes adicionar um iframe com o Google Maps
-      <iframe src=""
-        width="100%" height="300" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
-
-    </div>
-    <div class="container footer-content">
-      <p>2025 Copyright by Leando Pinto e Ruben Pinheiro</p>
-      <p>Castelo Branco – Rua Esperança – 6200-000</p>
-      <p>Email: teste@gmail.com | Telefone: 255 777 222 | Fax: 966 662 222</p>
-      <p>Privacy Policy | Terms & Conditions</p>
-    </div>
-  </footer>
+  <?php
+  include("../../src/views/utils/rodape.html");
+  ?>
 
 
 </body>
