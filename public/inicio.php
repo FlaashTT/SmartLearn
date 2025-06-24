@@ -160,23 +160,19 @@ include("../database/basedados.php");
                 while ($row = $result->fetch_assoc()) {
                     // Card de Curso
                     echo '
-                
-        <form id="formCurso' . $row['Id_curso'] . '" action="../public/curso/curso_capa.php" method="POST" style="margin: 0;">
-        <input type="hidden" name="idCurso" value="' . $row['Id_curso'] . '">
-
-            <div class="card" >
-                <div class="card-image" onclick="document.getElementById(\'formCurso' . $row['Id_curso'] . '\').submit();" style="cursor: pointer;">
-                ';
+        <form id="formCurso' . $row['Id_curso'] . '" action="curso/curso_capa.php" method="POST" style="margin: 0;">
+            <input type="hidden" name="idCurso" value="' . $row['Id_curso'] . '">
+            <div class="card">
+                <div class="card-image" onclick="document.getElementById(\'formCurso' . $row['Id_curso'] . '\').submit();" style="cursor: pointer;">';
                     $sitioImagem = $row['URL_foto_perfil_curso'];
                     $caminhoImagem = "../assets/image/curso/" . $sitioImagem;
 
                     if (!empty($sitioImagem) && file_exists($caminhoImagem)) {
-                        echo ' <img src=../assets/image/curso/' . $row['URL_foto_perfil_curso'] . ' alt=" erro ao carregar imagem">';
+                        echo '<img src="../assets/image/curso/' . $row['URL_foto_perfil_curso'] . '" alt=" erro ao carregar imagem">';
                     } else {
                         echo '<img src="../assets/image/curso.png" alt="Erro">';
                     }
                     echo '
-                   
                 </div>
                 <div class="card-content">
                     <span class="badge">' . $row["Dificuldade"] . '</span>
@@ -186,26 +182,18 @@ include("../database/basedados.php");
                         <div class="stars">
                             <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
                         </div>
-        </form>
-                        ';
-                    if (!isset($_SESSION['utilizadorOn']) || !$_SESSION['utilizadorOn']) {
-                        echo "";
-                    } else {
-                        echo '
-                                <form action="curso/curso_capa.php" method="POST">
-                                    <button class="btn-buy" type="submit" name="idCurso" value="' . $row['Id_curso'] . '">Ver mais</button>
-                                </form>';
-                    }
-                    echo '
                     </div>
                     <div class="details">
                         <span>' . $row["Tempo_estimado"] . '</span>
-                    </div>
+                    </div>';
+                    if (isset($_SESSION['utilizadorOn']) && $_SESSION['utilizadorOn']) {
+                        echo '
+                        <button class="btn-buy" type="submit">Ver mais</button>';
+                    }
+                    echo '
                 </div>
-                
             </div>
-            
-        
+        </form>
         ';
                 }
             } else {
@@ -243,15 +231,15 @@ include("../database/basedados.php");
     </main>
 
     <div id="popup-satisfacao" class="popup">
-      <div class="popup-content">
-        <span class="close-btn">&times;</span>
-        <h2>Ajuda-nos a melhorar!</h2>
-        <p>
-          Ainda não preenches-te o nosso formulário de satisfação. Gostaríamos
-          de ouvir a tua opinião.
-        </p>
-        <a href="https://docs.google.com/forms/d/e/1FAIpQLSeQm_121Zk7IyPpWnUztOW0Pc7ERAEn1jIlXMpNkv36eWB2og/viewform?usp=pp_url" class="btn">Preencher agora</a>
-      </div>
+        <div class="popup-content">
+            <span class="close-btn">&times;</span>
+            <h2>Ajuda-nos a melhorar!</h2>
+            <p>
+                Ainda não preenches-te o nosso formulário de satisfação. Gostaríamos
+                de ouvir a tua opinião.
+            </p>
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLSeQm_121Zk7IyPpWnUztOW0Pc7ERAEn1jIlXMpNkv36eWB2og/viewform?usp=pp_url" class="btn">Preencher agora</a>
+        </div>
     </div>
 
 
@@ -262,32 +250,32 @@ include("../database/basedados.php");
 
     <script>
         document.addEventListener("DOMContentLoaded", () => {
-        const popup = document.getElementById("popup-satisfacao");
-        const closeBtn = document.querySelector(".close-btn");
+            const popup = document.getElementById("popup-satisfacao");
+            const closeBtn = document.querySelector(".close-btn");
 
-        const FORM_DONE_KEY = "formularioSatisfacaoFeito";
-        const LAST_SEEN_KEY = "ultimoPopupSatisfacao";
+            const FORM_DONE_KEY = "formularioSatisfacaoFeito";
+            const LAST_SEEN_KEY = "ultimoPopupSatisfacao";
 
-        // Simula que o formulário foi feito (só para testes)
-        // localStorage.setItem(FORM_DONE_KEY, "true");
+            // Simula que o formulário foi feito (só para testes)
+            // localStorage.setItem(FORM_DONE_KEY, "true");
 
-        const jaPreencheu = localStorage.getItem(FORM_DONE_KEY);
-        const ultimaVez = localStorage.getItem(LAST_SEEN_KEY);
-        const agora = new Date();
+            const jaPreencheu = localStorage.getItem(FORM_DONE_KEY);
+            const ultimaVez = localStorage.getItem(LAST_SEEN_KEY);
+            const agora = new Date();
 
-        const doisDiasMs = 2 * 24 * 60 * 60 * 1000;
+            const doisDiasMs = 2 * 24 * 60 * 60 * 1000;
 
-        if (!jaPreencheu) {
-          if (!ultimaVez || agora - new Date(ultimaVez) > doisDiasMs) {
-            popup.style.display = "block";
-            localStorage.setItem(LAST_SEEN_KEY, agora.toISOString());
-          }
-        }
+            if (!jaPreencheu) {
+                if (!ultimaVez || agora - new Date(ultimaVez) > doisDiasMs) {
+                    popup.style.display = "block";
+                    localStorage.setItem(LAST_SEEN_KEY, agora.toISOString());
+                }
+            }
 
-        closeBtn.addEventListener("click", () => {
-          popup.style.display = "none";
+            closeBtn.addEventListener("click", () => {
+                popup.style.display = "none";
+            });
         });
-      });
     </script>
 </body>
 
