@@ -64,7 +64,7 @@
 
   </main>
   <?php
-  include("../../src/views/utils/rodape.html");
+  //include("../../src/views/utils/rodape.html");
   ?>
 
 
