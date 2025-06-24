@@ -97,11 +97,8 @@ include("../../database/basedados.php");
                                     </div>
                                     <hr>
                                     <div class="card-sections">
-                                        <p>'..'</p>
-                                        <div class="card-actions">
-                                            <button class="edit-icon"><i class="fas fa-edit"></i></button>
-                                            <button class="delete-icon"><i class="fas fa-trash"></i></button>
-                                        </div>
+                                        <p>Estado curso: '.$row['Estado_curso'].'</p>
+                                        
                                     </div>
                                     <hr>
                                 </div>
