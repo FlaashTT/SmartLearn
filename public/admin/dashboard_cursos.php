@@ -136,6 +136,7 @@ include("../../database/basedados.php");
                              <!-- Modal para Editar -->
                                 <div id="editModal_' . $row["Id_curso"] . '" class="modal" style="display: none;">
                                     <div class="modal-content" style="max-height: 80vh; overflow-y: auto;">
+                                    <span class="close-modal">&times;</span>
                                         <h2>Editar Curso</h2>
                                         <form id="editForm" action="acoes/editarCurso.php" method="POST">
                                             <label for="editTitle">Título do Curso: ' . $row['Nome_curso'] . '</label>
@@ -281,6 +282,13 @@ include("../../database/basedados.php");
                 closeModal('deleteModal'); // Fecha o modal
             }
         });
+    </script>
+    <script>
+            document.querySelectorAll('.close-modal').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.modal').forEach(modal => modal.style.display = 'none');
+        });
+    });
     </script>
 
 </body>

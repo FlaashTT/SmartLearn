@@ -414,53 +414,78 @@ table th{
 .card-footer .delete-btn:hover {
     background-color: #b02a37;
 }
-
 .modal {
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba(0, 0, 0, 0.4);
-    display: flex;
-    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: none;
     align-items: center;
-    z-index: 999;
+    justify-content: center;
+    z-index: 1000;
 }
 
+/* Conteúdo do modal */
 .modal-content {
-    background: #fff;
+    background-color: #fff;
     padding: 30px;
-    border-radius: 12px;
+    border-radius: 10px;
     width: 100%;
-    max-width: 400px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    position: relative;
+    max-width: 500px;
 }
 
 .modal-content h2 {
-    margin-bottom: 20px;
+    margin-top: 0;
     font-size: 22px;
-}
-
-.modal-content label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: 600;
-    color: #444;
-}
-
-.modal-content input {
-    width: 100%;
-    padding: 10px;
     margin-bottom: 15px;
-    border-radius: 6px;
-    border: 1px solid #ccc;
+    color: #333;
 }
 
-.modal-content .btn {
-    width: 100%;
-    margin-top: 10px;
+.modal-content p {
+    font-size: 16px;
+    margin-bottom: 20px;
+    color: #555;
 }
+
+.modal-content input,
+.modal-content select,
+.modal-content textarea {
+    width: 100%;
+    padding: 8px;
+    margin: 6px 0 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .card-container {
+        grid-template-columns: 1fr;
+    }
+
+    .modal-content {
+        max-width: 90%;
+    }
+}
+
+.close-modal {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 24px;
+    font-weight: bold;
+    color: #999;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.close-modal:hover {
+    color: #333;
+}
+
 
 #subcategoriesContainer {
   margin-bottom: 15px;
