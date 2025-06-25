@@ -20,7 +20,7 @@
   <header>
     <div class="container">
       <nav>
-        <div class="nav-left">
+        <div class="nav-left"> 
           <div class="logo">
             <a href="../inicio.php"><img src="../../assets/image/Logo.png" alt="Logo" /></a>
             <span class="brand-name">SmartLearn</span>
