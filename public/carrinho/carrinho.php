@@ -103,6 +103,7 @@ include('../../database/basedados.php');
             $stmt->execute();
             $result = $stmt->get_result();
             if ($result->num_rows > 0) {
+                echo '<input type="hidden" id="quantidadeCarrinho" name="nomeDoCampo" value="1">';
                 while ($row = $result->fetch_assoc()) {
                     echo '
                         <div class="cart-item">
@@ -116,6 +117,7 @@ include('../../database/basedados.php');
                     ';
                 }
             } else {
+                echo '<input type="hidden" id="quantidadeCarrinho" name="nomeDoCampo" value="0">';
                 echo '
                 <div class="cart-item">
                     <span>Não tem itens no carrinho</span>
@@ -134,7 +136,8 @@ include('../../database/basedados.php');
             <script>
                 window.onload = function() {
                     let btnFinalizarCompra = document.getElementById("btnFinalizarCompra");
-                    if('.$preçoTotalComIvaFormatado.' == 0){
+                    let total = document.getElementById("quantidadeCarrinho").value;
+                    if(total == 0){
                         btnFinalizarCompra.disabled = true;
                         btnFinalizarCompra.style.opacity = "0.5";
                         btnFinalizarCompra.textContent = "Não tem itens no carrinho";

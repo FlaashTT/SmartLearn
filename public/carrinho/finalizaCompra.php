@@ -1,18 +1,20 @@
 <?php
 include('../segurança.php');
 include('../../database/basedados.php');
-include("../popup.php");
-include("../logs.php");
+require_once("../popup.php");
+require_once("../logs.php");
 
 $erro = false;
-
+$textoErro = "";
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $preco = $_SESSION['valorFinal']; // valor final de compra
     $saldoConta = $_SESSION['utilizadorOn']['Carteira'];
 
-    if (empty($preco)) {
+    if (!isset($preco) || $preco === '') {
+
         $erro = true;
+        $textoErro = "Erro: preço está vazio.";
     } else {
         if ($saldoConta < $preco) {
             echo '
@@ -24,6 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 }
             </script>
             ';
+            exit;  // Sai aqui porque o saldo é insuficiente
         } else {
             $preco = (float) $preco;
             $saldoFinal = $saldoConta - $preco;
@@ -31,7 +34,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             $DataAtual = date('Y-m-d');
 
-            // Corrigir formato de listaCursos (string para array, se necessário)
             $listaCursos = $_SESSION['listaCursos'] ?? [];
 
             // Inserir no cursos_adquiridos
@@ -39,30 +41,47 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 INSERT INTO cursos_adquiridos(Id_user, Id_curso, Data_compra, AdicionadoPor)  
                 VALUES (?, ?, ?, ?)
             ");
-            $adicionaPor = null;
-            $stmt->bind_param("iisi", $_SESSION['utilizadorOn']['Id_user'], $id_curso, $DataAtual, $adicionaPor);
+            if (!$stmt) {
+                $textoErro = "Erro no prepare de cursos_adquiridos: " . $conn->error ;
+                $erro = true;
+            } else {
+                $adicionaPor = null;
+                $stmt->bind_param("iisi", $_SESSION['utilizadorOn']['Id_user'], $id_curso, $DataAtual, $adicionaPor);
 
-
-            foreach ($listaCursos as $id_curso) {
-                $id_curso = (int) trim($id_curso); // garantir que é inteiro
-                if (!$stmt->execute()) {
-                    $erro = true;
-                    break;
+                foreach ($listaCursos as $id_curso) {
+                    $id_curso = (int) trim($id_curso); // garantir que é inteiro
+                    $executou = $stmt->execute();
+                    if (!$executou) {
+                        $textoErro = "Erro ao executar INSERT cursos_adquiridos para o curso $id_curso: " . $stmt->error ;
+                        $erro = true;
+                        break;
+                    }
                 }
+                $stmt->close();
             }
 
-            //para inserir na tabela historico compras
-            $stmt = $conn->prepare("
-                INSERT INTO historico_compras(Id_user, Id_curso, Data_compra)  
-                VALUES (?, ?, ?)
-            ");
-            $stmt->bind_param("iis", $_SESSION['utilizadorOn']['Id_user'], $id_curso, $DataAtual);
-
-            foreach ($listaCursos as $id_curso) {
-                $id_curso = (int) trim($id_curso); // garantir que é inteiro
-                if (!$stmt->execute()) {
+            // Inserir no historico_compras
+            if (!$erro) {
+                $stmt = $conn->prepare("
+                    INSERT INTO historico_compras(Id_user, Id_curso, Data_compra)  
+                    VALUES (?, ?, ?)
+                ");
+                if (!$stmt) {
+                    $textoErro = "Erro no prepare de historico_compras: " . $conn->error ;
                     $erro = true;
-                    break;
+                } else {
+                    $stmt->bind_param("iis", $_SESSION['utilizadorOn']['Id_user'], $id_curso, $DataAtual);
+
+                    foreach ($listaCursos as $id_curso) {
+                        $id_curso = (int) trim($id_curso);
+                        $executou = $stmt->execute();
+                        if (!$executou) {
+                            $textoErro = "Erro ao executar INSERT historico_compras para o curso $id_curso: " . $stmt->error ;
+                            $erro = true;
+                            break;
+                        }
+                    }
+                    $stmt->close();
                 }
             }
 
@@ -72,41 +91,53 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     DELETE FROM carrinho_compras
                     WHERE Id_user = ?
                 ");
-                $stmt->bind_param("i", $_SESSION['utilizadorOn']['Id_user']);
-
-                if ($stmt->execute()) {
-
-                    // Atualizar saldo do utilizador
-                    $stmt = $conn->prepare("
-                        UPDATE user 
-                        SET Carteira = ? 
-                        WHERE Id_user = ?
-                    ");
-                    $stmt->bind_param("di", $saldoFinal, $_SESSION['utilizadorOn']['Id_user']);
-
-                    if ($stmt->execute()) {
-                        $_SESSION['utilizadorOn']['Carteira'] = $saldoFinal;
-
-                        
-                        criarLogs("Compra curso", $_SESSION['utilizadorOn']['Id_user'], $preco);
-                        mostrarPopUp("Pagamento realizado com sucesso!",null,"carrinho.php");
-                        
-                        exit;
-                    } else {
+                if (!$stmt) {
+                    $textoErro = "Erro no prepare DELETE carrinho_compras: " . $conn->error ;
+                    $erro = true;
+                } else {
+                    $stmt->bind_param("i", $_SESSION['utilizadorOn']['Id_user']);
+                    $executou = $stmt->execute();
+                    if (!$executou) {
+                        $textoErro = "Erro ao executar DELETE carrinho_compras: " . $stmt->error ;
                         $erro = true;
                     }
-                } else {
-                    $erro = true;
+                    $stmt->close();
                 }
+            }
+
+            // Atualizar saldo do utilizador
+            if (!$erro) {
+                $stmt = $conn->prepare("
+                    UPDATE user 
+                    SET Carteira = ? 
+                    WHERE Id_user = ?
+                ");
+                if (!$stmt) {
+                    $textoErro = "Erro no prepare UPDATE user: " . $conn->error ;
+                    $erro = true;
+                } else {
+                    $stmt->bind_param("di", $saldoFinal, $_SESSION['utilizadorOn']['Id_user']);
+                    $executou = $stmt->execute();
+                    if (!$executou) {
+                        $textoErro = "Erro ao executar UPDATE user: " . $stmt->error ;
+                        $erro = true;
+                    }
+                    $stmt->close();
+                }
+            }
+
+            if (!$erro) {
+                $_SESSION['utilizadorOn']['Carteira'] = $saldoFinal;
+                criarLogs("Compra curso", $_SESSION['utilizadorOn']['Id_user'], $preco);
+                mostrarPopUp("Pagamento realizado com sucesso!", null, "carrinho.php");
+                exit;
             }
         }
     }
 }
 
 if ($erro) {
-    criarLogs("Erro",$_SESSION['utilizadorOn']['Id_user'],null,null,null,"Erro ao finalizar compra",__FILE__);
-    mostrarPopUp("Ocorreu um erro, tente mais tarde.");
-
-    
+    criarLogs("Erro", $_SESSION['utilizadorOn']['Id_user'], null, null, null, $textoErro, __FILE__);
+    mostrarPopUp($textoErro);
     exit;
 }
