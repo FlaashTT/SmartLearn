@@ -6,7 +6,7 @@ require_once("../../logs.php");
 $erro = false;
 $textErro = "";
 
-if ($_SERVER['REQUEST_METHOD'] !== "POST") {
+if ($_SERVER['REQUEST_METHOD'] === "POST") {
     if (!isset($_POST["Id_curso"]) || $_POST['Id_curso'] === "") {
         $textErro = "Erro ao coletar o Id do curso a eliminar";
         $erro = true;
@@ -20,6 +20,9 @@ if ($_SERVER['REQUEST_METHOD'] !== "POST") {
         if (!$stmt->execute()) {
             $erro = true;
             $textErro = "Erro ao executar o UPDATE.";
+        }else{
+            criarLogs("Curso eliminado",$_SESSION['utilizadorOn']['Id_user'],null,$Id_curso);
+            mostrarPopUp("Curso eliminado com sucesso!",null,"../dashboard_cursos.php");
         }
 
         $stmt->close();
@@ -29,5 +32,6 @@ if ($_SERVER['REQUEST_METHOD'] !== "POST") {
 }
 
 if ($erro) {
+    criarLogs("Erro",$_SESSION['utilizadorOn']['Id_user'],null,$Id_curso,null,$textErro,__FILE__);
     mostrarPopUp($textErro);
 }

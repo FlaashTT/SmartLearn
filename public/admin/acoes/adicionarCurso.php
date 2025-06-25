@@ -128,7 +128,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 }
             }
 
-            mostrarPopUp('Curso adicionado com sucesso!');
+            mostrarPopUp('Curso adicionado com sucesso!',null,"../adicionar_cursos.php");
             criarLogs("Novo curso", $_SESSION['utilizadorOn']['Id_user'], null, $Id_curso);
 
             exit;

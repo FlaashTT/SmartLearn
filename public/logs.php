@@ -44,7 +44,7 @@ function criarLogs($tipoLog, $idUser = null, $saldo = null, $idCurso = null, $id
             $descricaoLog = "Foram alterados dados de conta deste utilizador";
             break;
         case "Conta eliminada":
-            $descricaoLog = "A conta deste utilizador com Id:".$idUserAlterado." foi eliminada pelo administrador com Id:".$idUser;
+            $descricaoLog = "A conta deste utilizador com Id:" . $idUserAlterado . " foi eliminada pelo administrador com Id:" . $idUser;
             break;
         case "Utilizador Matriculado":
             $descricaoLog = "O utilizador com id " . $idUserAlterado . " foi matriculado no curso de id $idCurso pelo admin com id " . $idUser;
@@ -55,6 +55,9 @@ function criarLogs($tipoLog, $idUser = null, $saldo = null, $idCurso = null, $id
 
 
         //funçoes de curso
+        case "Curso eliminado":
+            $descricaoLog = "O administrador com Id:" . $idUser . " removeu o curso com Id:" . $idCurso;
+            break;
         case "Reembolso curso":
             $descricaoLog = "Foi solicitado reembolso do curso com id" . $idCurso;
             break;
@@ -88,8 +91,8 @@ function criarLogs($tipoLog, $idUser = null, $saldo = null, $idCurso = null, $id
             $descricaoLog = "O utilizador com Id:" . $idUser . " alterou as configuraçoes do site";
             break;
     }
-    $stmt = $conn->prepare("INSERT INTO logs_sistema (Id_user, Descricao_log, Tipo_log, Data_log, saldo) VALUES (?, ?, ?, ?, ?)");
-    $stmt->bind_param("isssd", $idUser, $descricaoLog, $tipoLog, $DataAtual, $saldo);
+    $stmt = $conn->prepare("INSERT INTO logs_sistema (Id_user, Descricao_log, Tipo_log, Data_log, saldo,Id_curso) VALUES (?, ?, ?, ?, ? ,?)");
+    $stmt->bind_param("isssdi", $idUser, $descricaoLog, $tipoLog, $DataAtual, $saldo,$idCurso);
 
 
     if (!$stmt->execute()) {
