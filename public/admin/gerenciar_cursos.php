@@ -344,7 +344,7 @@ $resultLimit = $conn->query($sqlCursosLimit);
                                         SELECT logs_sistema.*, user.PNome_user AS Nome, user.SNome_user AS SNome
                                         FROM logs_sistema 
                                         INNER JOIN user ON logs_sistema.Id_user = user.Id_user 
-                                        WHERE logs_sistema.Id_curso = $idCurso AND logs_sistema.Tipo_log = 'Curso eliminado' 
+                                        WHERE logs_sistema.Id_curso = $idCurso AND (logs_sistema.Tipo_log = 'Alteração de curso' OR logs_sistema.Tipo_log = 'Curso eliminado') 
                                         ORDER BY logs_sistema.Data_log DESC 
                                     ";
                                 $resultUpdates = $conn->query($selectUpdates);
