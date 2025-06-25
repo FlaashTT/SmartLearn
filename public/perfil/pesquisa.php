@@ -43,7 +43,6 @@ function pesquisaFiltro($tabela, $Id_user, $categoria = null, $textoPesquisa = n
             }
 
             $sql .= " ORDER BY Data_log DESC";
-            // logs_sistema provavelmente não tem campos relacionados a curso, então não aplica filtros
             break;
 
         default:
