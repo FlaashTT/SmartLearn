@@ -51,11 +51,13 @@ include("../../database/basedados.php");
                 <section class="card-container">
 
                     <?php
-                    $query = "SELECT curso.*, idioma.Nome_idioma, categoria.Nome_cat
-                                FROM curso
-                                INNER JOIN idioma ON curso.Id_idioma = idioma.Id_idioma
-                                LEFT JOIN categoria ON curso.Id_categoria = categoria.Id_categoria;";
-                    $stmt = $conn->prepare($query);
+                    $stmt = $conn->prepare("SELECT curso.*, idioma.Nome_idioma, categoria.Nome_cat
+                        FROM curso
+                        INNER JOIN idioma ON curso.Id_idioma = idioma.Id_idioma
+                        LEFT JOIN categoria ON curso.Id_categoria = categoria.Id_categoria
+                        ORDER BY FIELD(curso.Estado_curso, 'ativo', 'pendente', 'inativo', 'Incompleto', 'Eliminado')");
+                    $stmt->execute();
+                    $result = $stmt->get_result();
 
 
                     $stmt->execute();
@@ -142,7 +144,7 @@ include("../../database/basedados.php");
                                             <label for="editTitle">Título do Curso: ' . $row['Nome_curso'] . '</label>
                                             
                                             <input type="hidden" name="Id_curso" value="' . $row['Id_curso'] . '" >
-                                            
+                                            <p style="margin-top:20px;">
                                             <label>Título:</label>
                                             <input type="text" name="titulo" value="' . $row['Nome_curso'] . '" ><br>
 
@@ -265,7 +267,7 @@ include("../../database/basedados.php");
             document.getElementById(modalId).style.display = 'none';
         }
 
-       
+
 
         // Função para apagar o card
         document.querySelectorAll('.delete-btn').forEach((button) => {
