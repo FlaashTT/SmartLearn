@@ -165,7 +165,7 @@
   .categories {
       display: flex;
       flex-wrap: wrap;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      grid-template-columns: repeat(5, 1fr);
       gap: 20px; 
       justify-content: center; 
       align-items: center; 
@@ -217,7 +217,7 @@
   /* ---------- Secção de ultimos cursos ---------- */
   .course-card {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(3, 1fr);
   gap: 24px;
   max-width: 1200px;
   margin: 0 auto;
