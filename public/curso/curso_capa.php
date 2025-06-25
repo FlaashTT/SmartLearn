@@ -216,7 +216,10 @@ $cursoComprado = false;
               <button name="IdCurso" value=" ' . $idCurso . '" class="avançar">
                 Adicionar ao carrinho!
               </button>
-              <button name="IdCurso" value=" ' . $idCurso . '" class="avançar">
+              </form>
+
+              <form action="../perfil/adicionarFav.php" method="POST">
+              <button name="idFav" value=" ' . $idCurso . '" class="avançar">
                 Adicionar aos favoritos!
               </button>
             </form>

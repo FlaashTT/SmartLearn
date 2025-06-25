@@ -1,27 +1,30 @@
 <?php
 include("../../database/basedados.php");
+session_start();
+require_once("../popup.php");
 $erro = false;
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
-    if (empty($_POST["idFav"]) ) {
+   if (empty($_POST["idFav"])) {
+    $erro = true;
+} else {
+    $idFavorito = $_POST['idFav'];
+
+    // Supondo que você tenha o Id do usuário na sessão, por exemplo:
+    $idUsuario = $_SESSION['utilizadorOn']['Id_user']; // Ajuste conforme seu código
+
+    $stmt = $conn->prepare("INSERT INTO cursos_favoritos (Id_user, Id_curso) VALUES (?, ?)");
+    $stmt->bind_param("ii", $idUsuario, $idFavorito);
+
+    if ($stmt->execute()) {
+        mostrarPopUp("Curso adicionado aos favoritos com sucesso!");
+        
+        
+    } else {
         $erro = true;
-    }else{
-        $idFavorito =  $_POST['idFav'];
-
-        $stmt = $conn->prepare("DELETE FROM cursos_favoritos WHERE Id_curso = ?");
-        $stmt->bind_param("i", $idFavorito);
-        $result = $stmt->get_result();
-
-        if ($stmt->execute() && $stmt->affected_rows > 0) {
-            echo'
-            <script>
-                alert("Curso removido com sucesso!");
-            </script>
-            ';
-        }else{
-            $erro = true;
-        }
     }
+}
+
 
     
 }else{
@@ -29,12 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 if($erro){
-    echo "
-    <script>
-        alert('Ocorreu um erro inesperado,tente novamente!');
-        window.history.back();
-    </script>
-    ";
+    mostrarPopUp('Ocorreu um erro inesperado,tente novamente!');
     exit();
 }
 
