@@ -104,7 +104,7 @@ $result = $stmt->get_result();
                                 <div class="course-info">
                                     <h3>' . $row['Nome_curso'] . '</h3>
                                     <div class="stars">
-                                        <i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i>
+                                        <i class="fas fa-star" style="color: gold;"></i>
                                     </div>
                                     <form method="POST" action="removerFav.php">
                                         <button class="start-button" name="idFav" value="' . $row['Id_curso'] . '">Remover dos favoritos</button>

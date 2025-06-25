@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt->bind_param("ii", $idUsuario, $idFavorito);
 
     if ($stmt->execute()) {
-        mostrarPopUp("Curso adicionado aos favoritos com sucesso!");
+        mostrarPopUp("Curso adicionado aos favoritos com sucesso!", null, "../categorias.php");
         
         
     } else {

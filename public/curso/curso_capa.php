@@ -211,20 +211,21 @@ $cursoComprado = false;
           ';
         } else {
           echo '
-          <footer class="footer-c">
-            <form action="../carrinho/adicionarAocarrinho.php" method="POST">
-              <button name="IdCurso" value=" ' . $idCurso . '" class="avançar">
-                Adicionar ao carrinho!
-              </button>
+            <div class="botoes-curso">
+              <form action="../carrinho/adicionarAocarrinho.php" method="POST">
+                <button name="IdCurso" value="' . $idCurso . '" class="botao-acao">
+                  Adicionar ao carrinho!
+                </button>
               </form>
 
               <form action="../perfil/adicionarFav.php" method="POST">
-              <button name="idFav" value=" ' . $idCurso . '" class="avançar">
-                Adicionar aos favoritos!
-              </button>
-            </form>
-          </footer>
+                <button name="idFav" value="' . $idCurso . '" class="botao-acao">
+                  Adicionar aos favoritos!
+                </button>
+              </form>
+            </div>
           ';
+
         }
 
         ?>
