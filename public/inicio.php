@@ -152,12 +152,22 @@ include("../database/basedados.php");
         <section class="course-card">
             <?php
 
-            $stmt = $conn->prepare("SELECT * FROM curso ORDER BY Data_criacao DESC LIMIT 6 ");
+            $stmt = $conn->prepare("SELECT * FROM curso WHere Estado_curso = 'ativo' ORDER BY Data_criacao DESC LIMIT 6 ");
             $stmt->execute();
             $result = $stmt->get_result();
 
             if ($result->num_rows > 0) {
                 while ($row = $result->fetch_assoc()) {
+
+                    $sql = "SELECT COUNT(*) AS totalAvaliacoes FROM cursos_adquiridos WHERE Avaliacao IS NOT NULL AND Id_curso = '{$row['Id_curso']}'";
+                    $resultavaliacoes = $conn->query($sql);
+
+                    if ($resultavaliacoes) {
+                        $rowAv = $resultavaliacoes->fetch_assoc();
+                        $totalAvaliacoes = $rowAv['totalAvaliacoes'];
+                    } else {
+                        echo "Erro na consulta: " . $conn->error;
+                    }
                     // Card de Curso
                     echo '
         <form id="formCurso' . $row['Id_curso'] . '" action="curso/curso_capa.php" method="POST" style="margin: 0;">
@@ -177,10 +187,27 @@ include("../database/basedados.php");
                 <div class="card-content">
                     <span class="badge">' . $row["Dificuldade"] . '</span>
                     <h3>' . $row["Nome_curso"] . '</h3>
-                    <p class="reviews">(0 Avaliações)</p>
+                    ';
+                    if ($totalAvaliacoes == 0) {
+                        echo '<p class="reviews">(Sem avaliações)</p>';
+                    } elseif ($totalAvaliacoes == 1) {
+                        echo '<p class="reviews">(1 Avaliação)</p>';
+                    } else {
+                        echo '<p class="reviews">(' . $totalAvaliacoes . ' Avaliações)</p>';
+                    }
+
+                    echo '
                     <div class="progress">
                         <div class="stars">
-                            <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                        ';if ($row['Classificacao'] === 0) {
+                                echo ("Sem classificação");
+                            } else {
+                                for ($i = 0; $i < $row['Classificacao']; $i++) {
+                                    echo ' <span>★</span>';
+                                }
+                            }
+                            echo'
+                           
                         </div>
                     </div>
                     <div class="details">
