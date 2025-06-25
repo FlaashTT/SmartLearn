@@ -144,7 +144,7 @@ include("../../database/basedados.php");
                                             <label for="editTitle">Título do Curso: ' . $row['Nome_curso'] . '</label>
                                             
                                             <input type="hidden" name="Id_curso" value="' . $row['Id_curso'] . '" >
-                                            
+                                            <p style="margin-top:20px;">
                                             <label>Título:</label>
                                             <input type="text" name="titulo" value="' . $row['Nome_curso'] . '" ><br>
 
