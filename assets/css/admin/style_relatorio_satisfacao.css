@@ -8,7 +8,7 @@
 .container {
   display: flex; /* Define o layout como flexbox */
   flex-direction: row; /* Garante que os elementos fiquem lado a lado */
-  gap: 20px; /* Espaçamento entre o aside e a seção principal */
+  gap: 19px; /* Espaçamento entre o aside e a seção principal */
 }
 
   /* ---------- Secção Principal (Hero) ---------- */
