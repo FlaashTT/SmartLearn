@@ -1,7 +1,7 @@
 <?php
-include("../../popup.php");
-include("../../logs.php");
-
+session_start();
+require_once("../../popup.php");
+require_once("../../logs.php");
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     http_response_code(403); // Código de status HTTP 403 (Proibido)
     echo "<script>

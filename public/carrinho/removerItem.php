@@ -1,8 +1,8 @@
 <?php
 include("../segurança.php");
 include("../../database/basedados.php");
-include("../popup.php");
-include("../logs.php");
+require_once("../popup.php");
+require_once("../logs.php");
 
 $erro = false;
 

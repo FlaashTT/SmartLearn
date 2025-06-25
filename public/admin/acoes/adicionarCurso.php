@@ -1,8 +1,10 @@
 <?php
-session_start();
+
 
 include("../../../database/basedados.php");
-
+session_start();
+require_once("../../popup.php");
+require_once("../../logs.php");
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $erro = false;
     $textoErro = "";

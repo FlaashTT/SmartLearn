@@ -9,6 +9,28 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
   $erro = true;
 }
 $idCurso = $_POST['idCurso'];
+
+//funçao de aumentar o numero de visitas
+$stmt = $conn->prepare("SELECT Num_visitascurso FROM curso WHERE Id_curso = ?");
+$stmt->bind_param("i", $idCurso);
+$stmt->execute();
+$stmt->bind_result($numVisitas);
+
+if ($stmt->fetch()) {
+  $stmt->close();
+
+  // Incrementa e faz o update
+  $numVisitas += 1;
+
+  $stmtUpdate = $conn->prepare("UPDATE curso SET Num_visitascurso = ? WHERE Id_curso = ?");
+  $stmtUpdate->bind_param("ii", $numVisitas, $idCurso);
+  $stmtUpdate->execute();
+  $stmtUpdate->close();
+} else {
+  $stmt->close();
+  // Curso não encontrado
+}
+
 if (empty($idCurso)) {
   echo "
     <script>
@@ -223,7 +245,7 @@ $cursoComprado = false;
 
 if ($erro) {
   mostrarPopUp("ERRO");
-  
+
   exit();
 }
 ?>

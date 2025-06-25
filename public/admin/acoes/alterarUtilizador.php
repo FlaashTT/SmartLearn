@@ -1,9 +1,8 @@
 <?php
 include("../../../database/basedados.php");
-
-include("../../popup.php");
-include("../../logs.php");
-
+session_start();
+require_once("../../popup.php");
+require_once("../../logs.php");
 $efetuadaTroca = false;
 $erro = false;
 $textoErro = '';
