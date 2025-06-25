@@ -80,13 +80,13 @@ $result = $stmt->get_result();
                     <button class="reset-btn" type="submit">Reiniciar</button>
                 </form>
                 <form method="POST" id="filterForm">
-                <div class="search-container">
-                    
+                    <div class="search-container">
+
                         <?php if ($category_id !== null) echo '<input type="hidden" name="category_id" value="' . $category_id . '">'; ?>
                         <input type="text" name="search" placeholder="Pesquisar meus cursos" class="search-my-courses" value="<?php echo isset($_POST['search']) ? htmlspecialchars($_POST['search']) : ''; ?>" />
                         <button class="search-button" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
-                    
-                </div>
+
+                    </div>
                 </form>
             </div>
 
@@ -98,12 +98,32 @@ $result = $stmt->get_result();
                     while ($row = $result->fetch_assoc()) {
                         echo '
                             <div class="course-card">
-                                <div class="course-image">
-                                    <img src="../../assets/image/curso/' . $row['URL_foto_perfil_curso'] . '" alt="Erro" style="width: 210px; height: 150px;">
+                                <div class="course-image">';
+                        $sitioImagem = $row['URL_foto_perfil_curso'];
+                        $caminhoImagem = "../assets/image/curso/" . $sitioImagem;
+
+                        if (!empty($sitioImagem) && file_exists($caminhoImagem)) {
+                            echo '<img src="../../assets/image/curso/' . $row['URL_foto_perfil_curso'] . '" alt=" erro ao carregar imagem">';
+                        } else {
+                            echo '<img src="../../assets/image/curso.png" alt="Erro">';
+                        }
+                        echo '
+                                   
                                 </div>
                                 <div class="course-info">
                                     <h3>' . $row['Nome_curso'] . '</h3>
                                     <div class="stars">
+';
+                        if ($row['Classificacao'] === 0) {
+                            echo ("Sem classificação");
+                        } else {
+                            for ($i = 0; $i < $row['Classificacao']; $i++) {
+                                echo '  <i class="fa-regular fa-star">';
+                            }
+                        }
+                        echo '
+
+                                    
                                         <i class="fas fa-star" style="color: gold;"></i>
                                     </div>
                                     <form method="POST" action="removerFav.php">
@@ -156,7 +176,7 @@ $result = $stmt->get_result();
 
     <!-- Rodapé -->
     <?php
-        include("../../src/views/utils/rodape.html");
+    include("../../src/views/utils/rodape.html");
     ?>
 
 
