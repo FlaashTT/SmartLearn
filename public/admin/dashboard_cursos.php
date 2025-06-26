@@ -140,7 +140,7 @@ include("../../database/basedados.php");
                                     <div class="modal-content" style="max-height: 80vh; overflow-y: auto;">
                                     <span class="close-modal">&times;</span>
                                         <h2>Editar Curso</h2>
-                                        <form id="editForm" action="acoes/editarCurso.php" method="POST">
+                                        <form id="editForm" action="acoes/editarCurso.php" method="POST" enctype="multipart/form-data">
                                             <label for="editTitle">Título do Curso: ' . $row['Nome_curso'] . '</label>
                                             
                                             <input type="hidden" name="Id_curso" value="' . $row['Id_curso'] . '" >
@@ -216,6 +216,9 @@ include("../../database/basedados.php");
                                             <label>Tempo estimado:</label>
                                             <input type="text" name="tempo" value="' . $row['Tempo_estimado'] . '" ><br>
 
+                                            <label>Imagem do curso:</label>
+                                            <input type="file" name="imagem" ><br>
+
                                             <button type="submit" class="btn">Salvar</button>
                                             <button type="button" class="btn cancel-btn" onclick="closeModal(\'editModal_' . $row["Id_curso"] . '\')">Cancelar</button>
                                         </form>
@@ -286,11 +289,11 @@ include("../../database/basedados.php");
         });
     </script>
     <script>
-            document.querySelectorAll('.close-modal').forEach(btn => {
-        btn.addEventListener('click', () => {
-            document.querySelectorAll('.modal').forEach(modal => modal.style.display = 'none');
+        document.querySelectorAll('.close-modal').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.modal').forEach(modal => modal.style.display = 'none');
+            });
         });
-    });
     </script>
 
 </body>

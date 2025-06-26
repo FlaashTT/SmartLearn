@@ -22,6 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
     $preco = isset($_POST['preco']) ? $_POST['preco'] : '';
     $Provedor = isset($_POST['Provedor']) ? $_POST['Provedor'] : '';
     $LinkProvedor = isset($_POST['LinkProvedor']) ? $_POST['LinkProvedor'] : '';
+    
 
 
     $sql = "UPDATE curso SET 

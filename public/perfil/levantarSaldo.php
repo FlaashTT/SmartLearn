@@ -3,6 +3,7 @@
 include("../segurança.php");
 include("../../database/basedados.php");
 include("../logs.php");
+require_once("../popup.php");
 $erro = false;
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
@@ -20,28 +21,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if ($stmt->affected_rows > 0) {
                 $_SESSION['utilizadorOn']['Carteira'] = $novoSaldo; // Atualizar sessão
                 criarLogs("Levantamento de saldo", $_SESSION['utilizadorOn']['Id_user'], $_POST['levantarSaldo']);
-                echo '
-            <script>
-                alert("Foi retirado ' . number_format($_POST['levantarSaldo'], 2, ',', ' ') . '€ da sua conta");
-                window.location.href = document.referrer;
-            </script>
-            ';
+                mostrarPopUp('Foi retirado ' . number_format($_POST['levantarSaldo'], 2, ',', ' ') . '€ da sua conta');
+              
             }
         } else {
-            echo '
-                <script>
-                alert("Nao tem esse saldo na sua conta");
-                </script>
-                ';
-            $erro = true;
+            mostrarPopUp("Nao tem esse saldo na sua conta");
+           
         }
     } else {
-        echo '
-        <script>
-        alert("Tem de inserir um valor valido");
-        </script>
-        ';
-        $erro = true;
+        mostrarPopUp("Tem de inserir um valor valido");
+        
     }
 } else {
     $erro = true;

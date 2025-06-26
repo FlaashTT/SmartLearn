@@ -1,12 +1,14 @@
 <?php
 include("../../database/basedados.php");
 include("../segurança.php");
-
+require_once("../popup.php");
+require_once("../logs.php");
 $erro = false;
-
+$textErro = "";
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (empty($_POST['idCurso'])) {
         $erro = true;
+        $textErro = "Erro ao receber o Id do curso";
     } else {
         $idCursoReembolso = $_POST['idCurso'];
         $idUser = $_SESSION['utilizadorOn']['Id_user'];
@@ -35,18 +37,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $stmt->close();
 
                 if ($row['Progresso'] == "concluido") {
-                    echo '
-                        <script>
-                            alert("Não pode realizar reembolso deste curso! Curso concluído.");
-                        </script>
-                    ';
+                    mostrarPopUp("Não pode realizar reembolso deste curso! Curso concluído.");
+
                     $erro = true;
                 } else if ($row['Percentagem_progresso'] > 10) {
-                    echo '
-                        <script>
-                            alert("Não pode realizar reembolso deste curso! Mais de 10% concluído.");
-                        </script>
-                    ';
+                    mostrarPopUp("Não pode realizar reembolso deste curso! Mais de 10% concluído.");
+
                     $erro = true;
                 } else {
                     // Atualizar tipo de pagamento no histórico de compras
@@ -75,52 +71,44 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 $_SESSION['utilizadorOn']['Carteira'] = $novoSaldo;
 
                                 // Criar log de reembolso
-                                include("../logs.php");
+
                                 criarLogs("Reembolso curso", $idUser, $preco, $idCursoReembolso);
 
-                                echo '
-                                    <script>
-                                        alert("Reembolso realizado com sucesso!");
-                                        window.location.href = document.referrer;
-                                    </script>
-                                ';
+                                mostrarPopUp("Reembolso realizado com sucesso!");
+
                                 exit();
                             } else {
+
+                                $textErro = "Erro ao atualizar o saldo do utilizador";
                                 $erro = true;
                             }
                         } else {
+                            $textErro = "Erro ao remover o curso dos seus cursos";
                             $erro = true;
                         }
                     } else {
+                        $erro = "Erro ao atualizar o estado do curso";
                         $erro = true;
                     }
                 }
             } else {
-                echo '
-                    <script>
-                        alert("Erro ao verificar o curso na sua conta! Tente novamente.");
-                    </script>
-                ';
+                $textoErro = "Erro ao verificar o curso na sua conta! Tente novamente.";
                 $erro = true;
             }
         } else {
-            echo '
-                <script>
-                    alert("Curso inexistente, tente novamente.");
-                </script>
-            ';
+            $textoErro = "Curso inexistente, tente novamente.";
             $erro = true;
         }
     }
 } else {
-    $erro = true;
-}
-
-if ($erro) {
     echo '
         <script>
             window.history.back();
         </script>
     ';
 }
-?>
+
+if ($erro) {
+    criarLogs("Erro", $_SESSION['utilizadorOn']['Id_user'], null, null, null, $textoErro, __FILE__);
+    mostrarPopUp($textoErro);
+}
