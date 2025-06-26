@@ -1,7 +1,6 @@
 <?php
-
-include("../../../database/basedados.php");
 session_start();
+include("../../../database/basedados.php");
 require_once("../../popup.php");
 require_once("../../logs.php");
 $alteracaoFeita = false;
@@ -49,7 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($quantidade > 0) {
             //se ja existir a fase
             if (isset($videos[$i]) && $videos[$i] != "") {
-
+                $NumFase = $i;
                 if (processarVideo($conn, $idcursoAtual, $NumFase)) {
                     $alteracaoFeita = true;
                 } else {
@@ -134,14 +133,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 if (!$erro && $alteracaoFeita) {
     criarLogs("Conteudo curso alterado", $_SESSION['utilizadorOn']['Id_user'], null, $idcursoAtual);
-    mostrarPopUp("Alteração feita com sucesso!");
+    mostrarPopUp("Alteração feita com sucesso!", null, "../adicionar_conteudo.php");
 } elseif (!$alteracaoFeita) {
-    mostrarPopUp("Nenhuma alteração foi feita!");
+    mostrarPopUp("Nenhuma alteração foi feita!", null, "../adicionar_conteudo.php");
 }
 
 if ($erro) {
-    criarLogs("Erro", $_SESSION['utilizadorOn']['Id_user'],  null,  null,  null, $textoErro ,__FILE__);
-    mostrarPopUp($textoErro);
+    criarLogs("Erro", $_SESSION['utilizadorOn']['Id_user'],  null,  null,  null, $textoErro, __FILE__);
+    mostrarPopUp($textoErro, null, "../adicionar_conteudo.php");
 }
 function caminho()
 {
@@ -215,7 +214,7 @@ function processarImagem($conn, $idcursoAtual, $NumFase)
     $extensao            = strtolower(pathinfo($nomeArquivo, PATHINFO_EXTENSION));
 
     if (in_array($extensao, $extensoesPermitidas) && in_array($tipoMime, $mimesPermitidos)) {
-        $diretorio = "../../../assets/conteudosCursoss/imagens/";
+        $diretorio = "../../../assets/conteudosCursos/imagens/";
         $base_nome = "Imagem_fase{$NumFase}_curso{$idcursoAtual}";
         $novo_nome = "{$base_nome}.{$extensao}";
         $destino   = $diretorio . $novo_nome;
@@ -236,16 +235,15 @@ function processarImagem($conn, $idcursoAtual, $NumFase)
 
             if ($stmt->execute()) {
                 mostrarPopUp('Imagem atualizada com sucesso.');
-                
             } else {
-                 mostrarPopUp('Erro ao atualizar o banco de dados.');
+                mostrarPopUp('Erro ao atualizar o banco de dados.');
             }
 
             $stmt->close();
         } else {
-             mostrarPopUp('Erro ao mover a nova imagem.');
+            mostrarPopUp('Erro ao mover a nova imagem.');
         }
     } else {
-         mostrarPopUp('Formato de imagem inválido. Apenas JPG, JPEG e PNG são permitidos.');
+        mostrarPopUp('Formato de imagem inválido. Apenas JPG, JPEG e PNG são permitidos.');
     }
 }

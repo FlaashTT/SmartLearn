@@ -77,6 +77,9 @@ function criarLogs($tipoLog, $idUser = null, $saldo = null, $idCurso = null, $id
         case "Conteudo curso alterado":
             $descricaoLog = "O administrador com id " . $idUser . " alterou o conteúdo do curso " . $idCurso;
             break;
+        case "Fase removida":
+            $descricaoLog = "Foi removida fase do curso: " . $idCurso . " pelo administrador com Id: " . $idUser;
+            break;
 
 
 
@@ -92,7 +95,7 @@ function criarLogs($tipoLog, $idUser = null, $saldo = null, $idCurso = null, $id
             break;
     }
     $stmt = $conn->prepare("INSERT INTO logs_sistema (Id_user, Descricao_log, Tipo_log, Data_log, saldo,Id_curso) VALUES (?, ?, ?, ?, ? ,?)");
-    $stmt->bind_param("isssdi", $idUser, $descricaoLog, $tipoLog, $DataAtual, $saldo,$idCurso);
+    $stmt->bind_param("isssdi", $idUser, $descricaoLog, $tipoLog, $DataAtual, $saldo, $idCurso);
 
 
     if (!$stmt->execute()) {
