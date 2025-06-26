@@ -63,7 +63,9 @@ $result = $stmt->get_result();
     ?>
 
     <!-- Secção Principal (Hero) -->
-    <div class="banner"></div>
+    <div class="banner">
+        <img src="../../assets/image/SmarLearn_base_destaque.png" alt="Imagem do instrutor" class="image-highlights">
+    </div>
     <main class="container-perfil">
 
         <?php

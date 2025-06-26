@@ -28,9 +28,7 @@ include("../segurança.php");
 
     <!-- Secção Principal (Hero) -->
     <div class="banner">
-       
-            <img src="../../assets/image/SmarLearn_base_destaque.png" alt="Imagem do instrutor" class="image-highlights">
-        
+        <img src="../../assets/image/SmarLearn_base_destaque.png" alt="Imagem do instrutor" class="image-highlights">
     </div>
     <main class="container-perfil">
 

@@ -36,7 +36,9 @@ $total_paginas = ceil($total_registos / $quantidadePorPagina);
     <?php include("../../src/views/utils/cabecalho.html"); ?>
 
     <!-- Secção Principal -->
-    <div class="banner"></div>
+    <div class="banner">
+        <img src="../../assets/image/SmarLearn_base_destaque.png" alt="Imagem do instrutor" class="image-highlights">
+    </div>
     <main class="container-perfil">
 
         <?php include("../../src/views/utils/sidebar.html"); ?>
