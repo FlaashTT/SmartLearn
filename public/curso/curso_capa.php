@@ -207,23 +207,21 @@ $cursoComprado = false;
         $totalFase = $result->fetch_assoc();
 
         $quantidadeFase = $totalFase['total'];
-        if ($quantidadeFase != 0) {
+        if ($quantidadeFase == 0) {
           $semFases = true;
-
-
-          if ($cursoComprado === true) {
-            echo '
-
+        }
+        if ($cursoComprado === true) {
+          echo '
             <footer class="footer-c">
             <form action="curso_conteudo.php" method="POST">
-              <button name="idcurso" value=" ' . $idCurso . '" class="avançar">
+              <button name="idcurso" value=" ' . $idCurso . '" class="avançar"' . ($semFases ? 'disabled style="background-color: #ccc; cursor: not-allowed;"' : '') . '>
                 Avançar conteúdo
               </button>
             </form>
           </footer>
           ';
-          } else {
-            echo '
+        } else {
+          echo '
             <div class="botoes-curso">
               <form action="../carrinho/adicionarAocarrinho.php" method="POST">
                 <button name="IdCurso" value="' . $idCurso . '" class="botao-acao">
@@ -238,8 +236,8 @@ $cursoComprado = false;
               </form>
             </div>
           ';
-          }
         }
+
 
         ?>
 
