@@ -3,6 +3,7 @@
 include("../segurança.php");
 include("../../database/basedados.php");
 include("../logs.php");
+require_once("../popup.php");
 $erro = false;
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
@@ -16,23 +17,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->execute();
         $result = $stmt->get_result();
         if ($stmt->affected_rows > 0) {
-            criarLogs("Deposito de saldo",$_SESSION['utilizadorOn']['Id_user'],$_POST['adicionarSaldo']);
-            echo'
-            <script>
-                alert("Adicionado '.$_POST['adicionarSaldo'].'€ ha sua conta");
-                window.location.href = document.referrer;
-            </script>
-            ';
+            criarLogs("Deposito de saldo", $_SESSION['utilizadorOn']['Id_user'], $_POST['adicionarSaldo']);
+            mostrarPopUp("Adicionado " . $_POST['adicionarSaldo'] . "€ ha sua conta");
         }
-
-
     } else {
-        echo '
-        <script>
-        alert("Tem de inserir um valor valido");
-        </script>
-        ';
-        $erro = true;
+        mostrarPopUp("Tem de inserir um valor valido");
     }
 } else {
     $erro = true;

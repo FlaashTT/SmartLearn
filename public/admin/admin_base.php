@@ -83,7 +83,7 @@ include("../../database/basedados.php");
                                 ?>
 
                             </span>
-                            <p>Número de capítulos</p>
+                            <p>Número de fases de cursos</p>
                         </div>
                         <div class="stat">
                             <i class="fas fa-user-check"></i>

@@ -100,7 +100,7 @@ $result = $stmt->get_result();
                             <div class="course-card">
                                 <div class="course-image">';
                         $sitioImagem = $row['URL_foto_perfil_curso'];
-                        $caminhoImagem = "../assets/image/curso/" . $sitioImagem;
+                        $caminhoImagem = "../../assets/image/curso/" . $sitioImagem;
 
                         if (!empty($sitioImagem) && file_exists($caminhoImagem)) {
                             echo '<img src="../../assets/image/curso/' . $row['URL_foto_perfil_curso'] . '" alt=" erro ao carregar imagem">';

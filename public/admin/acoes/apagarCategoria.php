@@ -36,17 +36,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $textoErro = "Erro ao coletar a imagem da categoria!";
         $erro = true;
     }
-
-
-
     //remover a categoria dos cursos associado ha mesma
     $sql = "UPDATE curso SET Id_categoria = Null WHERE Id_categoria = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("i", $id_categoria);
 
     if ($stmt->execute()) {
-
-
         //eliminar a categoria
         $sql = "DELETE FROM categoria WHERE Id_categoria = ?";
         $stmt = $conn->prepare($sql);

@@ -3,6 +3,7 @@ include('../segurança.php');
 include("../../database/basedados.php");
 
 
+
 // Definir número de resultados por página
 $quantidadePorPagina = 10;
 

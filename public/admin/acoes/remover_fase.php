@@ -43,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt = $conn->prepare($sqlEliminarFase);
         $stmt->bind_param("ii", $idCurso, $idfase);
         if ($stmt->execute()) {
-            mostrarPopUp("Fase removida com sucesso!");
+            mostrarPopUp("Fase removida com sucesso!",null,"../adicionar_conteudo.php");
             criarLogs("Fase removida", $_SESSION['utilizadorOn']['Id_user'], null, $idCurso);
         } else {
             $textoErro = "Erro ao remover a fase. Tente novamente.";

@@ -39,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt->bind_param("sii", $nome, $fase, $idCurso);
             if ($stmt->execute()) {
                 criarLogs("Conteudo curso alterado", $_SESSION['utilizadorOn']['Id_user'], null, $idCurso);
-                mostrarPopUp("Mídia removida com sucesso!");
+                mostrarPopUp("Mídia removida com sucesso!",null,"../adicionar_conteudo.php");
                 
             } else {
                 $textoErro = "Erro ao remover o arquivo da base de dados.";
@@ -50,8 +50,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $erro = true;
         }
     } else {
-        $textoErro = "O arquivo não existe.";
-        $erro = true;
+         if ($midia === "videos") {
+                $query = "UPDATE fase SET video = '' WHERE  Num_fase = ? AND Id_curso = ?";
+            }
+            if ($midia === "imagens") {
+                $query = "UPDATE fase SET imagem = '' WHERE  Num_fase = ? AND Id_curso = ?";
+            }
+            $stmt = $conn->prepare($query);
+            $stmt->bind_param("ii",  $fase, $idCurso);
+            if ($stmt->execute()) {
+                mostrarPopUp("Mídia removida com sucesso!",null,"../adicionar_conteudo.php");
+            }
     }
 } else {
     caminho();

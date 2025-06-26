@@ -3,7 +3,7 @@ session_start();
 include("../../../database/basedados.php");
 require_once("../../logs.php");
 require_once("../../popup.php");
-
+//editarCurso.php
 $erro = false;
 $textoErro = "";
 
@@ -22,6 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
     $preco = isset($_POST['preco']) ? $_POST['preco'] : '';
     $Provedor = isset($_POST['Provedor']) ? $_POST['Provedor'] : '';
     $LinkProvedor = isset($_POST['LinkProvedor']) ? $_POST['LinkProvedor'] : '';
+    
 
 
     $sql = "UPDATE curso SET 
@@ -64,8 +65,7 @@ WHERE Id_curso = ?";
                 criarLogs("Alteração de curso", $_SESSION['utilizadorOn']['Id_user'], null, $idCurso);
                 mostrarPopUp("Alteraçoes realizadas com sucesso", null, "../dashboard_cursos.php");
             } else {
-                $textoErro = "Nenhuma alteração feita ou ID não encontrado.";
-                $erro = true;
+                mostrarPopUp("Nenhuma alteração feita", null, "../dashboard_cursos.php");
             }
         } else {
             $textoErro = "Erro ao executar o update: " . $stmt->error;

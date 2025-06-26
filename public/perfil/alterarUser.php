@@ -2,6 +2,7 @@
 
 include("../../database/basedados.php");
 include("../segurança.php");
+require_once("../popup.php");
 
 $erro = false;
 $alteracaoFeita = false;
@@ -12,11 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     //para verificar se nao existe erro com o Id_user
     if (!$idUser) {
-        echo '
-            <script> 
-            alert("Erro ao verificar o seu ID");
-            </script>
-            ';
+        mostrarPopUp("Erro ao verificar o seu ID");
         $erro = true;
     }
 
@@ -147,15 +144,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         //email
         if (!empty($_POST['email']) && $row['Email'] != $_POST['email']) {
-            $email =  htmlspecialchars(strip_tags(trim($_POST['email'])), ENT_QUOTES, 'UTF-8');
+            $email = htmlspecialchars(strip_tags(trim($_POST['email'])), ENT_QUOTES, 'UTF-8');
 
+            // Verificar se o email já existe na base de dados
+            $checkSql = "SELECT COUNT(*) FROM user WHERE email = ? ";
+            $checkStmt = $conn->prepare($checkSql);
+            $checkStmt->bind_param("s", $email);
+            $checkStmt->execute();
+            $checkStmt->bind_result($emailCount);
+            $checkStmt->fetch();
+            $checkStmt->close();
 
-            $sql = "UPDATE user SET email = ? WHERE Id_user = ? ";
-            $stmt = $conn->prepare($sql);
-            $stmt->bind_param("si", $email, $idUser);
-            if ($stmt->execute()) {
-                $stmt->close();
-                $alteracaoFeita = true;
+            if ($emailCount == 0) {
+                $sql = "UPDATE user SET email = ? WHERE Id_user = ?";
+                $stmt = $conn->prepare($sql);
+                $stmt->bind_param("si", $email, $idUser);
+                if ($stmt->execute()) {
+                    $stmt->close();
+                    $alteracaoFeita = true;
+                }
+            } else {
+                mostrarPopUp("O email informado já está em uso .");
+                
             }
         }
 
@@ -163,10 +173,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if (!empty($_POST['OldPass']) && !empty($_POST['novaPass'])) {
             // Verifica se a senha nova é igual à senha antiga
             if ($_POST['OldPass'] == $_POST['novaPass']) {
-                echo "<script>
-                alert('A palavra passe nova não pode ser igual à antiga!');
-                </script>";
-                $erro = true;
+                mostrarPopUp('A palavra passe nova não pode ser igual à antiga!');
+
+                
             } else {
                 $passantigaBD = $row['Password'];
 
@@ -183,32 +192,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         $stmt->close();
                         $alteracaoFeita = true;
                     } else {
-                        echo "<script>alert('Erro ao atualizar a senha.');</script>";
+                        mostrarPopUp('Erro ao atualizar a palavra passe.');
                     }
                 } else {
-                    echo "<script>
-                    alert('Palavra passe atual incorreta!');
-                    </script>";
-                    $erro = true;
+                    mostrarPopUp('Palavra passe atual incorreta!');
+                    
                 }
             }
         }
     }
 
     if (!$erro && $alteracaoFeita) {
-        echo '
-            <script>
-            alert("Alteraçoes realizadas com sucesso!");
-            window.location.href = document.referrer;
-            </script>
-            ';
+        mostrarPopUp("Alteraçoes realizadas com sucesso!");
     } elseif (!$alteracaoFeita) {
-        echo '
-        <script>
-            alert("Nenhuma mudança registada!");
-            window.location.href = document.referrer;
-        </script>
-        ';
+        mostrarPopUp("Nenhuma mudança registada!");
     }
 } else {
     $erro = true;

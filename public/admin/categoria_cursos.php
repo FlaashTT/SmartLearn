@@ -49,7 +49,7 @@ $idCategoriaGlobal = "";
                             <form class="form-content" method="POST" action="acoes/adicionarCategoria.php" enctype="multipart/form-data">
                                 <div class="form-group">
                                     <label for="titulo">Título da Categoria</label>
-                                    <input type="text" name="nome_categoria" id="titulo" placeholder="Digite o título do curso" required />
+                                    <input type="text" name="nome_categoria" id="titulo" placeholder="Digite o título da categoria" required />
                                 </div>
                                 <div class="form-group">
                                     <label for="miniatura">Miniatura da categoria <span>(O tamanho da imagem deve ser 400 x 255)</span></label>

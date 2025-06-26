@@ -4,7 +4,6 @@
 function pesquisaFiltro($tabela, $Id_user, $categoria = null, $textoPesquisa = null)
 {
     $sql = "";
-
     switch ($tabela) {
         case "cursos_adquiridos":
             $sql =  "SELECT * 
@@ -48,6 +47,5 @@ function pesquisaFiltro($tabela, $Id_user, $categoria = null, $textoPesquisa = n
         default:
             return false;
     }
-
     return $sql;
 }

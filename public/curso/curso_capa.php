@@ -3,7 +3,7 @@ include('../segurança.php');
 include("../../database/basedados.php");
 include("../popup.php");
 $erro = false;
-
+//curso_capa.php
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 
   $erro = true;
@@ -192,7 +192,8 @@ $cursoComprado = false;
                   echo ' <i class="fas fa-star" style="color: gold;"></i>';
                 }
               }
-
+              echo'</li>
+              <li><strong>Preço: '.$row["Preco"].'€';
               ?>
 
           </aside>

@@ -15,9 +15,9 @@ include("../segurança.php");
         href="../../assets/fontawesome/fontawesome/css/all.min.css" />
     <link rel="stylesheet" href="../../assets/css/style_user.css" />
     <link rel="stylesheet" href="../../assets/css/style_perfil_conta.css" />
-    <!--
+    
     <script src="../../assets/js/perfil_conta.js"></script>
--->
+
 </head>
 
 <body>

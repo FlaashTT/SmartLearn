@@ -1,7 +1,7 @@
 <?php
 include("../../database/basedados.php");
 include("segurançaAdmin.php");
-
+//adicionar_conteudo.php
 $fasesCursos = [];
 $cursos = [];
 if (!$conn->connect_error) {
@@ -120,7 +120,7 @@ if (!$conn->connect_error) {
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="conteudo0">Conteúdo do Curso (Texto ou Imagem):</label>
+                                    <label for="conteudo0">Conteúdo do Curso (Texto):</label>
                                     <textarea id="conteudo0" name="conteudo[1]" class="form-control"></textarea>
                                 </div>
 
@@ -295,7 +295,7 @@ if (!$conn->connect_error) {
     </div>
 
     <div class="form-group">
-        <label for="conteudo${contadorFases}">Conteúdo do Curso (Texto ou Imagem):</label>
+        <label for="conteudo${contadorFases}">Conteúdo do Curso (Texto):</label>
         <textarea id="conteudo${contadorFases}" name="conteudo[${contadorFases}]" class="form-control"></textarea>
     </div>
 
@@ -394,7 +394,7 @@ if (!$conn->connect_error) {
             </div>
 
             <div class="form-group">
-                <label for="conteudo0">Conteúdo do Curso (Texto ou Imagem):</label>
+                <label for="conteudo0">Conteúdo do Curso (Texto):</label>
                 <textarea id="conteudo0" name="conteudo[1]" class="form-control"></textarea>
             </div>
 
@@ -481,7 +481,7 @@ if (!$conn->connect_error) {
             </div>
 
             <div class="form-group">
-                <label for="conteudo${numeroFase}">Conteúdo do Curso (Texto ou Imagem):</label>
+                <label for="conteudo${numeroFase}">Conteúdo do Curso (Texto):</label>
                 <textarea id="conteudo${numeroFase}" name="conteudo[${numeroFase}]" class="form-control">${fase.conteudo || ''}</textarea>
             </div>
             <input type="hidden" name="fase[]" value="${numeroFase}" />

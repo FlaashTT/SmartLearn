@@ -1,7 +1,7 @@
 <?php
 session_start();
 include("../database/basedados.php");
-
+//inicio.php
 ?>
 
 <!DOCTYPE html>
@@ -106,23 +106,29 @@ include("../database/basedados.php");
 
         <section class="category-card">
             <div class="categories">
-
                 <?php
-                $stmt = $conn->prepare("SELECT * FROM categoria ORDER BY Quantidade_cursos DESC LIMIT 4 ");
+                $stmt = $conn->prepare("SELECT * FROM categoria LIMIT 4");
                 $stmt->execute();
                 $result = $stmt->get_result();
 
                 if ($result->num_rows > 0) {
                     while ($row = $result->fetch_assoc()) {
+                        $stmtCursos = $conn->prepare("SELECT COUNT(*) AS total_cursos FROM curso WHERE id_categoria = ?");
+                        $stmtCursos->bind_param("i", $row['Id_categoria']);
+                        $stmtCursos->execute();
+                        $resultCursos = $stmtCursos->get_result();
+                        $rowtotal = $resultCursos->fetch_assoc();
+
+                        $total = $rowtotal['total_cursos'];
                         echo '
-                        <div class="category">
-                            <div class="icon-category">
-                                <i class="fa-solid fa-code"></i>
+                            <div class="category">
+                                <div class="icon-category">
+                                    <i class="fa-solid fa-code"></i>
+                                </div>
+                                <h2 class="title-category">' . htmlspecialchars($row["Nome_cat"]) . '</h2>
+                                <p class="p-category">' . $total . ' Curso' . ($total > 1 ? 's' : '') . '</p>
                             </div>
-                            <h2 class="title-category">' . htmlspecialchars($row["Nome_cat"]) . '</h2>
-                            <p class="p-category">' . $row["Quantidade_cursos"] . ' Curso' . ($row["Quantidade_cursos"] > 1 ? 's' : '') . '</p>
-                        </div>
-                        ';
+                            ';
                     }
                 } else {
                     echo '
@@ -199,19 +205,24 @@ include("../database/basedados.php");
                     echo '
                     <div class="progress">
                         <div class="stars">
-                        ';if ($row['Classificacao'] === 0) {
-                                echo ("Sem classificação");
-                            } else {
-                                for ($i = 0; $i < $row['Classificacao']; $i++) {
-                                    echo ' <span>★</span>';
-                                }
-                            }
-                            echo'
+                        ';
+                    if ($row['Classificacao'] === 0) {
+                        echo ("Sem classificação");
+                    } else {
+                        for ($i = 0; $i < $row['Classificacao']; $i++) {
+                            echo ' <span>★</span>';
+                        }
+                    }
+                    echo '
                            
                         </div>
                     </div>
+                    <div class="price">
+                        '. number_format($row["Preco"], 2, ',', '.') . ' €' .'
+                    </div>
                     <div class="details">
                         <span>' . $row["Tempo_estimado"] . '</span>
+                        
                     </div>';
                     if (isset($_SESSION['utilizadorOn']) && $_SESSION['utilizadorOn']) {
                         echo '
@@ -242,7 +253,7 @@ include("../database/basedados.php");
             </div>
         </section>
         <section class="section-title">
-            <h1>Instrutor em destaque</h1>
+            
             <hr>
         </section>
 
