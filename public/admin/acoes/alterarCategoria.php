@@ -32,17 +32,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     if (isset($_POST['novoNomeCat']) && !empty(trim($_POST['novoNomeCat']))) {
-        $NovoNome_categoria = $_POST['novoNomeCat'];
-        //verificar se o  nome é igual ao anterior
+        $NovoNome_categoria = trim($_POST['novoNomeCat']);
 
+        // Verificar se o nome é diferente do atual
         if ($NovoNome_categoria != $nome_categoriaAntigo) {
-            $query = "UPDATE categoria SET Nome_cat = ? WHERE Id_categoria = ?";
-            $stmt = $conn->prepare($query);
-            $stmt->bind_param("si", $NovoNome_categoria, $idCategoria);
-            if ($stmt->execute()) {
-                $alteracaoFeita = true;
+
+            // Verificar se já existe uma categoria com esse nome (ignorando a atual)
+            $checkQuery = "SELECT COUNT(*) FROM categoria WHERE Nome_cat = ? AND Id_categoria != ?";
+            $checkStmt = $conn->prepare($checkQuery);
+            $checkStmt->bind_param("si", $NovoNome_categoria, $idCategoria);
+            $checkStmt->execute();
+            $checkStmt->bind_result($count);
+            $checkStmt->fetch();
+            $checkStmt->close();
+
+            if ($count == 0) {
+                // Nome não existe, pode atualizar
+                $query = "UPDATE categoria SET Nome_cat = ? WHERE Id_categoria = ?";
+                $stmt = $conn->prepare($query);
+                $stmt->bind_param("si", $NovoNome_categoria, $idCategoria);
+                if ($stmt->execute()) {
+                    $alteracaoFeita = true;
+                } else {
+                    $textoErro = "Erro ao atualizar o nome da categoria!";
+                    $erro = true;
+                }
             } else {
-                $textoErro = "Erro ao atualizar o nome da categoria!";
+                $textoErro = "Já existe uma categoria com esse nome!";
                 $erro = true;
             }
         }

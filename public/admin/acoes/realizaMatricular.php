@@ -3,21 +3,14 @@ include("../../../database/basedados.php");
 session_start();
 require_once("../../popup.php");
 require_once("../../logs.php");
+$erro = false;
+$textErro = "";
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $erro = false;
     $emailUtilizador = $_POST['utilizador'];
     $nomeCurso = $_POST['curso'];
     $cursoId = $_POST['curso_id'];
     $idUtilizador = $_POST['utilizador_id'];
-
-
-    echo "<script>
-    if (!confirm('Tem a certeza que deseja matricular o utilizador $emailUtilizador no curso $nomeCurso?')) {
-        window.location.href = document.referrer;
-    }
-    </script>";
-
-
 
     $sql = "SELECT * FROM cursos_adquiridos WHERE Id_user = ? AND Id_curso = ?";
     $stmt = $conn->prepare($sql);
@@ -51,7 +44,7 @@ if ($erro) {
     exit();
 } else {
     criarLogs("Utilizador Matriculado", $_SESSION['utilizadorOn']['Id_user'], null, $cursoId, null, null, null, $idUtilizador);
-    mostrarPopUp("Inscreveu " . $emailUtilizador . " no curso " . $nomeCurso);
+    mostrarPopUp("Inscreveu " . $emailUtilizador . " no curso " . $nomeCurso,null,"../matricular_cursos.php");
 
     exit();
 }

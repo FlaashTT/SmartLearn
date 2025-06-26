@@ -25,7 +25,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $preco = $_POST['preco'] ?? 0.0;
     $precoDescontado = $_POST['desconto'] ?? 0.0;
     $provedor = $_POST['provedor'] ?? '';
-    echo "<script>console.log('Provedor: $linguagem');</script>";
 
     $tempoEstimado = ''; // Sem input no form, deixa vazio
     $requesitos = '';    // Sem input no form, deixa vazio
@@ -35,12 +34,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         empty(trim($peqDescricao)) ||
         empty(trim($descricao)) ||
         empty(trim($id_categoria)) ||
-        empty(trim($dificuldade)) ||
-        empty(trim($linguagem))
+        empty(trim($dificuldade)) 
     ) {
         $estado = "Incompleto";
     } else {
-        $estado = "Completo";
+        $estado = "pendente";
     }
 
     $DataAtual = date('Y-m-d H:i:s');
