@@ -148,7 +148,7 @@ $offset = ($pagina - 1) * $limite;
                                         <td>' . $row['PNome_user'] . ' ' . $row['SNome_user'] . '<br><small>' . $row['Email'] . '</small></td>
                                         <td>' . $row['Nome_curso'] . '</td>
                                         <td>' . $row['Data_compra'] . '</td>
-                                        <td>' . $row['NomeAdicionadoPor'] . '</td>
+                                        <td>' . $row['NomeAdicionadoPor'] .' Id:'. $row['AdicionadoPor']. '</td>
                                         <td>
                                             <form action="../admin/acoes/removerUtilizadorDeCurso.php" method="POST" style="display:inline;">
                                                 <input type="hidden" name="IdRemover" value="' . $row['Id_adquirido'] . '">
