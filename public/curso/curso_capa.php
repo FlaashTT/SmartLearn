@@ -192,15 +192,27 @@ $cursoComprado = false;
                   echo ' <i class="fas fa-star" style="color: gold;"></i>';
                 }
               }
-              echo'</li>
-              <li><strong>Preço: '.$row["Preco"].'€';
+              echo '</li>
+              <li><strong>Preço: ' . $row["Preco"] . '€';
               ?>
 
           </aside>
         </div>
         <?php
-        if ($cursoComprado === true) {
-          echo '
+        $semFases = false;
+        $stmt = $conn->prepare("SELECT COUNT(*) AS total FROM fase WHERE Id_curso = ?");
+        $stmt->bind_param("i", $idCurso);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $totalFase = $result->fetch_assoc();
+
+        $quantidadeFase = $totalFase['total'];
+        if ($quantidadeFase != 0) {
+          $semFases = true;
+
+
+          if ($cursoComprado === true) {
+            echo '
 
             <footer class="footer-c">
             <form action="curso_conteudo.php" method="POST">
@@ -210,8 +222,8 @@ $cursoComprado = false;
             </form>
           </footer>
           ';
-        } else {
-          echo '
+          } else {
+            echo '
             <div class="botoes-curso">
               <form action="../carrinho/adicionarAocarrinho.php" method="POST">
                 <button name="IdCurso" value="' . $idCurso . '" class="botao-acao">
@@ -226,7 +238,7 @@ $cursoComprado = false;
               </form>
             </div>
           ';
-
+          }
         }
 
         ?>
