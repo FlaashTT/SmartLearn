@@ -15,7 +15,7 @@ include("../segurança.php");
         href="../../assets/fontawesome/fontawesome/css/all.min.css" />
     <link rel="stylesheet" href="../../assets/css/style_user.css" />
     <link rel="stylesheet" href="../../assets/css/style_perfil_conta.css" />
-    
+
     <script src="../../assets/js/perfil_conta.js"></script>
 
 </head>
@@ -27,7 +27,11 @@ include("../segurança.php");
     ?>
 
     <!-- Secção Principal (Hero) -->
-    <div class="banner"></div>
+    <div class="banner">
+       
+            <img src="../../assets/image/SmarLearn_base_destaque.png" alt="Imagem do instrutor" class="image-highlights">
+        
+    </div>
     <main class="container-perfil">
 
         <?php

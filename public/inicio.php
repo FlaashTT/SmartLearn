@@ -113,8 +113,9 @@ include("../database/basedados.php");
 
                 if ($result->num_rows > 0) {
                     while ($row = $result->fetch_assoc()) {
-                        $stmtCursos = $conn->prepare("SELECT COUNT(*) AS total_cursos FROM curso WHERE id_categoria = ?");
-                        $stmtCursos->bind_param("i", $row['Id_categoria']);
+                        $estado = 'ativo';
+                        $stmtCursos = $conn->prepare("SELECT COUNT(*) AS total_cursos FROM curso WHERE id_categoria = ? AND Estado_curso = ?");
+                        $stmtCursos->bind_param("is", $row['Id_categoria'],$estado);
                         $stmtCursos->execute();
                         $resultCursos = $stmtCursos->get_result();
                         $rowtotal = $resultCursos->fetch_assoc();
@@ -151,7 +152,50 @@ include("../database/basedados.php");
 
 
         <section class="section-title">
-            <h1>Seis cursos mais recentes</h1>
+            <?php
+            $sql = "SELECT COUNT(*) AS total_ativos FROM curso WHERE Estado_curso = 'ativo'";
+            $result = $conn->query($sql);
+
+            if ($result && $row = $result->fetch_assoc()) {
+                $totalCursosDisponiveis = $row['total_ativos'];
+
+                if ($totalCursosDisponiveis > 8) {
+                    echo '<h1>Seis cursos mais recentes</h1>';
+                } else {
+                    if ($totalCursosDisponiveis == 1) {
+                        echo '<h1>Um curso recente</h1>';
+                    } else {
+                        $texto = "";
+                        switch ($totalCursosDisponiveis) {
+                            case 2:
+                                $texto = "Dois";
+                                break;
+                            case 3:
+                                $texto = "Três";
+                                break;
+                            case 4:
+                                $texto = "Quatro";
+                                break;
+                            case 5:
+                                $texto = "Cinco";
+                                break;
+                            case 6:
+                                $texto = "Seis";
+                                break;
+                            case 7:
+                                $texto = "Sete";
+                                break;
+                            case 8:
+                                $texto = "Oito";
+                                break;
+                                
+                        }
+                        Echo "<h1>".$texto." cursos mais recentes</h1>";
+                    }
+                }
+            }
+
+            ?>
             <hr>
         </section>
 
@@ -218,7 +262,7 @@ include("../database/basedados.php");
                         </div>
                     </div>
                     <div class="price">
-                        '. number_format($row["Preco"], 2, ',', '.') . ' €' .'
+                        ' . number_format($row["Preco"], 2, ',', '.') . ' €' . '
                     </div>
                     <div class="details">
                         <span>' . $row["Tempo_estimado"] . '</span>
@@ -253,7 +297,7 @@ include("../database/basedados.php");
             </div>
         </section>
         <section class="section-title">
-            
+
             <hr>
         </section>
 

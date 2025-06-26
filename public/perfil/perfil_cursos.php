@@ -61,7 +61,9 @@ $result = $stmt->get_result();
     include("../../src/views/utils/cabecalho.html");
     ?>
 
-    <div class="banner"></div>
+    <div class="banner">
+        <img src="../../assets/image/SmarLearn_base_destaque.png" alt="Imagem do instrutor" class="image-highlights">
+    </div>
     <main class="container-perfil">
         <?php
         include("../../src/views/utils/sidebar.html");
@@ -76,14 +78,14 @@ $result = $stmt->get_result();
                     <input type="hidden" name="reset" value="1" />
                     <button class="reset-btn" type="submit">Reiniciar</button>
                 </form>
-                    <form method="POST" id="filterForm">
-                        <div class="search-container">
-                            
-                                <?php if ($category_id !== null) echo '<input type="hidden" name="category_id" value="' . $category_id . '">'; ?>
-                                <input type="text" name="search" placeholder="Pesquisar meus cursos" class="search-my-courses" value="<?php echo isset($_POST['search']) ? htmlspecialchars($_POST['search']) : ''; ?>" />
-                                <button class="search-button" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
-                        </div>
-                    </form>
+                <form method="POST" id="filterForm">
+                    <div class="search-container">
+
+                        <?php if ($category_id !== null) echo '<input type="hidden" name="category_id" value="' . $category_id . '">'; ?>
+                        <input type="text" name="search" placeholder="Pesquisar meus cursos" class="search-my-courses" value="<?php echo isset($_POST['search']) ? htmlspecialchars($_POST['search']) : ''; ?>" />
+                        <button class="search-button" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+                    </div>
+                </form>
             </div>
 
             <div class="content-card">
