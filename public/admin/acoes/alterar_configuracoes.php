@@ -128,7 +128,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 if (!$erro && $alteracaoFeita) {
 
 
-    mostrarPopUp("Configurações atualizadas com sucesso!");
+    mostrarPopUp("Configurações atualizadas com sucesso!",null,"../configuracoes_sistema.php");
     criarLogs("Configurações alteradas",$_SESSION['utilizadorOn']['Id_user']);
 } else if ($erro) {
     mostrarPopUp($textoErro);
