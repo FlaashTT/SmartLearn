@@ -10,6 +10,7 @@ $pdf = new FPDF('L', 'mm', 'A4');
 $pdf->AddPage();
 
 // Definir cores
+$pdf->SetDrawColor(0, 0, 0);
 $pdf->SetDrawColor(50, 50, 150);
 $pdf->SetTextColor(0, 0, 0);
 
@@ -54,8 +55,10 @@ $pdf->Ln(25);
 
 // Linha e assinatura
 $pdf->Line(100, 165, 200, 165);
+
 $pdf->SetY(170);
 $pdf->SetFont('Arial', '', 14);
+$pdf->SetTextColor(0, 0, 0); // Garante que o texto também fique a preto
 $pdf->Cell(0, 10, mb_convert_encoding('Assinatura da Coordenação do Curso', 'ISO-8859-1', 'UTF-8'), 0, 1, 'C');
 
 // Opcional: imagem de assinatura (se tiveres uma PNG transparente)
