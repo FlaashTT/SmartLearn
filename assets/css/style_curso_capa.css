@@ -40,12 +40,21 @@ body{
     padding: 20px;
 }
 
-.imagem img {
-    max-width: 300px;
-    height: auto;
-    border-radius: 10px;
-    object-fit: cover;
+.imagem {
+  max-height: 300px; /* limita o container */
+  overflow: hidden;  /* corta o que ultrapassar */
 }
+
+.imagem img {
+  max-width: 100%;
+  max-height: 300px;
+  width: auto;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+  object-fit: contain;
+}
+
 
 .descricao {
     flex: 1;
@@ -83,9 +92,10 @@ body{
 .fases {
   flex: 3;
   display: grid;
-  grid-template-columns: repeat(auto, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
   gap: 20px;
-}
+  height: fit-content;
+}   
 
 /* Caixa da fase individual */
 .fase {
@@ -114,7 +124,6 @@ body{
   font-size: 1.1rem;
   padding: 15px 25px;
   box-shadow: none;
-  
   cursor: default;
   transition: none;
 }
