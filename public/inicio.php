@@ -115,7 +115,7 @@ include("../database/basedados.php");
                     while ($row = $result->fetch_assoc()) {
                         $estado = 'ativo';
                         $stmtCursos = $conn->prepare("SELECT COUNT(*) AS total_cursos FROM curso WHERE id_categoria = ? AND Estado_curso = ?");
-                        $stmtCursos->bind_param("is", $row['Id_categoria'],$estado);
+                        $stmtCursos->bind_param("is", $row['Id_categoria'], $estado);
                         $stmtCursos->execute();
                         $resultCursos = $stmtCursos->get_result();
                         $rowtotal = $resultCursos->fetch_assoc();
@@ -188,9 +188,8 @@ include("../database/basedados.php");
                             case 8:
                                 $texto = "Oito";
                                 break;
-                                
                         }
-                        Echo "<h1>".$texto." cursos mais recentes</h1>";
+                        echo "<h1>" . $texto . " cursos mais recentes</h1>";
                     }
                 }
             }
@@ -251,7 +250,7 @@ include("../database/basedados.php");
                         <div class="stars">
                         ';
                     if ($row['Classificacao'] === 0) {
-                        echo ("Sem classificação");
+                        echo ("Sem avaliação");
                     } else {
                         for ($i = 0; $i < $row['Classificacao']; $i++) {
                             echo ' <span>★</span>';
@@ -261,9 +260,9 @@ include("../database/basedados.php");
                            
                         </div>
                     </div>
-                    <div class="price">
-                        ' . number_format($row["Preco"], 2, ',', '.') . ' €' . '
-                    </div>
+                    <div class="price">' .
+                        ((float)$row["Preco"] == 0 ? 'Gratuito' : number_format($row["Preco"], 2, ',', '.') . ' €') .
+                        '</div>
                     <div class="details">
                         <span>' . $row["Tempo_estimado"] . '</span>
                         

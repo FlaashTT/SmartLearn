@@ -15,12 +15,14 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
     $progresso = "Concluido";
     $percentagem = 100;
     $idcurso = $_POST['cursoAtual'];
+    $dataAtual = date("Y-m-d");
+
     //por codigo que faz update na bd para colocar como 100% e concluido o curso
-    $stmt = $conn->prepare("UPDATE cursos_adquiridos SET Progresso = ?, Percentagem_progresso = ? WHERE Id_user = ? AND Id_curso = ?");
-    $stmt->bind_param("siii", $progresso, $percentagem, $_SESSION['utilizadorOn']['Id_user'], $idcurso);
+    $stmt = $conn->prepare("UPDATE cursos_adquiridos SET Progresso = ?, Percentagem_progresso = ?, Data_conclusao = ? WHERE Id_user = ? AND Id_curso = ?");
+    $stmt->bind_param("sisii", $progresso, $percentagem, $dataAtual, $_SESSION['utilizadorOn']['Id_user'], $idcurso);
     $stmt->execute();
     if ($stmt->affected_rows > 0) {
-        mostrarPopUp("Parabens por concluir o curso com sucesso!Volte ao curso para descarregar o certificado!", true, "../perfil/perfil_cursos.php");
+        mostrarPopUp("Parabens por concluir o curso com sucesso! Volte ao curso para descarregar o certificado!", true, "../perfil/perfil_cursos.php");
     } else {
         $textoErro = "Erro ao realizar o update,tente mais tarde";
         $erro = true;

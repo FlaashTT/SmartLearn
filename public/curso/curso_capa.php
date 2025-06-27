@@ -74,10 +74,18 @@ $cursoComprado = false;
     $stmt->close();
     //se tiver comprado
     $stmt = $conn->prepare("
-    SELECT * 
+    SELECT 
+    ca.*, 
+    c.*, 
+    i.*, 
+    u.*, 
+    uc.PNome_user AS Criador_PNome, 
+    uc.SNome_user AS Criador_SNome
     FROM cursos_adquiridos ca
     INNER JOIN curso c ON ca.Id_curso = c.Id_curso
     INNER JOIN idioma i ON c.Id_idioma = i.Id_idioma
+    INNER JOIN user u ON ca.Id_user = u.Id_user
+    INNER JOIN user uc ON c.Criador_curso = uc.Id_user -- <== Aqui está o join extra
     WHERE ca.Id_user = ? 
       AND c.Id_curso = ? ;
     ");
@@ -108,7 +116,14 @@ $cursoComprado = false;
         <section class="curso-info">
           <?php
           if ($row['Progresso'] == "Concluido") {
+           
             echo '
+            <form action="gerar_certificado.php" method="POST">
+            <input type="hidden" name="Id_adquirido" value ="'.$row['Id_adquirido'].'">
+            <input type="hidden" name="Nome_utilizador" value ="'.$row['PNome_user'].' '.$row['SNome_user'].'">
+            <input type="hidden" name="Nome_curso" value ="'.$row['Nome_curso'].'">
+            <input type="hidden" name="Criador_curso" value ="'.$row['Criador_PNome'] . " " . $row['Criador_SNome'].'">
+            <input type="hidden" name="Data_conclusao" value ="'.$row['Data_conclusao'].'">
                 <section class="curso-info">
                     <section
                         class="curso-info"
@@ -119,29 +134,34 @@ $cursoComprado = false;
               flex-wrap: wrap;
               gap: 20px;
             ">
-                        <h1 style="margin: 0">Introdução à Programação</h1>
+                        <h1 style="margin: 0"></h1>
 
                         <div class="certificacao-download" style="text-align: right">
                             <h3 style="margin: 0">Certificação</h3>
                             <p style="margin: 4px 0 8px 0; margin-bottom: 20px">
                                 Podes descarregar aqui o teu certificado de conclusão.
                             </p>
-                            <a
-                                href="gerar_certificado.php"
+                            <button
+                                type="submit"
                                 class="btn-download"
-                                download
                                 style="
-                  padding: 10px 20px;
-                  background-color: #4caf50;
-                  color: white;
-                  text-decoration: none;
-                  border-radius: 5px;
-                ">
-                                Transferir Certificado
+                                  padding: 10px 20px;
+                                  background-color: #4caf50;
+                                  color: white;
+                                  text-decoration: none;
+                                  border: none;
+                                  border-radius: 5px;
+                                  cursor: pointer;
+                                ">
+                              Transferir Certificado
                                 <i class="fas fa-download" style="margin-left: 5px"></i>
-                            </a>
+                              </button>
+
+                                
+                           
                         </div>
                     </section>
+                    </form>
                 ';
           }
           ?>
