@@ -116,7 +116,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
 
             $insert = "INSERT Into fase(Id_curso, Num_fase, Titulo_fase, Conteudo_fase, Imagem, video) value(?, ?, ?, ?, ?, ?)";
-            $stmt = $conn->prepare($update);
+            $stmt = $conn->prepare($insert);
             $stmt->bind_param("iissss", $idcursoAtual, $i, $titulos[$i], $conteudos[$i], $novoNomeImagem, $novoNomeVideo);
             $stmt->execute();
             if ($stmt->execute()) {
