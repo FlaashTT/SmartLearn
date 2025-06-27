@@ -60,7 +60,21 @@ $pdf->SetDrawColor(0, 0, 0);
 $pdf->SetLineWidth(0.5);
 $pdf->Line(100, 165, 200, 165);
 
-$pdf->SetY(165);
+// Nome da coordenadora (em cima da linha)
+$nomeAssinatura = "Joana Correia";
+$pdf->SetFont('Arial', '',16);
+$pdf->SetTextColor(0, 0, 0);
+
+// Calcular posição para centrar o nome na linha (de 100 a 200 mm)
+$larguraTexto = $pdf->GetStringWidth($nomeAssinatura);
+$x = 100 + (100 - $larguraTexto) / 2; // linha tem 100 mm de comprimento
+$y = 158; // ligeiramente acima da linha
+
+$pdf->SetXY($x, $y);
+$pdf->Cell($larguraTexto, 5, $nomeAssinatura, 0, 0, 'L');
+
+// Texto por baixo da linha (legenda)
+$pdf->SetY(168); // um pouco abaixo da linha
 $pdf->SetFont('Arial', '', 14);
 $pdf->Cell(0, 10, mb_convert_encoding('Assinatura da Coordenação do Curso', 'ISO-8859-1', 'UTF-8'), 0, 1, 'C');
 
