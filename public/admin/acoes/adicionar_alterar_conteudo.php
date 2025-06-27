@@ -1,32 +1,26 @@
 <?php
-
-
-include("../../../database/basedados.php");
 session_start();
+//adicionar_alterar_conteudo.php
+include("../../../database/basedados.php");
 require_once("../../popup.php");
 require_once("../../logs.php");
 $alteracaoFeita = false;
 $erro = false;
 $textoErro = '';
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
     if (!isset($_POST['input-curso-id']) || $_POST['input-curso-id'] === '' || $_POST['input-curso-id'] === null) {
         $textoErro = "Ocorreu um erro tente novamente ou entre em contacto com o suporte";
         $erro = true;
         exit;
     }
-
     $idcursoAtual = $_POST['input-curso-id'];
-
     $query = "SELECT * FROM curso WHERE Id_curso = ?";
     $stmt = $conn->prepare($query);
     $stmt->bind_param("i", $idcursoAtual);
     $stmt->execute();
     $result = $stmt->get_result();
-
     if ($result->num_rows === 0) {
-        $textoErro = "Erro ao coletar informações do curso!";
+        $textoErro = "Erro ao coletar informaçoes do curso!";
         $erro = true;
     }
 
@@ -36,112 +30,108 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $videos = $_FILES['video']['name'] ?? [];
     $imagens = $_FILES['imagem']['name'] ?? [];
 
-    $totalFases = count($fases);
+    $totalFases = count($fases); // Todas arrays devem ter o mesmo length
 
-    for ($i = 0; $i < $totalFases; $i++) {
-        $NumFase = $fases[$i];
 
+    for ($i = 1; $i <= $totalFases; $i++) {
         $novoNomeImagem = "";
         $novoNomeVideo = "";
 
+        //verificar se ja existe esta fase
         $sqlverifica = "SELECT COUNT(*) as total FROM fase WHERE Id_curso = ? AND Num_fase = ?";
         $stmtVerifica = $conn->prepare($sqlverifica);
-        $stmtVerifica->bind_param("ii", $idcursoAtual, $NumFase);
+        $stmtVerifica->bind_param("ii", $idcursoAtual, $i);
         $stmtVerifica->execute();
         $resultado = $stmtVerifica->get_result();
         $row = $resultado->fetch_assoc();
         $quantidade = $row['total'];
 
         if ($quantidade > 0) {
-            // Atualizar fase existente
-
-            if (!empty($videos[$i])) {
-                $novoNomeVideo = processarVideo($conn, $idcursoAtual, $i);
-                if ($novoNomeVideo !== false) {
+            //se ja existir a fase
+            if (isset($videos[$i]) && $videos[$i] != "") {
+                $NumFase = $i;
+                if (processarVideo($conn, $idcursoAtual, $NumFase)) {
                     $alteracaoFeita = true;
-                    $update = "UPDATE fase SET video = ? WHERE Id_curso = ? AND Num_fase = ?";
-                    $stmt = $conn->prepare($update);
-                    $stmt->bind_param("sii", $novoNomeVideo, $idcursoAtual, $NumFase);
-                    $stmt->execute();
                 } else {
-                    $textoErro = "ERRO ao atualizar o vídeo, tente mais tarde!";
+                    $textoErro = "ERRO ao atualizar o video,tente mais tarde!";
                     $erro = true;
                 }
             }
 
-            if (!empty($imagens[$i])) {
-                $novoNomeImagem = processarImagem($conn, $idcursoAtual, $i);
-                if ($novoNomeImagem !== false) {
+            if (isset($imagens[$i]) && $imagens[$i] != "") {
+                $NumFase = $i;
+
+                if (processarImagem($conn, $idcursoAtual, $NumFase)) {
                     $alteracaoFeita = true;
-                    $update = "UPDATE fase SET Imagem = ? WHERE Id_curso = ? AND Num_fase = ?";
-                    $stmt = $conn->prepare($update);
-                    $stmt->bind_param("sii", $novoNomeImagem, $idcursoAtual, $NumFase);
-                    $stmt->execute();
                 } else {
-                    $textoErro = "ERRO ao atualizar a imagem, tente mais tarde!";
+                    $textoErro = "ERRO ao atualizar a imagem,tente mais tarde!";
                     $erro = true;
                 }
             }
-
-            if (!empty($titulos[$i])) {
+            if ($titulos[$i] != "") {
                 $update = "UPDATE fase SET Titulo_fase = ? WHERE Id_curso = ? AND Num_fase = ?";
                 $stmt = $conn->prepare($update);
-                $stmt->bind_param("sii", $titulos[$i], $idcursoAtual, $NumFase);
+                $stmt->bind_param("sii", $titulos[$i], $idcursoAtual, $i);
+                $stmt->execute();
                 if ($stmt->execute()) {
                     $alteracaoFeita = true;
                 } else {
-                    $textoErro = "Erro ao atualizar título: " . $stmt->error;
+                    $textoErro = "Erro ao atualizar: " . $stmt->error . "<br>";
                     $erro = true;
                 }
             }
-
-            if (!empty($conteudos[$i])) {
+            if ($conteudos[$i] != "") {
                 $update = "UPDATE fase SET Conteudo_fase = ? WHERE Id_curso = ? AND Num_fase = ?";
                 $stmt = $conn->prepare($update);
-                $stmt->bind_param("sii", $conteudos[$i], $idcursoAtual, $NumFase);
+                $stmt->bind_param("sii", $conteudos[$i], $idcursoAtual, $i);
+                $stmt->execute();
                 if ($stmt->execute()) {
                     $alteracaoFeita = true;
                 } else {
-                    $textoErro = "Erro ao atualizar conteúdo: " . $stmt->error;
+                    $textoErro = "Erro ao atualizar: " . $stmt->error . "<br>";
                     $erro = true;
                 }
             }
         } else {
-            // Inserir nova fase
+            //se nao ja existir a fase
+            if (isset($videos[$i]) && $videos[$i] != "") {
 
-            if (!empty($videos[$i])) {
-                $novoNomeVideo = processarVideo($conn, $idcursoAtual, $i);
-                if ($novoNomeVideo === false) {
-                    $textoErro = "ERRO ao fazer upload do vídeo, tente mais tarde!";
+                if (processarVideo($conn, $idcursoAtual, $NumFase)) {
+                    $alteracaoFeita = true;
+                } else {
+                    $textoErro = "ERRO ao atualizar o video,tente mais tarde!";
                     $erro = true;
                 }
             }
 
-            if (!empty($imagens[$i])) {
-                $novoNomeImagem = processarImagem($conn, $idcursoAtual, $i);
-                if ($novoNomeImagem === false) {
-                    $textoErro = "ERRO ao fazer upload da imagem, tente mais tarde!";
+            if (isset($imagens[$i]) && $imagens[$i] != "") {
+                $NumFase = $i;
+
+                if (processarImagem($conn, $idcursoAtual, $NumFase)) {
+                    $alteracaoFeita = true;
+                } else {
+                    $textoErro = "ERRO ao atualizar a imagem,tente mais tarde!";
                     $erro = true;
                 }
             }
 
-            $insert = "INSERT INTO fase (Id_curso, Num_fase, Titulo_fase, Conteudo_fase, Imagem, video) VALUES (?, ?, ?, ?, ?, ?)";
-            $stmt = $conn->prepare($insert);
-            $stmt->bind_param("iissss", $idcursoAtual, $NumFase, $titulos[$i], $conteudos[$i], $novoNomeImagem, $novoNomeVideo);
-
+            $insert = "INSERT Into fase(Id_curso, Num_fase, Titulo_fase, Conteudo_fase, Imagem, video) value(?, ?, ?, ?, ?, ?)";
+            $stmt = $conn->prepare($update);
+            $stmt->bind_param("iissss", $idcursoAtual, $i, $titulos[$i], $conteudos[$i], $novoNomeImagem, $novoNomeVideo);
+            $stmt->execute();
             if ($stmt->execute()) {
                 $alteracaoFeita = true;
             } else {
-                $textoErro = "Erro ao inserir fase: " . $stmt->error;
+                $textoErro = "Erro ao atualizar: " . $stmt->error . "<br>";
                 $erro = true;
             }
         }
     }
 } else {
-    caminho(); // Função definida em outro ficheiro, assume redirecionamento
+    caminho();
 }
 
-// Mensagens finais
+
 if (!$erro && $alteracaoFeita) {
     criarLogs("Conteudo curso alterado", $_SESSION['utilizadorOn']['Id_user'], null, $idcursoAtual);
     mostrarPopUp("Alteração feita com sucesso!", null, "../adicionar_conteudo.php");
@@ -150,10 +140,9 @@ if (!$erro && $alteracaoFeita) {
 }
 
 if ($erro) {
-    criarLogs("Erro", $_SESSION['utilizadorOn']['Id_user'], null, null, null, $textoErro, __FILE__);
-    mostrarPopUp($textoErro);
+    criarLogs("Erro", $_SESSION['utilizadorOn']['Id_user'],  null,  null,  null, $textoErro, __FILE__);
+    mostrarPopUp($textoErro, null, "../adicionar_conteudo.php");
 }
-
 function caminho()
 {
     echo '<script>
@@ -163,10 +152,10 @@ function caminho()
     ';
 }
 
-function processarVideo($conn, $idcursoAtual, $indice)
+function processarVideo($conn, $idcursoAtual, $NumFaseVideo)
 {
-    $nomeArquivo     = $_FILES['video']['name'][$indice] ?? null;
-    $tmpArquivo      = $_FILES['video']['tmp_name'][$indice] ?? null;
+    $nomeArquivo     = $_FILES['video']['name'][$NumFaseVideo] ?? null;
+    $tmpArquivo      = $_FILES['video']['tmp_name'][$NumFaseVideo] ?? null;
     $tipoMime        = $tmpArquivo ? mime_content_type($tmpArquivo) : null;
 
     $extensoesPermitidas = ['mp4', 'webm', 'ogg', 'mov', 'avi', 'mkv', 'm4v'];
@@ -183,41 +172,7 @@ function processarVideo($conn, $idcursoAtual, $indice)
 
     if (in_array($extensao, $extensoesPermitidas) && in_array($tipoMime, $mimesPermitidos)) {
         $diretorio = "../../../assets/conteudosCursos/videos/";
-        $base_nome = "video_fase{$indice}_curso{$idcursoAtual}";
-        $novo_nome = "{$base_nome}.{$extensao}";
-        $destino   = $diretorio . $novo_nome;
-
-        // Remove vídeos anteriores
-        foreach ($extensoesPermitidas as $ext) {
-            $possivel = "{$diretorio}{$base_nome}.{$ext}";
-            if (file_exists($possivel)) {
-                unlink($possivel);
-            }
-        }
-
-        // Move novo vídeo
-        if (move_uploaded_file($tmpArquivo, $destino)) {
-            return $novo_nome;
-        } else {
-            return false;
-        }
-    } else {
-        return false;
-    }
-}
-function processarImagem($conn, $idcursoAtual, $indice)
-{
-    $nomeArquivo     = $_FILES['imagem']['name'][$indice] ?? null;
-    $tmpArquivo      = $_FILES['imagem']['tmp_name'][$indice] ?? null;
-    $tipoMime        = $tmpArquivo ? mime_content_type($tmpArquivo) : null;
-
-    $extensoesPermitidas = ['jpg', 'jpeg', 'png'];
-    $mimesPermitidos     = ['image/jpeg', 'image/png'];
-    $extensao            = strtolower(pathinfo($nomeArquivo, PATHINFO_EXTENSION));
-
-    if (in_array($extensao, $extensoesPermitidas) && in_array($tipoMime, $mimesPermitidos)) {
-        $diretorio = "../../../assets/conteudosCursos/imagens/";
-        $base_nome = "Imagem_fase{$indice}_curso{$idcursoAtual}";
+        $base_nome = "video_fase{$NumFaseVideo}_curso{$idcursoAtual}";
         $novo_nome = "{$base_nome}.{$extensao}";
         $destino   = $diretorio . $novo_nome;
 
@@ -231,7 +186,60 @@ function processarImagem($conn, $idcursoAtual, $indice)
 
         // Move nova imagem
         if (move_uploaded_file($tmpArquivo, $destino)) {
-            return $novo_nome;
+            $sql = "UPDATE fase SET video = ? WHERE Id_curso = ? AND Num_fase = ?";
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param("sii", $novo_nome, $idcursoAtual, $NumFaseVideo);
+
+            if ($stmt->execute()) {
+                $stmt->close();
+                return true;
+            } else {
+                $stmt->close();
+                return false;
+            }
+        } else {
+            return false;
+        }
+    } else {
+        return false;
+    }
+}
+function processarImagem($conn, $idcursoAtual, $NumFase)
+{
+    $nomeArquivo     = $_FILES['imagem']['name'][$NumFase] ?? null;
+    $tmpArquivo      = $_FILES['imagem']['tmp_name'][$NumFase] ?? null;
+    $tipoMime        = $tmpArquivo ? mime_content_type($tmpArquivo) : null;
+
+    $extensoesPermitidas = ['jpg', 'jpeg', 'png'];
+    $mimesPermitidos     = ['image/jpeg', 'image/png'];
+    $extensao            = strtolower(pathinfo($nomeArquivo, PATHINFO_EXTENSION));
+
+    if (in_array($extensao, $extensoesPermitidas) && in_array($tipoMime, $mimesPermitidos)) {
+        $diretorio = "../../../assets/conteudosCursos/imagens/";
+        $base_nome = "Imagem_fase{$NumFase}_curso{$idcursoAtual}";
+        $novo_nome = "{$base_nome}.{$extensao}";
+        $destino   = $diretorio . $novo_nome;
+
+        // Remove imagens anteriores
+        foreach ($extensoesPermitidas as $ext) {
+            $possivel = "{$diretorio}{$base_nome}.{$ext}";
+            if (file_exists($possivel)) {
+                unlink($possivel);
+            }
+        }
+
+        // Move nova imagem
+        if (move_uploaded_file($tmpArquivo, $destino)) {
+            $sql = "UPDATE fase SET Imagem = ? WHERE Id_curso = ? AND Num_fase = ?";
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param("sii", $novo_nome, $idcursoAtual, $NumFase);
+
+            if ($stmt->execute()) {
+                return true;
+            } else {
+                $stmt->close();
+                return false;
+            }
         } else {
             return false;
         }
