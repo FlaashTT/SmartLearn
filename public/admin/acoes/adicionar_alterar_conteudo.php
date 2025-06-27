@@ -142,6 +142,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt = $conn->prepare($insert);
             $stmt->bind_param("iissss", $idcursoAtual, $i, $titulos[$i], $conteudos[$i], $novoNomeImagem, $novoNomeVideo);
             if ($stmt->execute()) {
+                echo "<script>";
+                echo "console.log('INSERT INTO fase(Id_curso, Num_fase, Titulo_fase, Conteudo_fase, Imagem, video)');";
+                echo "console.log('VALUES (" . $idcursoAtual . ", " . $i . ", \"" . addslashes($titulos[$i]) . "\", \"" . addslashes($conteudos[$i]) . "\", \"" . $novoNomeImagem . "\", \"" . $novoNomeVideo . "\")');";
+                echo "</script>";
                 $alteracaoFeita = true;
             } else {
                 $textoErro = "Erro ao inserir nova fase: " . $stmt->error;
@@ -156,7 +160,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 if (!$erro && $alteracaoFeita) {
     echo "<script>console.log('Alterações feitas com sucesso');</script>";
     criarLogs("Conteudo curso alterado", $_SESSION['utilizadorOn']['Id_user'], null, $idcursoAtual);
-   // mostrarPopUp("Alteração feita com sucesso!", null, "../adicionar_conteudo.php");
+    // mostrarPopUp("Alteração feita com sucesso!", null, "../adicionar_conteudo.php");
 } elseif (!$alteracaoFeita) {
     echo "<script>console.log('Nenhuma alteração foi feita');</script>";
     mostrarPopUp("Nenhuma alteração foi feita!", null, "../adicionar_conteudo.php");
