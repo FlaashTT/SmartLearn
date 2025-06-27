@@ -44,7 +44,7 @@ $idEditar = isset($_POST['idEditar']) ? $_POST['idEditar'] : null;
             <main class="container-page">
                 <section class="main-content" style="display: flex; align-items: center; justify-content: space-between;">
                     <h1 style="display: flex; align-items: center;">
-                        <i style="font-size: 18px; margin-right: 10px;" class="fa-solid fa-users-gear"></i> Gerenciar clientes
+                        <i style="font-size: 18px; margin-right: 10px;" class="fa-solid fa-users-gear"></i> Gerir clientes
                     </h1>
                 </section>
 

@@ -1,7 +1,7 @@
 <?php
 include('../segurança.php');
 include("../../database/basedados.php");
-include("../popup.php");
+require_once("../popup.php");
 $erro = false;
 //curso_capa.php
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
