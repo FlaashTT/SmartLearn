@@ -4,146 +4,146 @@ session_start();
 include("../../../database/basedados.php");
 require_once("../../popup.php");
 require_once("../../logs.php");
+
 $alteracaoFeita = false;
 $erro = false;
 $textoErro = '';
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!isset($_POST['input-curso-id']) || $_POST['input-curso-id'] === '' || $_POST['input-curso-id'] === null) {
-        $textoErro = "Ocorreu um erro tente novamente ou entre em contacto com o suporte";
+        $textoErro = "Ocorreu um erro. Tente novamente ou entre em contacto com o suporte.";
         $erro = true;
-        exit;
-    }
-    $idcursoAtual = $_POST['input-curso-id'];
-    $query = "SELECT * FROM curso WHERE Id_curso = ?";
-    $stmt = $conn->prepare($query);
-    $stmt->bind_param("i", $idcursoAtual);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    if ($result->num_rows === 0) {
-        $textoErro = "Erro ao coletar informaçoes do curso!";
-        $erro = true;
-    }
- 
-    $titulos = $_POST['titulo'] ?? [];
-    $conteudos = $_POST['conteudo'] ?? [];
-    $fases = $_POST['fase'] ?? [];
-    $videos = $_FILES['video']['name'] ?? [];
-    $imagens = $_FILES['imagem']['name'] ?? [];
- 
-    $totalFases = count($fases); // Todas arrays devem ter o mesmo length
- 
- 
-    for ($i = 0; $i <= $totalFases; $i++) {
-        $numFase = $i + 1;
-        $novoNomeImagem = "";
-        $novoNomeVideo = "";
- 
-        //verificar se ja existe esta fase
-        $sqlverifica = "SELECT COUNT(*) as total FROM fase WHERE Id_curso = ? AND Num_fase = ?";
-        $stmtVerifica = $conn->prepare($sqlverifica);
-        $stmtVerifica->bind_param("ii", $idcursoAtual, $i);
-        $stmtVerifica->execute();
-        $resultado = $stmtVerifica->get_result();
-        $row = $resultado->fetch_assoc();
-        $quantidade = $row['total'];
- 
-        if ($quantidade > 0) {
-            //se ja existir a fase
-            if (isset($videos[$i]) && $videos[$i] != "") {
-                $NumFase = $i;
-                if (processarVideo($conn, $idcursoAtual, $NumFase)) {
-                    $alteracaoFeita = true;
-                } else {
-                    $textoErro = "ERRO ao atualizar o video,tente mais tarde!";
-                    $erro = true;
-                }
-            }
- 
-            if (isset($imagens[$i]) && $imagens[$i] != "") {
-                $NumFase = $i;
- 
-                if (processarImagem($conn, $idcursoAtual, $NumFase)) {
-                    $alteracaoFeita = true;
-                } else {
-                    $textoErro = "ERRO ao atualizar a imagem,tente mais tarde!";
-                    $erro = true;
-                }
-            }
-            if ($titulos[$i] != "") {
-                $update = "UPDATE fase SET Titulo_fase = ? WHERE Id_curso = ? AND Num_fase = ?";
-                $stmt = $conn->prepare($update);
-                $stmt->bind_param("sii", $titulos[$i], $idcursoAtual, $i);
-                
-                if ($stmt->execute()) {
-                    $alteracaoFeita = true;
-                } else {
-                    $textoErro = "Erro ao atualizar: " . $stmt->error . "<br>";
-                    $erro = true;
-                }
-            }
-            if ($conteudos[$i] != "") {
-                $update = "UPDATE fase SET Conteudo_fase = ? WHERE Id_curso = ? AND Num_fase = ?";
-                $stmt = $conn->prepare($update);
-                $stmt->bind_param("sii", $conteudos[$i], $idcursoAtual, $i);
-                
-                if ($stmt->execute()) {
-                    $alteracaoFeita = true;
-                } else {
-                    $textoErro = "Erro ao atualizar: " . $stmt->error . "<br>";
-                    $erro = true;
-                }
-            }
+    } else {
+        $idcursoAtual = $_POST['input-curso-id'];
+        $query = "SELECT * FROM curso WHERE Id_curso = ?";
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("i", $idcursoAtual);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        if ($result->num_rows === 0) {
+            $textoErro = "Erro ao coletar informações do curso!";
+            $erro = true;
         } else {
-            //se nao ja existir a fase
-            if (isset($videos[$i]) && $videos[$i] != "") {
- 
-                if (processarVideo($conn, $idcursoAtual, $NumFase)) {
-                    $alteracaoFeita = true;
+            $titulos = $_POST['titulo'] ?? [];
+            $conteudos = $_POST['conteudo'] ?? [];
+            $fases = $_POST['fase'] ?? [];
+            $videos = $_FILES['video']['name'] ?? [];
+            $imagens = $_FILES['imagem']['name'] ?? [];
+
+            $totalFases = count($fases);
+
+            for ($i = 0; $i < $totalFases; $i++) {
+                $NumFase = $i + 1;
+                $novoNomeImagem = "";
+                $novoNomeVideo = "";
+
+                // Verificar se já existe esta fase
+                $sqlverifica = "SELECT COUNT(*) as total FROM fase WHERE Id_curso = ? AND Num_fase = ?";
+                $stmtVerifica = $conn->prepare($sqlverifica);
+                $stmtVerifica->bind_param("ii", $idcursoAtual, $NumFase);
+                $stmtVerifica->execute();
+                $resultado = $stmtVerifica->get_result();
+                $row = $resultado->fetch_assoc();
+                $quantidade = $row['total'];
+
+                if ($quantidade > 0) {
+                    // Atualizar fase existente
+                    if (isset($videos[$i]) && $videos[$i] != "") {
+                        if (processarVideo($conn, $idcursoAtual, $NumFase)) {
+                            $alteracaoFeita = true;
+                        } else {
+                            $textoErro = "ERRO ao atualizar o vídeo. Tente mais tarde!";
+                            $erro = true;
+                        }
+                    }
+
+                    if (isset($imagens[$i]) && $imagens[$i] != "") {
+                        if (processarImagem($conn, $idcursoAtual, $NumFase)) {
+                            $alteracaoFeita = true;
+                        } else {
+                            $textoErro = "ERRO ao atualizar a imagem. Tente mais tarde!";
+                            $erro = true;
+                        }
+                    }
+
+                    if (!empty($titulos[$i])) {
+                        $update = "UPDATE fase SET Titulo_fase = ? WHERE Id_curso = ? AND Num_fase = ?";
+                        $stmt = $conn->prepare($update);
+                        $stmt->bind_param("sii", $titulos[$i], $idcursoAtual, $NumFase);
+                        if ($stmt->execute()) {
+                            $alteracaoFeita = true;
+                        } else {
+                            $textoErro = "Erro ao atualizar o título: " . $stmt->error;
+                            $erro = true;
+                        }
+                    }
+
+                    if (!empty($conteudos[$i])) {
+                        $update = "UPDATE fase SET Conteudo_fase = ? WHERE Id_curso = ? AND Num_fase = ?";
+                        $stmt = $conn->prepare($update);
+                        $stmt->bind_param("sii", $conteudos[$i], $idcursoAtual, $NumFase);
+                        if ($stmt->execute()) {
+                            $alteracaoFeita = true;
+                        } else {
+                            $textoErro = "Erro ao atualizar o conteúdo: " . $stmt->error;
+                            $erro = true;
+                        }
+                    }
                 } else {
-                    $textoErro = "ERRO ao atualizar o video,tente mais tarde!";
-                    $erro = true;
+                    // Inserir nova fase
+                    if (isset($videos[$i]) && $videos[$i] != "") {
+                        if (processarVideo($conn, $idcursoAtual, $NumFase)) {
+                            $alteracaoFeita = true;
+                        } else {
+                            $textoErro = "ERRO ao adicionar o vídeo. Tente mais tarde!";
+                            $erro = true;
+                        }
+                    }
+
+                    if (isset($imagens[$i]) && $imagens[$i] != "") {
+                        if (processarImagem($conn, $idcursoAtual, $NumFase)) {
+                            $alteracaoFeita = true;
+                        } else {
+                            $textoErro = "ERRO ao adicionar a imagem. Tente mais tarde!";
+                            $erro = true;
+                        }
+                    }
+
+                    $insert = "INSERT INTO fase (Id_curso, Num_fase, Titulo_fase, Conteudo_fase, Imagem, video) VALUES (?, ?, ?, ?, ?, ?)";
+                    $stmt = $conn->prepare($insert);
+                    $stmt->bind_param("iissss", $idcursoAtual, $NumFase, $titulos[$i], $conteudos[$i], $novoNomeImagem, $novoNomeVideo);
+                    if ($stmt->execute()) {
+                        $alteracaoFeita = true;
+                    } else {
+                        $textoErro = "Erro ao inserir fase: " . $stmt->error;
+                        $erro = true;
+                    }
                 }
-            }
- 
-            if (isset($imagens[$i]) && $imagens[$i] != "") {
-                $NumFase = $i;
- 
-                if (processarImagem($conn, $idcursoAtual, $NumFase)) {
-                    $alteracaoFeita = true;
-                } else {
-                    $textoErro = "ERRO ao atualizar a imagem,tente mais tarde!";
-                    $erro = true;
-                }
-            }
- 
-            $insert = "INSERT Into fase(Id_curso, Num_fase, Titulo_fase, Conteudo_fase, Imagem, video) value(?, ?, ?, ?, ?, ?)";
-            $stmt = $conn->prepare($insert);
-            $stmt->bind_param("iissss", $idcursoAtual, $NumFase, $titulos[$i], $conteudos[$i], $novoNomeImagem, $novoNomeVideo);
-            
-            if ($stmt->execute()) {
-                $alteracaoFeita = true;
-            } else {
-                $textoErro = "Erro ao atualizar: " . $stmt->error . "<br>";
-                $erro = true;
             }
         }
     }
 } else {
     caminho();
+    exit;
 }
- 
- 
+
 if (!$erro && $alteracaoFeita) {
-    criarLogs("Conteudo curso alterado", $_SESSION['utilizadorOn']['Id_user'], null, $idcursoAtual);
+    criarLogs("Conteúdo do curso alterado", $_SESSION['utilizadorOn']['Id_user'], null, $idcursoAtual);
     mostrarPopUp("Alteração feita com sucesso!", null, "../adicionar_conteudo.php");
-} elseif (!$alteracaoFeita) {
+    exit;
+}
+
+if (!$alteracaoFeita && !$erro) {
     mostrarPopUp("Nenhuma alteração foi feita!", null, "../adicionar_conteudo.php");
+    exit;
 }
- 
+
 if ($erro) {
-    criarLogs("Erro", $_SESSION['utilizadorOn']['Id_user'],  null,  null,  null, $textoErro, __FILE__);
+    criarLogs("Erro ao alterar conteúdo do curso: " . $textoErro, $_SESSION['utilizadorOn']['Id_user'], null, $idcursoAtual ?? null);
     mostrarPopUp($textoErro, null, "../adicionar_conteudo.php");
+    exit;
 }
+
 function caminho()
 {
     echo '<script>
