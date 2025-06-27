@@ -261,10 +261,10 @@ if (!$conn->connect_error) {
 
         function adicionarFase() {
             const container = document.getElementById('fases-container');
-            // Obter todos os valores atuais das fases já criadas
+            // Obtem o valor de fases atualmente criadas
             const fasesExistentes = Array.from(container.querySelectorAll('input[name="fase[]"]'))
                 .map(input => parseInt(input.value, 10));
-            // Encontrar o maior número de fase já usado
+            // Procura o maior número de fase já usado
             let faseNumero = 1;
             while (fasesExistentes.includes(faseNumero)) {
                 faseNumero++;
