@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 27-Jun-2025 às 11:51
+-- Tempo de geração: 27-Jun-2025 às 13:52
 -- Versão do servidor: 10.4.32-MariaDB
 -- versão do PHP: 8.2.12
 
@@ -126,13 +126,13 @@ CREATE TABLE IF NOT EXISTS `curso` (
 --
 
 INSERT INTO `curso` (`Id_curso`, `Nome_curso`, `Id_categoria`, `Id_idioma`, `Criador_curso`, `Data_criacao`, `URL_foto_perfil_curso`, `Pequena_descricao`, `Descricao`, `Preco`, `Preco_antigo`, `Estado_curso`, `Classificacao`, `Num_visitascurso`, `Tempo_estimado`, `Dificuldade`, `Quantidade_fases`, `Requisitos`, `Provedor_geral_curso`, `URL_geral_curso`, `Keywords`) VALUES
-(23, 'Como fazer um cronometro', 30, 1, 32, '2025-06-25', 'curso_id23.png', 'Cronometro em android Studio', 'Como fazer uma sdfaplicação de um cronometro para telemovel usando java e android Studio', 9.99, 19.99, 'ativo', 2, 20, '00:15:00', 'Iniciante', 0, 'dfg', 'conta_proria', '', ''),
+(23, 'Como fazer um cronometro', 30, 1, 32, '2025-06-25', 'curso_id23.png', 'Cronometro em android Studio', 'Como fazer uma sdfaplicação de um cronometro para telemovel usando java e android Studio', 9.99, 19.99, 'ativo', 2, 21, '00:15:00', 'Iniciante', 0, 'dfg', 'conta_proria', '', ''),
 (40, 'testefgh', 30, 1, 32, '2025-06-25', NULL, 'dafg', 'dafg', 50.00, 0.00, 'Eliminado', 0, 0, '01:00:00', 'Iniciante', 0, 'adfg', 'youtube', '', ''),
 (41, 'test', NULL, 2, 32, '2025-06-25', NULL, '', '', 0.00, 0.00, 'Incompleto', 0, 0, '00:00:00', '', 0, '', '', NULL, ''),
 (42, 'test', NULL, 2, 32, '2025-06-25', NULL, '', '', 0.00, 0.00, 'Eliminado', 0, 0, '00:00:00', '', 0, '', '', NULL, ''),
 (43, 'testando mais 1sdf', 30, 3, 32, '2025-06-25', NULL, '', 'sdfxcv', 333.00, 0.00, 'Eliminado', 0, 0, '01:00:00', 'avançado', 0, 'sdfsdsdxcsdf', 'tiktok', 'nmbnv', ''),
 (44, 'sdf', NULL, 3, 32, '2025-06-25', NULL, '', '', 0.00, 0.00, 'ativo', 0, 11, '00:00:00', '', 0, 'sdfsd', '', NULL, ''),
-(45, 'Fazer um circuito pisca pisca', 33, 1, 32, '2025-06-26', 'curso_id45.png', '', 'Como fazer um circuito pisca pisca com eletronica utilizando um ne555', 0.00, 0.00, 'ativo', 0, 4, '00:10:00', 'Iniciante', 0, '', 'conta_proria', '', '');
+(45, 'Fazer um circuito pisca pisca', 33, 1, 32, '2025-06-26', 'curso_id45.png', '', 'Como fazer um circuito pisca pisca com eletronica utilizando um ne555', 0.00, 0.00, 'ativo', 3, 5, '00:10:00', 'Iniciante', 0, '', 'conta_proria', '', '');
 
 -- --------------------------------------------------------
 
@@ -184,8 +184,8 @@ INSERT INTO `cursos_adquiridos` (`Id_adquirido`, `Id_user`, `Id_curso`, `Data_co
 (32, 32, 22, '2025-06-17', 'Concluido', 100, NULL, NULL, NULL),
 (33, 32, 5, '2025-06-17', 'Concluido', 100, NULL, NULL, NULL),
 (41, 78, 23, '2025-06-26', 'Iniciado', 0, NULL, NULL, NULL),
-(43, 32, 23, '2025-06-26', 'Por Iniciar', 0, 32, NULL, NULL),
-(44, 32, 45, '2025-06-26', 'Iniciado', 75, NULL, 'est a a atualiza sozinho', NULL);
+(43, 32, 23, '2025-06-26', 'Por Iniciar', 50, 32, '', NULL),
+(44, 32, 45, '2025-06-26', 'Iniciado', 75, NULL, 'est a a atualiza sozinho', 3);
 
 -- --------------------------------------------------------
 
@@ -224,7 +224,7 @@ CREATE TABLE IF NOT EXISTS `fase` (
   `video` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`Id_fase`),
   KEY `Id_curso` (`Id_curso`)
-) ENGINE=InnoDB AUTO_INCREMENT=46 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=50 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Extraindo dados da tabela `fase`
@@ -237,8 +237,10 @@ INSERT INTO `fase` (`Id_fase`, `Id_curso`, `Num_fase`, `Titulo_fase`, `Conteudo_
 (41, 45, 2, 'Materiais necessarios', 'Tem na imagem todos os componentes necessarios para a montagem', 'Imagem_fase2_curso45.png', ''),
 (42, 45, 3, 'Valores dos materiais', 'Resistencia variavel: 47kΩ(ohms).\nCapacitor polarizado : 100 µF(miroFarads).\nResistencias de 1kΩ(ohms), 220Ω(ohms), 330Ω(ohms).\nBateria de 9 volts.', '', ''),
 (43, 45, 4, 'Exibição do video ', 'Agora com o video explicativo demonstrando todos os passos consegue realizar a montagem do seu circuito tanto virtualmente como fisicamente', '', 'video_fase4_curso45.mp4'),
-(44, 41, 1, 'ultimo teste', 'conteudo 1', '', ''),
-(45, 41, 2, 'fase 2', 'conteudo 2', 'Imagem_fase2_curso41.png', '');
+(46, 41, 1, 'f2', '', '', ''),
+(47, 41, 1, 'f2', '', '', ''),
+(48, 41, 2, NULL, NULL, '', ''),
+(49, 41, 2, NULL, NULL, '', '');
 
 -- --------------------------------------------------------
 
@@ -318,7 +320,7 @@ CREATE TABLE IF NOT EXISTS `logs_sistema` (
   PRIMARY KEY (`Id_log`),
   KEY `Id_user` (`Id_user`),
   KEY `fk_logs_curso` (`Id_curso`)
-) ENGINE=InnoDB AUTO_INCREMENT=353 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=361 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Extraindo dados da tabela `logs_sistema`
@@ -583,7 +585,15 @@ INSERT INTO `logs_sistema` (`Id_log`, `Id_user`, `Id_curso`, `Descricao_log`, `T
 (349, 32, 23, 'Ocorreu um erro: Nenhuma alteração feita ou ID não encontrado. no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\admin\\acoes\\editarCurso.php', 'Erro', '2025-06-26 19:07:59', NULL),
 (350, 32, NULL, 'O utilizador realizou uma compra no valor de 0 €', 'Compra curso', '2025-06-26 19:36:11', 0),
 (351, 32, NULL, 'O utilizador realizou uma compra no valor de 0 €', 'Compra curso', '2025-06-26 19:57:48', 0),
-(352, 32, 44, 'Foi solicitado reembolso do curso com id44', 'Reembolso curso', '2025-06-26 20:00:39', 0);
+(352, 32, 44, 'Foi solicitado reembolso do curso com id44', 'Reembolso curso', '2025-06-26 20:00:39', 0),
+(353, 32, 41, 'Foi removida fase do curso: 41 pelo administrador com Id: 32', 'Fase removida', '2025-06-27 11:14:46', NULL),
+(354, 32, 41, 'Foi removida fase do curso: 41 pelo administrador com Id: 32', 'Fase removida', '2025-06-27 11:14:51', NULL),
+(355, 32, 41, 'O administrador com id 32 alterou o conteúdo do curso 41', 'Conteudo curso alterado', '2025-06-27 11:15:36', NULL),
+(356, 32, NULL, 'Ocorreu um erro: O utilizador vb@gmail.com / Ruben Bras já está matriculado no curso Como fazer um cronometro. no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\admin\\acoes\\realizaMatricular.php', 'Erro', '2025-06-27 12:20:05', NULL),
+(357, 32, NULL, 'O utilizador com id  foi matriculado no curso de id  pelo admin com id 32', 'Utilizador Matriculado', '2025-06-27 12:20:07', NULL),
+(358, 32, NULL, 'Foi alterado dados do utilizador com Id: 41 pelo administrador com ID:32', 'Utilizador Alterado por admin', '2025-06-27 12:23:04', NULL),
+(359, 32, NULL, 'Ocorreu um erro: Método de requisição inválido. no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\admin\\acoes\\alterarUtilizador.php', 'Erro', '2025-06-27 12:23:06', NULL),
+(360, 32, NULL, 'Ocorreu um erro: Método de requisição inválido. no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\admin\\acoes\\alterarUtilizador.php', 'Erro', '2025-06-27 12:23:07', NULL);
 
 -- --------------------------------------------------------
 
@@ -679,10 +689,10 @@ CREATE TABLE IF NOT EXISTS `user` (
 --
 
 INSERT INTO `user` (`Id_user`, `PNome_user`, `SNome_user`, `Estado_conta`, `Biografia`, `Password`, `Data_criacao`, `Email`, `Tipo_user`, `Carteira`, `URL_facebook`, `URL_youtube`, `URL_linkedin`, `URL_foto_perfilUser`, `Estado_cookies_user`) VALUES
-(32, 'Ruben', 'Bras', 'Ativo', 'teste', '03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4', '2025-04-02', 'vb@gmail.com', 'Main-admin', 99999936.02, 'testeee', 'teste', 'test', 'fotoPerfil_32.jpg', 'Nao aceite'),
+(32, 'Ruben', 'Bras', 'Ativo', 'teste', '03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4', '2025-04-02', 'vb@gmail.com', 'Admin', 99999936.02, 'testeee', 'teste', 'test', 'fotoPerfil_32.png', 'Aceite'),
 (39, 'teste', 'teste', 'Ativo', NULL, '6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b', '2025-04-15', 'teste@gmail.com', 'Cliente', 77.01, NULL, NULL, NULL, NULL, 'Nao aceite'),
 (40, 'ana', 'gomes', 'Ativo', NULL, 'senha123', '2024-01-10', 'ana.gomes@example.com', 'Cliente', 0.00, NULL, NULL, NULL, NULL, 'Nao aceite'),
-(41, 'Bruno', 'Ferreiras', 'Ativo', NULL, '123bruno', '2024-02-15', 'bruno.ferreira@example.com', 'Admin', 0.00, NULL, NULL, NULL, NULL, 'Nao aceite'),
+(41, 'Bruno', 'Ferreiras', 'Ativo', NULL, '123bruno', '2024-02-15', 'bruno.ferreira@example.com', 'Main-admin', 0.00, NULL, NULL, NULL, NULL, 'Nao aceite'),
 (42, 'Carla', 'Santos', 'Eliminado', NULL, 'carlaPass', '2024-03-20', 'carla.santos@example.com', 'Admin', 0.00, NULL, NULL, NULL, NULL, 'Nao aceite'),
 (43, 'Daniel', 'Oliveira', 'Ativo', NULL, 'dan1234', '2024-01-05', 'daniel.oliveira@example.com', 'Admin', 0.00, NULL, NULL, NULL, NULL, 'Nao aceite'),
 (44, 'Eduarda', 'Martins', 'Ativo', NULL, 'edupass', '2024-02-22', 'eduarda.martins@example.com', 'Admin', 0.00, NULL, NULL, NULL, NULL, 'Nao aceite'),
