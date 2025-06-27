@@ -66,70 +66,146 @@ body{
 }
 
 
-
-.fases-dicas{
-    display: flex;
-    gap: 20px;
-    width: 100%;
+/* Container principal: faz o layout em duas colunas */
+.fases-dicas {
+  display: flex;
+  gap: 30px;
+  width: 100%;
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 0 20px;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
 }
 
-.fases{
-    flex: 2;
-    display: grid;
+/* Secção das fases (maior espaço) */
+.fases {
+  flex: 3;
+  display: grid;
+  grid-template-columns: repeat(auto, 1fr);
+  gap: 20px;
+}
+
+/* Caixa da fase individual */
+.fase {
+  background-color: #4a91e2a3;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  font-size: 1rem;
+  line-height: 1.3;
+  color: #1a1a1a;
+  transition: transform 0.2s ease;
+  cursor: default;
+}
+
+/* Pequena animação ao passar o rato */
+.fase:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+}
+
+/* Fase especial que ocupa toda a largura */
+.fase.fase-T {
+  grid-column: 1 / -1;
+  background-color: #e8e8e8cc;
+  font-weight: 300;
+  font-size: 1.1rem;
+  padding: 15px 25px;
+  box-shadow: none;
+  
+  cursor: default;
+  transition: none;
+}
+
+/* Aside das dicas */
+.dicas {
+  flex: 1.2;
+  background-color: #f9f9f9;
+  padding: 25px 30px;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+  font-size: 0.95rem;
+  color: #444;
+  height: fit-content;
+}
+
+/* Título do aside */
+.dicas h2 {
+  margin-top: 0;
+  margin-bottom: 20px;
+  font-weight: 700;
+  color: #2a2a2a;
+  border-bottom: 2px solid #4a90e2;
+  padding-bottom: 8px;
+  font-size: 1.3rem;
+}
+
+/* Lista das dicas */
+.dicas ul {
+  list-style-type: none;
+  padding-left: 0;
+  margin: 0;
+}
+
+/* Itens da lista */
+.dicas li {
+  margin-bottom: 15px;
+  line-height: 1.4;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+li {
+  font-weight: 400; /* padrão */
+  color: #333;
+}
+
+li strong {
+  font-weight: bold; /* ou bold */
+  color: #000;
+}
+
+
+
+/* Destaque para os labels */
+.dicas li strong {
+  width: auto;
+  color: #333;
+}
+
+/* Estrelas douradas */
+.dicas li i.fas.fa-star {
+  color: gold;
+  margin-left: 4px;
+}
+
+/* Responsividade simples */
+@media (max-width: 900px) {
+  .fases-dicas {
     flex-direction: column;
-    gap: 10px;
-    grid-template-columns: repeat(3, 1fr);
-
-}
-
-.fase{
-    background-color: aliceblue;
-    padding: 15px;
-    border-radius: 8px;
-    text-align: left;
-}
-
-.fase-T{
-    background-color: rgba(233, 233, 233, 0.425);
-    grid-column: span 3;
-}
-
-.fase-T{
-    background-color: rgb(233, 233, 233, 0.425);
+    padding: 0 10px;
+  }
+  .fases {
+    grid-template-columns: repeat(2, 1fr);
+    margin-bottom: 30px;
+  }
+  .fase.fase-T {
     grid-column: 1 / -1;
-    width: 100%;
+  }
+  .dicas {
+    flex: none;
+  }
 }
 
-.dicas{
-    grid-column: 3;
-    grid-row: 1 / span 3;
-    flex: 1;
-    background-color: aliceblue;
-    padding: 20px;
-    border-radius: 8px;
-    margin-top: 20px;
-    height: fit-content;
+@media (max-width: 500px) {
+  .fases {
+    grid-template-columns: 1fr;
+  }
 }
 
-.dicas h2{
-    margin-top: 0;
-}
-
-.dicas ul{
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-.dicas li{
-    margin-top: 10px;
-    margin-bottom: 10px;
-    font-size: 14px;
-}
-
-.dicas li strong{
-    font-weight: bold;
-}
 
 .footer-c{
     text-align: center;

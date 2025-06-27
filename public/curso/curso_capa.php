@@ -192,7 +192,7 @@ $cursoComprado = false;
               $NumFase = 0;
               while ($fase = $result->fetch_assoc()) {
                 $NumFase++;
-                if ($NumFase % 4 == 0) {
+                if ($NumFase % 2 == 0) {
                   echo '<div class="fase fase-T">Fase ' . $NumFase . ': ' . $fase['Titulo_fase'] . '</div>';
                 } else {
 
@@ -232,7 +232,7 @@ $cursoComprado = false;
                 }
               }
               echo '</li>
-              <li><strong>Preço: ' . $row["Preco"] . '€';
+              <li><strong>Preço:</strong>' . $row["Preco"] . '€</li>';
               ?>
 
           </aside>
