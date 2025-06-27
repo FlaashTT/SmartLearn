@@ -80,7 +80,7 @@ $resultLimit = $conn->query($sqlCursosLimit);
             <main class="container-page">
                 <section class="main-content" style="display: flex; align-items: center; justify-content: space-between;">
                     <h1 style="display: flex; align-items: center;">
-                        <i style="font-size: 18px; margin-right: 10px;" class="fas fa-tachometer-alt"></i> Gerenciar Cursos
+                        <i style="font-size: 18px; margin-right: 10px;" class="fas fa-tachometer-alt"></i> Gerir Cursos
                     </h1>
                     <button style="padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">
                         Adicionar Novo Curso

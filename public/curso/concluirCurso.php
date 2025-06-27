@@ -1,7 +1,8 @@
 <?php
+session_start();
 include("../../database/basedados.php");
-include("../popup.php");
-include("../logs.php");
+require_once("../popup.php");
+require_once("../logs.php");
 $textoErro = "";
 $erro = false;
 $idcurso = "";
