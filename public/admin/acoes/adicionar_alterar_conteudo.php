@@ -156,7 +156,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 if (!$erro && $alteracaoFeita) {
     echo "<script>console.log('Alterações feitas com sucesso');</script>";
     criarLogs("Conteudo curso alterado", $_SESSION['utilizadorOn']['Id_user'], null, $idcursoAtual);
-    mostrarPopUp("Alteração feita com sucesso!", null, "../adicionar_conteudo.php");
+   // mostrarPopUp("Alteração feita com sucesso!", null, "../adicionar_conteudo.php");
 } elseif (!$alteracaoFeita) {
     echo "<script>console.log('Nenhuma alteração foi feita');</script>";
     mostrarPopUp("Nenhuma alteração foi feita!", null, "../adicionar_conteudo.php");
