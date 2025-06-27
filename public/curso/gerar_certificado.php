@@ -68,8 +68,7 @@ $pdf->Cell(0, 10, mb_convert_encoding('Assinatura da Coordenação do Curso', 'I
 $idCertificado = strtoupper(substr(md5($nomeAluno . $nomeCurso . $dataConclusao), 0, 10)); // Gera um ID baseado no conteúdo
 $pdf->SetFont('Arial', 'I', 10);
 $pdf->SetTextColor(100, 100, 100);
-$pdf->SetY(-15); // 15mm acima do fundo da página
-$pdf->SetX(-70); // Alinha à direita
+$pdf->SetXY(210, 190); // posiciona na horizontal e vertical dentro da página A4 Landscape (297x210mm)
 $pdf->Cell(60, 10, mb_convert_encoding("ID do Certificado: $idCertificado", 'ISO-8859-1', 'UTF-8'), 0, 0, 'R');
 
 
