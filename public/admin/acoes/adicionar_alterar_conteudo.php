@@ -1,6 +1,5 @@
 <?php
 session_start();
-//adicionar_alterar_conteudo.php
 include("../../../database/basedados.php");
 require_once("../../popup.php");
 require_once("../../logs.php");
@@ -235,15 +234,16 @@ function processarImagem($conn, $idcursoAtual, $NumFase)
             $stmt->bind_param("sii", $novo_nome, $idcursoAtual, $NumFase);
 
             if ($stmt->execute()) {
-                return true;
+                mostrarPopUp('Imagem atualizada com sucesso.');
             } else {
-                $stmt->close();
-                return false;
+                mostrarPopUp('Erro ao atualizar o banco de dados.');
             }
+
+            $stmt->close();
         } else {
-            return false;
+            mostrarPopUp('Erro ao mover a nova imagem.');
         }
     } else {
-        return false;
+        mostrarPopUp('Formato de imagem inválido. Apenas JPG, JPEG e PNG são permitidos.');
     }
 }
