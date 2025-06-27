@@ -107,6 +107,45 @@ $cursoComprado = false;
       <main class="container-c">
         <section class="curso-info">
           <?php
+            if($row['Progresso'] =="Concluido"){
+                echo'
+                <section class="curso-info">
+                    <section
+                        class="curso-info"
+                        style="
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              flex-wrap: wrap;
+              gap: 20px;
+            ">
+                        <h1 style="margin: 0">Introdução à Programação</h1>
+
+                        <div class="certificacao-download" style="text-align: right">
+                            <h3 style="margin: 0">Certificação</h3>
+                            <p style="margin: 4px 0 8px 0; margin-bottom: 20px">
+                                Podes descarregar aqui o teu certificado de conclusão.
+                            </p>
+                            <a
+                                href="gerar_certificado.php"
+                                class="btn-download"
+                                download
+                                style="
+                  padding: 10px 20px;
+                  background-color: #4caf50;
+                  color: white;
+                  text-decoration: none;
+                  border-radius: 5px;
+                ">
+                                Transferir Certificado
+                                <i class="fas fa-download" style="margin-left: 5px"></i>
+                            </a>
+                        </div>
+                    </section>
+                ';
+            }
+            ?>
+          <?php
           echo '<h1>' . $row['Nome_curso'] . '</h1>';
           if ($cursoComprado === true) {
             echo '<p>' . $row['Percentagem_progresso'] . '% Concluído</p>';
