@@ -20,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
     $stmt->bind_param("siii", $progresso, $percentagem, $_SESSION['utilizadorOn']['Id_user'], $idcurso);
     $stmt->execute();
     if ($stmt->affected_rows > 0) {
-        mostrarPopUp("Parabens por concluir o curso com sucesso!");
+        mostrarPopUp("Parabens por concluir o curso com sucesso!Volte ao curso para descarregar o certificado!", true, "../perfil/perfil_cursos.php");
     } else {
         $textoErro = "Erro ao realizar o update,tente mais tarde";
         $erro = true;
