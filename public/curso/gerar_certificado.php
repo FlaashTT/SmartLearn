@@ -10,7 +10,7 @@ $pdf = new FPDF('L', 'mm', 'A4');
 $pdf->AddPage();
 
 // Inserir logótipo no canto superior esquerdo
-$pdf->Image('../../assets/imagens/logo.png', 15, 12, 40); // ajusta o caminho e tamanho se necessário
+$pdf->Image('../../assets/imagens/Logo.png', 15, 12, 40); // ajusta o caminho e tamanho se necessário
 
 // Cor da borda decorativa (azul)
 $pdf->SetDrawColor(50, 50, 150);
