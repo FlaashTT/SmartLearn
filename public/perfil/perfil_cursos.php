@@ -117,6 +117,11 @@ $result = $stmt->get_result();
                                     <div class="progress" style="width: ' . $row['Percentagem_progresso'] . '%;"></div>
                                 </div>
                                 <p>' . $row['Percentagem_progresso'] . '% Concluído</p>
+                                ';
+                                if($row['Progresso'] == "Concluido"){
+                                    echo'Certificado disponivel';
+                                }
+                                echo'
                                 <div class="stars">';
                         if ($row['Classificacao'] == 0) {
                             echo "Sem classificação";
