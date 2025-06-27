@@ -8,12 +8,18 @@ $alteracaoFeita = false;
 $erro = false;
 $textoErro = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    echo "<script>console.log('Requisição POST iniciada');</script>";
+
     if (!isset($_POST['input-curso-id']) || $_POST['input-curso-id'] === '' || $_POST['input-curso-id'] === null) {
         $textoErro = "Ocorreu um erro tente novamente ou entre em contacto com o suporte";
         $erro = true;
+        echo "<script>console.log('Erro: ID do curso não enviado');</script>";
         exit;
     }
+
     $idcursoAtual = $_POST['input-curso-id'];
+    echo "<script>console.log('ID do curso: " . $idcursoAtual . "');</script>";
+
     $query = "SELECT * FROM curso WHERE Id_curso = ?";
     $stmt = $conn->prepare($query);
     $stmt->bind_param("i", $idcursoAtual);
@@ -22,6 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($result->num_rows === 0) {
         $textoErro = "Erro ao coletar informaçoes do curso!";
         $erro = true;
+        echo "<script>console.log('Curso não encontrado com ID: " . $idcursoAtual . "');</script>";
     }
 
     $titulos = $_POST['titulo'] ?? [];
@@ -30,14 +37,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $videos = $_FILES['video']['name'] ?? [];
     $imagens = $_FILES['imagem']['name'] ?? [];
 
-    $totalFases = count($fases); 
+    echo "<script>console.log('Títulos recebidos: " . json_encode($titulos) . "');</script>";
+    echo "<script>console.log('Conteúdos recebidos: " . json_encode($conteudos) . "');</script>";
+    echo "<script>console.log('Fases recebidas: " . json_encode($fases) . "');</script>";
+    echo "<script>console.log('Videos recebidos: " . json_encode($videos) . "');</script>";
+    echo "<script>console.log('Imagens recebidas: " . json_encode($imagens) . "');</script>";
 
+    $totalFases = count($fases);
+    echo "<script>console.log('Total de fases: " . $totalFases . "');</script>";
 
     for ($i = 1; $i <= $totalFases; $i++) {
+        echo "<script>console.log('Processando fase " . $i . "');</script>";
+
         $novoNomeImagem = "";
         $novoNomeVideo = "";
 
-        //verificar se ja existe esta fase
         $sqlverifica = "SELECT COUNT(*) as total FROM fase WHERE Id_curso = ? AND Num_fase = ?";
         $stmtVerifica = $conn->prepare($sqlverifica);
         $stmtVerifica->bind_param("ii", $idcursoAtual, $i);
@@ -46,10 +60,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $row = $resultado->fetch_assoc();
         $quantidade = $row['total'];
 
+        echo "<script>console.log('Fase " . $i . " já existe? " . $quantidade . "');</script>";
+
         if ($quantidade > 0) {
-            //se ja existir a fase
             if (isset($videos[$i]) && $videos[$i] != "") {
                 $NumFase = $i;
+                echo "<script>console.log('Atualizando vídeo da fase " . $i . "');</script>";
                 if (processarVideo($conn, $idcursoAtual, $NumFase)) {
                     $alteracaoFeita = true;
                 } else {
@@ -60,7 +76,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             if (isset($imagens[$i]) && $imagens[$i] != "") {
                 $NumFase = $i;
-
+                echo "<script>console.log('Atualizando imagem da fase " . $i . "');</script>";
                 if (processarImagem($conn, $idcursoAtual, $NumFase)) {
                     $alteracaoFeita = true;
                 } else {
@@ -68,7 +84,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $erro = true;
                 }
             }
+
             if ($titulos[$i] != "") {
+                echo "<script>console.log('Atualizando título da fase " . $i . ": " . addslashes($titulos[$i]) . "');</script>";
                 $update = "UPDATE fase SET Titulo_fase = ? WHERE Id_curso = ? AND Num_fase = ?";
                 $stmt = $conn->prepare($update);
                 $stmt->bind_param("sii", $titulos[$i], $idcursoAtual, $i);
@@ -76,11 +94,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 if ($stmt->execute()) {
                     $alteracaoFeita = true;
                 } else {
-                    $textoErro = "Erro ao atualizar: " . $stmt->error . "<br>";
+                    $textoErro = "Erro ao atualizar título: " . $stmt->error;
                     $erro = true;
                 }
             }
+
             if ($conteudos[$i] != "") {
+                echo "<script>console.log('Atualizando conteúdo da fase " . $i . ": " . addslashes($conteudos[$i]) . "');</script>";
                 $update = "UPDATE fase SET Conteudo_fase = ? WHERE Id_curso = ? AND Num_fase = ?";
                 $stmt = $conn->prepare($update);
                 $stmt->bind_param("sii", $conteudos[$i], $idcursoAtual, $i);
@@ -88,14 +108,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 if ($stmt->execute()) {
                     $alteracaoFeita = true;
                 } else {
-                    $textoErro = "Erro ao atualizar: " . $stmt->error . "<br>";
+                    $textoErro = "Erro ao atualizar conteúdo: " . $stmt->error;
                     $erro = true;
                 }
             }
         } else {
-            //se nao ja existir a fase
-            if (isset($videos[$i]) && $videos[$i] != "") {
+            echo "<script>console.log('Criando nova fase " . $i . "');</script>";
 
+            $NumFase = $i;
+            if (isset($videos[$i]) && $videos[$i] != "") {
+                echo "<script>console.log('Processando vídeo para nova fase " . $i . "');</script>";
                 if (processarVideo($conn, $idcursoAtual, $NumFase)) {
                     $alteracaoFeita = true;
                 } else {
@@ -105,8 +127,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
 
             if (isset($imagens[$i]) && $imagens[$i] != "") {
-                $NumFase = $i;
-
+                echo "<script>console.log('Processando imagem para nova fase " . $i . "');</script>";
                 if (processarImagem($conn, $idcursoAtual, $NumFase)) {
                     $alteracaoFeita = true;
                 } else {
@@ -115,14 +136,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 }
             }
 
-            $insert = "INSERT Into fase(Id_curso, Num_fase, Titulo_fase, Conteudo_fase, Imagem, video) value(?, ?, ?, ?, ?, ?)";
+            echo "<script>console.log('Inserindo fase " . $i . ": título=" . addslashes($titulos[$i] ?? '') . ", conteúdo=" . addslashes($conteudos[$i] ?? '') . "');</script>";
+
+            $insert = "INSERT INTO fase(Id_curso, Num_fase, Titulo_fase, Conteudo_fase, Imagem, video) VALUES (?, ?, ?, ?, ?, ?)";
             $stmt = $conn->prepare($insert);
             $stmt->bind_param("iissss", $idcursoAtual, $i, $titulos[$i], $conteudos[$i], $novoNomeImagem, $novoNomeVideo);
-            
             if ($stmt->execute()) {
                 $alteracaoFeita = true;
             } else {
-                $textoErro = "Erro ao atualizar: " . $stmt->error . "<br>";
+                $textoErro = "Erro ao inserir nova fase: " . $stmt->error;
                 $erro = true;
             }
         }
@@ -131,15 +153,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     caminho();
 }
 
-
 if (!$erro && $alteracaoFeita) {
+    echo "<script>console.log('Alterações feitas com sucesso');</script>";
     criarLogs("Conteudo curso alterado", $_SESSION['utilizadorOn']['Id_user'], null, $idcursoAtual);
     mostrarPopUp("Alteração feita com sucesso!", null, "../adicionar_conteudo.php");
 } elseif (!$alteracaoFeita) {
+    echo "<script>console.log('Nenhuma alteração foi feita');</script>";
     mostrarPopUp("Nenhuma alteração foi feita!", null, "../adicionar_conteudo.php");
 }
 
 if ($erro) {
+    echo "<script>console.log('Erro ocorrido: " . addslashes($textoErro) . "');</script>";
     criarLogs("Erro", $_SESSION['utilizadorOn']['Id_user'],  null,  null,  null, $textoErro, __FILE__);
     mostrarPopUp($textoErro, null, "../adicionar_conteudo.php");
 }
