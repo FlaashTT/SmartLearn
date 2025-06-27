@@ -64,6 +64,15 @@ $pdf->SetY(170);
 $pdf->SetFont('Arial', '', 14);
 $pdf->Cell(0, 10, mb_convert_encoding('Assinatura da Coordenação do Curso', 'ISO-8859-1', 'UTF-8'), 0, 1, 'C');
 
+// ID de Certificação no canto inferior direito
+$idCertificado = strtoupper(substr(md5($nomeAluno . $nomeCurso . $dataConclusao), 0, 10)); // Gera um ID baseado no conteúdo
+$pdf->SetFont('Arial', 'I', 10);
+$pdf->SetTextColor(100, 100, 100);
+$pdf->SetY(-15); // 15mm acima do fundo da página
+$pdf->SetX(-70); // Alinha à direita
+$pdf->Cell(60, 10, mb_convert_encoding("ID do Certificado: $idCertificado", 'ISO-8859-1', 'UTF-8'), 0, 0, 'R');
+
+
 // Headers para download
 header('Content-Type: application/pdf');
 header('Content-Disposition: attachment; filename="certificado.pdf"');
