@@ -40,7 +40,7 @@ session_start();
             </button>
             <div class="accordion-content">
                 <img
-                    src="/assets/image/tutorial/Pagina-Inicial_N_logado.png"
+                    src="../assets/image/tutorial/Pagina-Inicial_N_logado.png"
                     alt="Criar Conta"
                     style="
               max-width: 100%;
@@ -52,14 +52,14 @@ session_start();
                     <li>Clica em "inscrever-se" no topo da página.</li>
                 </ul>
                 <img
-                    src="/assets/image/tutorial/Incrisao.png"
+                    src="../assets/image/tutorial/Incrisao.png"
                     alt="Criar Conta"
                     style="max-width: 100%; border-radius: 8px; margin-bottom: 15px" />
                 <ul>
                     <li>Preenche os dados com nome, email e password.</li>
                 </ul>
                 <img
-                    src="/assets/image/tutorial/Conectar-se.png"
+                    src="../assets/image/tutorial/Conectar-se.png"
                     alt="Criar Conta"
                     style="max-width: 100%; border-radius: 8px; margin-bottom: 15px" />
                 <ul>
@@ -73,14 +73,14 @@ session_start();
             </button>
             <div class="accordion-content">
                 <img
-                    src="/assets/image/tutorial/Selecao-Categorias.png"
+                    src="../assets/image/tutorial/Selecao-Categorias.png"
                     alt="Criar Conta"
                     style="max-width: 100%; border-radius: 8px; margin-bottom: 15px" />
                 <ul>
                     <li>Filtra por categoria usando o menu de "Categorias".</li>
                 </ul>
                 <img
-                    src="/assets/image/tutorial/Categorias.png"
+                    src="../assets/image/tutorial/Categorias.png"
                     alt="Criar Conta"
                     style="max-width: 100%; border-radius: 8px; margin-bottom: 15px" />
                 <ul>
@@ -97,7 +97,7 @@ session_start();
             </button>
             <div class="accordion-content">
                 <img
-                    src="/assets/image/tutorial/Icon-Perfil.png"
+                    src="../assets/image/tutorial/Icon-Perfil.png"
                     alt="Criar Conta"
                     style="max-width: 100%; border-radius: 8px; margin-bottom: 15px" />
                 <ul>
@@ -106,7 +106,7 @@ session_start();
                     </li>
                 </ul>
                 <img
-                    src="/assets/image/tutorial/Perfil-curso.png"
+                    src="../assets/image/tutorial/Perfil-curso.png"
                     alt="Criar Conta"
                     style="max-width: 100%; border-radius: 8px; margin-bottom: 15px" />
                 <ul>
@@ -120,7 +120,7 @@ session_start();
                     </li>
                 </ul>
                 <img
-                    src="/assets/image/tutorial/Capa-Curso.png"
+                    src="../assets/image/tutorial/Capa-Curso.png"
                     alt="Criar Conta"
                     style="max-width: 100%; border-radius: 8px; margin-bottom: 15px" />
                 <ul>
