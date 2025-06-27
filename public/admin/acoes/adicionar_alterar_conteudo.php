@@ -30,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $videos = $_FILES['video']['name'] ?? [];
     $imagens = $_FILES['imagem']['name'] ?? [];
 
-    $totalFases = count($fases); // Todas arrays devem ter o mesmo length
+    $totalFases = count($fases); 
 
 
     for ($i = 1; $i <= $totalFases; $i++) {
