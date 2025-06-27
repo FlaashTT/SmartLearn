@@ -107,8 +107,8 @@ $cursoComprado = false;
       <main class="container-c">
         <section class="curso-info">
           <?php
-            if($row['Progresso'] =="Concluido"){
-                echo'
+          if ($row['Progresso'] == "Concluido") {
+            echo '
                 <section class="curso-info">
                     <section
                         class="curso-info"
@@ -143,8 +143,8 @@ $cursoComprado = false;
                         </div>
                     </section>
                 ';
-            }
-            ?>
+          }
+          ?>
           <?php
           echo '<h1>' . $row['Nome_curso'] . '</h1>';
           if ($cursoComprado === true) {
@@ -232,7 +232,7 @@ $cursoComprado = false;
                 }
               }
               echo '</li>
-              <li><strong>Preço:</strong>' . $row["Preco"] . '€</li>';
+      <li><strong>Preço:</strong> ' . ((empty($row["Preco"]) || $row["Preco"] == "0.00") ? 'Gratuito' : $row["Preco"] . '€') . '</li>';
               ?>
 
           </aside>
