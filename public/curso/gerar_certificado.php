@@ -11,7 +11,7 @@ $pdf->SetFont('Arial', 'B', 24);
 
 $pdf->Cell(0, 30, mb_convert_encoding('Certificado de Conclusão', 'ISO-8859-1', 'UTF-8'), 0, 1, 'C');
 
-$pdf->Ln(10);
+$pdf->Ln(9);
 
 $pdf->SetFont('Arial', '', 18);
 $pdf->MultiCell(0, 10, mb_convert_encoding("Certificamos que o(a) aluno(a)\n", 'ISO-8859-1', 'UTF-8'), 0, 'C');
