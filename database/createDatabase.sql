@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 23-Jun-2025 às 18:29
+-- Tempo de geração: 27-Jun-2025 às 11:51
 -- Versão do servidor: 10.4.32-MariaDB
 -- versão do PHP: 8.2.12
 
@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS `carrinho_compras` (
   PRIMARY KEY (`Id_carrinho`),
   KEY `Id_user` (`Id_user`),
   KEY `Id_curso` (`Id_curso`)
-) ENGINE=InnoDB AUTO_INCREMENT=67 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=75 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -47,18 +47,17 @@ CREATE TABLE IF NOT EXISTS `carrinho_compras` (
 CREATE TABLE IF NOT EXISTS `categoria` (
   `Id_categoria` int(11) NOT NULL AUTO_INCREMENT,
   `Nome_cat` varchar(50) NOT NULL,
-  `Num_visitasCat` int(11) DEFAULT 0,
-  `Quantidade_cursos` int(11) NOT NULL DEFAULT 0,
   `Miniatura_cat` varchar(40) NOT NULL,
   PRIMARY KEY (`Id_categoria`)
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Extraindo dados da tabela `categoria`
 --
 
-INSERT INTO `categoria` (`Id_categoria`, `Nome_cat`, `Num_visitasCat`, `Quantidade_cursos`, `Miniatura_cat`) VALUES
-(1, 'tecnologia', 0, 1, 'miniatura_cat1.jpg');
+INSERT INTO `categoria` (`Id_categoria`, `Nome_cat`, `Miniatura_cat`) VALUES
+(30, 'Programação', 'miniatura_cat30.png'),
+(33, 'Eletronica', '');
 
 -- --------------------------------------------------------
 
@@ -106,41 +105,34 @@ CREATE TABLE IF NOT EXISTS `curso` (
   `Descricao` varchar(1000) DEFAULT NULL,
   `Preco` decimal(10,2) DEFAULT 0.00,
   `Preco_antigo` decimal(10,2) DEFAULT NULL,
-  `Estado_curso` enum('Incompleto','ativo','inativo','pendente') NOT NULL,
+  `Estado_curso` enum('Incompleto','ativo','inativo','pendente','Eliminado') NOT NULL,
   `Classificacao` int(11) DEFAULT 0,
   `Num_visitascurso` int(11) DEFAULT 0,
   `Tempo_estimado` time DEFAULT NULL,
   `Dificuldade` enum('Iniciante','intermedio','avançado') DEFAULT NULL,
   `Quantidade_fases` int(11) DEFAULT 0,
   `Requisitos` varchar(100) DEFAULT NULL,
-  `Provedor_geral_curso` enum('youtube','tiktok','instagram','linkedin') DEFAULT NULL,
+  `Provedor_geral_curso` enum('youtube','tiktok','instagram','linkedin','conta_proria','outro') DEFAULT NULL,
   `URL_geral_curso` varchar(100) DEFAULT NULL,
   `Keywords` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`Id_curso`),
   KEY `Id_categoria` (`Id_categoria`),
   KEY `Criador_curso` (`Criador_curso`),
   KEY `fk_idioma` (`Id_idioma`)
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=46 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Extraindo dados da tabela `curso`
 --
 
 INSERT INTO `curso` (`Id_curso`, `Nome_curso`, `Id_categoria`, `Id_idioma`, `Criador_curso`, `Data_criacao`, `URL_foto_perfil_curso`, `Pequena_descricao`, `Descricao`, `Preco`, `Preco_antigo`, `Estado_curso`, `Classificacao`, `Num_visitascurso`, `Tempo_estimado`, `Dificuldade`, `Quantidade_fases`, `Requisitos`, `Provedor_geral_curso`, `URL_geral_curso`, `Keywords`) VALUES
-(2, 'Curso de Programação', 1, 2, 32, '2025-04-01', 'capa_curso.png', 'Curso básico de programação', 'Aprenda os fundamentos da programação', NULL, 25.00, 'ativo', 0, 100, '01:30:00', 'Iniciante', 10, 'Nenhum', 'youtube', NULL, 'programação, iniciante, código'),
-(3, 'Nome do Curso ', 1, 1, 32, '2025-04-08', 'capa_curso.png', 'Pequena descrição do curso', 'Descrição completa do curso com todos os detalhes.', 99.99, 0.00, 'ativo', 0, 150, '17:00:10', 'intermedio', 5, 'Requisitos básicos de informática', '', 'http://exemplo.com/curso', 'exemplo, curso, online'),
-(4, 'teste ', 1, 2, 32, '2025-04-08', 'capa_curso.png', 'Pequena descrição do cursoPequena descrição do cursoPequena descrição do cursoPequena descrição do c', 'Este curso fornece uma introdução abrangente aos princípios da cibersegurança. Os formandos irão aprender sobre ameaças, vulnerabilidades, e mecanismos de defesa. A formação também aborda práticas de segurança pessoal e empresarial, políticas de segurança, e muito mais. Ideal para quem pretende iniciar carreira na área ou reforçar conhecimentos existentes. A conclusão bem-sucedida deste curso confere um certificado de participação.', 99.99, 0.00, 'ativo', 0, 150, '00:00:10', 'avançado', 5, 'Requisitos básicos de informática', '', 'http://exemplo.com/curso', 'exemplo, curso, online'),
-(5, 'Curso 1', NULL, 1, 32, '2025-05-22', 'curso1.jpg', 'Descrição curta do curso 1', 'Descrição completa do curso 1', 49.99, 59.99, 'ativo', 0, 120, '00:00:10', '', 5, 'Noções básicas de informática', '', 'https://curso1.exemplo.com', 'curso, informática'),
-(6, 'Curso 2', 1, 1, 32, '2025-05-22', '/imagens/curso2.jpg', 'Descrição curta do curso 2', 'Descrição completa do curso 2', 29.99, 39.99, 'ativo', 0, 80, '00:00:08', '', 4, 'Nenhum requisito', '', 'https://curso2.exemplo.com', 'curso, básico'),
-(7, 'Curso 3', 1, 1, 32, '2025-05-22', '/imagens/curso3.jpg', 'Descrição curta do curso 3', 'Descrição completa do curso 3', 59.99, 69.99, 'ativo', 0, 200, '00:00:15', 'avançado', 7, 'Conhecimentos intermediários', '', 'https://curso3.exemplo.com', 'curso, avançado'),
-(8, 'Curso 4', 1, 3, 32, '2025-05-22', '/imagens/curso4.jpg', 'Descrição curta do curso 4', 'Descrição completa do curso 4', 19.99, 24.99, 'ativo', 0, 50, '00:00:06', '', 3, 'Nenhum requisito', '', 'https://curso4.exemplo.com', 'curso, iniciante'),
-(9, 'Curso 5', 1, 1, 32, '2025-05-22', '/imagens/curso5.jpg', 'Descrição curta do curso 5', 'Descrição completa do curso 5', 39.99, 49.99, 'ativo', 0, 110, '00:00:12', '', 6, 'Conhecimentos básicos', '', 'https://curso5.exemplo.com', 'curso, intermediário'),
-(10, 'Curso 6', 1, 1, 32, '2025-05-22', '/imagens/curso6.jpg', 'Descrição curta do curso 6', 'Descrição completa do curso 6', 25.00, 30.00, 'ativo', 0, 70, '00:00:07', '', 4, 'Nenhum requisito', '', 'https://curso6.exemplo.com', 'curso, básico'),
-(11, 'Curso 7', 1, 1, 32, '2025-05-22', '/imagens/curso7.jpg', 'Descrição curta do curso 7', 'Descrição completa do curso 7', 44.99, 54.99, 'ativo', 0, 150, '00:00:13', '', 6, 'Conhecimentos intermediários', '', 'https://curso7.exemplo.com', 'curso, tecnologia'),
-(12, 'Curso 8', 1, 1, 32, '2025-05-22', '/imagens/curso8.jpg', 'Descrição curta do curso 8', 'Descrição completa do curso 8', 34.99, 44.99, 'ativo', 0, 90, '00:00:09', '', 5, 'Nenhum requisito', '', 'https://curso8.exemplo.com', 'curso, iniciantes'),
-(13, 'Curso 9', 1, 1, 32, '2025-05-22', '/imagens/curso9.jpg', 'Descrição curta do curso 9', 'Descrição completa do curso 9', 54.99, 64.99, 'ativo', 2, 180, '00:00:14', 'avançado', 7, 'Conhecimentos avançados', '', 'https://curso9.exemplo.com', 'curso, avançado'),
-(21, 'teste 2', NULL, 2, 32, '2025-06-06', 'curso_id21.jpg', '', '', 0.00, 0.00, 'ativo', 0, 0, '00:00:00', '', 0, '', '', NULL, ''),
-(22, 'fgh', 1, 1, 32, '2025-06-06', 'curso_id22.png', 'fgh', 'fhg', 0.00, 0.00, 'ativo', 0, 0, '00:00:00', 'intermedio', 0, '', '', NULL, '');
+(23, 'Como fazer um cronometro', 30, 1, 32, '2025-06-25', 'curso_id23.png', 'Cronometro em android Studio', 'Como fazer uma sdfaplicação de um cronometro para telemovel usando java e android Studio', 9.99, 19.99, 'ativo', 2, 20, '00:15:00', 'Iniciante', 0, 'dfg', 'conta_proria', '', ''),
+(40, 'testefgh', 30, 1, 32, '2025-06-25', NULL, 'dafg', 'dafg', 50.00, 0.00, 'Eliminado', 0, 0, '01:00:00', 'Iniciante', 0, 'adfg', 'youtube', '', ''),
+(41, 'test', NULL, 2, 32, '2025-06-25', NULL, '', '', 0.00, 0.00, 'Incompleto', 0, 0, '00:00:00', '', 0, '', '', NULL, ''),
+(42, 'test', NULL, 2, 32, '2025-06-25', NULL, '', '', 0.00, 0.00, 'Eliminado', 0, 0, '00:00:00', '', 0, '', '', NULL, ''),
+(43, 'testando mais 1sdf', 30, 3, 32, '2025-06-25', NULL, '', 'sdfxcv', 333.00, 0.00, 'Eliminado', 0, 0, '01:00:00', 'avançado', 0, 'sdfsdsdxcsdf', 'tiktok', 'nmbnv', ''),
+(44, 'sdf', NULL, 3, 32, '2025-06-25', NULL, '', '', 0.00, 0.00, 'ativo', 0, 11, '00:00:00', '', 0, 'sdfsd', '', NULL, ''),
+(45, 'Fazer um circuito pisca pisca', 33, 1, 32, '2025-06-26', 'curso_id45.png', '', 'Como fazer um circuito pisca pisca com eletronica utilizando um ne555', 0.00, 0.00, 'ativo', 0, 4, '00:10:00', 'Iniciante', 0, '', 'conta_proria', '', '');
 
 -- --------------------------------------------------------
 
@@ -162,7 +154,7 @@ CREATE TABLE IF NOT EXISTS `cursos_adquiridos` (
   KEY `fk_curso` (`Id_curso`),
   KEY `fk_user` (`Id_user`),
   KEY `fk_addPor` (`AdicionadoPor`)
-) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=46 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Extraindo dados da tabela `cursos_adquiridos`
@@ -190,7 +182,10 @@ INSERT INTO `cursos_adquiridos` (`Id_adquirido`, `Id_user`, `Id_curso`, `Data_co
 (30, 47, 2, '2025-06-05', 'Por Iniciar', 0, 32, NULL, NULL),
 (31, 40, 5, '2025-06-05', 'Por Iniciar', 0, 32, NULL, NULL),
 (32, 32, 22, '2025-06-17', 'Concluido', 100, NULL, NULL, NULL),
-(33, 32, 5, '2025-06-17', 'Concluido', 100, NULL, NULL, NULL);
+(33, 32, 5, '2025-06-17', 'Concluido', 100, NULL, NULL, NULL),
+(41, 78, 23, '2025-06-26', 'Iniciado', 0, NULL, NULL, NULL),
+(43, 32, 23, '2025-06-26', 'Por Iniciar', 0, 32, NULL, NULL),
+(44, 32, 45, '2025-06-26', 'Iniciado', 75, NULL, 'est a a atualiza sozinho', NULL);
 
 -- --------------------------------------------------------
 
@@ -206,6 +201,13 @@ CREATE TABLE IF NOT EXISTS `cursos_favoritos` (
   KEY `Id_curso` (`Id_curso`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Extraindo dados da tabela `cursos_favoritos`
+--
+
+INSERT INTO `cursos_favoritos` (`Id_user`, `Id_curso`, `Data_favorito`) VALUES
+(32, 44, NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -217,23 +219,26 @@ CREATE TABLE IF NOT EXISTS `fase` (
   `Id_curso` int(11) NOT NULL,
   `Num_fase` int(11) DEFAULT NULL,
   `Titulo_fase` varchar(255) DEFAULT NULL,
-  `Conteudo_fase` varchar(255) DEFAULT NULL,
+  `Conteudo_fase` varchar(500) DEFAULT NULL,
   `Imagem` varchar(100) DEFAULT NULL,
   `video` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`Id_fase`),
   KEY `Id_curso` (`Id_curso`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=46 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Extraindo dados da tabela `fase`
 --
 
 INSERT INTO `fase` (`Id_fase`, `Id_curso`, `Num_fase`, `Titulo_fase`, `Conteudo_fase`, `Imagem`, `video`) VALUES
-(6, 13, 1, 'fase fase 1', 'fase 2', 'Imagem_fase1_curso2.png', 'video_fase1_curso2.mp4'),
-(12, 13, 2, 'Introdução ao Curso', 'Neste módulo, vamos apresentar os objetivos e a estrutura do curso.', 'intro.jpg', 'intro.mp4'),
-(13, 13, 3, 'Fundamentos Básicos', 'Aqui exploramos os conceitos fundamentais necessários para avançar.', 'fundamentos.jpg', 'fundamentos.mp4'),
-(14, 13, 4, 'Aplicações Práticas', 'Vamos aplicar os conceitos em exemplos reais e exercícios.', 'aplicacoes.jpg', 'aplicacoes.mp4'),
-(15, 13, 5, 'Conclusão e Avaliação', 'Encerramos o curso com uma avaliação e reflexões finais.', 'conclusao.jpg', 'avaliacao.mp4');
+(18, 23, 1, 'Instalar o Android Studio', 'Para instalar o android studio deve ir ao site oficial do mesmo e seguir os passos indicados para a instalação', 'Imagem_fase1_curso23.png', ''),
+(26, 23, 2, 'Realizar o cronometro', 'Com a visualização do conteudo audiovisual deve conseguir realizar o cronometro', 'Imagem_fase2_curso23.png', 'video_fase2_curso23.mp4'),
+(40, 45, 1, 'Introdução', 'Neste curso ira aprender como montar um circuito pisca pisca com um Ne555 utilizando apenas eletronica.\r\nTodos os componentes utilizados seram descritos\r\nTanto em um meio virtual como um meio fisico', '', ''),
+(41, 45, 2, 'Materiais necessarios', 'Tem na imagem todos os componentes necessarios para a montagem', 'Imagem_fase2_curso45.png', ''),
+(42, 45, 3, 'Valores dos materiais', 'Resistencia variavel: 47kΩ(ohms).\nCapacitor polarizado : 100 µF(miroFarads).\nResistencias de 1kΩ(ohms), 220Ω(ohms), 330Ω(ohms).\nBateria de 9 volts.', '', ''),
+(43, 45, 4, 'Exibição do video ', 'Agora com o video explicativo demonstrando todos os passos consegue realizar a montagem do seu circuito tanto virtualmente como fisicamente', '', 'video_fase4_curso45.mp4'),
+(44, 41, 1, 'ultimo teste', 'conteudo 1', '', ''),
+(45, 41, 2, 'fase 2', 'conteudo 2', 'Imagem_fase2_curso41.png', '');
 
 -- --------------------------------------------------------
 
@@ -250,7 +255,7 @@ CREATE TABLE IF NOT EXISTS `historico_compras` (
   PRIMARY KEY (`Id_historicoCompras`),
   KEY `Id_user` (`Id_user`),
   KEY `fk_id_curso` (`Id_curso`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Extraindo dados da tabela `historico_compras`
@@ -263,7 +268,17 @@ INSERT INTO `historico_compras` (`Id_historicoCompras`, `Id_user`, `Data_compra`
 (11, 32, '2025-05-06', 'carteira', 3),
 (12, 32, '2025-05-23', 'carteira', 9),
 (13, 32, '2025-06-17', 'carteira', 22),
-(14, 32, '2025-06-17', 'carteira', 5);
+(14, 32, '2025-06-17', 'carteira', 5),
+(15, 32, '2025-06-25', 'reembolsado', 40),
+(16, 32, '2025-06-25', 'reembolsado', 40),
+(17, 32, '2025-06-25', 'reembolsado', 40),
+(18, 32, '2025-06-25', 'reembolsado', 40),
+(19, 32, '2025-06-25', 'reembolsado', 40),
+(20, 32, '2025-06-25', 'reembolsado', 23),
+(21, 78, '2025-06-25', 'reembolsado', 23),
+(22, 78, '2025-06-26', 'carteira', 23),
+(23, 32, '2025-06-26', 'carteira', 45),
+(24, 32, '2025-06-26', 'reembolsado', 44);
 
 -- --------------------------------------------------------
 
@@ -297,13 +312,13 @@ CREATE TABLE IF NOT EXISTS `logs_sistema` (
   `Id_user` int(11) NOT NULL,
   `Id_curso` int(11) DEFAULT NULL,
   `Descricao_log` text NOT NULL,
-  `Tipo_log` enum('Update Curso','Utilizador Matriculado','Informacional','Erro','Aviso','Novo Registo','Deposito de saldo','Levantamento de saldo','Compra curso','Reembolso curso','Conteudo curso alterado','Configurações alteradas','Utilizador Alterado por admin') NOT NULL,
+  `Tipo_log` enum('Update Curso','Utilizador Matriculado','Informacional','Erro','Aviso','Novo Registo','Deposito de saldo','Levantamento de saldo','Compra curso','Reembolso curso','Conteudo curso alterado','Configurações alteradas','Utilizador Alterado por admin','Fase removida','Curso eliminado','Alteração de curso') NOT NULL,
   `Data_log` datetime NOT NULL,
   `saldo` double DEFAULT 0,
   PRIMARY KEY (`Id_log`),
   KEY `Id_user` (`Id_user`),
   KEY `fk_logs_curso` (`Id_curso`)
-) ENGINE=InnoDB AUTO_INCREMENT=143 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=353 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Extraindo dados da tabela `logs_sistema`
@@ -311,13 +326,6 @@ CREATE TABLE IF NOT EXISTS `logs_sistema` (
 
 INSERT INTO `logs_sistema` (`Id_log`, `Id_user`, `Id_curso`, `Descricao_log`, `Tipo_log`, `Data_log`, `saldo`) VALUES
 (34, 39, NULL, 'Foi criado um novo utilizador no sistema!', 'Novo Registo', '2025-04-15 11:06:42', 0),
-(35, 39, NULL, 'O utilizador realizou uma compra no valor de 122.9877 €', '', '2025-04-15 12:46:20', 0),
-(36, 32, NULL, 'Foi depositado na conta o valor de 10€euros', '', '2025-04-15 16:09:16', 0),
-(37, 32, NULL, 'Foi depositado na conta o valor de 10 €euros', '', '2025-04-15 16:12:33', 10),
-(38, 32, NULL, 'Foi depositado na conta o valor de 10 €euros', '', '2025-04-15 16:15:25', 10),
-(39, 32, NULL, 'Foi depositado na conta o valor de 10 €euros', '', '2025-04-15 16:18:00', 10),
-(40, 32, NULL, 'Foi depositado na conta o valor de 10 €euros', '', '2025-04-15 16:19:57', 10),
-(41, 32, NULL, 'Foi depositado na conta o valor de 10€ euros', '', '2025-04-15 16:22:34', 10),
 (42, 32, NULL, 'Foi depositado na conta o valor de 10€ euros', 'Deposito de saldo', '2025-04-15 16:23:54', 10),
 (43, 32, NULL, 'Foi depositado na conta o valor de 540€ euros', 'Deposito de saldo', '2025-04-15 17:20:26', 540),
 (44, 32, NULL, 'Foi depositado na conta o valor de 5€ euros', 'Deposito de saldo', '2025-04-15 17:21:54', 5),
@@ -341,14 +349,6 @@ INSERT INTO `logs_sistema` (`Id_log`, `Id_user`, `Id_curso`, `Descricao_log`, `T
 (62, 75, NULL, 'Foi criado um novo utilizador no sistema!', 'Novo Registo', '2025-05-30 16:29:16', NULL),
 (73, 40, NULL, 'O utilizador com id 40 foi matriculado no de id 2 pelo admin com id 32', 'Utilizador Matriculado', '2025-06-05 15:46:58', NULL),
 (74, 40, NULL, 'O utilizador com id 40 foi matriculado no de id 5 pelo admin com id 32', 'Utilizador Matriculado', '2025-06-05 15:49:20', NULL),
-(75, 32, 2, 'Correção de erros na aula 1', '', '2024-12-15 10:30:00', 0),
-(76, 32, 2, 'Adicionado novo exercício prático na seção 2', '', '2025-01-10 14:45:00', 0),
-(77, 32, 2, 'Texto introdutório atualizado', '', '2025-03-05 09:15:00', 0),
-(78, 32, 2, 'Vídeo da aula 3 substituído por uma versão em HD', '', '2025-03-20 11:00:00', 0),
-(79, 32, 2, 'Atualização do material PDF da seção 4', '', '2025-04-02 08:30:00', 0),
-(80, 32, 2, 'Corrigido erro de formatação na descrição da aula 5', '', '2025-04-18 16:10:00', 0),
-(81, 32, 2, 'Adicionadas legendas em português na aula 6', '', '2025-05-25 12:45:00', 0),
-(82, 32, 2, 'Link externo corrigido na aula 7', '', '2025-06-08 17:25:00', 0),
 (83, 32, 2, 'Correção de erros na aula 1', 'Update Curso', '2024-12-15 10:30:00', 0),
 (84, 32, 2, 'Adicionado novo exercício prático na seção 2', 'Update Curso', '2025-01-10 14:45:00', 0),
 (85, 32, 2, 'Texto introdutório atualizado', 'Update Curso', '2025-03-05 09:15:00', 0),
@@ -408,21 +408,190 @@ INSERT INTO `logs_sistema` (`Id_log`, `Id_user`, `Id_curso`, `Descricao_log`, `T
 (139, 32, NULL, 'Ocorreu um erro: Erro ao carregar configurações do sistema no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\admin\\configuracoes_sistema.php', 'Erro', '2025-06-18 15:59:37', NULL),
 (140, 32, NULL, 'Ocorreu um erro: Erro ao carregar configurações do sistema no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\admin\\configuracoes_sistema.php', 'Erro', '2025-06-18 15:59:39', NULL),
 (141, 32, NULL, 'Ocorreu um erro: Erro ao carregar configurações do sistema no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\admin\\configuracoes_sistema.php', 'Erro', '2025-06-18 16:06:13', NULL),
-(142, 78, NULL, 'Foi criado um novo utilizador no sistema!', 'Novo Registo', '2025-06-23 15:53:39', NULL);
+(142, 78, NULL, 'Foi criado um novo utilizador no sistema!', 'Novo Registo', '2025-06-23 15:53:39', NULL),
+(143, 79, NULL, 'Foi criado um novo utilizador no sistema!', 'Novo Registo', '2025-06-24 16:51:02', NULL),
+(144, 32, NULL, 'Ocorreu um erro: Erro ao eliminar categoria! no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\admin\\acoes\\apagarCategoria.php', 'Erro', '2025-06-24 17:12:45', NULL),
+(158, 32, NULL, 'Ocorreu um erro: Categoria com esse nome já existe! no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\admin\\acoes\\adicionarCategoria.php', 'Erro', '2025-06-25 10:35:04', NULL),
+(159, 32, NULL, 'Ocorreu um erro: Categoria com esse nome já existe! no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\admin\\acoes\\adicionarCategoria.php', 'Erro', '2025-06-25 10:35:25', NULL),
+(177, 32, NULL, 'Ocorreu um erro: ERRO ao atualizar a imagem,tente mais tarde! no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\admin\\acoes\\adicionar_alterar_conteudo.php', 'Erro', '2025-06-25 11:38:52', NULL),
+(178, 32, NULL, 'Ocorreu um erro: ERRO ao atualizar a imagem,tente mais tarde! no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\admin\\acoes\\adicionar_alterar_conteudo.php', 'Erro', '2025-06-25 11:40:46', NULL),
+(179, 32, NULL, 'Ocorreu um erro: ERRO ao atualizar a imagem,tente mais tarde! no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\admin\\acoes\\adicionar_alterar_conteudo.php', 'Erro', '2025-06-25 11:41:00', NULL),
+(180, 32, NULL, 'Ocorreu um erro: ERRO ao atualizar a imagem,tente mais tarde! no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\admin\\acoes\\adicionar_alterar_conteudo.php', 'Erro', '2025-06-25 11:42:15', NULL),
+(181, 32, NULL, 'Ocorreu um erro: ERRO ao atualizar a imagem,tente mais tarde! no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\admin\\acoes\\adicionar_alterar_conteudo.php', 'Erro', '2025-06-25 11:42:46', NULL),
+(182, 32, NULL, 'Ocorreu um erro: ERRO ao atualizar o video,tente mais tarde! no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\admin\\acoes\\adicionar_alterar_conteudo.php', 'Erro', '2025-06-25 11:44:58', NULL),
+(183, 32, NULL, 'O administrador com id 32 alterou o conteúdo do curso 23', 'Conteudo curso alterado', '2025-06-25 11:45:27', NULL),
+(184, 32, NULL, 'O administrador com id 32 alterou o conteúdo do curso 23', 'Conteudo curso alterado', '2025-06-25 11:47:51', NULL),
+(185, 32, NULL, 'O administrador com id 32 alterou o conteúdo do curso 23', 'Conteudo curso alterado', '2025-06-25 11:48:19', NULL),
+(186, 32, NULL, 'O administrador com Id32 removeu a uma fase do curso com Id:23', 'Fase removida', '2025-06-25 11:53:02', NULL),
+(187, 32, NULL, 'O administrador com id 32 alterou o conteúdo do curso 23', 'Conteudo curso alterado', '2025-06-25 11:53:19', NULL),
+(188, 32, NULL, 'O administrador com id 32 alterou o conteúdo do curso 23', 'Conteudo curso alterado', '2025-06-25 11:54:04', NULL),
+(189, 32, NULL, 'O administrador com id 32 alterou o conteúdo do curso 23', 'Conteudo curso alterado', '2025-06-25 11:55:14', NULL),
+(190, 32, NULL, 'O administrador com id 32 alterou o conteúdo do curso 23', 'Conteudo curso alterado', '2025-06-25 11:55:30', NULL),
+(191, 32, NULL, 'O administrador com id 32 alterou o conteúdo do curso 23', 'Conteudo curso alterado', '2025-06-25 11:57:03', NULL),
+(192, 32, NULL, 'O administrador com Id32 removeu a uma fase do curso com Id:23', 'Fase removida', '2025-06-25 11:57:33', NULL),
+(193, 32, NULL, 'O administrador com id 32 alterou o conteúdo do curso 23', 'Conteudo curso alterado', '2025-06-25 11:57:59', NULL),
+(194, 32, NULL, 'O administrador com id 32 alterou o conteúdo do curso 23', 'Conteudo curso alterado', '2025-06-25 11:58:15', NULL),
+(195, 32, NULL, 'O administrador com id 32 alterou o conteúdo do curso 23', 'Conteudo curso alterado', '2025-06-25 11:59:14', NULL),
+(196, 32, NULL, 'O administrador com id 32 alterou o conteúdo do curso 23', 'Conteudo curso alterado', '2025-06-25 11:59:31', NULL),
+(197, 32, NULL, 'O administrador com id 32 alterou o conteúdo do curso 23', 'Conteudo curso alterado', '2025-06-25 12:00:10', NULL),
+(199, 32, NULL, 'Ocorreu um erro: Erro ao finalizar compra no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\carrinho\\finalizaCompra.php', 'Erro', '2025-06-25 12:14:34', NULL),
+(200, 32, NULL, 'Ocorreu um erro: Erro ao finalizar compra no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\carrinho\\finalizaCompra.php', 'Erro', '2025-06-25 12:14:40', NULL),
+(201, 32, NULL, 'Ocorreu um erro: Erro ao finalizar compra no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\carrinho\\finalizaCompra.php', 'Erro', '2025-06-25 12:14:57', NULL),
+(202, 32, NULL, 'Ocorreu um erro: Preço inválido ou vazio no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\carrinho\\finalizaCompra.php', 'Erro', '2025-06-25 12:16:25', NULL),
+(203, 32, NULL, 'Ocorreu um erro: Preço inválido ou vazio no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\carrinho\\finalizaCompra.php', 'Erro', '2025-06-25 12:17:10', NULL),
+(204, 32, NULL, 'Ocorreu um erro: Preço inválido ou vazio no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\carrinho\\finalizaCompra.php', 'Erro', '2025-06-25 12:17:32', NULL),
+(205, 32, NULL, 'Ocorreu um erro: Preço inválido ou vazio no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\carrinho\\finalizaCompra.php', 'Erro', '2025-06-25 12:17:49', NULL),
+(206, 32, NULL, 'Ocorreu um erro: Erro ao finalizar compra no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\carrinho\\finalizaCompra.php', 'Erro', '2025-06-25 12:18:58', NULL),
+(207, 32, NULL, 'Ocorreu um erro: Erro ao finalizar compra no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\carrinho\\finalizaCompra.php', 'Erro', '2025-06-25 12:19:34', NULL),
+(208, 32, NULL, 'O utilizador realizou uma compra no valor de 0 €', 'Compra curso', '2025-06-25 12:20:21', 0),
+(209, 32, NULL, 'Foi solicitado reembolso do curso com id40', 'Reembolso curso', '2025-06-25 13:06:01', 0),
+(210, 32, NULL, 'O utilizador realizou uma compra no valor de 0 €', 'Compra curso', '2025-06-25 13:10:24', 0),
+(211, 32, NULL, 'O utilizador realizou uma compra no valor de 0 €', 'Compra curso', '2025-06-25 13:10:36', 0),
+(212, 32, NULL, 'O utilizador realizou uma compra no valor de 0 €', 'Compra curso', '2025-06-25 13:10:57', 0),
+(213, 32, NULL, 'Foi solicitado reembolso do curso com id40', 'Reembolso curso', '2025-06-25 13:11:18', 0),
+(214, 32, NULL, 'O utilizador realizou uma compra no valor de 0 €', 'Compra curso', '2025-06-25 13:11:32', 0),
+(215, 32, NULL, 'O utilizador realizou uma compra no valor de 12.2877 €', 'Compra curso', '2025-06-25 13:13:31', 12.287700000000001),
+(219, 32, NULL, 'O administrador com Id:32 removeu o curso com Id:42', 'Curso eliminado', '2025-06-25 15:07:31', NULL),
+(220, 32, NULL, 'O administrador com Id:32 removeu o curso com Id:42', 'Curso eliminado', '2025-06-25 15:08:03', NULL),
+(221, 32, NULL, 'O administrador com Id:32 removeu o curso com Id:43', 'Curso eliminado', '2025-06-25 15:14:46', NULL),
+(222, 32, 42, 'O administrador com Id:32 removeu o curso com Id:42', 'Curso eliminado', '2025-06-25 15:22:55', NULL),
+(223, 32, NULL, 'Foram alteradas informações do curso com id', '', '2025-06-25 15:53:19', NULL),
+(224, 32, NULL, 'Ocorreu um erro:  no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\admin\\acoes\\editarCurso.php', 'Erro', '2025-06-25 15:53:21', NULL),
+(225, 32, NULL, 'Ocorreu um erro:  no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\admin\\acoes\\editarCurso.php', 'Erro', '2025-06-25 15:53:21', NULL),
+(226, 32, NULL, 'Ocorreu um erro:  no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\admin\\acoes\\editarCurso.php', 'Erro', '2025-06-25 15:53:21', NULL),
+(227, 32, NULL, 'Ocorreu um erro:  no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\admin\\acoes\\editarCurso.php', 'Erro', '2025-06-25 15:53:21', NULL),
+(228, 32, NULL, 'Ocorreu um erro:  no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\admin\\acoes\\editarCurso.php', 'Erro', '2025-06-25 15:53:21', NULL),
+(229, 32, NULL, 'Ocorreu um erro:  no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\admin\\acoes\\editarCurso.php', 'Erro', '2025-06-25 15:53:21', NULL),
+(230, 32, NULL, 'Ocorreu um erro:  no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\admin\\acoes\\editarCurso.php', 'Erro', '2025-06-25 15:53:21', NULL),
+(231, 32, NULL, 'Ocorreu um erro:  no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\admin\\acoes\\editarCurso.php', 'Erro', '2025-06-25 15:53:21', NULL),
+(232, 32, NULL, 'Ocorreu um erro:  no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\admin\\acoes\\editarCurso.php', 'Erro', '2025-06-25 15:53:21', NULL),
+(233, 32, NULL, 'Ocorreu um erro:  no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\admin\\acoes\\editarCurso.php', 'Erro', '2025-06-25 15:53:21', NULL),
+(234, 32, NULL, 'Ocorreu um erro:  no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\admin\\acoes\\editarCurso.php', 'Erro', '2025-06-25 15:53:21', NULL),
+(235, 32, NULL, 'Ocorreu um erro:  no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\admin\\acoes\\editarCurso.php', 'Erro', '2025-06-25 15:53:21', NULL),
+(236, 32, NULL, 'Ocorreu um erro:  no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\admin\\acoes\\editarCurso.php', 'Erro', '2025-06-25 15:53:21', NULL),
+(237, 32, NULL, 'Ocorreu um erro:  no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\admin\\acoes\\editarCurso.php', 'Erro', '2025-06-25 15:53:21', NULL),
+(238, 32, NULL, 'Ocorreu um erro:  no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\admin\\acoes\\editarCurso.php', 'Erro', '2025-06-25 15:53:21', NULL),
+(239, 32, NULL, 'Ocorreu um erro:  no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\admin\\acoes\\editarCurso.php', 'Erro', '2025-06-25 15:53:21', NULL),
+(240, 32, NULL, 'Ocorreu um erro:  no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\admin\\acoes\\editarCurso.php', 'Erro', '2025-06-25 15:53:21', NULL),
+(241, 32, NULL, 'Ocorreu um erro:  no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\admin\\acoes\\editarCurso.php', 'Erro', '2025-06-25 15:53:21', NULL),
+(242, 32, NULL, 'Ocorreu um erro:  no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\admin\\acoes\\editarCurso.php', 'Erro', '2025-06-25 15:53:21', NULL),
+(243, 32, NULL, 'Ocorreu um erro:  no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\admin\\acoes\\editarCurso.php', 'Erro', '2025-06-25 15:53:22', NULL),
+(244, 32, NULL, 'Ocorreu um erro:  no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\admin\\acoes\\editarCurso.php', 'Erro', '2025-06-25 15:53:22', NULL),
+(245, 32, NULL, 'Ocorreu um erro:  no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\admin\\acoes\\editarCurso.php', 'Erro', '2025-06-25 15:53:22', NULL),
+(246, 32, NULL, 'Ocorreu um erro:  no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\admin\\acoes\\editarCurso.php', 'Erro', '2025-06-25 15:53:22', NULL),
+(247, 32, NULL, 'Ocorreu um erro:  no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\admin\\acoes\\editarCurso.php', 'Erro', '2025-06-25 15:53:22', NULL),
+(248, 32, NULL, 'Ocorreu um erro:  no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\admin\\acoes\\editarCurso.php', 'Erro', '2025-06-25 15:53:22', NULL),
+(249, 32, NULL, 'Ocorreu um erro:  no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\admin\\acoes\\editarCurso.php', 'Erro', '2025-06-25 15:53:22', NULL),
+(250, 32, NULL, 'Ocorreu um erro:  no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\admin\\acoes\\editarCurso.php', 'Erro', '2025-06-25 15:53:22', NULL),
+(251, 32, NULL, 'Ocorreu um erro:  no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\admin\\acoes\\editarCurso.php', 'Erro', '2025-06-25 15:53:22', NULL),
+(252, 32, NULL, 'Ocorreu um erro:  no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\admin\\acoes\\editarCurso.php', 'Erro', '2025-06-25 15:53:22', NULL),
+(253, 32, NULL, 'Ocorreu um erro:  no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\admin\\acoes\\editarCurso.php', 'Erro', '2025-06-25 15:53:22', NULL),
+(254, 32, NULL, 'Ocorreu um erro:  no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\admin\\acoes\\editarCurso.php', 'Erro', '2025-06-25 15:53:22', NULL),
+(255, 32, NULL, 'Ocorreu um erro:  no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\admin\\acoes\\editarCurso.php', 'Erro', '2025-06-25 15:53:22', NULL),
+(256, 32, NULL, 'Ocorreu um erro:  no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\admin\\acoes\\editarCurso.php', 'Erro', '2025-06-25 15:53:22', NULL),
+(257, 32, NULL, 'Ocorreu um erro:  no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\admin\\acoes\\editarCurso.php', 'Erro', '2025-06-25 15:53:23', NULL),
+(258, 32, NULL, 'Ocorreu um erro:  no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\admin\\acoes\\editarCurso.php', 'Erro', '2025-06-25 15:53:23', NULL),
+(259, 32, NULL, 'Ocorreu um erro:  no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\admin\\acoes\\editarCurso.php', 'Erro', '2025-06-25 15:53:23', NULL),
+(260, 32, NULL, 'Ocorreu um erro:  no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\admin\\acoes\\editarCurso.php', 'Erro', '2025-06-25 15:53:23', NULL),
+(261, 32, NULL, 'Ocorreu um erro:  no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\admin\\acoes\\editarCurso.php', 'Erro', '2025-06-25 15:53:23', NULL),
+(262, 32, NULL, 'Ocorreu um erro:  no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\admin\\acoes\\editarCurso.php', 'Erro', '2025-06-25 15:53:23', NULL),
+(263, 32, NULL, 'Ocorreu um erro:  no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\admin\\acoes\\editarCurso.php', 'Erro', '2025-06-25 15:53:23', NULL),
+(264, 32, NULL, 'Ocorreu um erro:  no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\admin\\acoes\\editarCurso.php', 'Erro', '2025-06-25 15:53:23', NULL),
+(265, 32, NULL, 'Ocorreu um erro:  no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\admin\\acoes\\editarCurso.php', 'Erro', '2025-06-25 15:53:23', NULL),
+(266, 32, NULL, 'Ocorreu um erro:  no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\admin\\acoes\\editarCurso.php', 'Erro', '2025-06-25 15:53:23', NULL),
+(267, 32, NULL, 'Ocorreu um erro:  no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\admin\\acoes\\editarCurso.php', 'Erro', '2025-06-25 15:53:23', NULL),
+(268, 32, NULL, 'Ocorreu um erro:  no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\admin\\acoes\\editarCurso.php', 'Erro', '2025-06-25 15:53:23', NULL),
+(269, 32, NULL, 'Ocorreu um erro:  no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\admin\\acoes\\editarCurso.php', 'Erro', '2025-06-25 15:53:23', NULL),
+(270, 32, NULL, 'Ocorreu um erro:  no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\admin\\acoes\\editarCurso.php', 'Erro', '2025-06-25 15:53:24', NULL),
+(271, 32, NULL, 'Ocorreu um erro:  no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\admin\\acoes\\editarCurso.php', 'Erro', '2025-06-25 15:53:24', NULL),
+(272, 32, NULL, 'Ocorreu um erro:  no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\admin\\acoes\\editarCurso.php', 'Erro', '2025-06-25 15:53:24', NULL),
+(273, 32, NULL, 'Ocorreu um erro:  no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\admin\\acoes\\editarCurso.php', 'Erro', '2025-06-25 15:53:24', NULL),
+(274, 32, 43, 'Foram alteradas informações do curso com id43', '', '2025-06-25 16:32:42', NULL),
+(275, 32, 43, 'Ocorreu um erro: Nenhuma alteração feita ou ID não encontrado. no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\admin\\acoes\\editarCurso.php', 'Erro', '2025-06-25 16:33:14', NULL),
+(276, 32, 43, 'Ocorreu um erro: Nenhuma alteração feita ou ID não encontrado. no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\admin\\acoes\\editarCurso.php', 'Erro', '2025-06-25 16:33:29', NULL),
+(277, 32, 43, 'Ocorreu um erro: Nenhuma alteração feita ou ID não encontrado. no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\admin\\acoes\\editarCurso.php', 'Erro', '2025-06-25 16:34:58', NULL),
+(278, 32, 40, 'Foram alteradas informações do curso com id40', '', '2025-06-25 16:35:29', NULL),
+(279, 32, 23, 'Foram alteradas informações do curso com id23', '', '2025-06-25 16:36:47', NULL),
+(280, 32, 23, 'Ocorreu um erro: Nenhuma alteração feita ou ID não encontrado. no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\admin\\acoes\\editarCurso.php', 'Erro', '2025-06-25 16:36:51', NULL),
+(281, 32, 23, 'Foram alteradas informações do curso com id23', '', '2025-06-25 16:37:05', NULL),
+(282, 32, 43, 'O administrador com Id:32 removeu o curso com Id:43', 'Curso eliminado', '2025-06-25 16:37:42', NULL),
+(283, 32, 40, 'Foram alteradas informações do curso com id40', '', '2025-06-25 16:40:46', NULL),
+(284, 32, 23, 'Foram alteradas informações do curso com id23', 'Alteração de curso', '2025-06-25 16:41:17', NULL),
+(285, 32, 40, 'Foram alteradas informações do curso com id40', 'Alteração de curso', '2025-06-25 16:44:21', NULL),
+(286, 32, 40, 'O administrador com Id:32 removeu o curso com Id:40', 'Curso eliminado', '2025-06-25 16:44:44', NULL),
+(287, 32, 23, 'Foi solicitado reembolso do curso com id23', 'Reembolso curso', '2025-06-25 17:09:12', 9.99),
+(288, 32, 40, 'Foi solicitado reembolso do curso com id40', 'Reembolso curso', '2025-06-25 17:09:15', 50),
+(289, 32, NULL, 'Ocorreu um erro: Ocorreu um erro ao adicionar o curso no carrinho no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\carrinho\\adicionarAocarrinho.php', 'Erro', '2025-06-25 17:09:22', NULL),
+(290, 32, NULL, 'Ocorreu um erro: Ocorreu um erro ao adicionar o curso no carrinho no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\carrinho\\adicionarAocarrinho.php', 'Erro', '2025-06-25 17:12:28', NULL),
+(291, 32, NULL, 'Ocorreu um erro: Ocorreu um erro ao adicionar o curso no carrinho no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\carrinho\\adicionarAocarrinho.php', 'Erro', '2025-06-25 17:12:38', NULL),
+(292, 32, NULL, 'Ocorreu um erro: Ocorreu um erro ao adicionar o curso no carrinho no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\carrinho\\adicionarAocarrinho.php', 'Erro', '2025-06-25 17:12:47', NULL),
+(293, 78, NULL, 'Foi depositado na conta o valor de 10€ euros', 'Deposito de saldo', '2025-06-26 11:03:15', 10),
+(294, 78, NULL, 'Foi depositado na conta o valor de 5€ euros', 'Deposito de saldo', '2025-06-26 11:04:14', 5),
+(295, 78, NULL, 'O utilizador realizou uma compra no valor de 12.2877 €', 'Compra curso', '2025-06-26 11:04:32', 12.287700000000001),
+(296, 78, 23, 'Foi solicitado reembolso do curso com id23', 'Reembolso curso', '2025-06-26 12:05:17', 9.99),
+(297, 78, NULL, 'O utilizador realizou uma compra no valor de 12.2877 €', 'Compra curso', '2025-06-26 12:19:48', 12.287700000000001),
+(298, 32, 23, 'O utilizador com id 32 foi matriculado no curso de id 23 pelo admin com id 32', 'Utilizador Matriculado', '2025-06-26 16:18:53', NULL),
+(299, 32, NULL, 'O utilizador com id  foi matriculado no curso de id  pelo admin com id 32', 'Utilizador Matriculado', '2025-06-26 16:19:00', NULL),
+(300, 32, NULL, 'O utilizador com id  foi matriculado no curso de id  pelo admin com id 32', 'Utilizador Matriculado', '2025-06-26 16:19:19', NULL),
+(301, 32, NULL, 'O utilizador com id  foi matriculado no curso de id  pelo admin com id 32', 'Utilizador Matriculado', '2025-06-26 16:19:20', NULL),
+(302, 32, NULL, 'O utilizador com id  foi matriculado no curso de id  pelo admin com id 32', 'Utilizador Matriculado', '2025-06-26 16:19:21', NULL),
+(303, 32, NULL, 'O utilizador com id  foi matriculado no curso de id  pelo admin com id 32', 'Utilizador Matriculado', '2025-06-26 16:19:22', NULL),
+(304, 32, NULL, 'O utilizador com id  foi matriculado no curso de id  pelo admin com id 32', 'Utilizador Matriculado', '2025-06-26 16:19:23', NULL),
+(305, 32, NULL, 'O utilizador com id  foi matriculado no curso de id  pelo admin com id 32', 'Utilizador Matriculado', '2025-06-26 16:19:24', NULL),
+(306, 32, NULL, 'O utilizador com id  foi matriculado no curso de id  pelo admin com id 32', 'Utilizador Matriculado', '2025-06-26 16:19:24', NULL),
+(307, 32, NULL, 'O utilizador com id  foi matriculado no curso de id  pelo admin com id 32', 'Utilizador Matriculado', '2025-06-26 16:19:24', NULL),
+(308, 32, NULL, 'O utilizador com id  foi matriculado no curso de id  pelo admin com id 32', 'Utilizador Matriculado', '2025-06-26 16:19:25', NULL),
+(309, 32, NULL, 'O utilizador com id  foi matriculado no curso de id  pelo admin com id 32', 'Utilizador Matriculado', '2025-06-26 16:19:25', NULL),
+(310, 32, NULL, 'O utilizador com id  foi matriculado no curso de id  pelo admin com id 32', 'Utilizador Matriculado', '2025-06-26 16:19:25', NULL),
+(311, 32, NULL, 'O utilizador com id  foi matriculado no curso de id  pelo admin com id 32', 'Utilizador Matriculado', '2025-06-26 16:19:26', NULL),
+(312, 32, NULL, 'O utilizador com id  foi matriculado no curso de id  pelo admin com id 32', 'Utilizador Matriculado', '2025-06-26 16:19:41', NULL),
+(313, 32, NULL, 'O utilizador com id  foi matriculado no curso de id  pelo admin com id 32', 'Utilizador Matriculado', '2025-06-26 16:19:56', NULL),
+(315, 32, NULL, 'O utilizador com id  foi matriculado no curso de id  pelo admin com id 32', 'Utilizador Matriculado', '2025-06-26 16:21:42', NULL),
+(316, 32, 23, 'O utilizador com id 32 foi matriculado no curso de id 23 pelo admin com id 32', 'Utilizador Matriculado', '2025-06-26 16:23:09', NULL),
+(317, 32, 45, 'Foi adicionado um novo curso(45) pelo administrador com ID: 32', '', '2025-06-26 17:44:23', NULL),
+(318, 32, NULL, 'Ocorreu um erro: ERRO ao atualizar o video,tente mais tarde! no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\admin\\acoes\\adicionar_alterar_conteudo.php', 'Erro', '2025-06-26 18:05:58', NULL),
+(319, 32, 45, 'Foi removida fase do curso: 45 pelo administrador com Id: 32', 'Fase removida', '2025-06-26 18:11:26', NULL),
+(320, 32, 45, 'Foi removida fase do curso: 45 pelo administrador com Id: 32', 'Fase removida', '2025-06-26 18:11:59', NULL),
+(321, 32, 45, 'Foi removida fase do curso: 45 pelo administrador com Id: 32', 'Fase removida', '2025-06-26 18:12:05', NULL),
+(322, 32, 45, 'O administrador com id 32 alterou o conteúdo do curso 45', 'Conteudo curso alterado', '2025-06-26 18:15:24', NULL),
+(323, 32, 45, 'Foi removida fase do curso: 45 pelo administrador com Id: 32', 'Fase removida', '2025-06-26 18:19:33', NULL),
+(324, 32, 45, 'Foi removida fase do curso: 45 pelo administrador com Id: 32', 'Fase removida', '2025-06-26 18:19:40', NULL),
+(325, 32, 45, 'Foi removida fase do curso: 45 pelo administrador com Id: 32', 'Fase removida', '2025-06-26 18:19:46', NULL),
+(326, 32, 45, 'Foi removida fase do curso: 45 pelo administrador com Id: 32', 'Fase removida', '2025-06-26 18:19:51', NULL),
+(327, 32, 45, 'O administrador com id 32 alterou o conteúdo do curso 45', 'Conteudo curso alterado', '2025-06-26 18:20:42', NULL),
+(328, 32, 41, 'O administrador com id 32 alterou o conteúdo do curso 41', 'Conteudo curso alterado', '2025-06-26 18:21:45', NULL),
+(329, 32, 41, 'O administrador com id 32 alterou o conteúdo do curso 41', 'Conteudo curso alterado', '2025-06-26 18:22:55', NULL),
+(330, 32, 41, 'O administrador com id 32 alterou o conteúdo do curso 41', 'Conteudo curso alterado', '2025-06-26 18:37:21', NULL),
+(331, 32, 41, 'O administrador com id 32 alterou o conteúdo do curso 41', 'Conteudo curso alterado', '2025-06-26 18:41:50', NULL),
+(332, 32, NULL, 'Ocorreu um erro: ERRO ao atualizar a imagem,tente mais tarde! no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\admin\\acoes\\adicionar_alterar_conteudo.php', 'Erro', '2025-06-26 18:43:34', NULL),
+(333, 32, 41, 'O administrador com id 32 alterou o conteúdo do curso 41', 'Conteudo curso alterado', '2025-06-26 18:44:21', NULL),
+(334, 32, 41, 'O administrador com id 32 alterou o conteúdo do curso 41', 'Conteudo curso alterado', '2025-06-26 18:45:10', NULL),
+(335, 32, NULL, 'Ocorreu um erro: O arquivo não existe. no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\admin\\acoes\\remover_midia.php', 'Erro', '2025-06-26 18:46:41', NULL),
+(336, 32, 41, 'O administrador com id 32 alterou o conteúdo do curso 41', 'Conteudo curso alterado', '2025-06-26 18:52:39', NULL),
+(337, 32, NULL, 'Ocorreu um erro: ERRO ao atualizar a imagem,tente mais tarde! no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\admin\\acoes\\adicionar_alterar_conteudo.php', 'Erro', '2025-06-26 18:55:43', NULL),
+(338, 32, 45, 'O administrador com id 32 alterou o conteúdo do curso 45', 'Conteudo curso alterado', '2025-06-26 18:57:03', NULL),
+(339, 32, 45, 'O administrador com id 32 alterou o conteúdo do curso 45', 'Conteudo curso alterado', '2025-06-26 18:57:29', NULL),
+(340, 32, 45, 'O administrador com id 32 alterou o conteúdo do curso 45', 'Conteudo curso alterado', '2025-06-26 18:58:21', NULL),
+(341, 32, 45, 'Foram alteradas informações do curso com id45', 'Alteração de curso', '2025-06-26 18:59:49', NULL),
+(342, 32, 45, 'Ocorreu um erro: Nenhuma alteração feita ou ID não encontrado. no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\admin\\acoes\\editarCurso.php', 'Erro', '2025-06-26 19:01:01', NULL),
+(343, 32, 23, 'Ocorreu um erro: Nenhuma alteração feita ou ID não encontrado. no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\admin\\acoes\\editarCurso.php', 'Erro', '2025-06-26 19:01:10', NULL),
+(344, 32, 45, 'Foram alteradas informações do curso com id45', 'Alteração de curso', '2025-06-26 19:02:05', NULL),
+(345, 32, 23, 'Ocorreu um erro: Nenhuma alteração feita ou ID não encontrado. no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\admin\\acoes\\editarCurso.php', 'Erro', '2025-06-26 19:02:13', NULL),
+(346, 32, 23, 'Foram alteradas informações do curso com id23', 'Alteração de curso', '2025-06-26 19:07:38', NULL),
+(347, 32, 23, 'Foram alteradas informações do curso com id23', 'Alteração de curso', '2025-06-26 19:07:43', NULL),
+(348, 32, 23, 'Ocorreu um erro: Nenhuma alteração feita ou ID não encontrado. no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\admin\\acoes\\editarCurso.php', 'Erro', '2025-06-26 19:07:49', NULL),
+(349, 32, 23, 'Ocorreu um erro: Nenhuma alteração feita ou ID não encontrado. no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\admin\\acoes\\editarCurso.php', 'Erro', '2025-06-26 19:07:59', NULL),
+(350, 32, NULL, 'O utilizador realizou uma compra no valor de 0 €', 'Compra curso', '2025-06-26 19:36:11', 0),
+(351, 32, NULL, 'O utilizador realizou uma compra no valor de 0 €', 'Compra curso', '2025-06-26 19:57:48', 0),
+(352, 32, 44, 'Foi solicitado reembolso do curso com id44', 'Reembolso curso', '2025-06-26 20:00:39', 0);
 
 -- --------------------------------------------------------
 
 --
 -- Estrutura da tabela `midia`
 --
-
-CREATE TABLE IF NOT EXISTS `midia` (
-  `Id_midia` int(11) NOT NULL AUTO_INCREMENT,
-  `Id_curso` int(11) NOT NULL,
-  `URL_midia` varchar(100) NOT NULL,
-  PRIMARY KEY (`Id_midia`),
-  KEY `Id_curso` (`Id_curso`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+-- Erro ao ler a estrutura para a tabela smartlearndb.midia: #1932 - Table &#039;smartlearndb.midia&#039; doesn&#039;t exist in engine
+-- Erro ao ler dados para tabela smartlearndb.midia: #1064 - Você tem um erro de sintaxe no seu SQL próximo a &#039;FROM `smartlearndb`.`midia`&#039; na linha 1
 
 -- --------------------------------------------------------
 
@@ -503,14 +672,14 @@ CREATE TABLE IF NOT EXISTS `user` (
   `Estado_cookies_user` enum('Aceite','Nao aceite','','') NOT NULL DEFAULT 'Nao aceite',
   PRIMARY KEY (`Id_user`),
   UNIQUE KEY `unique_email` (`Email`)
-) ENGINE=InnoDB AUTO_INCREMENT=79 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=80 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Extraindo dados da tabela `user`
 --
 
 INSERT INTO `user` (`Id_user`, `PNome_user`, `SNome_user`, `Estado_conta`, `Biografia`, `Password`, `Data_criacao`, `Email`, `Tipo_user`, `Carteira`, `URL_facebook`, `URL_youtube`, `URL_linkedin`, `URL_foto_perfilUser`, `Estado_cookies_user`) VALUES
-(32, 'Ruben', 'Bras', 'Ativo', 'teste', '03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4', '2025-04-02', 'vb@gmail.com', 'Main-admin', 99999888.32, 'testeee', 'teste', 'test', 'fotoPerfil_32.jpg', 'Nao aceite'),
+(32, 'Ruben', 'Bras', 'Ativo', 'teste', '03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4', '2025-04-02', 'vb@gmail.com', 'Main-admin', 99999936.02, 'testeee', 'teste', 'test', 'fotoPerfil_32.jpg', 'Nao aceite'),
 (39, 'teste', 'teste', 'Ativo', NULL, '6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b', '2025-04-15', 'teste@gmail.com', 'Cliente', 77.01, NULL, NULL, NULL, NULL, 'Nao aceite'),
 (40, 'ana', 'gomes', 'Ativo', NULL, 'senha123', '2024-01-10', 'ana.gomes@example.com', 'Cliente', 0.00, NULL, NULL, NULL, NULL, 'Nao aceite'),
 (41, 'Bruno', 'Ferreiras', 'Ativo', NULL, '123bruno', '2024-02-15', 'bruno.ferreira@example.com', 'Admin', 0.00, NULL, NULL, NULL, NULL, 'Nao aceite'),
@@ -527,7 +696,8 @@ INSERT INTO `user` (`Id_user`, `PNome_user`, `SNome_user`, `Estado_conta`, `Biog
 (52, 'Mariana', 'Carvalho', 'Ativo', NULL, 'mariC123', '2024-02-28', 'mariana.carvalho@example.com', 'Admin', 0.00, NULL, NULL, NULL, NULL, 'Nao aceite'),
 (53, 'Nuno', 'Teixeira', 'Eliminado', NULL, 'nuno777', '2024-01-17', 'nuno.teixeira@example.com', 'Admin', 0.00, NULL, NULL, NULL, NULL, 'Nao aceite'),
 (54, 'Olívia', 'Sousa', 'Eliminado', NULL, 'olivia999', '2024-03-30', 'olivia.sousa@example.com', 'Admin', 0.00, NULL, NULL, NULL, NULL, 'Nao aceite'),
-(78, 'ola', 'soueu', 'Ativo', NULL, '03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4', '2025-06-23', 'eu@gmail.com', 'Cliente', 0.00, NULL, NULL, NULL, NULL, 'Nao aceite');
+(78, 'ola', 'soueu', 'Ativo', NULL, '03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4', '2025-06-23', 'eu@gmail.com', 'Cliente', 0.41, NULL, NULL, NULL, NULL, 'Nao aceite'),
+(79, 'teste', '123', 'Ativo', NULL, '03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4', '2025-06-24', 'testeasyhfbs@gmail.com', 'Cliente', 0.00, NULL, NULL, NULL, NULL, 'Nao aceite');
 
 --
 -- Restrições para despejos de tabelas
