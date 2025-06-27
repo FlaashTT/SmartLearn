@@ -28,8 +28,8 @@ $pdf->SetFont('Arial', '', 16);
 $pdf->Cell(0, 10, mb_convert_encoding("Concluído em: ", 'ISO-8859-1', 'UTF-8') . $dataConclusao, 0, 1, 'C');
 
 $pdf->Ln(20);
-$pdf->Line(100, 180, 200, 180);
-$pdf->SetY(185);
+$pdf->Line(100, 160, 200, 160);
+$pdf->SetY(165);
 $pdf->SetFont('Arial', '', 14);
 $pdf->Cell(0, 10, mb_convert_encoding('Assinatura da Coordenação', 'ISO-8859-1', 'UTF-8'), 0, 1, 'C');
 
