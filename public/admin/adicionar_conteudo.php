@@ -258,10 +258,17 @@ if (!$conn->connect_error) {
 
 
     <script>
-        let contadorFases = 1;
 
         function adicionarFase() {
             const container = document.getElementById('fases-container');
+            // Obter todos os valores atuais das fases já criadas
+            const fasesExistentes = Array.from(container.querySelectorAll('input[name="fase[]"]'))
+                .map(input => parseInt(input.value, 10));
+            // Encontrar o maior número de fase já usado
+            let faseNumero = 1;
+            while (fasesExistentes.includes(faseNumero)) {
+                faseNumero++;
+            }
 
             const novaFase = document.createElement('div');
             novaFase.classList.add('fase', 'card');
@@ -270,40 +277,37 @@ if (!$conn->connect_error) {
             novaFase.style.border = '1px solid #ccc';
             novaFase.style.borderRadius = '5px';
 
-            const faseNumero = contadorFases + 1;
-
             novaFase.innerHTML = `
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-        <h4 style="margin: 0;">Fase ${faseNumero}</h4>
-        <button type="button" class="btn-button btn-remover" onclick="removerFase(this)">Remover Fase</button>
-    </div>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                    <h4 style="margin: 0;">Fase ${faseNumero}</h4>
+                    <button type="button" class="btn-button btn-remover" onclick="removerFase(this)">Remover Fase</button>
+                </div>
 
-    <div class="form-group">
-        <label for="titulo${contadorFases}">Titulo da fase:</label>
-        <input type="text" id="titulo${contadorFases}" name="titulo[${contadorFases}]"  class="form-control" />
-    </div>
+                <div class="form-group">
+                    <label for="titulo${faseNumero}">Titulo da fase:</label>
+                    <input type="text" id="titulo${faseNumero}" name="titulo[${faseNumero}]"  class="form-control" />
+                </div>
 
-    <div class="form-group">
-        <label for="video${contadorFases}">Vídeo do Curso:</label>
-        <input type="file" id="video${contadorFases}" name="video[${contadorFases}]" accept="video/mp4" class="form-control" />
-        
-    </div>
+                <div class="form-group">
+                    <label for="video${faseNumero}">Vídeo do Curso:</label>
+                    <input type="file" id="video${faseNumero}" name="video[${faseNumero}]" accept="video/mp4" class="form-control" />
+                </div>
 
-    <div class="form-group">
-        <label for="imagem${contadorFases}">Imagem do Curso:</label>
-        <input type="file" id="imagem${contadorFases}" name="imagem[${contadorFases}]" accept="image/*" class="form-control" />
-    </div>
+                <div class="form-group">
+                    <label for="imagem${faseNumero}">Imagem do Curso:</label>
+                    <input type="file" id="imagem${faseNumero}" name="imagem[${faseNumero}]" accept="image/*" class="form-control" />
+                </div>
 
-    <div class="form-group">
-        <label for="conteudo${contadorFases}">Conteúdo do Curso (Texto):</label>
-        <textarea id="conteudo${contadorFases}" name="conteudo[${contadorFases}]" class="form-control"></textarea>
-    </div>
+                <div class="form-group">
+                    <label for="conteudo${faseNumero}">Conteúdo do Curso (Texto):</label>
+                    <textarea id="conteudo${faseNumero}" name="conteudo[${faseNumero}]" class="form-control"></textarea>
+                </div>
 
-    <input type="hidden" name="fase[]" value="${faseNumero}" />
-`;
+                <input type="hidden" name="fase[]" value="${faseNumero}" />
+                `;
 
             container.appendChild(novaFase);
-            contadorFases++;
+            contadorFases = faseNumero;
         }
 
         function removerFase(botao) {
@@ -406,10 +410,10 @@ if (!$conn->connect_error) {
 
 
             document.getElementById('input-curso-id').addEventListener('change', () => {
-                
+
 
                 const cursoId = document.getElementById('input-curso-id').value.trim();
-                
+
 
                 if (cursoId !== '' && fasesCursos[cursoId] != null) {
                     carregarFasesExistentes(fasesCursos[cursoId]);
