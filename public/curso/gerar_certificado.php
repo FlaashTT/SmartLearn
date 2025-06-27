@@ -9,14 +9,13 @@ $dataConclusao = date('d/m/Y');
 $pdf = new FPDF('L', 'mm', 'A4');
 $pdf->AddPage();
 
-// Definir cores
-$pdf->SetDrawColor(0, 0, 0);
+// Cor da borda decorativa (azul)
 $pdf->SetDrawColor(50, 50, 150);
-$pdf->SetTextColor(0, 0, 0);
-
-// Borda decorativa
 $pdf->SetLineWidth(2);
 $pdf->Rect(10, 10, 277, 190); // A4 horizontal com margens
+
+// Cor do texto
+$pdf->SetTextColor(0, 0, 0);
 
 // Título
 $pdf->SetFont('Arial', 'B', 32);
@@ -53,16 +52,13 @@ $pdf->Cell(0, 10, mb_convert_encoding("Data de conclusão: ", 'ISO-8859-1', 'UTF
 
 $pdf->Ln(25);
 
-// Linha e assinatura
+// Cor preta para linha da assinatura
+$pdf->SetDrawColor(0, 0, 0);
 $pdf->Line(100, 165, 200, 165);
 
 $pdf->SetY(170);
 $pdf->SetFont('Arial', '', 14);
-$pdf->SetTextColor(0, 0, 0); // Garante que o texto também fique a preto
 $pdf->Cell(0, 10, mb_convert_encoding('Assinatura da Coordenação do Curso', 'ISO-8859-1', 'UTF-8'), 0, 1, 'C');
-
-// Opcional: imagem de assinatura (se tiveres uma PNG transparente)
-// $pdf->Image('../../assets/imagens/assinatura.png', 125, 140, 50);
 
 // Headers para download
 header('Content-Type: application/pdf');
@@ -72,4 +68,3 @@ header('Pragma: no-cache');
 header('Expires: 0');
 
 $pdf->Output('D', 'certificado.pdf');
-
