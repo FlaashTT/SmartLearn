@@ -30,10 +30,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $videos = $_FILES['video']['name'] ?? [];
             $imagens = $_FILES['imagem']['name'] ?? [];
 
-            $totalFases = count($fases);
+            
 
-            for ($i = 0; $i < $totalFases; $i++) {
-                $NumFase = $i + 1;
+            for ($i = 0; $i < count($fases); $i++) {
+                $numFase = $fases[$i];
                 $novoNomeImagem = "";
                 $novoNomeVideo = "";
 
@@ -128,7 +128,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 if (!$erro && $alteracaoFeita) {
-    criarLogs("Conteúdo do curso alterado", $_SESSION['utilizadorOn']['Id_user'], null, $idcursoAtual);
+    criarLogs("Conteudo curso alterado", $_SESSION['utilizadorOn']['Id_user'], null, $idcursoAtual);
     mostrarPopUp("Alteração feita com sucesso!", null, "../adicionar_conteudo.php");
     exit;
 }
@@ -139,7 +139,7 @@ if (!$alteracaoFeita && !$erro) {
 }
 
 if ($erro) {
-    criarLogs("Erro ao alterar conteúdo do curso: " . $textoErro, $_SESSION['utilizadorOn']['Id_user'], null, $idcursoAtual ?? null);
+    criarLogs("Erro" , $_SESSION['utilizadorOn']['Id_user'], null, $idcursoAtual,null,$textoErro);
     mostrarPopUp($textoErro, null, "../adicionar_conteudo.php");
     exit;
 }
