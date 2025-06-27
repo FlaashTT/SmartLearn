@@ -57,6 +57,7 @@ $pdf->Ln(25);
 
 // Cor preta para linha da assinatura
 $pdf->SetDrawColor(0, 0, 0);
+$pdf->SetLineWidth(0.5);
 $pdf->Line(100, 165, 200, 165);
 
 $pdf->SetY(170);
