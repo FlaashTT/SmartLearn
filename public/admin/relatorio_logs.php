@@ -1,6 +1,7 @@
 <?php
 include("../../database/basedados.php");
 include("segurançaAdmin.php");
+include("../popup.php");
 
 
 $quantidadePesquisa = 0;
@@ -90,12 +91,14 @@ $totalEntradas = 0;
 
                             <?php
                             if ($textoPesquisa != '') {
-                                $query = "SELECT * FROM logs_sistema
-                                            INNER JOIN user ON logs_sistema.Id_user = user.Id_user
-                                            WHERE user.Pnome_user LIKE ? 
-                                            OR user.Email LIKE ? 
-                                            OR logs_sistema.Tipo_log LIKE ?
-                                            LIMIT ?, ?";
+                                $query = "SELECT * 
+                                FROM logs_sistema
+                                INNER JOIN user ON logs_sistema.Id_user = user.Id_user
+                                LEFT JOIN curso ON logs_sistema.Id_curso = curso.Id_curso
+                                WHERE user.Pnome_user LIKE ? 
+                                    OR user.Email LIKE ? 
+                                    OR logs_sistema.Tipo_log LIKE ? 
+                                LIMIT ?, ?";
                                 $stmt = $conn->prepare($query);
                                 $pesquisaParam = "%" . $textoPesquisa . "%";
                                 $stmt->bind_param("sssii", $pesquisaParam, $pesquisaParam, $pesquisaParam, $offset, $limite);
@@ -159,14 +162,88 @@ $totalEntradas = 0;
                                         <td>' . $row['Data_log'] . '</td>
                                         <td>' . $row['Tipo_log'] . '</td>
                                         <td style="text-align: center;">
-                                            <a href="#" style="color: #e74c3c; font-size: 14px; text-decoration: none;">
+                                            <a onclick="mostrarInfo(' . $row['Id_log'] . ')" style="color: #e74c3c; font-size: 14px; text-decoration: none;">
                                                 <i class="fa-solid fa-arrow-right"></i>
                                             </a>
                                         </td>
                                     </tr>
 
 
-                                ';
+                                    
+                                    <div id="verLog_' . $row['Id_log'] . '" class="modal" style="overflow-y: auto;">
+                                        <div class="modal-box">
+                                            <span class="close" onclick="fecharverLog_(\'verLog_' . $row['Id_log'] . '\');">&times;</span>
+                                            <h3 class="modal-title">Informações de log</h3>
+                                            
+                                            <div class="criacao_curso">
+                                                <p class="modal-text">' . $row['Tipo_log'] . '</p>
+
+                                                <div>
+                                                    Id log: ' . $row['Id_log'] . '<br>
+                                                    Log registada pelo utilizador ' .
+                                        (isset($row['PNome_user']) ? $row['PNome_user'] : '') . ' ' .
+                                        (isset($row['SNome_user']) ? $row['SNome_user'] : '') .
+                                        ' (' . (isset($row['Id_user']) ? $row['Id_user'] : '') . ')<br>
+                                                    Data log: ' . $row['Data_log'] . '<br>
+                                                    <hr>
+                                                    Tipo de log: ' . $row['Tipo_log'] . '<br>
+                                                    <label>Descrição log:</label><br>
+                                                    <textarea disabled>' . $row['Descricao_log'] . '</textarea>
+                                                    <br>
+                                                    <hr>
+                                                    <h3>Informação detalhada</h3>';
+
+                                    if (isset($row['saldo']) && trim($row['saldo']) !== "") {
+                                        echo '<div>';
+                                        if ($row['Tipo_log'] == "Levantamento de saldo") {
+                                            echo 'Valor de saldo levantado: ' . $row['saldo'];
+                                        } else {
+                                            echo 'Valor de saldo depositado: ' . $row['saldo'];
+                                        }
+                                        echo '</div><hr>';
+                                    }
+
+                                    if (isset($row['Id_curso']) && trim($row['Id_curso']) !== "") {
+                                        echo '<div>
+                                                            Curso alterado<br>
+                                                            Nome: ' . (isset($row['Nome_curso']) ? $row['Nome_curso'] : '') . ' ,Id:' . $row['Id_curso'] . '
+                                                        </div><hr>';
+                                    }
+                                    if (isset($row['idUserAlterado']) && trim($row['idUserAlterado']) !== "") {
+
+                                        $idUserAlterado = $row['idUserAlterado'];
+                                        $stmt = $conn->prepare("SELECT PNome_user, SNome_user FROM user WHERE Id_user = ?");
+                                        $stmt->bind_param("i", $idUserAlterado);
+                                        $stmt->execute();
+                                        $resultUser = $stmt->get_result();
+
+                                        if ($resultUser && $userRow = $resultUser->fetch_assoc()) {
+                                            $pNome = $userRow['PNome_user'];
+                                            $sNome = $userRow['SNome_user'];
+                                            echo '<div>
+                                                    Utilizador alterado<br> 
+                                                    Nome: ' . $pNome . ' ' . $sNome .
+                                            ' ,Id: ' . $idUserAlterado . '
+                                                </div><hr>';
+                                        } else {
+                                            echo '<div>
+                                                   Erro ao econtrar os dados do utilizador
+                                                </div><hr>';
+                                        }
+                                        $stmt->close();
+
+                                        
+                                    }
+                                    if (isset($row['Ficheiro']) && trim($row['Ficheiro']) !== "") {
+                                        echo '<div>
+                                                            Pagina originaria da log<br>
+                                                            Nome: ' . $row['Ficheiro'] . '
+                                                        </div>';
+                                    }
+
+                                    echo '</div>
+                                        </div>
+                                    </div>';
                                 }
                             }
                             ?>
@@ -221,26 +298,17 @@ $totalEntradas = 0;
     </script>
 
     <script>
-        function abrirDescricaoModal(nome, descricao) {
-            // Define o título e a descrição no modal
-            document.getElementById("modalTitle").innerText = `Descrição de ${nome}`;
-            document.getElementById("modalDescricao").innerText = descricao;
+        function mostrarInfo(idLog) {
+            const modal = document.getElementById('verLog_' + idLog);
+            modal.style.display = 'block';
 
-            // Mostra o modal
-            document.getElementById("descricaoModal").style.display = "block";
         }
 
-        function fecharModal() {
-            // Fecha o modal
-            document.getElementById("descricaoModal").style.display = "none";
+
+        function fecharverLog_(idModal) {
+            document.getElementById(idModal).style.display = 'none';
         }
 
-        // Fecha o modal quando clica fora da janela do modal
-        window.onclick = function(event) {
-            if (event.target == document.getElementById("descricaoModal")) {
-                fecharModal();
-            }
-        }
 
         function toggleDescription(btn) {
             const td = btn.closest('td');
@@ -255,7 +323,6 @@ $totalEntradas = 0;
                 btn.textContent = "Ver mais";
             }
         }
-
     </script>
 
 

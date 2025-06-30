@@ -94,8 +94,8 @@ function criarLogs($tipoLog, $idUser = null, $saldo = null, $idCurso = null, $id
             $descricaoLog = "O utilizador com Id:" . $idUser . " alterou as configuraçoes do site";
             break;
     }
-    $stmt = $conn->prepare("INSERT INTO logs_sistema (Id_user, Descricao_log, Tipo_log, Data_log, saldo,Id_curso) VALUES (?, ?, ?, ?, ? ,?)");
-    $stmt->bind_param("isssdi", $idUser, $descricaoLog, $tipoLog, $DataAtual, $saldo, $idCurso);
+    $stmt = $conn->prepare("INSERT INTO logs_sistema (Id_user, Descricao_log, Tipo_log, Data_log, saldo,Id_curso,idUserAlterado,ficheiroLog) VALUES (?, ?, ?, ?, ? ,? ,?,?)");
+    $stmt->bind_param("isssdiis", $idUser, $descricaoLog, $tipoLog, $DataAtual, $saldo, $idCurso, $idUserAlterado,$ficheiro);
 
 
     if (!$stmt->execute()) {

@@ -88,7 +88,7 @@ $offset = ($pagina - 1) * $limite;
 
                         <?php
                             if ($textoPesquisa != '') {
-                                $query = "select * from cursos_adquiridos
+                                $query = "select * from  resposta_forms
                                 
                                             LIMIT ?, ?";
                                 $stmt = $conn->prepare($query);
@@ -97,8 +97,7 @@ $offset = ($pagina - 1) * $limite;
                             } else {
 
 
-                                $query = "select * from cursos_adquiridos
-                                        WHERE AdicionadoPor IS NOT NULL
+                                $query = "select * from  resposta_forms
 
                                         LIMIT ?, ?
                                         ";
@@ -114,11 +113,18 @@ $offset = ($pagina - 1) * $limite;
                                 while ($row = $result->fetch_assoc()) {
 
                                 }
+                            }else{
+                                echo'<tr>
+                                <td>
+                                Sem resultados disponiveis
+                                </td>
+                                
+                                </tr>';
                             }
                             ?>
 
 
-
+<!--
                             <tr>
                                 <td class="coluna-id"><span> <?php echo $row['Id_user']; ?></span></td>
                                 <td>Joana Silva<br><small>joana@email.com</small></td>
@@ -135,11 +141,12 @@ $offset = ($pagina - 1) * $limite;
                                     </a>
                                 </td>
                             </tr>
+                        -->
                         </tbody>
                     </table>
 
                     <?php
-                    $totalQuery = "SELECT COUNT(*) as total FROM cursos_adquiridos WHERE AdicionadoPor IS NOT NULL";
+                    $totalQuery = "SELECT COUNT(*) as total FROM resposta_forms ";
                     $totalResult = $conn->query($totalQuery);
                     $totalRow = $totalResult->fetch_assoc();
                     $totalEntradas = $totalRow['total'];
