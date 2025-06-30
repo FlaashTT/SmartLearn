@@ -179,7 +179,13 @@ $totalEntradas = 0;
                                                 <p class="modal-text">' . $row['Tipo_log'] . '</p>
 
                                                 <div>
-                                                    Id log: ' . $row['Id_log'] . '<br>
+                                                    Id log: <span style="
+                                                    display: inline-block;
+                                                    background-color: #007bff;
+                                                    color: white;
+                                                    padding: 2px 8px;
+                                                    border-radius: 4px;
+                                                ">' . $row['Id_log'] . '</span><br>
                                                     Log registada pelo utilizador ' .
                                         (isset($row['PNome_user']) ? $row['PNome_user'] : '') . ' ' .
                                         (isset($row['SNome_user']) ? $row['SNome_user'] : '') .
