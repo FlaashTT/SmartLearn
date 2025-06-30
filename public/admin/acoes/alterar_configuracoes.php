@@ -1,7 +1,6 @@
 <?php
 include("../../../database/basedados.php");
 include("inserirImagemCat.php");
-session_start();
 require_once("../../popup.php");
 require_once("../../logs.php");
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -114,6 +113,54 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 
+    if (isset($_POST['Cidade']) && $_POST['Cidade'] != $row['Cidade']) {
+        $Cidade = $_POST['Cidade'];
+        $stmt = $conn->prepare("UPDATE configuracoes_site SET Cidade = ? WHERE Id_configuracao = ?");
+        $stmt->bind_param("si", $Cidade, $id_config);
+        if ($stmt->execute()) {
+            $alteracaoFeita = true;
+        } else {
+            $textoErro .= "Erro ao atualizar Cidade. ";
+            $erro = true;
+        }
+    }
+
+    if (isset($_POST['Endereco']) && $_POST['Endereco'] != $row['Endereco']) {
+        $Endereco = $_POST['Endereco'];
+        $stmt = $conn->prepare("UPDATE configuracoes_site SET Endereco = ? WHERE Id_configuracao = ?");
+        $stmt->bind_param("si", $Endereco, $id_config);
+        if ($stmt->execute()) {
+            $alteracaoFeita = true;
+        } else {
+            $textoErro .= "Erro ao atualizar Endereco. ";
+            $erro = true;
+        }
+    }
+
+    if (isset($_POST['Emails']) && $_POST['Emails'] != $row['Emails']) {
+        $Emails = $_POST['Emails'];
+        $stmt = $conn->prepare("UPDATE configuracoes_site SET Emails = ? WHERE Id_configuracao = ?");
+        $stmt->bind_param("si", $Emails, $id_config);
+        if ($stmt->execute()) {
+            $alteracaoFeita = true;
+        } else {
+            $textoErro .= "Erro ao atualizar Emails. ";
+            $erro = true;
+        }
+    }
+
+    if (isset($_POST['Contactos']) && $_POST['Contactos'] != $row['Contactos']) {
+        $Contactos = $_POST['Contactos'];
+        $stmt = $conn->prepare("UPDATE configuracoes_site SET Contactos = ? WHERE Id_configuracao = ?");
+        $stmt->bind_param("si", $Contactos, $id_config);
+        if ($stmt->execute()) {
+            $alteracaoFeita = true;
+        } else {
+            $textoErro .= "Erro ao atualizar Contactos. ";
+            $erro = true;
+        }
+    }
+
     $id_utilizador = $_SESSION['utilizadorOn']['Id_user']; 
     $data = date("Y-m-d H:i:s");
     $stmt = $conn->prepare("UPDATE configuracoes_site SET Id_utilizador_Ultimo_update = ?, data_update = ? WHERE Id_configuracao = ?");
@@ -128,10 +175,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 if (!$erro && $alteracaoFeita) {
 
 
-    mostrarPopUp("Configurações atualizadas com sucesso!",null,"../configuracoes_sistema.php");
+    //mostrarPopUp("Configurações atualizadas com sucesso!",null,"../configuracoes_sistema.php");
     criarLogs("Configurações alteradas",$_SESSION['utilizadorOn']['Id_user']);
 } else if ($erro) {
-    mostrarPopUp($textoErro);
+    //mostrarPopUp($textoErro);
     criarLogs("Erro",$_SESSION['utilizadorOn']['Id_user'],null,null,$novoId,$textoErro,__FILE__);
 }
 

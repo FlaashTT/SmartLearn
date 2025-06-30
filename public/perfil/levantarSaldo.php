@@ -29,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
            
         }
     } else {
-        mostrarPopUp("Tem de inserir um valor valido");
+        mostrarPopUp("Tem de inserir um valor valido",null,"perfil_carteira.php");
         
     }
 } else {

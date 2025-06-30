@@ -86,41 +86,61 @@ include("../logs.php");
                                 <p  style="margin-bottom: 20px;">Feita por: ' . $row['Pnome_user'] . ' ' . $row['Snome_user'] . ' id(' . $row['Id_utilizador_Ultimo_update'] . ') em ' . $row['data_update'] . ' </p>
 
 
+                               <h2>Configuração do Rodapé</h2>
+
+                                <label for="cidade">Cidade:</label>
+                                <input type="text" id="cidade" name="Cidade" value="' . $row['Cidade'] . '" placeholder="Introduza a cidade" />
+
+                                <label for="Endereco">Endereço:</label>
+                                <input type="text" id="Endereco" name="Endereco" value="' . $row['Endereco'] . '" placeholder="Introduza o endereço" />
+
+                                <label for="Email">E-mail do sistema (para múltiplos e-mails, separe com ponto e vírgula):</label>
+                                <input type="text" id="Email" name="Emails" value="' . $row['Emails'] . '" placeholder="Introduza os e-mails" />
+
+                                <label for="Contactos">Contactos do sistema (para múltiplos contactos, separe com ponto e vírgula):</label>
+                                <input type="text" id="Contactos" name="Contactos" value="' . $row['Contactos'] . '" placeholder="Introduza os contactos" />
+
+
+
+
                                 <button class="btn-button" type="submit">Enviar</button>
                             </form>
                     ';
                     } else {
                         criarLogs("Erro", $_SESSION['utilizadorOn']['Id_user'],  null,  null,  null, "Erro ao carregar configurações do sistema", __FILE__);
-                        mostrarPopUp("Erro ao carregar configurações do sistema",null,"admin_base.php");
+                        mostrarPopUp("Erro ao carregar configurações do sistema", null, "admin_base.php");
                     }
 
                     ?>
+
     </div>
+
     </section>
 
+
     </main>
     </main>
     </div>
 
-    
-    
+
+
 
 
 </body>
 
- <script>
-        document.querySelectorAll('.has-submenu').forEach(item => {
-            item.addEventListener('click', () => {
-                // Alterna a classe "open" no item clicado
-                item.classList.toggle('open');
-            });
+<script>
+    document.querySelectorAll('.has-submenu').forEach(item => {
+        item.addEventListener('click', () => {
+            // Alterna a classe "open" no item clicado
+            item.classList.toggle('open');
         });
-        document.querySelectorAll('.has-submenu-a').forEach(item => {
-            item.addEventListener('click', e => {
-                e.stopPropagation(); // Impede que o clique propague para outros menus
-                item.classList.toggle('open');
-            });
+    });
+    document.querySelectorAll('.has-submenu-a').forEach(item => {
+        item.addEventListener('click', e => {
+            e.stopPropagation(); // Impede que o clique propague para outros menus
+            item.classList.toggle('open');
         });
-    </script>
+    });
+</script>
 
 </html>
