@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 30-Jun-2025 às 16:29
+-- Tempo de geração: 30-Jun-2025 às 16:35
 -- Versão do servidor: 10.4.32-MariaDB
 -- versão do PHP: 8.2.12
 
@@ -645,14 +645,6 @@ INSERT INTO `logs_sistema` (`Id_log`, `Id_user`, `Id_curso`, `Descricao_log`, `T
 (404, 32, NULL, 'Foi levantado saldo no valor de 99999926 € euros', 'Levantamento de saldo', '2025-06-30 15:18:42', 99999926, NULL, NULL),
 (405, 32, NULL, 'Foi depositado na conta o valor de 9999€ euros', 'Deposito de saldo', '2025-06-30 15:19:26', 9999, NULL, NULL),
 (406, 32, NULL, 'Foi levantado saldo no valor de 10 € euros', 'Levantamento de saldo', '2025-06-30 15:19:32', 10, NULL, NULL);
-
--- --------------------------------------------------------
-
---
--- Estrutura da tabela `midia`
---
--- Erro ao ler a estrutura para a tabela smartlearndb.midia: #1932 - Table &#039;smartlearndb.midia&#039; doesn&#039;t exist in engine
--- Erro ao ler dados para tabela smartlearndb.midia: #1064 - Você tem um erro de sintaxe no seu SQL próximo a &#039;FROM `smartlearndb`.`midia`&#039; na linha 1
 
 -- --------------------------------------------------------
 
