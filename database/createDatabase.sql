@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 30-Jun-2025 às 15:18
+-- Tempo de geração: 30-Jun-2025 às 16:29
 -- Versão do servidor: 10.4.32-MariaDB
 -- versão do PHP: 8.2.12
 
@@ -76,6 +76,10 @@ CREATE TABLE IF NOT EXISTS `configuracoes_site` (
   `cookie_note` varchar(200) DEFAULT NULL,
   `politica_cookies` text DEFAULT NULL,
   `data_update` datetime DEFAULT NULL,
+  `Cidade` text NOT NULL,
+  `Endereco` text NOT NULL,
+  `Emails` text NOT NULL,
+  `Contactos` text NOT NULL,
   PRIMARY KEY (`Id_configuracao`),
   KEY `fk_idUpdater` (`Id_utilizador_Ultimo_update`)
 ) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -84,8 +88,8 @@ CREATE TABLE IF NOT EXISTS `configuracoes_site` (
 -- Extraindo dados da tabela `configuracoes_site`
 --
 
-INSERT INTO `configuracoes_site` (`Id_configuracao`, `Titulo_banner`, `Subtitulo_banner`, `Facebook`, `Linkedin`, `Id_utilizador_Ultimo_update`, `Cookies_status`, `cookie_note`, `politica_cookies`, `data_update`) VALUES
-(1, 'Título exemplo', 'Subtítulo exemplo', 'https://facebook.com/seuPerfil', 'https://linkedin.com/in/seuPerfil', 32, NULL, NULL, NULL, NULL);
+INSERT INTO `configuracoes_site` (`Id_configuracao`, `Titulo_banner`, `Subtitulo_banner`, `Facebook`, `Linkedin`, `Id_utilizador_Ultimo_update`, `Cookies_status`, `cookie_note`, `politica_cookies`, `data_update`, `Cidade`, `Endereco`, `Emails`, `Contactos`) VALUES
+(1, 'Título exemplo', 'Subtítulo exemplo', 'https://facebook.com/seuPerfil', 'https://linkedin.com/in/seuPerfil', 32, 'ativo', 'nota ', NULL, '2025-06-30 16:03:16', 'covilhã', 'Rua do teste,6200-501', 'ruben_pinheiro@pt.softintinsa.com;leandro_pinto@pt.softintinsa.com', '123456789;987654321');
 
 -- --------------------------------------------------------
 
@@ -321,7 +325,7 @@ CREATE TABLE IF NOT EXISTS `logs_sistema` (
   PRIMARY KEY (`Id_log`),
   KEY `Id_user` (`Id_user`),
   KEY `fk_logs_curso` (`Id_curso`)
-) ENGINE=InnoDB AUTO_INCREMENT=403 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=407 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Extraindo dados da tabela `logs_sistema`
@@ -636,7 +640,11 @@ INSERT INTO `logs_sistema` (`Id_log`, `Id_user`, `Id_curso`, `Descricao_log`, `T
 (399, 32, 41, 'Foi removida fase do curso: 41 pelo administrador com Id: 32', 'Fase removida', '2025-06-27 17:19:16', NULL, NULL, NULL),
 (400, 32, 41, 'O administrador com id 32 alterou o conteúdo do curso 41', 'Conteudo curso alterado', '2025-06-27 17:19:22', NULL, NULL, NULL),
 (401, 32, 41, 'O administrador com id 32 alterou o conteúdo do curso 41', 'Conteudo curso alterado', '2025-06-27 17:19:53', NULL, NULL, NULL),
-(402, 32, 41, 'O administrador com id 32 alterou o conteúdo do curso 41', 'Conteudo curso alterado', '2025-06-27 17:20:24', NULL, NULL, NULL);
+(402, 32, 41, 'O administrador com id 32 alterou o conteúdo do curso 41', 'Conteudo curso alterado', '2025-06-27 17:20:24', NULL, NULL, NULL),
+(403, 32, NULL, 'Foi levantado saldo no valor de 10 € euros', 'Levantamento de saldo', '2025-06-30 15:18:29', 10, NULL, NULL),
+(404, 32, NULL, 'Foi levantado saldo no valor de 99999926 € euros', 'Levantamento de saldo', '2025-06-30 15:18:42', 99999926, NULL, NULL),
+(405, 32, NULL, 'Foi depositado na conta o valor de 9999€ euros', 'Deposito de saldo', '2025-06-30 15:19:26', 9999, NULL, NULL),
+(406, 32, NULL, 'Foi levantado saldo no valor de 10 € euros', 'Levantamento de saldo', '2025-06-30 15:19:32', 10, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -732,7 +740,7 @@ CREATE TABLE IF NOT EXISTS `user` (
 --
 
 INSERT INTO `user` (`Id_user`, `PNome_user`, `SNome_user`, `Estado_conta`, `Biografia`, `Password`, `Data_criacao`, `Email`, `Tipo_user`, `Carteira`, `URL_facebook`, `URL_youtube`, `URL_linkedin`, `URL_foto_perfilUser`, `Estado_cookies_user`) VALUES
-(32, 'Ruben', 'Bras', 'Ativo', 'teste', '03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4', '2025-04-02', 'vb@gmail.com', 'Admin', 99999936.02, 'testeee', 'teste', 'test', 'fotoPerfil_32.png', 'Aceite'),
+(32, 'Ruben', 'Bras', 'Ativo', 'teste', '03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4', '2025-04-02', 'vb@gmail.com', 'Admin', 9989.02, 'testeee', 'teste', 'test', 'fotoPerfil_32.png', 'Aceite'),
 (39, 'teste', 'teste', 'Ativo', NULL, '6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b', '2025-04-15', 'teste@gmail.com', 'Cliente', 77.01, NULL, NULL, NULL, NULL, 'Nao aceite'),
 (40, 'ana', 'gomes', 'Ativo', NULL, 'senha123', '2024-01-10', 'ana.gomes@example.com', 'Cliente', 0.00, NULL, NULL, NULL, NULL, 'Nao aceite'),
 (41, 'Bruno', 'Ferreiras', 'Ativo', NULL, '123bruno', '2024-02-15', 'bruno.ferreira@example.com', 'Main-admin', 0.00, NULL, NULL, NULL, NULL, 'Nao aceite'),
