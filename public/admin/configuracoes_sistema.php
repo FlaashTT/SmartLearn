@@ -82,10 +82,6 @@ include("../logs.php");
                                 <label for="politicaCookies">Política de cookies:</label>
                                 <textarea id="politicaCookies" name="politicaCookies" placeholder="Escreve a política de cookies..." maxlength="1000">' . $row['politica_cookies'] . '</textarea>
 
-                                <p>Última atualização:</p>
-                                <p  style="margin-bottom: 20px;">Feita por: ' . $row['Pnome_user'] . ' ' . $row['Snome_user'] . ' id(' . $row['Id_utilizador_Ultimo_update'] . ') em ' . $row['data_update'] . ' </p>
-
-
                                <h2>Configuração do Rodapé</h2>
 
                                 <label for="cidade">Cidade:</label>
@@ -100,7 +96,8 @@ include("../logs.php");
                                 <label for="Contactos">Contactos do sistema (para múltiplos contactos, separe com ponto e vírgula):</label>
                                 <input type="text" id="Contactos" name="Contactos" value="' . $row['Contactos'] . '" placeholder="Introduza os contactos" />
 
-
+                                <p>Última atualização:</p>
+                                <p  style="margin-bottom: 20px;">Feita por: ' . $row['Pnome_user'] . ' ' . $row['Snome_user'] . ' id(' . $row['Id_utilizador_Ultimo_update'] . ') em ' . $row['data_update'] . ' </p>
 
 
                                 <button class="btn-button" type="submit">Enviar</button>
