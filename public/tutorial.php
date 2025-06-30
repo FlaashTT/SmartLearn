@@ -1,6 +1,6 @@
 <?php
 session_start();
-
+include("../database/basedados.php");
 ?>
 
 <!DOCTYPE html>
@@ -134,7 +134,7 @@ session_start();
                     </li>
                 </ul>
                 <img
-                    src="/assets/image/tutorial/Curso-conteudo.png"
+                    src="../assets/image/tutorial/Curso-conteudo.png"
                     alt="Criar Conta"
                     style="max-width: 100%; border-radius: 8px; margin-bottom: 15px" />
                 <ul>

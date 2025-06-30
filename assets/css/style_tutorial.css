@@ -123,6 +123,7 @@
 
 .accordion-item.active .accordion-content {
   display: block;
+  max-height: 1000px;
 }
 .suporte-lista {
   list-style: none;
