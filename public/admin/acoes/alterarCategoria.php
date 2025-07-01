@@ -1,6 +1,5 @@
 
 <?php
-session_start();
 include("../../../database/basedados.php");
 include("inserirImagemCat.php");
 require_once("../../popup.php");
