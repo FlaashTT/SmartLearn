@@ -115,6 +115,7 @@ $cursoComprado = false;
       <main class="container-c">
         <section class="curso-info">
           <?php
+          if(isset($row['Progresso'])){
           if ($row['Progresso'] == "Concluido") {
            
             echo '
@@ -164,6 +165,7 @@ $cursoComprado = false;
                     </form>
                 ';
           }
+        }
           ?>
           <?php
           echo '<h1>' . $row['Nome_curso'] . '</h1>';

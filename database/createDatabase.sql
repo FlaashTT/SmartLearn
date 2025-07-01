@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 30-Jun-2025 às 16:35
+-- Tempo de geração: 01-Jul-2025 às 15:48
 -- Versão do servidor: 10.4.32-MariaDB
 -- versão do PHP: 8.2.12
 
@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS `carrinho_compras` (
   PRIMARY KEY (`Id_carrinho`),
   KEY `Id_user` (`Id_user`),
   KEY `Id_curso` (`Id_curso`)
-) ENGINE=InnoDB AUTO_INCREMENT=75 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=81 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -49,7 +49,7 @@ CREATE TABLE IF NOT EXISTS `categoria` (
   `Nome_cat` varchar(50) NOT NULL,
   `Miniatura_cat` varchar(40) NOT NULL,
   PRIMARY KEY (`Id_categoria`)
-) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Extraindo dados da tabela `categoria`
@@ -57,7 +57,8 @@ CREATE TABLE IF NOT EXISTS `categoria` (
 
 INSERT INTO `categoria` (`Id_categoria`, `Nome_cat`, `Miniatura_cat`) VALUES
 (30, 'Programação', 'miniatura_cat30.png'),
-(33, 'Eletronica', '');
+(33, 'Eletronica', 'miniatura_cat33.png'),
+(34, 'Video jogos', 'miniatura_cat34.png');
 
 -- --------------------------------------------------------
 
@@ -123,20 +124,19 @@ CREATE TABLE IF NOT EXISTS `curso` (
   KEY `Id_categoria` (`Id_categoria`),
   KEY `Criador_curso` (`Criador_curso`),
   KEY `fk_idioma` (`Id_idioma`)
-) ENGINE=InnoDB AUTO_INCREMENT=46 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=50 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Extraindo dados da tabela `curso`
 --
 
 INSERT INTO `curso` (`Id_curso`, `Nome_curso`, `Id_categoria`, `Id_idioma`, `Criador_curso`, `Data_criacao`, `URL_foto_perfil_curso`, `Pequena_descricao`, `Descricao`, `Preco`, `Preco_antigo`, `Estado_curso`, `Classificacao`, `Num_visitascurso`, `Tempo_estimado`, `Dificuldade`, `Quantidade_fases`, `Requisitos`, `Provedor_geral_curso`, `URL_geral_curso`, `Keywords`) VALUES
-(23, 'Como fazer um cronometro', 30, 1, 32, '2025-06-25', 'curso_id23.png', 'Cronometro em android Studio', 'Como fazer uma sdfaplicação de um cronometro para telemovel usando java e android Studio', 9.99, 19.99, 'ativo', 2, 61, '00:15:00', 'Iniciante', 0, 'dfg', 'conta_proria', '', ''),
-(40, 'testefgh', 30, 1, 32, '2025-06-25', NULL, 'dafg', 'dafg', 50.00, 0.00, 'Eliminado', 0, 0, '01:00:00', 'Iniciante', 0, 'adfg', 'youtube', '', ''),
-(41, 'test', NULL, 2, 32, '2025-06-25', NULL, '', '', 0.00, 0.00, 'Incompleto', 0, 0, '00:00:00', '', 0, '', '', NULL, ''),
-(42, 'test', NULL, 2, 32, '2025-06-25', NULL, '', '', 0.00, 0.00, 'Eliminado', 0, 0, '00:00:00', '', 0, '', '', NULL, ''),
-(43, 'testando mais 1sdf', 30, 3, 32, '2025-06-25', NULL, '', 'sdfxcv', 333.00, 0.00, 'Eliminado', 0, 0, '01:00:00', 'avançado', 0, 'sdfsdsdxcsdf', 'tiktok', 'nmbnv', ''),
-(44, 'sdf', NULL, 3, 32, '2025-06-25', NULL, '', '', 0.00, 0.00, 'ativo', 0, 11, '00:00:00', '', 0, 'sdfsd', '', NULL, ''),
-(45, 'Fazer um circuito pisca pisca', 33, 1, 32, '2025-06-26', 'curso_id45.png', '', 'Como fazer um circuito pisca pisca com eletronica utilizando um ne555', 0.00, 0.00, 'ativo', 3, 76, '00:10:00', 'Iniciante', 0, '', 'conta_proria', '', '');
+(23, 'Como fazer um cronometro', 30, 1, 32, '2025-06-25', 'curso_id23.png', 'Cronometro em android Studio', 'Como fazer uma sdfaplicação de um cronometro para telemovel usando java e android Studio', 9.99, 19.99, 'ativo', 2, 64, '00:15:00', 'Iniciante', 0, 'dfg', 'conta_proria', '', ''),
+(45, 'Fazer um circuito pisca pisca', 33, 1, 32, '2025-06-26', 'curso_id45.png', '', 'Como fazer um circuito pisca pisca com eletronica utilizando um ne555', 0.00, 0.00, 'ativo', 3, 79, '00:10:00', 'Iniciante', 0, '', 'conta_proria', '', ''),
+(46, 'Stardew valey', 34, 1, 32, '2025-07-01', 'curso_id46.png', '', 'Este é um curso sobre a explicação basica do jogo Stardew valey onde se fala sobre os principios do jogo', 0.00, 0.00, 'ativo', 0, 5, '00:10:00', 'Iniciante', 0, '', 'conta_proria', '', ''),
+(47, 'Como diminuir os FPS no Fivem', 34, 1, 32, '2025-07-01', 'curso_id47.png', '', 'Curso destinado a jogadores de FIVEM que têm problemas com os Fps durante o jogo no FIvem seja por ter um computador mais fraco ou entao por muito consumo por parte do FIVEM', 0.00, 0.00, 'ativo', 0, 4, '00:10:00', 'Iniciante', 0, '', 'conta_proria', '', ''),
+(48, 'Como fazer o jogo do galo', 30, 1, 32, '2025-07-01', 'curso_id48.png', 'Realização do jogo do galo em java', 'Este curso ensina o passo a passo de forma explicativa como fazer o jogo do galo em java ', 0.00, 0.00, 'ativo', 0, 3, '00:10:00', 'intermedio', 0, '', 'conta_proria', '', ''),
+(49, 'Tutorial do champion Sett do LOL', 34, 1, 32, '2025-07-01', 'curso_id49.png', 'Tutorial do Sett de como jogar com o Sett', 'Detalhando as melhores runas, itens para comprar e mais informações acerca do mesmo', 0.00, 0.00, 'ativo', 0, 2, '00:10:00', 'Iniciante', 0, '', 'conta_proria', '', '');
 
 -- --------------------------------------------------------
 
@@ -159,38 +159,19 @@ CREATE TABLE IF NOT EXISTS `cursos_adquiridos` (
   KEY `fk_curso` (`Id_curso`),
   KEY `fk_user` (`Id_user`),
   KEY `fk_addPor` (`AdicionadoPor`)
-) ENGINE=InnoDB AUTO_INCREMENT=46 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=52 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Extraindo dados da tabela `cursos_adquiridos`
 --
 
 INSERT INTO `cursos_adquiridos` (`Id_adquirido`, `Id_user`, `Id_curso`, `Data_compra`, `Progresso`, `Percentagem_progresso`, `AdicionadoPor`, `Notas`, `Avaliacao`, `Data_conclusao`) VALUES
-(2, 39, 5, '0000-00-00', 'Iniciado', 0, 39, NULL, NULL, NULL),
-(3, 39, 6, '0000-00-00', 'Iniciado', 0, 32, NULL, NULL, NULL),
-(4, 39, 7, '0000-00-00', 'Iniciado', 0, 32, NULL, NULL, NULL),
-(5, 39, 8, '0000-00-00', 'Iniciado', 0, 32, NULL, NULL, NULL),
-(6, 39, 9, '0000-00-00', 'Iniciado', 0, 32, NULL, NULL, NULL),
-(7, 39, 10, '0000-00-00', 'Iniciado', 0, 39, NULL, NULL, NULL),
-(8, 39, 11, '0000-00-00', 'Iniciado', 0, 32, NULL, NULL, NULL),
-(9, 39, 13, '0000-00-00', 'Iniciado', 0, 32, NULL, 2, NULL),
-(10, 32, 13, '0000-00-00', 'Concluido', 80, 32, 'mas este nao', 3, NULL),
-(20, 32, 2, '2025-06-05', 'Concluido', 100, NULL, NULL, NULL, NULL),
-(21, 40, 2, '2025-06-05', 'Por Iniciar', 0, NULL, NULL, NULL, NULL),
-(22, 39, 2, '2025-06-05', 'Por Iniciar', 0, NULL, NULL, NULL, NULL),
-(23, 41, 2, '2025-06-05', 'Por Iniciar', 0, NULL, NULL, NULL, NULL),
-(24, 42, 2, '2025-06-05', 'Por Iniciar', 0, NULL, NULL, NULL, NULL),
-(25, 43, 2, '2025-06-05', 'Por Iniciar', 0, NULL, NULL, NULL, NULL),
-(26, 44, 2, '2025-06-05', 'Por Iniciar', 0, NULL, NULL, NULL, NULL),
-(27, 45, 2, '2025-06-05', 'Por Iniciar', 0, NULL, NULL, NULL, NULL),
-(28, 46, 2, '2025-06-05', 'Por Iniciar', 0, 32, NULL, NULL, NULL),
-(30, 47, 2, '2025-06-05', 'Por Iniciar', 0, 32, NULL, NULL, NULL),
-(31, 40, 5, '2025-06-05', 'Por Iniciar', 0, 32, NULL, NULL, NULL),
-(32, 32, 22, '2025-06-17', 'Concluido', 100, NULL, NULL, NULL, NULL),
-(33, 32, 5, '2025-06-17', 'Concluido', 100, NULL, NULL, NULL, NULL),
-(41, 78, 23, '2025-06-26', 'Iniciado', 0, NULL, NULL, NULL, NULL),
-(43, 32, 23, '2025-06-26', 'Concluido', 100, 32, '', NULL, NULL),
-(44, 32, 45, '2025-06-26', 'Concluido', 100, NULL, 'est a a atualiza sozinho', 3, '2025-06-27');
+(46, 32, 46, '2025-07-01', 'Concluido', 100, NULL, '', NULL, '2025-07-01'),
+(47, 32, 47, '2025-07-01', 'Concluido', 100, NULL, '', NULL, '2025-07-01'),
+(48, 32, 48, '2025-07-01', 'Concluido', 100, NULL, '', NULL, '2025-07-01'),
+(49, 32, 23, '2025-07-01', 'Concluido', 100, NULL, '', NULL, '2025-07-01'),
+(50, 32, 45, '2025-07-01', 'Concluido', 100, NULL, '', NULL, '2025-07-01'),
+(51, 32, 49, '2025-07-01', 'Concluido', 100, NULL, '', NULL, '2025-07-01');
 
 -- --------------------------------------------------------
 
@@ -229,7 +210,7 @@ CREATE TABLE IF NOT EXISTS `fase` (
   `video` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`Id_fase`),
   KEY `Id_curso` (`Id_curso`)
-) ENGINE=InnoDB AUTO_INCREMENT=67 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=77 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Extraindo dados da tabela `fase`
@@ -240,10 +221,20 @@ INSERT INTO `fase` (`Id_fase`, `Id_curso`, `Num_fase`, `Titulo_fase`, `Conteudo_
 (26, 23, 2, 'Realizar o cronometro', 'Com a visualização do conteudo audiovisual deve conseguir realizar o cronometro', 'Imagem_fase2_curso23.png', 'video_fase2_curso23.mp4'),
 (40, 45, 1, 'Introdução', 'Neste curso ira aprender como montar um circuito pisca pisca com um Ne555 utilizando apenas eletronica.\r\nTodos os componentes utilizados seram descritos\r\nTanto em um meio virtual como um meio fisico', '', ''),
 (41, 45, 2, 'Materiais necessarios', 'Tem na imagem todos os componentes necessarios para a montagem', 'Imagem_fase2_curso45.png', ''),
-(42, 45, 3, 'Valores dos materiais', 'Resistencia variavel: 47kΩ(ohms).\nCapacitor polarizado : 100 µF(miroFarads).\nResistencias de 1kΩ(ohms), 220Ω(ohms), 330Ω(ohms).\nBateria de 9 volts.', '', ''),
+(42, 45, 3, 'Valores dos materiais', 'Resistencia variavel: 47kΩ(ohms).\r\nCapacitor polarizado : 100 µF(miroFarads).\r\nResistencias de 1kΩ(ohms), 220Ω(ohms), 330Ω(ohms).\r\nBateria de 9 volts.', '', ''),
 (43, 45, 4, 'Exibição do video ', 'Agora com o video explicativo demonstrando todos os passos consegue realizar a montagem do seu circuito tanto virtualmente como fisicamente', '', 'video_fase4_curso45.mp4'),
 (62, 41, 1, 'f1', '', 'Imagem_fase1_curso41.png', 'video_fase1_curso41.mp4'),
-(66, 41, 2, 'f2', '', '', '');
+(66, 41, 2, 'f2', '', '', ''),
+(67, 46, 1, 'Introdução', 'Este curso foi criado devido á forte fama que o jogo ganhou e com o surgimento de questões sobre o mesmo fiz este curso para tentar esclarecer.', '', ''),
+(68, 46, 2, 'Sobre o jogo', 'Um jogo com foco na agricultura, pesca e mineração tendo que gerir a quinta deixada pelo seu avô e com uma historia por tras interessante surgem algumas missoes propostas por pessoas da aldeia proxima á quinta que deixam algumas duvidas aos jogados novatos', '', ''),
+(69, 46, 3, 'Video explicativo', 'Com o video espero que consiga compreender melhor alguns aspetos do jogo em si', '', 'video_fase3_curso46.mp4'),
+(70, 47, 1, 'Introdução', 'Apos algum tempo de jogo reparei que varios jogadores tiveram dificuldade em ter uma quantidade de FPS estaveis principalmente em computadores mais fracos, por isso decidi ir atras de como podia resolver esse problema ', '', ''),
+(71, 47, 2, 'Video explicativo', 'Com alguns passos detalhados no video deve ajudar a ter uma estabilidade de fps melhor', '', 'video_fase2_curso47.mp4'),
+(72, 48, 1, 'Introdução', 'Neste curso pretendo demonstrar como fazer um jogo do galo funcional utilizando java e o programa processing ', '', ''),
+(73, 48, 2, 'Video explicativo', 'Video autoexplicativo sobre como fazer o jogo do galo', '', 'video_fase2_curso48.mp4'),
+(74, 49, 1, 'Introdução', 'Sett é um champion muito utilizado por varios jogadores de League of legends,muitos iniciantes sentem dificuldades em começar a jogar com o mesmo por isso e por tambem gostar de jogar com ele fiz este curso sobre o mesmo', '', ''),
+(75, 49, 2, 'Mais informações', 'Neste curso irei falar sobre como jogar com ele na Lane top, que é a mais frequente dele,irei falar das runas,habilidades,a passiva do mesmo, spells e itens a comprar durante o jogo', '', ''),
+(76, 49, 3, 'Video explicativo', 'Com o video espero que tenha sido util para começar a jogar com o mesmo', '', 'video_fase3_curso49.mp4');
 
 -- --------------------------------------------------------
 
@@ -260,7 +251,7 @@ CREATE TABLE IF NOT EXISTS `historico_compras` (
   PRIMARY KEY (`Id_historicoCompras`),
   KEY `Id_user` (`Id_user`),
   KEY `fk_id_curso` (`Id_curso`)
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Extraindo dados da tabela `historico_compras`
@@ -283,7 +274,13 @@ INSERT INTO `historico_compras` (`Id_historicoCompras`, `Id_user`, `Data_compra`
 (21, 78, '2025-06-25', 'reembolsado', 23),
 (22, 78, '2025-06-26', 'carteira', 23),
 (23, 32, '2025-06-26', 'carteira', 45),
-(24, 32, '2025-06-26', 'reembolsado', 44);
+(24, 32, '2025-06-26', 'reembolsado', 44),
+(25, 32, '2025-07-01', 'carteira', 46),
+(26, 32, '2025-07-01', 'carteira', 47),
+(27, 32, '2025-07-01', 'carteira', 48),
+(28, 32, '2025-07-01', 'carteira', 23),
+(29, 32, '2025-07-01', 'carteira', 45),
+(30, 32, '2025-07-01', 'carteira', 49);
 
 -- --------------------------------------------------------
 
@@ -325,7 +322,7 @@ CREATE TABLE IF NOT EXISTS `logs_sistema` (
   PRIMARY KEY (`Id_log`),
   KEY `Id_user` (`Id_user`),
   KEY `fk_logs_curso` (`Id_curso`)
-) ENGINE=InnoDB AUTO_INCREMENT=407 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=436 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Extraindo dados da tabela `logs_sistema`
@@ -644,7 +641,37 @@ INSERT INTO `logs_sistema` (`Id_log`, `Id_user`, `Id_curso`, `Descricao_log`, `T
 (403, 32, NULL, 'Foi levantado saldo no valor de 10 € euros', 'Levantamento de saldo', '2025-06-30 15:18:29', 10, NULL, NULL),
 (404, 32, NULL, 'Foi levantado saldo no valor de 99999926 € euros', 'Levantamento de saldo', '2025-06-30 15:18:42', 99999926, NULL, NULL),
 (405, 32, NULL, 'Foi depositado na conta o valor de 9999€ euros', 'Deposito de saldo', '2025-06-30 15:19:26', 9999, NULL, NULL),
-(406, 32, NULL, 'Foi levantado saldo no valor de 10 € euros', 'Levantamento de saldo', '2025-06-30 15:19:32', 10, NULL, NULL);
+(406, 32, NULL, 'Foi levantado saldo no valor de 10 € euros', 'Levantamento de saldo', '2025-06-30 15:19:32', 10, NULL, NULL),
+(407, 32, NULL, 'Foi criada uma nova categoria34pelo administador com id: 32', '', '2025-07-01 12:27:32', NULL, NULL, NULL),
+(408, 32, NULL, 'A categoria 33 foi alterada', '', '2025-07-01 12:29:53', NULL, NULL, NULL),
+(409, 32, NULL, 'Ocorreu um erro: Imagem antiga não encontrada. no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\admin\\acoes\\alterarCategoria.php', 'Erro', '2025-07-01 12:31:12', NULL, NULL, 'C:\\xampp\\htdocs\\SmartLearn\\public\\admin\\acoes\\alterarCategoria.php');
+INSERT INTO `logs_sistema` (`Id_log`, `Id_user`, `Id_curso`, `Descricao_log`, `Tipo_log`, `Data_log`, `saldo`, `idUserAlterado`, `Ficheiro`) VALUES
+(410, 32, NULL, 'Ocorreu um erro: Imagem antiga não encontrada. no ficheiro :C:\\xampp\\htdocs\\SmartLearn\\public\\admin\\acoes\\alterarCategoria.php', 'Erro', '2025-07-01 12:31:27', NULL, NULL, 'C:\\xampp\\htdocs\\SmartLearn\\public\\admin\\acoes\\alterarCategoria.php'),
+(411, 32, NULL, 'A categoria 30 foi alterada', '', '2025-07-01 12:32:23', NULL, NULL, NULL),
+(412, 32, 46, 'Foi adicionado um novo curso(46) pelo administrador com ID: 32', '', '2025-07-01 12:33:14', NULL, NULL, NULL),
+(413, 32, 47, 'Foi adicionado um novo curso(47) pelo administrador com ID: 32', '', '2025-07-01 12:34:34', NULL, NULL, NULL),
+(414, 32, 46, 'O administrador com id 32 alterou o conteúdo do curso 46', 'Conteudo curso alterado', '2025-07-01 12:47:12', NULL, NULL, NULL),
+(415, 32, 47, 'O administrador com id 32 alterou o conteúdo do curso 47', 'Conteudo curso alterado', '2025-07-01 12:48:12', NULL, NULL, NULL),
+(416, 32, 48, 'Foi adicionado um novo curso(48) pelo administrador com ID: 32', '', '2025-07-01 12:54:14', NULL, NULL, NULL),
+(417, 32, 48, 'O administrador com id 32 alterou o conteúdo do curso 48', 'Conteudo curso alterado', '2025-07-01 12:56:15', NULL, NULL, NULL),
+(418, 32, 49, 'Foi adicionado um novo curso(49) pelo administrador com ID: 32', '', '2025-07-01 12:59:46', NULL, NULL, NULL),
+(419, 32, 49, 'O administrador com id 32 alterou o conteúdo do curso 49', 'Conteudo curso alterado', '2025-07-01 13:01:18', NULL, NULL, NULL),
+(420, 32, 48, 'Foram alteradas informações do curso com id48', 'Alteração de curso', '2025-07-01 13:01:41', NULL, NULL, NULL),
+(421, 32, 49, 'Foram alteradas informações do curso com id49', 'Alteração de curso', '2025-07-01 13:01:53', NULL, NULL, NULL),
+(422, 32, 49, 'Foram alteradas informações do curso com id49', 'Alteração de curso', '2025-07-01 13:02:07', NULL, NULL, NULL),
+(423, 32, 46, 'Foram alteradas informações do curso com id46', 'Alteração de curso', '2025-07-01 13:02:18', NULL, NULL, NULL),
+(424, 32, 47, 'Foram alteradas informações do curso com id47', 'Alteração de curso', '2025-07-01 13:02:29', NULL, NULL, NULL),
+(425, 32, 48, 'Foram alteradas informações do curso com id48', 'Alteração de curso', '2025-07-01 13:04:23', NULL, NULL, NULL),
+(426, 32, 46, 'O administrador com id 32 alterou o conteúdo do curso 46', 'Conteudo curso alterado', '2025-07-01 14:28:49', NULL, NULL, NULL),
+(427, 32, 47, 'O administrador com id 32 alterou o conteúdo do curso 47', 'Conteudo curso alterado', '2025-07-01 14:31:11', NULL, NULL, NULL),
+(428, 32, NULL, 'O utilizador realizou uma compra no valor de 12.2877 €', 'Compra curso', '2025-07-01 14:33:28', 12.287700000000001, NULL, NULL),
+(429, 32, 46, 'O administrador com id 32 alterou o conteúdo do curso 46', 'Conteudo curso alterado', '2025-07-01 14:34:29', NULL, NULL, NULL),
+(430, 32, 47, 'O administrador com id 32 alterou o conteúdo do curso 47', 'Conteudo curso alterado', '2025-07-01 14:35:55', NULL, NULL, NULL),
+(431, 32, 48, 'O administrador com id 32 alterou o conteúdo do curso 48', 'Conteudo curso alterado', '2025-07-01 14:37:06', NULL, NULL, NULL),
+(432, 32, 23, 'O administrador com id 32 alterou o conteúdo do curso 23', 'Conteudo curso alterado', '2025-07-01 14:38:17', NULL, NULL, NULL),
+(433, 32, 45, 'O administrador com id 32 alterou o conteúdo do curso 45', 'Conteudo curso alterado', '2025-07-01 14:39:52', NULL, NULL, NULL),
+(434, 32, 49, 'O administrador com id 32 alterou o conteúdo do curso 49', 'Conteudo curso alterado', '2025-07-01 14:41:12', NULL, NULL, NULL),
+(435, 32, 49, 'O administrador com id 32 alterou o conteúdo do curso 49', 'Conteudo curso alterado', '2025-07-01 14:45:24', NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -732,7 +759,7 @@ CREATE TABLE IF NOT EXISTS `user` (
 --
 
 INSERT INTO `user` (`Id_user`, `PNome_user`, `SNome_user`, `Estado_conta`, `Biografia`, `Password`, `Data_criacao`, `Email`, `Tipo_user`, `Carteira`, `URL_facebook`, `URL_youtube`, `URL_linkedin`, `URL_foto_perfilUser`, `Estado_cookies_user`) VALUES
-(32, 'Ruben', 'Bras', 'Ativo', 'teste', '03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4', '2025-04-02', 'vb@gmail.com', 'Admin', 9989.02, 'testeee', 'teste', 'test', 'fotoPerfil_32.png', 'Aceite'),
+(32, 'Ruben', 'Bras', 'Ativo', 'teste', '03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4', '2025-04-02', 'vb@gmail.com', 'Admin', 9976.73, 'testeee', 'teste', 'test', 'fotoPerfil_32.png', 'Aceite'),
 (39, 'teste', 'teste', 'Ativo', NULL, '6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b', '2025-04-15', 'teste@gmail.com', 'Cliente', 77.01, NULL, NULL, NULL, NULL, 'Nao aceite'),
 (40, 'ana', 'gomes', 'Ativo', NULL, 'senha123', '2024-01-10', 'ana.gomes@example.com', 'Cliente', 0.00, NULL, NULL, NULL, NULL, 'Nao aceite'),
 (41, 'Bruno', 'Ferreiras', 'Ativo', NULL, '123bruno', '2024-02-15', 'bruno.ferreira@example.com', 'Main-admin', 0.00, NULL, NULL, NULL, NULL, 'Nao aceite'),
@@ -775,29 +802,6 @@ ALTER TABLE `configuracoes_site`
 ALTER TABLE `curso`
   ADD CONSTRAINT `fk_categoria` FOREIGN KEY (`Id_categoria`) REFERENCES `categoria` (`Id_categoria`),
   ADD CONSTRAINT `fk_idioma` FOREIGN KEY (`Id_idioma`) REFERENCES `idioma` (`Id_idioma`);
-
---
--- Limitadores para a tabela `cursos_adquiridos`
---
-ALTER TABLE `cursos_adquiridos`
-  ADD CONSTRAINT `cursos_adquiridos_ibfk_1` FOREIGN KEY (`Id_user`) REFERENCES `user` (`Id_user`),
-  ADD CONSTRAINT `cursos_adquiridos_ibfk_2` FOREIGN KEY (`Id_curso`) REFERENCES `curso` (`Id_curso`),
-  ADD CONSTRAINT `fk_addPor` FOREIGN KEY (`AdicionadoPor`) REFERENCES `user` (`Id_user`),
-  ADD CONSTRAINT `fk_adicionadoPor` FOREIGN KEY (`AdicionadoPor`) REFERENCES `user` (`Id_user`),
-  ADD CONSTRAINT `fk_curso` FOREIGN KEY (`Id_curso`) REFERENCES `curso` (`Id_curso`),
-  ADD CONSTRAINT `fk_user` FOREIGN KEY (`Id_user`) REFERENCES `user` (`Id_user`);
-
---
--- Limitadores para a tabela `fase`
---
-ALTER TABLE `fase`
-  ADD CONSTRAINT `fk_fase_curso` FOREIGN KEY (`Id_curso`) REFERENCES `curso` (`Id_curso`);
-
---
--- Limitadores para a tabela `logs_sistema`
---
-ALTER TABLE `logs_sistema`
-  ADD CONSTRAINT `fk_logs_curso` FOREIGN KEY (`Id_curso`) REFERENCES `curso` (`Id_curso`) ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
