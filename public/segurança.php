@@ -1,5 +1,5 @@
 <?php
-ini_set('log_errors', 1);          // Ativa o registro de erros
+
 
 include("../../database/basedados.php");
 
