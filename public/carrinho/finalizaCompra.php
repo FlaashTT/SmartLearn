@@ -26,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 }
             </script>
             ';
-            exit;  // Sai aqui porque o saldo é insuficiente
+            exit;  // para aqui porque o saldo é insuficiente
         } else {
             $preco = (float) $preco;
             $saldoFinal = $saldoConta - $preco;

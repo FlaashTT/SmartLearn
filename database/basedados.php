@@ -4,7 +4,6 @@ $dbhost = 'localhost';
 $dbuser = 'root';
 $dbpass = '';
 
-//comando para nao exibir erros sql
 mysqli_report(MYSQLI_REPORT_OFF);
 
 
