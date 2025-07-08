@@ -4,7 +4,10 @@ $dbhost = 'localhost';
 $dbuser = 'root';
 $dbpass = '';
 
+// Comando para não mostrar erros do slq
 mysqli_report(MYSQLI_REPORT_OFF);
+
+
 $conn = mysqli_connect($dbhost, $dbuser, $dbpass, $database);
 
 if (!$conn) {
