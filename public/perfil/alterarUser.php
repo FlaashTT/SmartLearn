@@ -203,9 +203,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     if (!$erro && $alteracaoFeita) {
-        mostrarPopUp("Alteraçoes realizadas com sucesso!");
+
+if($_SERVER['HTTP_REFERER'] == "https://localhost/SmartLearn/public/perfil/perfil_utilizador.php"){
+mostrarPopUp("Alteraçoes realizadas com sucesso!",null,"perfil_utilizador.php");
+} else {
+    mostrarPopUp("Alteraçoes realizadas com sucesso!",null,"perfil_conta.php");
+}
+
+
+
+        
     } elseif (!$alteracaoFeita) {
-        mostrarPopUp("Nenhuma mudança registada!");
+        if($_SERVER['HTTP_REFERER'] == "https://localhost/SmartLearn/public/perfil/perfil_utilizador.php"){
+mostrarPopUp("Alteraçoes realizadas com sucesso!",null,"perfil_utilizador.php");
+} else {
+    mostrarPopUp("Alteraçoes realizadas com sucesso!",null,"perfil_conta.php");
+}
     }
 } else {
     $erro = true;
